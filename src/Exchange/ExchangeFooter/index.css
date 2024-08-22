@@ -1,0 +1,37 @@
+.ExchangeFooter {
+  position: fixed;
+  bottom: 0;
+  width: -webkit-fill-available;
+  padding: 1em 0;
+  background: #040f0b;
+  z-index: 1000;
+}
+.ExchangeFooter_area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ExchangeFooter_area_1 {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+.ExchangeFooter_area_1_icon {
+  margin-right: 6px;
+  width: 15px;
+}
+.ExchangeFooter_area_2 {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: #a7a7a7;
+}
+.ms_span {
+  font-size: 9px;
+  font-weight: 500;
+  color: #ffffff;
+  margin-left: 1px;
+  margin-bottom: -2px;
+}

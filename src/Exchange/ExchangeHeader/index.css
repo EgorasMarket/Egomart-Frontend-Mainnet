@@ -1,0 +1,30 @@
+.exchangeHeader {
+  width: -webkit-fill-available;
+  padding: 0.5em 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #040f0b;
+  z-index: 1000;
+}
+.exchangeHeader_area {
+  display: flex;
+  justify-content: space-between;
+}
+.exchangeHeader_div1 {
+  display: flex;
+  align-items: center;
+}
+.exchangeHeader_div1_img {
+  width: 75px;
+}
+.exchangeHeader_div1_links {
+  display: flex;
+  align-items: center;
+  margin-left: 2em;
+}
+.exchangeHeader_div1_links_tab1 {
+  padding: 0.5em 1em;
+  cursor: pointer;
+  font-size: 14px;
+}
