@@ -16,6 +16,17 @@
   justify-content: space-between;
   cursor: pointer;
   border: solid 1px #1d2d27;
+  user-select: none;
+  position: relative;
+}
+.ExchangeTrade_div1_cont1_area {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ExchangeTrade_div1_cont1:hover {
+  background: #32413c;
 }
 .ExchangeTrade_div1_cont1_div1 {
   display: flex;
@@ -281,4 +292,101 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.ExchangeTrade_div1_cont1_markets_drop {
+  position: absolute;
+  width: -webkit-fill-available;
+  background: #151e1b;
+  border-radius: 10px;
+  padding: 10px;
+  border: solid 1px #1d2d27;
+  top: 110%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  left: 0;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont1 {
+  margin-bottom: 1em;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont1_input {
+  width: 100%;
+  padding: 10px;
+  background: no-repeat;
+  border: none;
+  border-bottom: solid 1px #25342f;
+  color: #fff;
+}
+/* .ExchangeTrade_div1_cont1_markets_drop_cont1_input:hover {
+  border-bottom: solid 1px #12b66f;
+} */
+.ExchangeTrade_div1_cont1_markets_drop_cont1_input:focus {
+  border-bottom: solid 1px #12b66f;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2 {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_head {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  color: #a5b5af;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body {
+  display: flex;
+  flex-direction: column;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-bottom: 1em; */
+  cursor: pointer;
+  padding: 10px 10px;
+  /* background: grey; */
+  border-radius: 10px;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1:hover {
+  background: #32413c;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1 {
+  display: flex;
+  align-items: center;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_img {
+  width: 25px;
+  margin-right: 6px;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1 {
+  display: flex;
+  flex-direction: column;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #cedfd9;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol {
+  font-size: 11px;
+  color: #7f918b;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price {
+  font-size: 12px;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent {
+  font-size: 10px;
+  color: #53cc5a;
+}
+.ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent_loss {
+  font-size: 10px;
+  color: #cc5353;
 }

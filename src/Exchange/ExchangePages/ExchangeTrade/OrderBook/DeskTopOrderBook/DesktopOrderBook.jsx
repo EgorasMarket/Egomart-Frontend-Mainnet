@@ -509,16 +509,7 @@ const DesktopOrderBook = () => {
                   );
                 })}
               </div>
-              <div
-                className="executed_price_div"
-                // onClick={() => {
-                //   setPrice(parseFloat(trades[0]?.userAmount).toFixed(2));
-                // }}
-                // style={{ color: "#ff445d" }}
-                // style={{
-                //   color: trades[0]?.action === "BUY" ? "#16b979" : "#ff445d",
-                // }}
-              >
+              <div className="executed_price_div">
                 1,000.00
                 <span className="executed_price_div_span">≈ $1,000</span>
               </div>
