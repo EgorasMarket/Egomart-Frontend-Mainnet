@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./index.css";
-import { ArrowDown01Icon, InformationCircleIcon } from "hugeicons-react";
+import {
+  ArrowDown01Icon,
+  ArrowUp01Icon,
+  InformationCircleIcon,
+} from "hugeicons-react";
 import TradingChart from "./TradingChart/TradingChart";
 import BuySell from "./BuySell/BuySell";
 import DesktopOrderBook from "./OrderBook/DeskTopOrderBook/DesktopOrderBook";
@@ -8,9 +12,13 @@ import TokenDetail from "./TokenDetail/TokenDetail";
 import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
 import abi from "../../../web3/contracts/Egomart.json";
 import { useSelector } from "react-redux";
+import { markets } from "../../../Components/Static";
 
 const ExchangeTrade = () => {
   const [activeTab, setActiveTab] = useState("price");
+  const [marketsDrop, setMarketsDrop] = useState(false);
+  const [currentMarket, setCurrentMarket] = useState(null);
+
   const { address } = useAccount();
 
   const { tickers } = useSelector((state) => state.pairs);
@@ -53,23 +61,127 @@ const ExchangeTrade = () => {
       ],
     });
   };
+  const toggleMarketsDropDown = () => {
+    setMarketsDrop(!marketsDrop);
+  };
+  const SetCurrentMarketFunc = (data) => {
+    setCurrentMarket(data);
+  };
   return (
     <div className="ExchangeTrade">
       <div className="ExchangeTrade_div1">
         <div className="ExchangeTrade_div1_cont1">
-          <div className="ExchangeTrade_div1_cont1_div1">
-            <img
-              src="/img/egax_logo.png"
-              alt=""
-              className="ExchangeTrade_div1_cont1_div1_img"
-            />
-            EGAX-EGOD
+          <div
+            className="ExchangeTrade_div1_cont1_area"
+            onClick={toggleMarketsDropDown}
+          >
+            <div className="ExchangeTrade_div1_cont1_div1">
+              {marketsDrop ? (
+                <>Choose Market</>
+              ) : (
+                <>
+                  {" "}
+                  <img
+                    src="/img/egax_logo.png"
+                    alt=""
+                    className="ExchangeTrade_div1_cont1_div1_img"
+                  />
+                  EGAX-EGOD
+                </>
+              )}
+            </div>
+            <div className="ExchangeTrade_div1_cont1_div2">
+              {marketsDrop ? (
+                <>
+                  Close
+                  <ArrowUp01Icon className="ExchangeTrade_div1_cont1_div2_icon" />
+                </>
+              ) : (
+                <>
+                  All Markets
+                  <ArrowDown01Icon className="ExchangeTrade_div1_cont1_div2_icon" />
+                </>
+              )}
+            </div>
           </div>
-          <div className="ExchangeTrade_div1_cont1_div2">
-            All Markets
-            <ArrowDown01Icon className="ExchangeTrade_div1_cont1_div2_icon" />
-          </div>
+          {marketsDrop && (
+            <div className="ExchangeTrade_div1_cont1_markets_drop">
+              <div className="ExchangeTrade_div1_cont1_markets_drop_cont1">
+                <input
+                  type="search"
+                  placeholder="search"
+                  className="ExchangeTrade_div1_cont1_markets_drop_cont1_input"
+                />
+              </div>
+              <div className="ExchangeTrade_div1_cont1_markets_drop_cont2">
+                <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_head">
+                  <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_head_txt1">
+                    Market/Volume
+                  </div>
+                  <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_head_txt1">
+                    Price
+                  </div>
+                </div>
+                <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body">
+                  {markets.map((market) => {
+                    // Function to calculate percentage difference
+                    const calculatePercentageDifference = (
+                      currentPrice,
+                      openPrice
+                    ) => {
+                      return ((currentPrice - openPrice) / openPrice) * 100;
+                    };
+
+                    const percentageDifference = calculatePercentageDifference(
+                      market.currentPrice,
+                      market.OpenPrice
+                    );
+                    return (
+                      <div
+                        className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
+                        onClick={() => {
+                          SetCurrentMarketFunc(market);
+                        }}
+                      >
+                        <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
+                          <img
+                            src={market.img}
+                            alt=""
+                            className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_img"
+                          />
+                          <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
+                            <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
+                              {market.pair}
+                            </div>
+                            <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
+                              ${market.volume24h}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
+                          <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
+                            {market.currentPrice}
+                          </div>
+                          <div
+                            className={
+                              market.OpenPrice < market.currentPrice
+                                ? "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent"
+                                : "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent_loss"
+                            }
+                          >
+                            {market.OpenPrice < market.currentPrice ? "+" : "-"}{" "}
+                            {parseFloat(percentageDifference).toFixed(2)}%
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
+
         <div className="ExchangeTrade_div1_cont2">
           <div className="ExchangeTrade_div1_cont2_cont1">
             <div className="ExchangeTrade_div1_cont2_cont1_cont1">
