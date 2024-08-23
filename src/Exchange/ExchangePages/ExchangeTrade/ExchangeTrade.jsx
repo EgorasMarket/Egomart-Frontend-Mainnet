@@ -29,6 +29,7 @@ const ExchangeTrade = () => {
     isError,
     error,
   } = useWriteContract();
+  // avionic
 
   useEffect(() => {
     console.log(
