@@ -17,7 +17,7 @@ import { markets } from "../../../Components/Static";
 const ExchangeTrade = () => {
   const [activeTab, setActiveTab] = useState("price");
   const [marketsDrop, setMarketsDrop] = useState(false);
-  const [currentMarket, setCurrentMarket] = useState(null);
+  const [currentMarket, setCurrentMarket] = useState(markets[0]);
 
   const { address } = useAccount();
 
@@ -66,6 +66,7 @@ const ExchangeTrade = () => {
   };
   const SetCurrentMarketFunc = (data) => {
     setCurrentMarket(data);
+    toggleMarketsDropDown();
   };
   return (
     <div className="ExchangeTrade">
@@ -82,11 +83,11 @@ const ExchangeTrade = () => {
                 <>
                   {" "}
                   <img
-                    src="/img/egax_logo.png"
+                    src={currentMarket.img}
                     alt=""
                     className="ExchangeTrade_div1_cont1_div1_img"
                   />
-                  EGAX-EGOD
+                  {currentMarket.pair}
                 </>
               )}
             </div>
