@@ -381,10 +381,18 @@ const DesktopOrderBook = () => {
               USDT
             </div>
 
-            <div className="walletSelectModalDiv_body_header_tab_cont">
+            <div
+              className="walletSelectModalDiv_body_header_tab_cont"
+              style={{ textAlign: "center" }}
+            >
               Amount
               <br />
               EGAX
+            </div>
+            <div className="walletSelectModalDiv_body_header_tab_cont">
+              Total
+              <br />
+              (EGOD)
             </div>
           </div>
           {showOrders === "Buy" ? (
@@ -406,6 +414,9 @@ const DesktopOrderBook = () => {
                       id={data.id}
                       key={data.id}
                     >
+                      <div className="walletSelectModalDiv_body_amount_display_cont1">
+                        {data.amount * data.price}
+                      </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount}
                       </div>
@@ -438,6 +449,9 @@ const DesktopOrderBook = () => {
                       id={data.id}
                       key={data.id}
                     >
+                      <div className="walletSelectModalDiv_body_amount_display_cont1">
+                        {data.amount * data.price}
+                      </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount}
                       </div>
@@ -475,6 +489,9 @@ const DesktopOrderBook = () => {
                       id={data.id}
                       key={data.id}
                     >
+                      <div className="walletSelectModalDiv_body_amount_display_cont1">
+                        {data.amount * data.price}
+                      </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount}
                       </div>
@@ -517,6 +534,9 @@ const DesktopOrderBook = () => {
                       id={data.id}
                       key={data.id}
                     >
+                      <div className="walletSelectModalDiv_body_amount_display_cont1">
+                        {data.amount * data.price}
+                      </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount}
                       </div>
