@@ -12,7 +12,7 @@ const ExchangeFooter = () => {
 
     try {
       // Ping your server or a fast, reliable endpoint like Google's
-      await fetch("http://localhost:5174"); // Use your domain
+      await fetch("http://localhost:5173"); // Use your domain
       const endTime = Date.now();
 
       const latencyTime = endTime - startTime;
@@ -48,16 +48,12 @@ const ExchangeFooter = () => {
       <div className="container_fluid">
         <div className="ExchangeFooter_area">
           <div className="ExchangeFooter_area_1">
-            {" "}
             <CustomerSupportIcon className="ExchangeFooter_area_1_icon" /> Need
             Help?
           </div>
           <div className="ExchangeFooter_area_2">
             Latency
-            <span
-              className="latency_icon
-                  "
-            >
+            <span className="latency_icon">
               {networkStatus == "Good Network" ? (
                 <>
                   <svg

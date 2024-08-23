@@ -5,9 +5,53 @@ import TradingChart from "./TradingChart/TradingChart";
 import BuySell from "./BuySell/BuySell";
 import DesktopOrderBook from "./OrderBook/DeskTopOrderBook/DesktopOrderBook";
 import TokenDetail from "./TokenDetail/TokenDetail";
+import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
+import abi from "../../../web3/contracts/Egomart.json";
+import { useSelector } from "react-redux";
 
 const ExchangeTrade = () => {
   const [activeTab, setActiveTab] = useState("price");
+  const { address } = useAccount();
+
+  const { tickers } = useSelector((state) => state.pairs);
+  useWatchContractEvent({
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
+    abi,
+    eventName: "Deposit",
+    onLogs(logs) {
+      console.log("New Deposit!", logs);
+    },
+  });
+  const {
+    isPending: depositing,
+    data: deposit,
+    writeContract: initiateDeposit,
+    isError,
+    error,
+  } = useWriteContract();
+
+  useEffect(() => {
+    console.log(
+      "depositing",
+      depositing,
+      "error",
+      error,
+      "success response",
+      deposit
+    );
+  }, [depositing, isError, error]);
+
+  const depositFn = async () => {
+    initiateDeposit({
+      address: import.meta.env.VITE_CONTRACT_ADDRESS,
+      abi,
+      functionName: "deposit",
+      args: [
+        "0x95dB95CD5C1D41c11bD30e50AaC703D5b717C5fa",
+        10000000000000000000,
+      ],
+    });
+  };
   return (
     <div className="ExchangeTrade">
       <div className="ExchangeTrade_div1">
@@ -177,7 +221,10 @@ const ExchangeTrade = () => {
             </div>
           </div>
           <div className="ExchangeTrade_div3_cont2_conts_button">
-            <button className="ExchangeTrade_div3_cont2_conts_button_1">
+            <button
+              onClick={depositFn}
+              className="ExchangeTrade_div3_cont2_conts_button_1"
+            >
               Deposit
             </button>
             <button className="ExchangeTrade_div3_cont2_conts_button_1">

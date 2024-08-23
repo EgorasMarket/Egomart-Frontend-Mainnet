@@ -7,9 +7,34 @@ import {
 import { Slider } from "antd";
 import { Select } from "antd";
 import { ConfigProvider } from "antd";
+
+import {
+  useWriteContract,
+  usePrepareTransactionRequest,
+  useReadContract,
+  useAccount,
+} from "wagmi";
+import contractAbi from "../../../../web3/contracts/Egomart.json";
 import "./index.css";
 
 const BuySell = () => {
+  const {
+    data: hash,
+    writeContract,
+    isPending: loading,
+    isError,
+    isSuccess,
+    error,
+    writeContractAsync,
+  } = useWriteContract();
+  const { address } = useAccount();
+  const { data: balanceOf, isPending: balanceLoading } = useReadContract({
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
+    abi: contractAbi,
+    functionName: "balances",
+    args: [address, "0xae65f10A157d99E35AD81782B86E4C1e6Ec6e78D"],
+  });
+
   const [selectedValue, setSelectedValue] = useState("Limit");
   const [price, setPrice] = useState("10.00");
   const [amount, setAmount] = useState("");
@@ -52,9 +77,32 @@ const BuySell = () => {
     setActiveBtn(e.currentTarget.id);
   };
 
+  useEffect(() => {
+    console.log("in flight", hash, isError, error);
+  }, [loading]);
+
+  useEffect(() => {
+    console.log("balanceOf", balanceOf, "loading balance", balanceLoading);
+  }, [balanceOf, balanceLoading]);
+
+  const setOrder = () => {
+    try {
+      writeContract({
+        address: import.meta.env.VITE_CONTRACT_ADDRESS,
+        abi: contractAbi,
+        functionName: "matchingEngine",
+        args: [
+          "ESTA-EGOD",
+          [false, address, "100000000000000000", "1000000000000000000"],
+        ],
+      });
+    } catch (error) {
+      console.log(error, "error");
+    }
+  };
+
   return (
     <div>
-      {" "}
       <div className="buy_modal_div_div1_cont1">
         <div className="buy_modal_div_div1_cont1_btns">
           <div
@@ -77,7 +125,6 @@ const BuySell = () => {
             }
             onClick={toggleActiveBtn}
           >
-            {" "}
             <div className="buy_modal_div_div1_cont1_btns_btn1_Span">Sell</div>
           </div>
         </div>
@@ -238,8 +285,12 @@ const BuySell = () => {
                   </>
                 ) : (
                   <>
-                    <button className="ProductDetailPage_div_body_div2_div7_btn">
+                    <button
+                      onClick={setOrder}
+                      className="ProductDetailPage_div_body_div2_div7_btn"
+                    >
                       Buy
+                      {hash && <p> laoding...</p>}
                     </button>
                   </>
                 )}
