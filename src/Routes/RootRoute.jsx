@@ -3,15 +3,15 @@ import { Outlet } from "react-router-dom";
 import ExchangeFooter from "../Exchange/ExchangeFooter/ExchangeFooter";
 import ExchangeHeader from "../Exchange/ExchangeHeader/ExchangeHeader";
 import Web3ModalProvider from "../constants/Web3ModalProvider";
-const AppRoute = ({ children }) => {
+const RootRoute = ({ children }) => {
   return (
-    <div className="ExchangeDiv">
+    <div className="HomeDiv">
       <Web3ModalProvider>
-        <div className="ExchangeDiv_body">
+        <div className="HomeBody">
           <Outlet />
         </div>
       </Web3ModalProvider>
     </div>
   );
 };
-export default AppRoute;
+export default RootRoute;
