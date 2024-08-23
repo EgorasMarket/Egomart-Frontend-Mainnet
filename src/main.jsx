@@ -18,13 +18,16 @@ import ExchangeMarket from "./Exchange/ExchangePages/ExchangeMarket/ExchangeMark
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route path="" element={<Exchange />} />
-      <Route path="market" element={<ExchangeMarket />} />
-      <Route path="trade/spot/" element={<Exchange />}>
-        <Route path=":ticker" element={<Exchange />} />
+    <>
+      <Route path="/" element={<RootRoute />}>
+        <Route path="market" element={<ExchangeMarket />} />
       </Route>
-    </Route>
+      <Route path="/exchange" element={<App />}>
+        <Route path="trade/spot/" element={<Exchange />}>
+          <Route path=":ticker" element={<Exchange />} />
+        </Route>
+      </Route>
+    </>
   )
 );
 
