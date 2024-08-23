@@ -14,11 +14,13 @@ import {
 } from "react-router-dom";
 import RootRoute from "./Routes/RootRoute.jsx";
 import Exchange from "./Exchange/Exchange.jsx";
+import ExchangeMarket from "./Exchange/ExchangePages/ExchangeMarket/ExchangeMarket";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="" element={<Exchange />} />
+      <Route path="market" element={<ExchangeMarket />} />
       <Route path="trade/spot/" element={<Exchange />}>
         <Route path=":ticker" element={<Exchange />} />
       </Route>
