@@ -281,10 +281,10 @@
 .ExchangeTrade_div3_cont2_conts_button_1 {
   width: 100%;
   margin: 0 5px;
-  padding: 10px;
+  padding: 15px;
   border-radius: 10px;
-  border: solid 1px white;
-  background: #212927;
+  border: none;
+  background: #33413c;
   color: #fff;
   cursor: pointer;
 }
