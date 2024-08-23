@@ -11,7 +11,6 @@
   background: #151e1b;
   /* border: solid 1px grey; */
   border-radius: 10px;
-  padding: 10px;
   width: 18%;
   justify-content: space-between;
   cursor: pointer;
@@ -24,6 +23,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 10px;
+  height: -webkit-fill-available;
 }
 .ExchangeTrade_div1_cont1:hover {
   background: #32413c;
