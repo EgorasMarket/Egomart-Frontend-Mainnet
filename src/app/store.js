@@ -6,23 +6,24 @@ import persistStore from "redux-persist/es/persistStore";
 import PairsSlice from "../features/PairsSlice";
 import OrderSlice from "../features/orders/OrderSlice";
 import TradeSlice from "../features/trades/TradeSlice";
+import createIndexedDBStorage from "redux-persist-indexeddb-storage";
 // import productSlice from "../features/products/productSlice";
 // import offerSlice from "../features/Offers/offerSlice";
 // import TradeSlice from "../features/Trades/TradeSlice";
 
 const pairsConfig = {
   key: "pairs",
-  storage: storage,
+  storage: createIndexedDBStorage("exchange"),
 };
 
 const orderConfig = {
   key: "orders",
-  storage,
+  storage: createIndexedDBStorage("exchange"),
 };
 
 const tradeConfig = {
   key: "trades",
-  storage,
+  storage: createIndexedDBStorage("exchange"),
 };
 
 const persistPairs = persistReducer(pairsConfig, PairsSlice);

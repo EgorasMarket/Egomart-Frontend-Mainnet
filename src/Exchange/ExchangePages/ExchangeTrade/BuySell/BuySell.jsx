@@ -8,14 +8,10 @@ import { Slider } from "antd";
 import { Select } from "antd";
 import { ConfigProvider } from "antd";
 
-import {
-  useWriteContract,
-  usePrepareTransactionRequest,
-  useReadContract,
-  useAccount,
-} from "wagmi";
+import { useWriteContract, useReadContract, useAccount } from "wagmi";
 import contractAbi from "../../../../web3/contracts/Egomart.json";
 import "./index.css";
+import { parseEther } from "ethers";
 
 const BuySell = () => {
   const {
@@ -82,7 +78,13 @@ const BuySell = () => {
   }, [loading]);
 
   useEffect(() => {
-    console.log("balanceOf", balanceOf, "loading balance", balanceLoading);
+    console.log(
+      "balanceOf",
+      // parseEther(balanceOf),
+      balanceOf,
+      "loading balance",
+      balanceLoading
+    );
   }, [balanceOf, balanceLoading]);
 
   const setOrder = () => {
@@ -134,7 +136,7 @@ const BuySell = () => {
               Avbl
             </div>
             <div className="buy_modal_div_div1_cont1_body_cont1_head1_txt2">
-              10 USDT
+              {balanceOf} EGOD
             </div>
           </div>
           <div className="buy_modal_div_div1_cont1_body_1">

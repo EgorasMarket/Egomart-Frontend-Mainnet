@@ -11,10 +11,13 @@ import DesktopOrderBook from "./OrderBook/DeskTopOrderBook/DesktopOrderBook";
 import TokenDetail from "./TokenDetail/TokenDetail";
 import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
 import abi from "../../../web3/contracts/Egomart.json";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { markets } from "../../../Components/Static";
+import { setTickers } from "../../../features/PairsSlice";
 
 const ExchangeTrade = () => {
+  const dispatch = useDispatch();
+
   const [activeTab, setActiveTab] = useState("price");
   const [marketsDrop, setMarketsDrop] = useState(false);
   const [currentMarket, setCurrentMarket] = useState(markets[0]);
@@ -68,6 +71,74 @@ const ExchangeTrade = () => {
     setCurrentMarket(data);
     toggleMarketsDropDown();
   };
+
+  const fetchTickers = async () => {
+    const arr = [
+      {
+        id: 1,
+        img: "/img/egax_logo.png",
+        pair: "EGAX-EGOD",
+
+        OpenPrice: 850,
+        volume24h: 10000000,
+        meta: {
+          website: "https://egochain.org",
+          coinmarketcap: "https://coinmarketcap.com",
+          coingeko: "https://coingeko.com",
+          minimum_order_size: 4.0,
+          step_size: 1.0,
+          tick_size: 5,
+          type: "SPOT",
+          details:
+            "EGAX is a decentralized digital currency, without a central bank or single administrator that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries.",
+        },
+      },
+      {
+        id: 2,
+        img: "/img/egc.png",
+        pair: "EGC-EGOD",
+
+        OpenPrice: 850,
+        volume24h: 10000000,
+        meta: {
+          website: "https://egochain.org",
+          coinmarketcap: "https://coinmarketcap.com",
+          coingeko: "https://coingeko.com",
+          minimum_order_size: 4.0,
+          step_size: 1.0,
+          tick_size: 5,
+          type: "SPOT",
+          details:
+            "EGC is a decentralized digital currency, without a central bank or single administrator that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries.",
+        },
+      },
+      {
+        id: 3,
+        img: "/img/btc.png",
+        pair: "BTC-EGOD",
+
+        OpenPrice: 850,
+        volume24h: 10000000,
+        meta: {
+          website: "https://egochain.org",
+          coinmarketcap: "https://coinmarketcap.com",
+          coingeko: "https://coingeko.com",
+          minimum_order_size: 4.0,
+          step_size: 1.0,
+          tick_size: 5,
+          type: "SPOT",
+          details:
+            "Bitcoin is a decentralized digital currency, without a central bank or single administrator that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries.",
+        },
+      },
+    ];
+
+    await dispatch(setTickers(arr));
+  };
+
+  useEffect(() => {
+    fetchTickers();
+  }, []);
   return (
     <div className="ExchangeTrade">
       <div className="ExchangeTrade_div1">
@@ -124,7 +195,7 @@ const ExchangeTrade = () => {
                   </div>
                 </div>
                 <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body">
-                  {markets.map((market) => {
+                  {tickers.map((market) => {
                     // Function to calculate percentage difference
                     const calculatePercentageDifference = (
                       currentPrice,
@@ -277,7 +348,11 @@ const ExchangeTrade = () => {
             </div>
           </div>
           <div className="ExchangeTrade_div2_cont1_body">
-            {activeTab === "price" ? <TradingChart /> : <TokenDetail />}
+            {activeTab === "price" ? (
+              <TradingChart />
+            ) : (
+              <TokenDetail payload={currentMarket} />
+            )}
           </div>
         </div>
         <div className="ExchangeTrade_div2_cont2">
