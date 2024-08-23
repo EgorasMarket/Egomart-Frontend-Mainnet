@@ -10,7 +10,7 @@ export const markets = [
   {
     id: 2,
     img: "/img/egax_logo.png",
-    pair: "EGAX-EGOD",
+    pair: "EGC-EGOD",
     currentPrice: 1000,
     OpenPrice: 850,
     volume24h: 10000000,
@@ -18,7 +18,7 @@ export const markets = [
   {
     id: 3,
     img: "/img/egax_logo.png",
-    pair: "EGAX-EGOD",
+    pair: "BTC-EGOD",
     currentPrice: 1000,
     OpenPrice: 850,
     volume24h: 10000000,
@@ -26,7 +26,7 @@ export const markets = [
   {
     id: 4,
     img: "/img/egax_logo.png",
-    pair: "EGAX-EGOD",
+    pair: "PLT-EGOD",
     currentPrice: 1000,
     OpenPrice: 850,
     volume24h: 10000000,
