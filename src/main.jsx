@@ -15,16 +15,16 @@ import {
 import RootRoute from "./Routes/RootRoute.jsx";
 import Exchange from "./Exchange/Exchange.jsx";
 import ExchangeMarket from "./Exchange/ExchangePages/ExchangeMarket/ExchangeMarket";
+import ExchangeTrade from "./Exchange/ExchangePages/ExchangeTrade/ExchangeTrade";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<RootRoute />}>
+      <Route path="/" element={<RootRoute />}></Route>
+      <Route path="/app" element={<Exchange />}>
         <Route path="market" element={<ExchangeMarket />} />
-      </Route>
-      <Route path="/exchange" element={<App />}>
-        <Route path="trade/spot/" element={<Exchange />}>
-          <Route path=":ticker" element={<Exchange />} />
+        <Route path="trade/spot/" element={<ExchangeTrade />}>
+          <Route path=":ticker" element={<ExchangeTrade />} />
         </Route>
       </Route>
     </>

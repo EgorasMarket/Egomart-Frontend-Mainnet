@@ -1,6 +1,5 @@
 import { Outlet, Route, Router, Routes } from "react-router-dom";
 import "./App.css";
-import Exchange from "./Exchange/Exchange";
 import Web3ModalProvider from "./constants/Web3ModalProvider";
 
 function App() {
