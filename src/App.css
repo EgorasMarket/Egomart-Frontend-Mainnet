@@ -58,7 +58,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .container {
   width: -webkit-fill-available;
-  max-width: 500px;
+  max-width: 1700px;
   padding: 0em 1em;
   height: 100%;
   margin: auto;
