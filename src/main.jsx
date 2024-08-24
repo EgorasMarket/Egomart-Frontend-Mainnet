@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { persistor, store } from "./app/store.js";
 import { PersistGate } from "redux-persist/integration/react";
+import Web3ModalProvider from "./constants/Web3ModalProvider";
 import {
   BrowserRouter,
   createBrowserRouter,
@@ -35,7 +36,9 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <RouterProvider router={router} />
+        <Web3ModalProvider>
+          <RouterProvider router={router} />
+        </Web3ModalProvider>
       </PersistGate>
     </Provider>
   </StrictMode>
