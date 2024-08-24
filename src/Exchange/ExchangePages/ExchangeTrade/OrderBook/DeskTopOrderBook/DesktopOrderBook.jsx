@@ -2,175 +2,133 @@ import React, { useEffect, useRef, useState } from "react";
 import { ArrowUp02Icon, ArrowDown02Icon } from "hugeicons-react";
 import "./index.css";
 import { format, getTime, parseISO } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
+import { addOrders } from "../../../../../features/orders/OrderSlice";
+import { setTrade } from "../../../../../features/trades/TradeSlice";
 
-const DesktopOrderBook = () => {
+const DesktopOrderBook = ({ current }) => {
+  useEffect(() => {
+    console.log("reload");
+  }, [current]);
+  const dispatch = useDispatch();
+  const { orders } = useSelector((state) => state.orders);
+  const { trades } = useSelector((state) => state.trades);
+
   const [showOrders, setShowOrders] = useState("All");
   const [activeTab, setActiveTab] = useState("book");
   const toggleBuyOrders = (e) => {
     setShowOrders(e.currentTarget.id);
   };
-  const buyOffers = [
-    { id: "1", price: "90", amount: "1000" },
-    { id: "2", price: "89", amount: "150" },
-    { id: "3", price: "88", amount: "750" },
-    { id: "4", price: "87", amount: "1200" },
-    { id: "5", price: "86", amount: "200" },
-    { id: "6", price: "85", amount: "35" },
-    { id: "7", price: "84", amount: "950" },
-    { id: "8", price: "83", amount: "300" },
-    { id: "9", price: "82", amount: "450" },
-    { id: "10", price: "81", amount: "700" },
-    { id: "11", price: "80", amount: "2500" },
-    { id: "12", price: "79", amount: "600" },
-    { id: "13", price: "78", amount: "800" },
-    { id: "14", price: "77", amount: "50" },
-    { id: "15", price: "76", amount: "1100" },
-    { id: "16", price: "75", amount: "10" },
-    { id: "17", price: "74", amount: "90" },
-    { id: "18", price: "73", amount: "1300" },
-    { id: "19", price: "72", amount: "60" },
-    { id: "20", price: "71", amount: "400" },
-    { id: "21", price: "70", amount: "500" },
-    { id: "22", price: "69", amount: "1700" },
-    { id: "23", price: "68", amount: "30" },
-    { id: "24", price: "67", amount: "280" },
-    { id: "25", price: "66", amount: "600" },
-    { id: "26", price: "65", amount: "1400" },
-    { id: "27", price: "64", amount: "100" },
-    { id: "28", price: "63", amount: "320" },
-    { id: "29", price: "62", amount: "800" },
-    { id: "30", price: "61", amount: "50" },
-    { id: "31", price: "60", amount: "1900" },
-    { id: "32", price: "59", amount: "400" },
-    { id: "33", price: "58", amount: "2000" },
-    { id: "34", price: "57", amount: "600" },
-    { id: "35", price: "56", amount: "700" },
-    { id: "36", price: "55", amount: "1000" },
-    { id: "37", price: "54", amount: "300" },
-    { id: "38", price: "53", amount: "1200" },
-    { id: "39", price: "52", amount: "900" },
-    { id: "40", price: "51", amount: "400" },
-    { id: "41", price: "50", amount: "2500" },
-    { id: "42", price: "49", amount: "300" },
-    { id: "43", price: "48", amount: "1000" },
-    { id: "44", price: "47", amount: "600" },
-    { id: "45", price: "46", amount: "750" },
-    { id: "46", price: "45", amount: "1100" },
-    { id: "47", price: "44", amount: "500" },
-    { id: "48", price: "43", amount: "200" },
-    { id: "49", price: "42", amount: "700" },
-    { id: "50", price: "41", amount: "1500" },
-  ];
-  const sellOffers = [
-    { id: "1", price: "100", amount: "1500" },
-    { id: "2", price: "101", amount: "200" },
-    { id: "3", price: "102", amount: "1000" },
-    { id: "4", price: "103", amount: "50" },
-    { id: "5", price: "104", amount: "600" },
-    { id: "6", price: "105", amount: "1100" },
-    { id: "7", price: "106", amount: "300" },
-    { id: "8", price: "107", amount: "1200" },
-    { id: "9", price: "108", amount: "700" },
-    { id: "10", price: "109", amount: "1300" },
-    { id: "11", price: "110", amount: "400" },
-    { id: "12", price: "111", amount: "800" },
-    { id: "13", price: "112", amount: "500" },
-    { id: "14", price: "113", amount: "100" },
-    { id: "15", price: "114", amount: "900" },
-    { id: "16", price: "115", amount: "60" },
-    { id: "17", price: "116", amount: "2000" },
-    { id: "18", price: "117", amount: "300" },
-    { id: "19", price: "118", amount: "1400" },
-    { id: "20", price: "119", amount: "700" },
-    { id: "21", price: "120", amount: "500" },
-    { id: "22", price: "121", amount: "200" },
-    { id: "23", price: "122", amount: "600" },
-    { id: "24", price: "123", amount: "1100" },
-    { id: "25", price: "124", amount: "300" },
-    { id: "26", price: "125", amount: "1000" },
-    { id: "27", price: "126", amount: "400" },
-    { id: "28", price: "127", amount: "50" },
-    { id: "29", price: "128", amount: "900" },
-    { id: "30", price: "129", amount: "60" },
-    { id: "31", price: "130", amount: "1500" },
-    { id: "32", price: "131", amount: "800" },
-    { id: "33", price: "132", amount: "100" },
-    { id: "34", price: "133", amount: "1200" },
-    { id: "35", price: "134", amount: "300" },
-    { id: "36", price: "135", amount: "1100" },
-    { id: "37", price: "136", amount: "700" },
-    { id: "38", price: "137", amount: "400" },
-    { id: "39", price: "138", amount: "2000" },
-    { id: "40", price: "139", amount: "500" },
-    { id: "41", price: "140", amount: "900" },
-    { id: "42", price: "141", amount: "100" },
-    { id: "43", price: "142", amount: "600" },
-    { id: "44", price: "143", amount: "1300" },
-    { id: "45", price: "144", amount: "200" },
-    { id: "46", price: "145", amount: "800" },
-    { id: "47", price: "146", amount: "50" },
-    { id: "48", price: "147", amount: "1000" },
-    { id: "49", price: "148", amount: "150" },
-    { id: "50", price: "149", amount: "500" },
-  ];
 
-  const trades = [
-    { time: "2024-07-15T12:00:00Z", type: "buy", price: 1915.3, amount: 0.5 },
-    { time: "2024-07-15T12:00:05Z", type: "buy", price: 1915.0, amount: 0.3 },
-    { time: "2024-07-15T12:00:10Z", type: "sell", price: 1914.75, amount: 1.2 },
-    { time: "2024-07-15T12:00:15Z", type: "buy", price: 1915.1, amount: 1.5 },
-    { time: "2024-07-15T12:00:20Z", type: "buy", price: 1915.25, amount: 2.0 },
-    { time: "2024-07-15T12:00:25Z", type: "sell", price: 1914.5, amount: 0.7 },
-    { time: "2024-07-15T12:00:30Z", type: "buy", price: 1915.4, amount: 1.1 },
-    { time: "2024-07-15T12:00:35Z", type: "buy", price: 1915.15, amount: 0.9 },
-    { time: "2024-07-15T12:00:40Z", type: "sell", price: 1914.8, amount: 0.8 },
-    { time: "2024-07-15T12:00:45Z", type: "buy", price: 1915.35, amount: 1.4 },
-    { time: "2024-07-15T12:00:50Z", type: "buy", price: 1915.2, amount: 0.6 },
-    { time: "2024-07-15T12:00:55Z", type: "sell", price: 1914.9, amount: 1.3 },
-    { time: "2024-07-15T12:01:00Z", type: "buy", price: 1915.45, amount: 0.7 },
-    { time: "2024-07-15T12:01:05Z", type: "buy", price: 1915.5, amount: 0.3 },
-    { time: "2024-07-15T12:01:10Z", type: "sell", price: 1914.6, amount: 0.4 },
-    { time: "2024-07-15T12:01:15Z", type: "buy", price: 1915.1, amount: 1.9 },
-    { time: "2024-07-15T12:01:20Z", type: "buy", price: 1915.3, amount: 0.4 },
-    { time: "2024-07-15T12:01:25Z", type: "sell", price: 1914.95, amount: 2.1 },
-    { time: "2024-07-15T12:01:30Z", type: "buy", price: 1915.0, amount: 2.3 },
-    { time: "2024-07-15T12:01:35Z", type: "buy", price: 1915.2, amount: 1.7 },
-    { time: "2024-07-15T12:01:40Z", type: "buy", price: 1915.35, amount: 1.0 },
-    { time: "2024-07-15T12:01:45Z", type: "sell", price: 1914.85, amount: 0.2 },
-    { time: "2024-07-15T12:01:50Z", type: "buy", price: 1915.5, amount: 0.8 },
-    { time: "2024-07-15T12:01:55Z", type: "buy", price: 1915.25, amount: 1.6 },
-    { time: "2024-07-15T12:02:00Z", type: "sell", price: 1914.7, amount: 0.7 },
-    { time: "2024-07-15T12:02:05Z", type: "buy", price: 1915.4, amount: 0.5 },
-    { time: "2024-07-15T12:02:10Z", type: "buy", price: 1915.1, amount: 1.1 },
-    { time: "2024-07-15T12:02:15Z", type: "sell", price: 1914.65, amount: 1.2 },
-    { time: "2024-07-15T12:02:20Z", type: "buy", price: 1915.15, amount: 0.2 },
-    { time: "2024-07-15T12:02:25Z", type: "buy", price: 1915.0, amount: 1.3 },
-    { time: "2024-07-15T12:02:30Z", type: "buy", price: 1915.35, amount: 0.6 },
-    { time: "2024-07-15T12:02:35Z", type: "sell", price: 1914.75, amount: 1.9 },
-    { time: "2024-07-15T12:02:40Z", type: "buy", price: 1915.25, amount: 1.0 },
-    { time: "2024-07-15T12:02:45Z", type: "buy", price: 1915.4, amount: 0.7 },
-    { time: "2024-07-15T12:02:50Z", type: "sell", price: 1914.95, amount: 1.1 },
-    { time: "2024-07-15T12:02:55Z", type: "buy", price: 1915.3, amount: 0.5 },
-    { time: "2024-07-15T12:03:00Z", type: "buy", price: 1915.0, amount: 0.3 },
-    { time: "2024-07-15T12:03:05Z", type: "buy", price: 1915.1, amount: 1.5 },
-    { time: "2024-07-15T12:03:10Z", type: "sell", price: 1914.5, amount: 0.7 },
-    { time: "2024-07-15T12:03:15Z", type: "buy", price: 1915.25, amount: 2.0 },
-    { time: "2024-07-15T12:03:20Z", type: "buy", price: 1915.4, amount: 1.1 },
-    { time: "2024-07-15T12:03:25Z", type: "sell", price: 1914.8, amount: 0.8 },
-    { time: "2024-07-15T12:03:30Z", type: "buy", price: 1915.15, amount: 0.9 },
-    { time: "2024-07-15T12:03:35Z", type: "buy", price: 1915.35, amount: 1.4 },
-    { time: "2024-07-15T12:03:40Z", type: "sell", price: 1914.9, amount: 1.3 },
-    { time: "2024-07-15T12:03:45Z", type: "buy", price: 1915.2, amount: 0.6 },
-    { time: "2024-07-15T12:03:50Z", type: "buy", price: 1915.45, amount: 0.7 },
-    { time: "2024-07-15T12:03:55Z", type: "buy", price: 1915.5, amount: 0.3 },
-  ];
+  const fillorder = async () => {
+    dispatch(
+      addOrders([
+        {
+          id: "1",
+          price: 900,
+          ticker: "EGAX-EGOD",
+          type: "SELL",
+          address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
+          amount: 100,
+          status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
+          createdAt: "2024-07-15T12:00:00Z",
+        },
+        {
+          id: "10",
+          price: 91,
+          ticker: "EGAX-EGOD",
+          type: "BUY",
+          address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
+          amount: 700,
+          status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
+          createdAt: "2024-07-15T12:00:00Z",
+        },
+        {
+          id: "11",
+          price: 80,
+          ticker: "EGAX-EGOD",
+          type: "BUY",
+          address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
+          amount: 2500,
+          status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
+          createdAt: "2024-07-15T12:00:00Z",
+        },
+        {
+          id: "12",
+          price: "79",
+          ticker: "EGAX-EGOD",
+          type: "BUY",
+          address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
+          amount: "600",
+          status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
+          createdAt: "2024-07-15T12:00:00Z",
+        },
+      ])
+    );
+  };
+  const fillTrade = async () => {
+    const arr = [
+      {
+        createdAt: "2024-07-15T12:00:00Z",
+        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
+        ticker: "EGAX-EGOD",
+        type: "BUY",
+        price: 1915.3,
+        amount: 0.5,
+      },
+      {
+        createdAt: "2024-07-15T12:00:05Z",
+        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
+        ticker: "EGAX-EGOD",
+        type: "BUY",
+        price: 1915.0,
+        amount: 0.3,
+      },
+    ];
+    dispatch(setTrade(arr));
+  };
+  useEffect(() => {
+    fillorder();
+    fillTrade();
+  }, []);
+
+  const groupedByPrice = orders
+    .filter((order) => order.type === "BUY")
+    .reduce((acc, item) => {
+      const price = item.price;
+      if (!acc[price]) {
+        acc[price] = { ...item, amount: 0 };
+      }
+      acc[price].amount += parseInt(item.amount);
+      return acc;
+    }, {});
+  const groupedSellPrice = orders
+    .filter((order) => order.type === "SELL")
+    .reduce((acc, item) => {
+      const price = item.price;
+      if (!acc[price]) {
+        acc[price] = { ...item, amount: 0 };
+      }
+      acc[price].amount += parseInt(item.amount);
+      return acc;
+    }, {});
+
+  const groupedBuyOffersArr = Object.values(groupedByPrice);
+  const groupedSellOffersArr = Object.values(groupedSellPrice);
+
+  const sortedGroupedBuyOffersArr = groupedBuyOffersArr
+    .sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+    .filter((f) => f?.status === "OPEN");
+  const sortedGroupedSellOffersArr = groupedSellOffersArr
+    .sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+    .filter((f) => f?.status === "OPEN");
 
   const maxAmount = Math.max(
-    ...buyOffers.map((offer) => parseInt(offer.amount))
+    ...sortedGroupedBuyOffersArr.map((offer) => parseInt(offer.amount))
   );
   // Calculate the maximum amount
   const maxSellAmount = Math.max(
-    ...sellOffers.map((offer) => parseInt(offer.amount))
+    ...sortedGroupedSellOffersArr.map((offer) => parseInt(offer.amount))
   );
 
   return (
@@ -219,28 +177,28 @@ const DesktopOrderBook = () => {
           </div>
 
           {/* filter sort map */}
-          {trades
-            .sort((a, b) => new Date(b?.time) - new Date(a?.time))
-            .map((data) => {
-              return (
-                <div className="ProductDetailPage_div_body_div2_body_area_trades_body">
-                  <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
-                    {format(parseISO(data?.time), "h:mm:ssaa")}
-                  </div>
-                  <div
-                    className="ProductDetailPage_div_body_div2_body_area_trades_body_cont2"
-                    style={{
-                      color: data?.type === "sell" ? "#ff445d" : "#12b66f",
-                    }}
-                  >
-                    {parseFloat(data?.price).toFixed(2)}
-                  </div>
-                  <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont3">
-                    {data?.amount}
-                  </div>
+          {trades.map((data) => {
+            console.log(data, "awsome");
+            return (
+              <div className="ProductDetailPage_div_body_div2_body_area_trades_body">
+                <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
+                  {format(parseISO(data?.createdAt), "h:mm:ssaa")}
                 </div>
-              );
-            })}
+                <div
+                  className="ProductDetailPage_div_body_div2_body_area_trades_body_cont2"
+                  style={{
+                    color: data?.type === "SELL" ? "#ff445d" : "#12b66f",
+                  }}
+                >
+                  {parseFloat(data?.price).toFixed(2)}
+                </div>
+
+                <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont3">
+                  {data?.amount}
+                </div>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <>
@@ -378,7 +336,9 @@ const DesktopOrderBook = () => {
             <div className="walletSelectModalDiv_body_header_tab_cont">
               Price
               <br />
-              USDT
+              {/* {current?.pair.split("-")[1]} */}
+              {/* acacd */}
+              {current?.pair?.split("-")[1]}
             </div>
 
             <div
@@ -387,12 +347,12 @@ const DesktopOrderBook = () => {
             >
               Amount
               <br />
-              EGAX
+              {current?.pair?.split("-")[0]}
             </div>
             <div className="walletSelectModalDiv_body_header_tab_cont">
               Total
               <br />
-              (EGOD)
+              {current?.pair?.split("-")[1]}
             </div>
           </div>
           {showOrders === "Buy" ? (
@@ -403,11 +363,11 @@ const DesktopOrderBook = () => {
                 <span className="executed_price_div_span">≈ $1,000</span>
               </div>
               <div className="walletSelectModalDiv_body_amount_display_body_display_full">
-                {buyOffers.map((data) => {
+                {sortedGroupedBuyOffersArr.map((data) => {
+                  console.log(data, "dagaa");
                   // Calculate the width percentage
                   const widthPercentage =
                     (parseInt(data.amount) / maxAmount) * 100;
-
                   return (
                     <div
                       className="walletSelectModalDiv_body_amount_display"
@@ -438,7 +398,7 @@ const DesktopOrderBook = () => {
           ) : showOrders === "Sell" ? (
             <>
               <div className="walletSelectModalDiv_body_amount_display_body_display_full">
-                {sellOffers.map((data) => {
+                {sortedGroupedSellOffersArr.map((data) => {
                   // Calculate the width percentage
                   const widthPercentage =
                     (parseInt(data.amount) / maxSellAmount) * 100;
@@ -478,7 +438,7 @@ const DesktopOrderBook = () => {
             <>
               {" "}
               <div className="walletSelectModalDiv_body_amount_display_body_display">
-                {sellOffers.map((data) => {
+                {sortedGroupedSellOffersArr.map((data) => {
                   // Calculate the width percentage
                   const widthPercentage =
                     (parseInt(data.amount) / maxSellAmount) * 100;
@@ -514,7 +474,7 @@ const DesktopOrderBook = () => {
                 <span className="executed_price_div_span">≈ $1,000</span>
               </div>
               <div className="walletSelectModalDiv_body_amount_display_body_display">
-                {buyOffers.map((data) => {
+                {sortedGroupedBuyOffersArr.map((data) => {
                   // Calculate the width percentage
                   const widthPercentage =
                     (parseInt(data.amount) / maxAmount) * 100;

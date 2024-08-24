@@ -8,19 +8,20 @@ const TradeSlice = createSlice({
   name: "trades",
   initialState,
   reducers: {
-    // setTickers: (state, action) => {
-    //   const newArr = [...action.payload];
-    //   newArr.sort((a, b) => {
-    //     return new Date(b.createdAt) - new Date(a.createdAt);
-    //   });
-    //   state.tickers = newArr;
-    // },
-    // pushTicker: (state, action) => {
-    //   state.trades.push(action.payload);
-    // },
+    setTrade: (state, action) => {
+      const newArr = [...action.payload];
+      newArr.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      state.trades = newArr;
+    },
+
+    updateTrade: (state, action) => {
+      state.trades.push(action.payload);
+    },
   },
 });
 
-// export const { setTickers, pushTicker } = TradeSlice.actions;
+export const { setTrade, updateTrade } = TradeSlice.actions;
 
 export default TradeSlice.reducer;

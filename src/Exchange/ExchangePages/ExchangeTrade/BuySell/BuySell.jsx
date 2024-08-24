@@ -80,8 +80,7 @@ const BuySell = () => {
   useEffect(() => {
     console.log(
       "balanceOf",
-      // parseEther(balanceOf),
-      balanceOf,
+      Number(balanceOf).toString(),
       "loading balance",
       balanceLoading
     );
