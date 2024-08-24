@@ -5,7 +5,15 @@ import ExchangeFooter from "./ExchangeFooter/ExchangeFooter";
 import ExchangeTrade from "./ExchangePages/ExchangeTrade/ExchangeTrade";
 
 const Exchange = () => {
-  return <ExchangeTrade />;
+  return (
+    <div className="ExchangeDiv">
+      <ExchangeHeader />
+      <div className="ExchangeDiv_body">
+        <ExchangeTrade />
+      </div>
+      <ExchangeFooter />
+    </div>
+  );
 };
 
 export default Exchange;

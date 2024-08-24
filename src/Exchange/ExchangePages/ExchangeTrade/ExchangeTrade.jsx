@@ -21,9 +21,7 @@ const ExchangeTrade = () => {
   const [activeTab, setActiveTab] = useState("price");
   const [marketsDrop, setMarketsDrop] = useState(false);
   const [currentMarket, setCurrentMarket] = useState(markets[0]);
-
   const { address } = useAccount();
-
   const { tickers } = useSelector((state) => state.pairs);
   useWatchContractEvent({
     address: import.meta.env.VITE_CONTRACT_ADDRESS,
