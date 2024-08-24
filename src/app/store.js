@@ -38,10 +38,7 @@ export const store = configureStore({
   reducer: {
     pairs: persistPairs,
     orders: persistOrders,
-    // init: persistedReducer,
-    // product: productPersisted,
-    // offers: persistOffer,
-    // trades: persistTrade,
+    trades: persistTrades,
   },
   middleware: (getDefaultMiddleWare) =>
     getDefaultMiddleWare({ serializableCheck: false }),
