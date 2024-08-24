@@ -19,9 +19,12 @@ const TradeSlice = createSlice({
     pushTicker: (state, action) => {
       state.trades.push(action.payload);
     },
+    fetchTickerInfo: (state, action) => {
+      // let awesome = state.tickers.filte((va) => va.pair !== action.payload);
+    },
   },
 });
 
-export const { setTickers, pushTicker } = TradeSlice.actions;
+export const { setTickers, pushTicker, fetchTickerInfo } = TradeSlice.actions;
 
 export default TradeSlice.reducer;
