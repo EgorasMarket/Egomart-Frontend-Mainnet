@@ -22,7 +22,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<RootRoute />}>
         <Route path="market" element={<ExchangeMarket />} />
       </Route>
-      <Route path="/exchange" element={<App />}>
+      <Route path="exchange" element={<App />}>
         <Route path="trade/spot/" element={<Exchange />}>
           <Route path=":ticker" element={<Exchange />} />
         </Route>

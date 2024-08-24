@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import ExchangeFooter from "../Exchange/ExchangeFooter/ExchangeFooter";
 import ExchangeHeader from "../Exchange/ExchangeHeader/ExchangeHeader";
-const RootRoute = ({ children }) => {
+const AppRoute = ({ children }) => {
   return (
     <div className="ExchangeDiv">
       <ExchangeHeader />
@@ -13,4 +13,4 @@ const RootRoute = ({ children }) => {
     </div>
   );
 };
-export default RootRoute;
+export default AppRoute;
