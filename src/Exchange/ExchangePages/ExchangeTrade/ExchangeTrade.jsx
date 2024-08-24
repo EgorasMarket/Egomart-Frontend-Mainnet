@@ -13,16 +13,20 @@ import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
 import abi from "../../../web3/contracts/Egomart.json";
 import { useDispatch, useSelector } from "react-redux";
 import { markets } from "../../../Components/Static";
-import { setTickers } from "../../../features/PairsSlice";
+import { fetchTickerInfo, setTickers } from "../../../features/PairsSlice";
+import { GET_TICKER_PAIRS } from "../../../services/trade.services";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ExchangeTrade = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { ticker } = useParams();
 
   const [activeTab, setActiveTab] = useState("price");
   const [marketsDrop, setMarketsDrop] = useState(false);
-  const [currentMarket, setCurrentMarket] = useState(markets[0]);
   const { address } = useAccount();
   const { tickers } = useSelector((state) => state.pairs);
+  const [currentMarket, setCurrentMarket] = useState(tickers[0]?.open24h);
   useWatchContractEvent({
     address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi,
@@ -71,6 +75,41 @@ const ExchangeTrade = () => {
   };
 
   const fetchTickers = async () => {
+    const res = await GET_TICKER_PAIRS();
+    if (!res?.success) return;
+
+    //loop through the record
+
+    const array = [];
+    let payload = {};
+
+    res.data.forEach((ticker) => {
+      payload = {
+        id: ticker.id,
+        img: "/img/egax_logo.png",
+        pair: ticker.ticker,
+        OpenPrice: parseFloat(ticker.initialPrice).toFixed(2),
+        tickerA: ticker.tokenA,
+        tokenName: ticker.tokenAName,
+        change24h: 0,
+        open24h: 1000,
+        volume24h: 10,
+
+        meta: {
+          website: "https://egochain.org",
+          coinmarketcap: "https://coinmarketcap.com",
+          coingeko: "https://coingeko.com",
+          minimum_order_size: 4.0,
+          step_size: 1.0,
+          tick_size: 5,
+          type: "SPOT",
+          details:
+            "EGAX is a decentralized digital currency, without a central bank or single administrator that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries.",
+        },
+      };
+      array.push(payload);
+    });
+
     const arr = [
       {
         id: 1,
@@ -98,6 +137,7 @@ const ExchangeTrade = () => {
 
         OpenPrice: 850,
         volume24h: 10000000,
+        change24h: 0,
         meta: {
           website: "https://egochain.org",
           coinmarketcap: "https://coinmarketcap.com",
@@ -114,9 +154,10 @@ const ExchangeTrade = () => {
         id: 3,
         img: "/img/btc.png",
         pair: "BTC-EGOD",
-
         OpenPrice: 850,
         volume24h: 10000000,
+        change24h: 0,
+
         meta: {
           website: "https://egochain.org",
           coinmarketcap: "https://coinmarketcap.com",
@@ -131,12 +172,28 @@ const ExchangeTrade = () => {
       },
     ];
 
-    await dispatch(setTickers(arr));
+    await dispatch(setTickers(array));
   };
 
   useEffect(() => {
     fetchTickers();
   }, []);
+
+  const fetchTicker = async () => {
+    if (ticker) {
+      let currMarket = tickers.filter((tick) => tick.pair === ticker)[0];
+      console.log("you can use the ticker data", ticker, currMarket);
+      SetCurrentMarketFunc(currMarket);
+    } else {
+      console.log("You can continuee your sin");
+
+      SetCurrentMarketFunc(tickers[0]);
+    }
+  };
+  useEffect(() => {
+    fetchTicker();
+  }, [currentMarket, ticker]);
+
   return (
     <div className="ExchangeTrade">
       <div className="ExchangeTrade_div1">
@@ -210,7 +267,7 @@ const ExchangeTrade = () => {
                       <div
                         className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
                         onClick={() => {
-                          SetCurrentMarketFunc(market);
+                          navigate("/app/trade/spot/" + market?.pair);
                         }}
                       >
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
@@ -224,13 +281,13 @@ const ExchangeTrade = () => {
                               {market.pair}
                             </div>
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                              ${market.volume24h}
+                              $ {market?.open24h}
                             </div>
                           </div>
                         </div>
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
                           <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
-                            {market.currentPrice}
+                            {market.change24h}
                           </div>
                           <div
                             className={
@@ -259,13 +316,13 @@ const ExchangeTrade = () => {
                 className="ExchangeTrade_div1_cont2_cont1_cont1_span1
               "
               >
-                60,000.00
+                {Number(currentMarket?.open24h)}
               </span>
               <span
                 className="ExchangeTrade_div1_cont2_cont1_cont1_span2
               "
               >
-                ≈$60,000.00
+                {/* ≈$60,000.00 */}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont2">
@@ -279,7 +336,7 @@ const ExchangeTrade = () => {
                 className="ExchangeTrade_div1_cont2_cont1_cont2_span2
               "
               >
-                +0.76%
+                {currentMarket?.change24h}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont3">
@@ -293,7 +350,7 @@ const ExchangeTrade = () => {
                 className="ExchangeTrade_div1_cont2_cont1_cont2_span2
               "
               >
-                $1,201,530
+                ${currentMarket?.volume24h}
               </span>
             </div>
           </div>
@@ -354,7 +411,7 @@ const ExchangeTrade = () => {
           </div>
         </div>
         <div className="ExchangeTrade_div2_cont2">
-          <DesktopOrderBook />
+          <DesktopOrderBook current={currentMarket} />
         </div>
         <div className="ExchangeTrade_div2_cont3">
           <BuySell />
