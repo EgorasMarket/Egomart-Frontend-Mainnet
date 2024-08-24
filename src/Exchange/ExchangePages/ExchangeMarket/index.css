@@ -94,13 +94,16 @@
 }
 .ExchangeMarket_div2_body_cont_div1 {
   background: #151e1b;
-  margin-bottom: 1em;
+  margin-bottom: 7px;
   padding: 15px 15px;
   display: flex;
   justify-content: space-between;
   border-radius: 10px;
   cursor: pointer;
   border: solid 1px #1e2d27;
+}
+.ExchangeMarket_div2_body_cont_div1:hover {
+  background: #32413c;
 }
 .ExchangeMarket_div2_body_cont_div1_cont1 {
   display: flex;
