@@ -13,8 +13,8 @@ const projectId = "26b519d3d86aff8b0e36552c4c170ce8";
 
 // 2. Create wagmiConfig
 const metadata = {
-  name: "EgochainFarming",
-  description: "EgochainFarming",
+  name: "EgomartExchange",
+  description: "EgomartExchange",
   url: "https://egochain.org", // origin must match your domain & subdomain
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
@@ -39,7 +39,7 @@ const egochain = {
       url: "https://egoscan.io/",
     },
   },
-  iconUrls: ["https://www.egochain.org/img/egax_logo.png"], // Replace with actual icon URL
+  iconUrls: ["/img/egax_logo.png"], // Replace with actual icon URL
 };
 
 const chains = [mainnet, arbitrum, evmos, egochain];

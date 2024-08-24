@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./app/store.js";
 import { PersistGate } from "redux-persist/integration/react";
 import Web3ModalProvider from "./constants/Web3ModalProvider";
+
 import {
   BrowserRouter,
   createBrowserRouter,
@@ -17,6 +18,8 @@ import RootRoute from "./Routes/RootRoute.jsx";
 import Exchange from "./Exchange/Exchange.jsx";
 import ExchangeMarket from "./Exchange/ExchangePages/ExchangeMarket/ExchangeMarket";
 import ExchangeTrade from "./Exchange/ExchangePages/ExchangeTrade/ExchangeTrade";
+import ExchangePortfolio from "./Exchange/ExchangePages/ExchangePortfolio/ExchangePortfolio";
+import Overview from "./Exchange/ExchangePages/ExchangePortfolio/Pages/Overview";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +27,10 @@ const router = createBrowserRouter(
       <Route path="/" element={<RootRoute />}></Route>
       <Route path="/app" element={<Exchange />}>
         <Route path="market" element={<ExchangeMarket />} />
+        <Route path="portfolio" element={<ExchangePortfolio />}>
+          <Route path="overview" element={<Overview />} />
+          {/* <Route path="orders" element={<>overview</>} /> */}
+        </Route>
         <Route path="trade/spot/" element={<ExchangeTrade />}>
           <Route path=":ticker" element={<ExchangeTrade />} />
         </Route>
