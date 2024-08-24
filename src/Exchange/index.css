@@ -1,5 +1,12 @@
 .ExchangeDiv_body {
-  margin-top: 3.5em;
-  padding: 10px;
-  padding-bottom: 5em;
+  /* margin-top: 3.5em; */
+  padding: 10px 10px;
+  /* padding-bottom: 10px; */
+  height: 92vh;
+  overflow: auto;
+}
+.ExchangeDiv {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }

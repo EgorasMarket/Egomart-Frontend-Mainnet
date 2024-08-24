@@ -1,15 +1,21 @@
 .ExchangeFooter {
-  position: fixed;
+  position: sticky;
   bottom: 0;
   width: -webkit-fill-available;
-  padding: 1em 0;
+  /* padding: 5px 0; */
   background: #040f0b;
   z-index: 1000;
+  border-top: solid 1px #202c28;
+  height: 3vh;
+}
+.ExchangeFooter .container_fluid {
+  height: 100%;
 }
 .ExchangeFooter_area {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100%;
 }
 .ExchangeFooter_area_1 {
   display: flex;
@@ -34,4 +40,8 @@
   color: #ffffff;
   margin-left: 1px;
   margin-bottom: -2px;
+}
+
+.latency_icon {
+  margin-bottom: -5px;
 }
