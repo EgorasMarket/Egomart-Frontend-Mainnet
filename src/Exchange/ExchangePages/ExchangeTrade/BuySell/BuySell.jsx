@@ -8,12 +8,20 @@ import { Slider } from "antd";
 import { Select } from "antd";
 import { ConfigProvider } from "antd";
 
-import { useWriteContract, useReadContract, useAccount } from "wagmi";
+import {
+  useWriteContract,
+  useReadContract,
+  useAccount,
+  useWatchContractEvent,
+} from "wagmi";
 import contractAbi from "../../../../web3/contracts/Egomart.json";
 import "./index.css";
-import { parseEther } from "ethers";
+import { ethers, formatEther, parseEther } from "ethers";
 
-const BuySell = () => {
+import useFetchBalance from "../../../../hooks/useFetchBalance";
+import abi from "../../../../web3/contracts/Egomart.json";
+const BuySell = ({ payload }) => {
+  console.log(payload, "BuyAndSellMe");
   const {
     data: hash,
     writeContract,
@@ -24,18 +32,23 @@ const BuySell = () => {
     writeContractAsync,
   } = useWriteContract();
   const { address } = useAccount();
-  const { data: balanceOf, isPending: balanceLoading } = useReadContract({
-    address: import.meta.env.VITE_CONTRACT_ADDRESS,
-    abi: contractAbi,
-    functionName: "balances",
-    args: [address, "0xae65f10A157d99E35AD81782B86E4C1e6Ec6e78D"],
-  });
 
   const [selectedValue, setSelectedValue] = useState("Limit");
   const [price, setPrice] = useState("10.00");
   const [amount, setAmount] = useState("");
   const [activeBtn, setActiveBtn] = useState("buy");
   const [buyOffersArr, setBuyOffersArr] = useState([]);
+  const [balanceOf, setBalance] = useState(0);
+
+  useEffect(() => {
+    console.log("switch");
+  }, [activeBtn]);
+
+  const aa = useFetchBalance(
+    activeBtn === "buy" ? payload?.tickerB : payload?.tickerA
+  );
+
+  // console.log(formatEther(aa), "aa balance");
 
   const marks = {
     0: "0%",
@@ -69,32 +82,26 @@ const BuySell = () => {
   const parsedAmount = parseInt(amount);
   const Total = parsedPrice * parsedAmount;
 
-  const toggleActiveBtn = (e) => {
+  const toggleActiveBtn = async (e) => {
     setActiveBtn(e.currentTarget.id);
   };
 
-  useEffect(() => {
-    console.log("in flight", hash, isError, error);
-  }, [loading]);
-
-  useEffect(() => {
-    console.log(
-      "balanceOf",
-      Number(balanceOf).toString(),
-      "loading balance",
-      balanceLoading
-    );
-  }, [balanceOf, balanceLoading]);
-
   const setOrder = () => {
+    // const quantity =
+    const marketType = activeBtn === "sell" ? true : false;
     try {
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
         functionName: "matchingEngine",
         args: [
-          "ESTA-EGOD",
-          [false, address, "100000000000000000", "1000000000000000000"],
+          payload?.pair,
+          [
+            marketType,
+            address,
+            parseEther(price).toString(),
+            parseEther(amount).toString(),
+          ],
         ],
       });
     } catch (error) {
@@ -102,6 +109,28 @@ const BuySell = () => {
     }
   };
 
+  useWatchContractEvent({
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
+    abi,
+    eventName: "OrderPlaced",
+    onLogs(logs) {
+      console.log("New Order placed!", logs);
+
+      //construct payload and dispatch to store
+
+      // const data = {
+      //   id: order?.id,
+      //   price: order?.amount,
+      //   indexId: order.indexId,
+      //   ticker: "ESTA-EGOD",
+      //   type: order?.orderType,
+      //   amount: order?.numberOfShares,
+      //   address: order?.userAddress,
+      //   status: order?.state, //ENUM OPEN, CANCELLED,COMPLETED,
+      //   createdAt: order?.createdAt,
+      // };
+    },
+  });
   return (
     <div>
       <div className="buy_modal_div_div1_cont1">
@@ -135,7 +164,10 @@ const BuySell = () => {
               Avbl
             </div>
             <div className="buy_modal_div_div1_cont1_body_cont1_head1_txt2">
-              {balanceOf} EGOD
+              {aa}
+              {activeBtn === "buy"
+                ? payload?.pair?.split("-")[1]
+                : payload?.pair?.split("-")[0]}
             </div>
           </div>
           <div className="buy_modal_div_div1_cont1_body_1">
@@ -215,7 +247,9 @@ const BuySell = () => {
                 <div className="buy_modal_div_div1_cont1_body_para1">
                   Amount
                 </div>
-                <div className="buy_modal_div_div1_cont1_body_para1">USDT</div>
+                <div className="buy_modal_div_div1_cont1_body_para1">
+                  {payload?.pair?.split("-")[0]}
+                </div>
               </p>
               <input
                 type="number"
@@ -260,7 +294,9 @@ const BuySell = () => {
                   <div className="buy_modal_div_div1_cont1_body_para1">
                     Total
                   </div>{" "}
-                  <div className="buy_modal_div_div1_cont1_body_para1">BTC</div>{" "}
+                  <div className="buy_modal_div_div1_cont1_body_para1">
+                    {payload?.pair?.split("-")[1]}
+                  </div>
                 </p>
                 <input
                   type="number"
@@ -303,7 +339,10 @@ const BuySell = () => {
                     Sell
                   </button>
                 ) : (
-                  <button className="ProductDetailPage_div_body_div2_div7_btn_sell">
+                  <button
+                    onClick={setOrder}
+                    className="ProductDetailPage_div_body_div2_div7_btn_sell"
+                  >
                     Sell
                   </button>
                 )}

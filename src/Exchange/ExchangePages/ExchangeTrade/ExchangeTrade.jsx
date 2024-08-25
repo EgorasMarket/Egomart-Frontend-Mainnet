@@ -46,7 +46,6 @@ const ExchangeTrade = () => {
     isError,
     error,
   } = useWriteContract();
-  // avionic
 
   useEffect(() => {
     console.log(
@@ -65,8 +64,8 @@ const ExchangeTrade = () => {
       abi,
       functionName: "deposit",
       args: [
-        "0x95dB95CD5C1D41c11bD30e50AaC703D5b717C5fa",
-        10000000000000000000,
+        "0xae65f10A157d99E35AD81782B86E4C1e6Ec6e78D",
+        1000000000000000000000,
       ],
     });
   };
@@ -94,6 +93,8 @@ const ExchangeTrade = () => {
         pair: ticker.ticker,
         OpenPrice: parseFloat(ticker.initialPrice).toFixed(2),
         tickerA: ticker.tokenA,
+        tickerB: ticker.tokenB,
+        tickerBName: ticker.tokenBName,
         tokenName: ticker.tokenAName,
         change24h: 0,
         open24h: 1000,
@@ -113,68 +114,6 @@ const ExchangeTrade = () => {
       };
       array.push(payload);
     });
-
-    const arr = [
-      {
-        id: 1,
-        img: "/img/egax_logo.png",
-        pair: "EGAX-EGOD",
-
-        OpenPrice: 850,
-        volume24h: 10000000,
-        meta: {
-          website: "https://egochain.org",
-          coinmarketcap: "https://coinmarketcap.com",
-          coingeko: "https://coingeko.com",
-          minimum_order_size: 4.0,
-          step_size: 1.0,
-          tick_size: 5,
-          type: "SPOT",
-          details:
-            "EGAX is a decentralized digital currency, without a central bank or single administrator that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries.",
-        },
-      },
-      {
-        id: 2,
-        img: "/img/egc.png",
-        pair: "EGC-EGOD",
-
-        OpenPrice: 850,
-        volume24h: 10000000,
-        change24h: 0,
-        meta: {
-          website: "https://egochain.org",
-          coinmarketcap: "https://coinmarketcap.com",
-          coingeko: "https://coingeko.com",
-          minimum_order_size: 4.0,
-          step_size: 1.0,
-          tick_size: 5,
-          type: "SPOT",
-          details:
-            "EGC is a decentralized digital currency, without a central bank or single administrator that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries.",
-        },
-      },
-      {
-        id: 3,
-        img: "/img/btc.png",
-        pair: "BTC-EGOD",
-        OpenPrice: 850,
-        volume24h: 10000000,
-        change24h: 0,
-
-        meta: {
-          website: "https://egochain.org",
-          coinmarketcap: "https://coinmarketcap.com",
-          coingeko: "https://coingeko.com",
-          minimum_order_size: 4.0,
-          step_size: 1.0,
-          tick_size: 5,
-          type: "SPOT",
-          details:
-            "Bitcoin is a decentralized digital currency, without a central bank or single administrator that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries.",
-        },
-      },
-    ];
 
     await dispatch(setTickers(array));
   };
@@ -418,7 +357,7 @@ const ExchangeTrade = () => {
           <DesktopOrderBook current={currentMarket} />
         </div>
         <div className="ExchangeTrade_div2_cont3">
-          <BuySell />
+          <BuySell payload={currentMarket} />
         </div>
       </div>
       <div className="ExchangeTrade_div3">
