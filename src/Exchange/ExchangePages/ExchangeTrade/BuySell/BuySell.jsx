@@ -81,8 +81,8 @@ const BuySell = ({ payload }) => {
   };
 
   // calculating the total
-  const parsedPrice = parseInt(price);
-  const parsedAmount = parseInt(amount);
+  const parsedPrice = parseFloat(price);
+  const parsedAmount = parseFloat(amount);
   const Total = parsedPrice * parsedAmount;
 
   const toggleActiveBtn = async (e) => {
