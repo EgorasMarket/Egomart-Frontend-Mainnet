@@ -20,7 +20,10 @@ import { ethers, formatEther, parseEther } from "ethers";
 
 import useFetchBalance from "../../../../hooks/useFetchBalance";
 import abi from "../../../../web3/contracts/Egomart.json";
+import { INSERT_NEW_ORDER } from "../../../../services/trade.services";
+import { useSelector } from "react-redux";
 const BuySell = ({ payload }) => {
+  const { orders } = useSelector((state) => state.orders);
   console.log(payload, "BuyAndSellMe");
   const {
     data: hash,
@@ -113,22 +116,37 @@ const BuySell = ({ payload }) => {
     address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi,
     eventName: "OrderPlaced",
-    onLogs(logs) {
+    async onLogs(logs) {
       console.log("New Order placed!", logs);
+
+      console.log(formatEther(logs[0].args.value), "formatted value");
 
       //construct payload and dispatch to store
 
-      // const data = {
-      //   id: order?.id,
-      //   price: order?.amount,
-      //   indexId: order.indexId,
-      //   ticker: "ESTA-EGOD",
-      //   type: order?.orderType,
-      //   amount: order?.numberOfShares,
-      //   address: order?.userAddress,
-      //   status: order?.state, //ENUM OPEN, CANCELLED,COMPLETED,
-      //   createdAt: order?.createdAt,
-      // };
+      const data = {
+        id: orders.length++,
+        price: parseFloat(formatEther(logs[0].args.value)).toFixed(2),
+        indexId: orders.length++, //replace with actual indexId
+        ticker: "ESTA-EGOD",
+        type: logs[0].args.isSale === false ? "BUY" : "SELL",
+        amount: logs[0].args.numberOfShares,
+        address: logs[0].args.userAddress,
+        status: order?.state, //ENUM OPEN, CANCELLED,COMPLETED,
+        createdAt: order?.createdAt,
+      };
+
+      let payload = {
+        userAddress: "hhhhhhh",
+        orderType: "BUY",
+        amount: 900,
+        numberOfShares: 7.9,
+        transHash:
+          "0xfebf3afd9e323f592c77df767c775602f3481385ffb87800277152e4ef17d8b5",
+        time: 7865676877,
+      };
+      //after pushing the data to the store,
+      //post to backend to correlate record
+      const res = await INSERT_NEW_ORDER();
     },
   });
   return (
