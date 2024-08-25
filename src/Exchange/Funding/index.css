@@ -127,6 +127,14 @@
   font-weight: 600;
   background: #12b66f;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.depositDiv_cont4_btn:disabled {
+  color: #6ba28b;
+  background: #2c4d3f;
+  cursor: not-allowed;
 }
 .depositDiv_cont1_div1_select_dvi_cont1_icon {
   width: 16px;
