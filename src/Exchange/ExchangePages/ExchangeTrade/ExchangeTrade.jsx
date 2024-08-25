@@ -89,7 +89,7 @@ const ExchangeTrade = () => {
     res.data.forEach((ticker) => {
       payload = {
         id: ticker.id,
-        img: "/img/egax_logo.png",
+        img: ticker?.img,
         pair: ticker.ticker,
         OpenPrice: parseFloat(ticker.initialPrice).toFixed(2),
         tickerA: ticker.tokenA,
@@ -100,17 +100,9 @@ const ExchangeTrade = () => {
         open24h: 1000,
         volume24h: 10,
 
-        meta: {
-          website: "https://egochain.org",
-          coinmarketcap: "https://coinmarketcap.com",
-          coingeko: "https://coingeko.com",
-          minimum_order_size: 4.0,
-          step_size: 1.0,
-          tick_size: 5,
-          type: "SPOT",
-          details:
-            "EGAX is a decentralized digital currency, without a central bank or single administrator that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries.",
-        },
+        // "{"website": "https://egochain.org",
+
+        meta: JSON.parse(ticker?.meta),
       };
       array.push(payload);
     });
