@@ -291,8 +291,6 @@
 .ExchangeTrade_div2_cont1_body {
   height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .ExchangeTrade_div1_cont1_markets_drop {
   position: absolute;

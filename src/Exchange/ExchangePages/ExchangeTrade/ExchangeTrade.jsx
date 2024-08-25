@@ -16,6 +16,9 @@ import { markets } from "../../../Components/Static";
 import { fetchTickerInfo, setTickers } from "../../../features/PairsSlice";
 import { GET_TICKER_PAIRS } from "../../../services/trade.services";
 import { useNavigate, useParams } from "react-router-dom";
+import Trades from "./tradesTransactionsComp/Trades";
+import OpenOrders from "./tradesTransactionsComp/OpenOrders";
+import Orders from "./tradesTransactionsComp/Orders";
 
 const ExchangeTrade = () => {
   const navigate = useNavigate();
@@ -23,6 +26,7 @@ const ExchangeTrade = () => {
   const { ticker } = useParams();
 
   const [activeTab, setActiveTab] = useState("price");
+  const [activeTxTab, setActiveTxTab] = useState("position");
   const [marketsDrop, setMarketsDrop] = useState(false);
   const { address } = useAccount();
   const { tickers } = useSelector((state) => state.pairs);
@@ -209,11 +213,11 @@ const ExchangeTrade = () => {
                 <>
                   {" "}
                   <img
-                    src={currentMarket.img}
+                    src={currentMarket?.img}
                     alt=""
                     className="ExchangeTrade_div1_cont1_div1_img"
                   />
-                  {currentMarket.pair}
+                  {currentMarket?.pair}
                 </>
               )}
             </div>
@@ -272,7 +276,7 @@ const ExchangeTrade = () => {
                       >
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
                           <img
-                            src={market.img}
+                            src={market?.img}
                             alt=""
                             className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_img"
                           />
@@ -421,16 +425,48 @@ const ExchangeTrade = () => {
         <div className="ExchangeTrade_div3_cont1">
           <div className="ExchangeTrade_div2_cont1_header">
             <div className="ExchangeTrade_div2_cont1_header_cont">
-              <div className="ExchangeTrade_div2_cont1_header_cont1">
+              <div
+                className={
+                  activeTxTab === "position"
+                    ? "ExchangeTrade_div2_cont1_header_cont1"
+                    : "ExchangeTrade_div2_cont1_header_cont2"
+                }
+                onClick={() => {
+                  setActiveTxTab("position");
+                }}
+              >
                 Positions
               </div>
-              <div className="ExchangeTrade_div2_cont1_header_cont2">
+              <div
+                className={
+                  activeTxTab === "order"
+                    ? "ExchangeTrade_div2_cont1_header_cont1"
+                    : "ExchangeTrade_div2_cont1_header_cont2"
+                }
+                onClick={() => {
+                  setActiveTxTab("order");
+                }}
+              >
                 Orders
               </div>
-              <div className="ExchangeTrade_div2_cont1_header_cont2">
-                History
+              <div
+                className={
+                  activeTxTab === "trades"
+                    ? "ExchangeTrade_div2_cont1_header_cont1"
+                    : "ExchangeTrade_div2_cont1_header_cont2"
+                }
+                onClick={() => {
+                  setActiveTxTab("trades");
+                }}
+              >
+                Trades
               </div>
             </div>
+          </div>
+          <div className="ExchangeTrade_div2_cont1_body">
+            {activeTxTab === "position" && <OpenOrders />}
+            {activeTxTab === "order" && <Orders />}
+            {activeTxTab === "trades" && <Trades />}
           </div>
         </div>
         <div className="ExchangeTrade_div3_cont2">
