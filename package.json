@@ -28,6 +28,8 @@
     "recharts": "^2.12.7",
     "redux-persist": "^6.0.0",
     "redux-persist-indexeddb-storage": "^1.0.4",
+    "react-spinners": "^0.13.8",
+    "react-toastify": "^10.0.5",
     "wagmi": "^2.9.10"
   },
   "devDependencies": {
