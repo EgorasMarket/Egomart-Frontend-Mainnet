@@ -403,9 +403,13 @@ const ExchangeTrade = () => {
             </div>
           </div>
           <div className="ExchangeTrade_div2_cont1_body">
-            {activeTxTab === "position" && <OpenOrders />}
-            {activeTxTab === "order" && <Orders />}
-            {activeTxTab === "trades" && <Trades />}
+            {activeTxTab === "position" && (
+              <OpenOrders ticker={currentMarket?.pair} />
+            )}
+            {activeTxTab === "order" && <Orders ticker={currentMarket?.pair} />}
+            {activeTxTab === "trades" && (
+              <Trades ticker={currentMarket?.pair} />
+            )}
           </div>
         </div>
         <div className="ExchangeTrade_div3_cont2">
