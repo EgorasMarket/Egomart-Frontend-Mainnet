@@ -98,7 +98,7 @@ const ExchangeMarket = () => {
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2_last">
                         <button className="ExchangeMarket_div2_body_cont_div1_cont2_last_btn">
-                          More Details
+                          Trade
                         </button>
                       </div>
                     </div>

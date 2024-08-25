@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AreaChart,
   Area,
@@ -9,8 +9,13 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { markets, userAssets } from "../../../../Components/Static";
+import Modal from "../../../../Components/Modal/Modal";
+import Deposit from "../../../Funding/Deposit";
+import Withdraw from "../../../Funding/Withdraw";
 
 const Overview = () => {
+  const [deposit, setDeposit] = useState(false);
+  const [withdraw, setWithdraw] = useState(false);
   const data = [
     {
       name: "Page A",
@@ -79,15 +84,34 @@ const Overview = () => {
       amt: 2000,
     },
   ];
+
+  const closeDepositModal = () => {
+    setDeposit(false);
+  };
+  const openDepositModal = () => {
+    setDeposit(true);
+  };
+  const closeWithdrawModal = () => {
+    setWithdraw(false);
+  };
+  const openWithdrawModal = () => {
+    setWithdraw(true);
+  };
   return (
     <div className="exPortoflioOverviewDiv">
       <div className="exPortoflioOverviewDiv_1">
         <div className="exPortoflioOverviewDiv_1_cont1">Welcome</div>
         <div className="exPortoflioOverviewDiv_1_cont2">
-          <button className="exPortoflioOverviewDiv_1_cont2_btn1">
+          <button
+            className="exPortoflioOverviewDiv_1_cont2_btn1"
+            onClick={openDepositModal}
+          >
             Deposit
           </button>
-          <button className="exPortoflioOverviewDiv_1_cont2_btn2">
+          <button
+            className="exPortoflioOverviewDiv_1_cont2_btn2"
+            onClick={openWithdrawModal}
+          >
             Withdraw
           </button>
         </div>
@@ -231,10 +255,16 @@ const Overview = () => {
                   {data.usdVal}
                 </div>
                 <div className="exPortoflioOverviewDiv_3_body_cont_last">
-                  <button className="exPortoflioOverviewDiv_3_body_cont_last_btn1">
+                  <button
+                    className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
+                    onClick={openDepositModal}
+                  >
                     Deposit
                   </button>
-                  <button className="exPortoflioOverviewDiv_3_body_cont_last_btn2">
+                  <button
+                    className="exPortoflioOverviewDiv_3_body_cont_last_btn2"
+                    onClick={openWithdrawModal}
+                  >
                     Withdraw
                   </button>
                   {data.tag === "erc404" ? (
@@ -248,6 +278,16 @@ const Overview = () => {
           </div>
         </div>
       </div>
+      <Modal isOpen={deposit} title={"Deposit"} closeModal={closeDepositModal}>
+        <Deposit />
+      </Modal>
+      <Modal
+        isOpen={withdraw}
+        title={"Withdraw"}
+        closeModal={closeWithdrawModal}
+      >
+        <Withdraw />
+      </Modal>
     </div>
   );
 };
