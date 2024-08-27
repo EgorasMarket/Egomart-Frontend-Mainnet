@@ -18,7 +18,7 @@ const useFetchBalance = (ticker) => {
     args: [address, ticker],
   });
 
-  if (loading === false) {
+  if (loading === false && address) {
     return parseFloat(formatEther(balance)).toFixed(2);
   }
   return 0.0;

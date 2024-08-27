@@ -21,8 +21,11 @@ import { ethers, formatEther, parseEther } from "ethers";
 import useFetchBalance from "../../../../hooks/useFetchBalance";
 import abi from "../../../../web3/contracts/Egomart.json";
 import { INSERT_NEW_ORDER } from "../../../../services/trade.services";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { DECIMAL_COUNT } from "../../../../constants/config";
+import { updateOrder } from "../../../../features/orders/OrderSlice";
 const BuySell = ({ payload }) => {
+  const dispatch = useDispatch();
   const { orders } = useSelector((state) => state.orders);
   console.log(payload, "BuyAndSellMe");
   const {
@@ -124,29 +127,40 @@ const BuySell = ({ payload }) => {
       //construct payload and dispatch to store
 
       const data = {
-        id: orders.length++,
-        price: parseFloat(formatEther(logs[0].args.value)).toFixed(2),
-        indexId: orders.length++, //replace with actual indexId
-        ticker: "ESTA-EGOD",
-        type: logs[0].args.isSale === false ? "BUY" : "SELL",
-        amount: logs[0].args.numberOfShares,
-        address: logs[0].args.userAddress,
+        id: parseInt(formatEther(logs[0].args?.orderId).toString()),
+        price: parseFloat(formatEther(logs[0].args.value)).toFixed(
+          DECIMAL_COUNT
+        ),
+        indexId: parseInt(formatEther(logs[0].args?.orderId)),
+        ticker: logs[0].args?.ticker,
+        type: logs[0].args?.isSale === false ? "BUY" : "SELL",
+        amount: parseFloat(formatEther(logs[0]?.args?.numberOfShares)).toFixed(
+          DECIMAL_COUNT
+        ),
+        address: logs[0].args?.userAddress,
         status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-        createdAt: order?.createdAt,
+        createdAt: new Date(),
       };
+      console.log(data, "prepared response");
+
+      dispatch(updateOrder(data));
 
       let payload = {
-        userAddress: "hhhhhhh",
-        orderType: "BUY",
-        amount: 900,
-        numberOfShares: 7.9,
-        transHash:
-          "0xfebf3afd9e323f592c77df767c775602f3481385ffb87800277152e4ef17d8b5",
-        time: 7865676877,
+        userAddress: data.address,
+        orderType: data.type,
+        amount: data?.price,
+        numberOfShares: data.amount,
+        transHash: logs[0].transactionHash,
+        time: logs[0].args?.time.toString().split("n")[0],
+        ticker: data?.ticker,
+        orderId: data?.indexId,
       };
+      console.log(payload, "to be sent to backend");
+
       //after pushing the data to the store,
       //post to backend to correlate record
-      const res = await INSERT_NEW_ORDER();
+      const res = await INSERT_NEW_ORDER(payload);
+      console.log(res, "to backend");
     },
   });
   return (
