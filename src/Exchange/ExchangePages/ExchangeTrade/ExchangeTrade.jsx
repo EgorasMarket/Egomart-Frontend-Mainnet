@@ -31,9 +31,7 @@ const ExchangeTrade = () => {
     address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi,
     eventName: "Deposit",
-    onLogs(logs) {
-      console.log("New Deposit!", logs);
-    },
+    onLogs(logs) {},
   });
   const {
     isPending: depositing,
@@ -42,17 +40,6 @@ const ExchangeTrade = () => {
     isError,
     error,
   } = useWriteContract();
-
-  useEffect(() => {
-    console.log(
-      "depositing",
-      depositing,
-      "error",
-      error,
-      "success response",
-      deposit
-    );
-  }, [depositing, isError, error]);
 
   const depositFn = async () => {
     initiateDeposit({
@@ -76,11 +63,8 @@ const ExchangeTrade = () => {
   const fetchTicker = async () => {
     if (ticker) {
       let currMarket = tickers.filter((tick) => tick.pair === ticker)[0];
-      console.log("you can use the ticker data", ticker, currMarket);
       SetCurrentMarketFunc(currMarket);
     } else {
-      console.log("You can continuee your sin");
-
       SetCurrentMarketFunc(tickers[0]);
     }
   };

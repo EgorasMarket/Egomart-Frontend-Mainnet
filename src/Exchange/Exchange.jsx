@@ -6,7 +6,9 @@ import { Outlet } from "react-router-dom";
 import { GET_TICKER_PAIRS } from "../services/trade.services";
 import { setTickers } from "../features/PairsSlice";
 import { useDispatch } from "react-redux";
+import { useWatchContractEvent } from "wagmi";
 
+import abi from "../web3/contracts/Egomart.json";
 const Exchange = () => {
   const dispatch = useDispatch();
   const fetchTickers = async () => {
@@ -41,6 +43,16 @@ const Exchange = () => {
 
     await dispatch(setTickers(array));
   };
+
+  //listen for successful trade events
+  useWatchContractEvent({
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
+    abi,
+    eventName: "Trade",
+    onLogs: async (logs) => {
+      console.log("Trade Orders Received", logs);
+    },
+  });
 
   useEffect(() => {
     fetchTickers();

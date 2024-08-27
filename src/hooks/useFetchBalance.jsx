@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAccount, useReadContract } from "wagmi";
 import contractAbi from "../web3/contracts/Egomart.json";
 import { formatEther } from "ethers";
+import { DECIMAL_COUNT } from "../constants/config";
 
 const useFetchBalance = (ticker) => {
   const { address } = useAccount();
@@ -19,7 +20,7 @@ const useFetchBalance = (ticker) => {
   });
 
   if (loading === false && address) {
-    return parseFloat(formatEther(balance)).toFixed(2);
+    return parseFloat(formatEther(balance)).toFixed(DECIMAL_COUNT);
   }
   return 0.0;
 };
