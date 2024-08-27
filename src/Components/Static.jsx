@@ -300,4 +300,12 @@ export const assets = [
     tokenAddress: "0x03e06cc15ECf06aE3B15DA70a2D54e082994Da49",
     tokenType: "normal",
   },
+  {
+    id: 5,
+    img: "https://www.egochain.org/egax_logo.png",
+    tokenSymbol: "EGOD",
+    tokenName: "EGo USD",
+    tokenAddress: "0xae65f10A157d99E35AD81782B86E4C1e6Ec6e78D",
+    tokenType: "normal",
+  },
 ];
