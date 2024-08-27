@@ -4,6 +4,7 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount } from "wagmi";
 import { Link } from "react-router-dom";
 import { markets } from "../../Components/Static";
+import { useSelector } from "react-redux";
 
 import {
   ArrowDown01Icon,
@@ -12,12 +13,16 @@ import {
 } from "hugeicons-react";
 
 const ExchangeHeader = () => {
+  const { tickers } = useSelector((state) => state.pairs);
   const [marketsDrop, setMarketsDrop] = useState(false);
   const { address, isConnecting, isDisconnected } = useAccount();
   const { open, close } = useWeb3Modal();
   const toggleMarketsDropDown = () => {
     setMarketsDrop(!marketsDrop);
   };
+  console.log("====================================");
+  console.log(tickers);
+  console.log("====================================");
   return (
     <div className="exchangeHeader">
       <div className="container_fluid">
@@ -90,11 +95,9 @@ const ExchangeHeader = () => {
                               market.OpenPrice
                             );
                           return (
-                            <div
+                            <Link
+                              to={"/app/trade/spot/" + market?.pair}
                               className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
-                              onClick={() => {
-                                navigate("/app/trade/spot/" + market?.pair);
-                              }}
                             >
                               <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
                                 <img
@@ -128,7 +131,7 @@ const ExchangeHeader = () => {
                                   {parseFloat(percentageDifference).toFixed(2)}%
                                 </div>
                               </div>
-                            </div>
+                            </Link>
                           );
                         })}
                       </div>

@@ -11,10 +11,8 @@ import DesktopOrderBook from "./OrderBook/DeskTopOrderBook/DesktopOrderBook";
 import TokenDetail from "./TokenDetail/TokenDetail";
 import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
 import abi from "../../../web3/contracts/Egomart.json";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { markets } from "../../../Components/Static";
-import { fetchTickerInfo, setTickers } from "../../../features/PairsSlice";
-import { GET_TICKER_PAIRS } from "../../../services/trade.services";
 import { useNavigate, useParams } from "react-router-dom";
 import Trades from "./tradesTransactionsComp/Trades";
 import OpenOrders from "./tradesTransactionsComp/OpenOrders";
@@ -22,9 +20,7 @@ import Orders from "./tradesTransactionsComp/Orders";
 
 const ExchangeTrade = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { ticker } = useParams();
-
   const [activeTab, setActiveTab] = useState("price");
   const [activeTxTab, setActiveTxTab] = useState("position");
   const [marketsDrop, setMarketsDrop] = useState(false);
@@ -76,43 +72,6 @@ const ExchangeTrade = () => {
     setCurrentMarket(data);
     toggleMarketsDropDown();
   };
-
-  const fetchTickers = async () => {
-    const res = await GET_TICKER_PAIRS();
-    if (!res?.success) return;
-
-    //loop through the record
-
-    const array = [];
-    let payload = {};
-
-    res.data.forEach((ticker) => {
-      payload = {
-        id: ticker.id,
-        img: ticker?.img,
-        pair: ticker.ticker,
-        OpenPrice: parseFloat(ticker.initialPrice).toFixed(2),
-        tickerA: ticker.tokenA,
-        tickerB: ticker.tokenB,
-        tickerBName: ticker.tokenBName,
-        tokenName: ticker.tokenAName,
-        change24h: 0,
-        open24h: 1000,
-        volume24h: 10,
-
-        // "{"website": "https://egochain.org",
-
-        meta: JSON.parse(ticker?.meta),
-      };
-      array.push(payload);
-    });
-
-    await dispatch(setTickers(array));
-  };
-
-  useEffect(() => {
-    fetchTickers();
-  }, []);
 
   const fetchTicker = async () => {
     if (ticker) {
