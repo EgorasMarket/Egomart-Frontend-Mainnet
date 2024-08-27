@@ -29,7 +29,6 @@ const router = createBrowserRouter(
         <Route path="market" element={<ExchangeMarket />} />
         <Route path="portfolio" element={<ExchangePortfolio />}>
           <Route path="overview" element={<Overview />} />
-          {/* <Route path="orders" element={<>overview</>} /> */}
         </Route>
         <Route path="trade/spot/" element={<ExchangeTrade />}>
           <Route path=":ticker" element={<ExchangeTrade />} />
