@@ -42,17 +42,7 @@ export const GET_EXCHANGE_EVENT = async () => {
     return error?.response?.data || error?.response || error.message;
   }
 };
-export const INSERT_NEW_ORDER = async (
-  payload = {
-    userAddress: "hhhhhhh",
-    orderType: "BUY",
-    amount: 900,
-    numberOfShares: 7.9,
-    transHash:
-      "0xfebf3afd9e323f592c77df767c775602f3481385ffb87800277152e4ef17d8b5",
-    time: 7865676877,
-  }
-) => {
+export const INSERT_NEW_ORDER = async (payload) => {
   try {
     const response = await api.post(`${INSERT_NEW_ORDER_ROUTE}`, payload);
     return response.data;
