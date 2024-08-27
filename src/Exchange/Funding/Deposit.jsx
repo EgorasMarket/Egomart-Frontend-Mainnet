@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import { assets } from "../../Components/Static";
-import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
+import {
+  useAccount,
+  useWatchContractEvent,
+  useWriteContract,
+  useBalance,
+} from "wagmi";
 import { parseEther } from "ethers";
 import abi from "../../web3/contracts/Egomart.json";
+import allowanceAbi from "../../web3/erc20.json";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer, toast } from "react-toastify";
+import useTokenAllowance from "../ExchangePages/ExchangePortfolio/Pages/UnlockTokenV3";
+// import { useAccount } from "wagmi";
 import "react-toastify/dist/ReactToastify.css";
 import {
   ArrowDown01Icon,
@@ -14,9 +22,17 @@ import {
 } from "hugeicons-react";
 
 const Deposit = () => {
+  const { address, isConnecting, isDisconnected } = useAccount();
   const [assetList, setAssetList] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(assets[0]);
   const [depositAmount, setDepositAmount] = useState("");
+  // Using the custom hook
+  const { setAllowance, allowancePending, allowanceSuccess, allowanceError } =
+    useTokenAllowance(
+      selectedAsset.tokenAddress,
+      import.meta.env.VITE_CONTRACT_ADDRESS,
+      depositAmount
+    );
 
   const toggleAssetList = () => {
     setAssetList(!assetList);
@@ -25,20 +41,41 @@ const Deposit = () => {
     setSelectedAsset(data);
     toggleAssetList();
   };
-  useWatchContractEvent({
-    address: import.meta.env.VITE_CONTRACT_ADDRESS,
-    abi,
-    eventName: "Deposit",
-    onLogs(logs) {
-      console.log("New Deposit!", logs);
-    },
+  //   useWatchContractEvent({
+  //     address: import.meta.env.VITE_CONTRACT_ADDRESS,
+  //     abi,
+  //     eventName: "Deposit",
+  //     onLogs(logs) {
+  //       console.log("New Deposit!", logs);
+  //     },
+  //   });
+  const {
+    data: balanceData,
+    isPending: balancePending,
+    error: balanceError,
+    isSuccess: balanceSuccess,
+  } = useBalance({
+    address: address,
   });
+  useEffect(() => {
+    if (address) {
+      if (balancePending) {
+        console.log("fetching balance...");
+      } else if (balanceError) {
+        console.error("Error fetching balance:", balanceError);
+      } else if (balanceData) {
+        console.log("Fetching bal successful:", balanceData);
+        //   setCoinBalance2(balanceData.formatted);
+      }
+    }
+  }, [balancePending, balanceError, balanceData, address]);
+
   const {
     isPending: depositing,
     data: deposit,
     writeContract: initiateDeposit,
-    isError,
-    error: depositError,
+    isError: depositError,
+    error: error,
     isSuccess: depositSuccess,
     status: depositStatus,
   } = useWriteContract();
@@ -54,21 +91,51 @@ const Deposit = () => {
       ],
     });
   };
+  // const {
+  //   isPending: allowancePending,
+  //   data: allowance,
+  //   writeContract: initiateAllowance,
+  //   isError: allowanceError,
+  //   error: approveError,
+  //   isSuccess: alllowanceSuccess,
+  //   status: allowanceStatus,
+  // } = useWriteContract();
+
+  // const allowanceFn = async () => {
+  //   initiateAllowance({
+  //     address: "0x95dB95CD5C1D41c11bD30e50AaC703D5b717C5fa",
+  //     abi: allowanceAbi.abi,
+  //     functionName: "approve",
+  //     args: [
+  //       "0x44b60ce5439be549b9d1b6efca1db5b912ea425a",
+  //       parseEther("1000000".toString(), "wei").toString(),
+  //     ],
+  //   });
+  // };
+  console.log("====================================");
+  console.log(allowanceError);
+  console.log("====================================");
+
   const changeDepositAmount = (e) => {
     setDepositAmount(e.target.value);
   };
-  console.log(depositStatus, depositSuccess, depositError);
+  //   console.log(depositStatus, depositSuccess, depositError, error);
 
   useEffect(() => {
     if (depositSuccess === true) {
+      console.log("====================================");
+      console.log(depositSuccess);
+      console.log("====================================");
       toast.success("Success Depositing !", {
         position: "bottom-right",
       });
       return;
     }
   }, [depositSuccess]);
+
   useEffect(() => {
     if (depositError === true) {
+      console.log(depositError);
       toast.error("Error Depositing !", {
         position: "bottom-right",
       });
@@ -181,6 +248,13 @@ const Deposit = () => {
           ) : (
             "Deposit"
           )}
+        </button>
+        <button
+          className="depositDiv_cont4_btn"
+          onClick={setAllowance}
+          //   disabled={depositing ? true : false}
+        >
+          Approve {selectedAsset.tokenName}
         </button>
       </div>
       <ToastContainer />
