@@ -4,15 +4,16 @@ import { assets } from "../../Components/Static";
 import {
   useAccount,
   useWatchContractEvent,
+  useReadContract,
   useWriteContract,
   useBalance,
 } from "wagmi";
-import { parseEther } from "ethers";
+import { parseEther, formatEther } from "ethers";
 import abi from "../../web3/contracts/Egomart.json";
 import allowanceAbi from "../../web3/erc20.json";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer, toast } from "react-toastify";
-import useTokenAllowance from "../ExchangePages/ExchangePortfolio/Pages/UnlockTokenV3";
+import useTokenAllowance from "../../hooks/useTokenAllowance";
 // import { useAccount } from "wagmi";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -26,21 +27,13 @@ const Deposit = () => {
   const [assetList, setAssetList] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(assets[0]);
   const [depositAmount, setDepositAmount] = useState("");
+  const [userAllowance, setUserAllowance] = useState(false);
   // Using the custom hook
   const { setAllowance, allowancePending, allowanceSuccess, allowanceError } =
     useTokenAllowance(
       selectedAsset.tokenAddress,
-      import.meta.env.VITE_CONTRACT_ADDRESS,
-      depositAmount
+      import.meta.env.VITE_CONTRACT_ADDRESS
     );
-
-  const toggleAssetList = () => {
-    setAssetList(!assetList);
-  };
-  const selectAsset = (data) => {
-    setSelectedAsset(data);
-    toggleAssetList();
-  };
   //   useWatchContractEvent({
   //     address: import.meta.env.VITE_CONTRACT_ADDRESS,
   //     abi,
@@ -49,6 +42,14 @@ const Deposit = () => {
   //       console.log("New Deposit!", logs);
   //     },
   //   });
+
+  const toggleAssetList = () => {
+    setAssetList(!assetList);
+  };
+  const selectAsset = (data) => {
+    setSelectedAsset(data);
+    toggleAssetList();
+  };
   const {
     data: balanceData,
     isPending: balancePending,
@@ -112,14 +113,49 @@ const Deposit = () => {
   //     ],
   //   });
   // };
-  console.log("====================================");
-  console.log(allowanceError);
-  console.log("====================================");
 
   const changeDepositAmount = (e) => {
     setDepositAmount(e.target.value);
   };
-  //   console.log(depositStatus, depositSuccess, depositError, error);
+
+  // const checkAllowance = () => {
+  //   checkUserAllowance({
+  //     address: selectedAsset.tokenAddress,
+  //     abi: allowanceAbi.abi,
+  //     functionName: "allowance",
+  //     args: [address, import.meta.env.VITE_CONTRACT_ADDRESS],
+  //   });
+  // };
+  const {
+    data: allowanceData,
+    isError,
+    isLoading,
+  } = useReadContract({
+    address: selectedAsset.tokenAddress,
+    abi: allowanceAbi.abi,
+    functionName: "allowance",
+    args: [address, import.meta.env.VITE_CONTRACT_ADDRESS],
+  });
+
+  useEffect(() => {
+    if (selectedAsset) {
+      if (!isLoading) {
+        console.log("Allowance Data: ", allowanceData.toString());
+        if (parseFloat(allowanceData.toString()) < parseFloat(depositAmount)) {
+          setUserAllowance(true);
+        } else {
+          setUserAllowance(false);
+        }
+      } else if (isError) {
+        setUserAllowance(false);
+        console.error("Error fetching allowance data");
+      }
+      console.log("====================================");
+      console.log(isLoading, isError);
+      console.log("====================================");
+      return;
+    }
+  }, [allowanceData, isLoading, isError, selectedAsset]);
 
   useEffect(() => {
     if (depositSuccess === true) {
@@ -142,6 +178,9 @@ const Deposit = () => {
       return;
     }
   }, [depositError]);
+  console.log("====================================");
+  console.log(userAllowance);
+  console.log("====================================");
 
   return (
     <>
@@ -254,7 +293,7 @@ const Deposit = () => {
           onClick={setAllowance}
           //   disabled={depositing ? true : false}
         >
-          Approve {selectedAsset.tokenName}
+          Approve {selectedAsset.tokenSymbol}
         </button>
       </div>
       <ToastContainer />
