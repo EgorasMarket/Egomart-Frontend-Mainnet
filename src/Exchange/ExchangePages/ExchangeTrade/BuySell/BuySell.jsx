@@ -81,8 +81,8 @@ const BuySell = ({ payload }) => {
   };
 
   // calculating the total
-  const parsedPrice = parseInt(price);
-  const parsedAmount = parseInt(amount);
+  const parsedPrice = parseFloat(price);
+  const parsedAmount = parseFloat(amount);
   const Total = parsedPrice * parsedAmount;
 
   const toggleActiveBtn = async (e) => {
@@ -131,7 +131,7 @@ const BuySell = ({ payload }) => {
         type: logs[0].args.isSale === false ? "BUY" : "SELL",
         amount: logs[0].args.numberOfShares,
         address: logs[0].args.userAddress,
-        status: order?.state, //ENUM OPEN, CANCELLED,COMPLETED,
+        status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
         createdAt: order?.createdAt,
       };
 
