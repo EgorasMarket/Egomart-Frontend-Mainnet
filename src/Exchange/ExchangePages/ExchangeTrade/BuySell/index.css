@@ -353,6 +353,7 @@ span.ant-slider-mark-text {
   background: #12b66f;
   color: #fff;
   font-weight: 600;
+  cursor: pointer;
 }
 .ProductDetailPage_div_body_div2_div7_btn_sell {
   width: 100%;
@@ -362,4 +363,5 @@ span.ant-slider-mark-text {
   background: #ff445d;
   color: #fff;
   font-weight: 600;
+  cursor: pointer;
 }
