@@ -12,9 +12,7 @@ import {
 
 const DesktopOrderBook = ({ current }) => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log("reload");
-  }, [current]);
+  useEffect(() => {}, [current]);
 
   const { orders } = useSelector((state) => state.orders);
   const { trades } = useSelector((state) => state.trades);
@@ -36,7 +34,7 @@ const DesktopOrderBook = ({ current }) => {
         id: order?.id,
         price: order?.amount,
         indexId: order.indexId,
-        ticker: "ESTA-EGOD",
+        ticker: order?.ticker,
         type: order?.orderType,
         amount: order?.numberOfShares,
         address: order?.userAddress,
@@ -48,49 +46,6 @@ const DesktopOrderBook = ({ current }) => {
 
     console.log(res, "response from backend");
     dispatch(addOrders(arr));
-
-    //   [
-    //   {
-    //     id: "1",
-    //     price: 900,
-    //     ticker: "ESTA-EGOD",
-    //     type: "SELL",
-    //     address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-    //     amount: 100,
-    //     status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-    //     createdAt: "2024-07-15T12:00:00Z",
-    //   },
-    //   {
-    //     id: "10",
-    //     price: 91,
-    //     ticker: "ESTA-EGOD",
-    //     type: "BUY",
-    //     address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-    //     amount: 700,
-    //     status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-    //     createdAt: "2024-07-15T12:00:00Z",
-    //   },
-    //   {
-    //     id: "11",
-    //     price: 80,
-    //     ticker: "EGTV-EGOD",
-    //     type: "BUY",
-    //     address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-    //     amount: 2500,
-    //     status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-    //     createdAt: "2024-07-15T12:00:00Z",
-    //   },
-    //   {
-    //     id: "12",
-    //     price: "79",
-    //     ticker: "EGAX-EGOD",
-    //     type: "BUY",
-    //     address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-    //     amount: "600",
-    //     status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-    //     createdAt: "2024-07-15T12:00:00Z",
-    //   },
-    // ]
   };
   const fillTrade = async () => {
     const arr = [
