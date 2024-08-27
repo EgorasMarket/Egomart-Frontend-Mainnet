@@ -6,7 +6,7 @@
   left: 0;
   background: #040f0b;
   z-index: 1000;
-  height: 5vh;
+  height: 8vh;
 }
 .exchangeHeader .container_fluid {
   height: 100%;
@@ -36,5 +36,34 @@
 .exchangeHeader_div1_links_tab1 {
   padding: 0.5em 1em;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
+  color: #9aaaa5;
+  display: flex;
+  align-items: center;
+  margin-right: 1em;
+  position: relative;
+}
+
+.exchangeHeader_div1_links_tab1:hover {
+  background: #222f2b;
+  border-radius: 6px;
+  color: #fff;
+}
+.exchangeHeader_div1_links_tab1_icon {
+  stroke-width: 2px;
+  margin-left: 4px;
+  width: 15px;
+}
+.ExchangeTrade_div1_cont1_markets_dropb {
+  position: absolute;
+  top: 23px;
+  background: #151e1b;
+  width: 320px;
+  left: 0;
+  border-radius: 5px;
+  height: 300px;
+  overflow: auto;
+  z-index: 100;
+  padding: 1em;
+  border: solid 1px #1e2d27;
 }
