@@ -28,6 +28,8 @@
 .TradesDiv_body {
   display: flex;
   flex-direction: column;
+  height: 200px;
+  overflow: auto;
 }
 .TradesDiv_body_cont {
   display: flex;
