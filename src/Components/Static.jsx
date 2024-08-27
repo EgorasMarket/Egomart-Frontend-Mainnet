@@ -268,14 +268,14 @@ export const userOrders = [
 ];
 
 export const assets = [
-  {
-    id: 1,
-    img: "https://www.egochain.org/egax_logo.png",
-    tokenSymbol: "EGAX",
-    tokenName: "Egochain",
-    tokenAddress: null,
-    tokenType: "native",
-  },
+  // {
+  //   id: 1,
+  //   img: "https://www.egochain.org/egax_logo.png",
+  //   tokenSymbol: "EGAX",
+  //   tokenName: "Egochain",
+  //   tokenAddress: null,
+  //   tokenType: "native",
+  // },
   {
     id: 2,
     img: "https://www.egochain.org/egax_logo.png",
