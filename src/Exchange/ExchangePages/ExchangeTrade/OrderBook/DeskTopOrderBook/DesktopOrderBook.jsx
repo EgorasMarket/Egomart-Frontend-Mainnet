@@ -47,6 +47,7 @@ const DesktopOrderBook = ({ current }) => {
     console.log(res, "response from backend");
     dispatch(addOrders(arr));
   };
+
   const fillTrade = async () => {
     const arr = [
       {
@@ -57,48 +58,8 @@ const DesktopOrderBook = ({ current }) => {
         price: 1915.3,
         amount: 0.5,
       },
-      {
-        createdAt: "2024-07-15T12:00:00Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "ESTA-EGOD",
-        type: "BUY",
-        price: 1915.3,
-        amount: 0.5,
-      },
-      {
-        createdAt: "2024-07-15T12:00:00Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "ESTA-EGOD",
-        type: "BUY",
-        price: 1915.3,
-        amount: 0.5,
-      },
-      {
-        createdAt: "2024-07-15T12:00:00Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "EGAX-EGOD",
-        type: "BUY",
-        price: 1915.3,
-        amount: 0.5,
-      },
-      {
-        createdAt: "2024-07-15T12:00:00Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "EGTV-EGOD",
-        type: "BUY",
-        price: 1915.3,
-        amount: 0.5,
-      },
-      {
-        createdAt: "2024-07-15T12:00:05Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "ETRI-EGOD",
-        type: "BUY",
-        price: 1915.0,
-        amount: 0.3,
-      },
     ];
-    dispatch(setTrade(arr));
+    dispatch(setTrade([]));
   };
   useEffect(() => {
     fillorder();

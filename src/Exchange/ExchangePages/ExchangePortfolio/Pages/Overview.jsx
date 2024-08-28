@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AreaChart,
   Area,
@@ -8,14 +8,58 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { markets, userAssets } from "../../../../Components/Static";
+import { markets, userAssets, assets } from "../../../../Components/Static";
 import Modal from "../../../../Components/Modal/Modal";
 import Deposit from "../../../Funding/Deposit";
 import Withdraw from "../../../Funding/Withdraw";
+import useFetchBalance from "../../../../hooks/useFetchBalance";
+import { useAccount } from "wagmi";
+export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
+  const balance = useFetchBalance(data.tokenAddress);
+
+  return (
+    <div className="exPortoflioOverviewDiv_3_body_cont_div">
+      <div className="exPortoflioOverviewDiv_3_body_cont_1">
+        <img
+          src={data.img}
+          alt=""
+          className="exPortoflioOverviewDiv_3_body_cont_1_img"
+        />
+        {data.tokenSymbol}
+      </div>
+      <div className="exPortoflioOverviewDiv_3_body_cont_1">{balance}</div>
+      <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
+      <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
+      <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
+      <div className="exPortoflioOverviewDiv_3_body_cont_last">
+        <button
+          className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
+          onClick={openDepositModal}
+        >
+          Deposit
+        </button>
+        <button
+          className="exPortoflioOverviewDiv_3_body_cont_last_btn2"
+          onClick={openWithdrawModal}
+        >
+          Withdraw
+        </button>
+        {data.tag === "erc404" && (
+          <button className="exPortoflioOverviewDiv_3_body_cont_last_btn3">
+            Redeem
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const Overview = () => {
   const [deposit, setDeposit] = useState(false);
+  const [depositUnique, setDepositUnique] = useState(false);
   const [withdraw, setWithdraw] = useState(false);
+  const [selectedSymbol, setSelectedSymbol] = useState(null);
+
   const data = [
     {
       name: "Page A",
@@ -91,12 +135,20 @@ const Overview = () => {
   const openDepositModal = () => {
     setDeposit(true);
   };
+  const closeDepositModalUnique = () => {
+    setDepositUnique(false);
+  };
+  const openDepositModalUnique = (symbol) => {
+    setDepositUnique(true);
+    setSelectedSymbol(symbol);
+  };
   const closeWithdrawModal = () => {
     setWithdraw(false);
   };
   const openWithdrawModal = () => {
     setWithdraw(true);
   };
+
   return (
     <div className="exPortoflioOverviewDiv">
       <div className="exPortoflioOverviewDiv_1">
@@ -232,54 +284,28 @@ const Overview = () => {
             <div className="exPortoflioOverviewDiv_3_body_head_cont1_last"></div>
           </div>
           <div className="exPortoflioOverviewDiv_3_body_cont">
-            {userAssets.map((data) => (
-              <div className="exPortoflioOverviewDiv_3_body_cont_div">
-                <div className="exPortoflioOverviewDiv_3_body_cont_1">
-                  <img
-                    src={data.img}
-                    alt=""
-                    className="exPortoflioOverviewDiv_3_body_cont_1_img"
-                  />
-                  {data.token}
-                </div>
-                <div className="exPortoflioOverviewDiv_3_body_cont_1">
-                  {data.bal}
-                </div>
-                <div className="exPortoflioOverviewDiv_3_body_cont_1">
-                  {data.bal - data.lockedBal}
-                </div>
-                <div className="exPortoflioOverviewDiv_3_body_cont_1">
-                  {data.lockedBal}
-                </div>
-                <div className="exPortoflioOverviewDiv_3_body_cont_1">
-                  {data.usdVal}
-                </div>
-                <div className="exPortoflioOverviewDiv_3_body_cont_last">
-                  <button
-                    className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
-                    onClick={openDepositModal}
-                  >
-                    Deposit
-                  </button>
-                  <button
-                    className="exPortoflioOverviewDiv_3_body_cont_last_btn2"
-                    onClick={openWithdrawModal}
-                  >
-                    Withdraw
-                  </button>
-                  {data.tag === "erc404" ? (
-                    <button className="exPortoflioOverviewDiv_3_body_cont_last_btn3">
-                      Redeem
-                    </button>
-                  ) : null}
-                </div>
-              </div>
+            {assets?.map((data) => (
+              <AssetItem
+                key={data.id}
+                data={data}
+                openDepositModal={() => {
+                  openDepositModalUnique(data.tokenSymbol);
+                }}
+                openWithdrawModal={openWithdrawModal}
+              />
             ))}
           </div>
         </div>
       </div>
       <Modal isOpen={deposit} title={"Deposit"} closeModal={closeDepositModal}>
         <Deposit />
+      </Modal>
+      <Modal
+        isOpen={depositUnique}
+        title={"Deposit"}
+        closeModal={closeDepositModalUnique}
+      >
+        <Deposit symbol={selectedSymbol} />
       </Modal>
       <Modal
         isOpen={withdraw}

@@ -1,7 +1,8 @@
 import { useWriteContract } from "wagmi";
-import allowanceAbi from "../../../../web3/erc20.json";
+import allowanceAbi from "../web3/erc20.json";
+import { parseEther } from "ethers";
 
-const useTokenAllowance = (coinAddress, address, amount) => {
+const useTokenAllowance = (coinAddress, address) => {
   const {
     isPending: allowancePending,
     data: allowance,
@@ -17,7 +18,13 @@ const useTokenAllowance = (coinAddress, address, amount) => {
       address: coinAddress,
       abi: allowanceAbi.abi,
       functionName: "approve",
-      args: [address, amount],
+      args: [
+        address,
+        parseEther(
+          "1800000000000000000000000000000000".toString(),
+          "wei"
+        ).toString(),
+      ],
     });
   };
 
