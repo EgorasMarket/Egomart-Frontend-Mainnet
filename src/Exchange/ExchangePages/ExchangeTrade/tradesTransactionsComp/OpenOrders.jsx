@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useAccount, useWriteContract } from "wagmi";
 import { format } from "date-fns";
 import contractAbi from "../../../../web3/contracts/Egomart.json";
-import { parseEther } from "ethers";
+import { formatEther, parseEther } from "ethers";
 const OpenOrders = ({ ticker }) => {
   const {
     data: cancelledOrder,
@@ -28,29 +28,29 @@ const OpenOrders = ({ ticker }) => {
         order.ticker === ticker
     );
     setPositions(arr);
-
-    //filter the records that is native for just user wallet
-    console.log(arr, "orders is here");
   }, [ticker]);
 
+  useEffect(() => {
+    if (loading === false && error) {
+      console.log(error, "error from cancellation");
+    }
+  }, [loading, error, isError]);
+
   const cancelOrder = (data) => {
-    console.log("cancelling...");
+    // console.log(data, "order info");
     try {
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
         functionName: "cancelOrder",
         args: [
-          1000,
-          ticker,
-          parseEther("3").toString(),
-
-          // parseEther(data?.price).toString(),
-          // data.type === "BUY" ? 0 : 1,
-          0,
+          data.indexId,
+          data.ticker,
+          parseEther(data?.price).toString(),
+          data.type === "BUY" ? 0 : 1,
+          //
         ],
       });
-      console.log("cancelled...");
     } catch (error) {
       console.log(error, "error");
     }

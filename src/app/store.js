@@ -40,6 +40,7 @@ export const store = configureStore({
     orders: persistOrders,
     trades: persistTrades,
   },
+  // devTools: false, // add this flag in production
   middleware: (getDefaultMiddleWare) =>
     getDefaultMiddleWare({ serializableCheck: false }),
 });
