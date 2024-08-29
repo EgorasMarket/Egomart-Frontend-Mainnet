@@ -1,5 +1,5 @@
 .newHeaderDiv {
-  padding: 1em 0;
+  padding: 0.5em 0;
   width: -webkit-fill-available;
   position: sticky;
   top: 0;
@@ -30,11 +30,10 @@
   font-weight: 600;
 }
 .newHeaderDiv_area2 {
-  background: #222;
-  border: solid 1px #7e7e7e;
   color: #fff;
-  padding: 10px 10px;
+  padding: 5px 5px;
   border-radius: 50px;
+  width: -moz-max-content;
   width: max-content;
   display: flex;
   align-items: center;
@@ -53,14 +52,13 @@
   align-items: center;
 }
 .newHeaderDiv_area2_link1 {
-  padding: 15px 20px;
+  padding: 10px 20px;
   color: #fff;
   border-radius: 50px;
   font-size: 14px;
   font-weight: 600;
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
   align-items: center;
   text-wrap: nowrap;
@@ -104,9 +102,9 @@
   background: #45b97b;
   border: none;
   color: #fff;
-  padding: 15px 20px;
+  padding: 10px 10px;
   border-radius: 10px;
-  width: 150px;
+  width: 110px;
   display: flex;
   align-items: center;
   justify-content: center;

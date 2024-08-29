@@ -1,6 +1,6 @@
 .newFooterDiv {
-  background: #000;
-  padding: 4em 0em;
+  background: #111916;
+  padding: 2em 0em;
   color: #fff;
   position: relative;
 }
@@ -32,9 +32,9 @@
   margin-bottom: 1em;
 }
 .newFooterDiv_area_2 {
-  /* border-top: solid 1px #323232; */
-  /* margin-top: 1em; */
-  /* padding-top: 2em; */
+  border-top: solid 1px #323232;
+  margin-top: 1em;
+  padding-top: 2em;
 }
 .newFooterDiv_area_2_area {
   display: flex;
@@ -66,11 +66,5 @@
   }
   .newFooterDiv_area_2_area2 {
     font-size: 12px;
-  }
-  .newFooterDiv {
-    background: #000;
-    padding: 2em 0em;
-    color: #fff;
-    position: relative;
   }
 }
