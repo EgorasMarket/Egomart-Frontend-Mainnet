@@ -122,6 +122,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   margin-bottom: 4em;
 }
 .homeDiv_section2_area_head_tag {
@@ -538,19 +539,34 @@ details[open] > summary::before {
   align-items: center;
   justify-content: center;
 }
+.homeDiv_section1_area_2 {
+  width: -webkit-fill-available;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 /* =========== */
 /* =========== */
 /* =========== */
 @media (max-width: 767px) {
   .homeDiv_section1_area_1_stats {
     background: #222f2b;
-    padding: 2em;
-    display: flex;
+    padding: 1em;
+    /* display: flex; */
     justify-content: center;
     border-radius: 10px;
-    margin-top: 2em;
-    margin-bottom: 4em;
+    /* margin-top: 2em; */
+    margin-bottom: 2em;
     flex-direction: column;
+    display: grid;
+    /* grid-gap: 10px; */
+    gap: 20px;
+    width: -webkit-fill-available;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1em;
+  }
+  .homeDiv_section1_area_2_img {
+    width: 602px;
   }
   .homeDiv_section1_area_1_stats_cont1_txt {
     margin-top: 5px;
@@ -562,7 +578,7 @@ details[open] > summary::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 1em 0em;
+    margin: 0em 0em;
   }
   .homeDiv_section2_area2 {
     display: grid;
@@ -638,8 +654,34 @@ details[open] > summary::before {
     margin-top: 1em;
   }
   .homeDiv_section1 {
-    padding: 4em 0em;
+    padding: 2em 0em;
     position: relative;
     padding-top: 4em;
+    overflow: hidden;
+  }
+  .homeDiv_section2_area_head_title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .homeDiv_section2_area_head_txt {
+    font-size: 16px;
+    color: #a9b9b3;
+  }
+  .homeDiv_section2_area_head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 2em;
+  }
+  .homeDiv_section2 {
+    position: relative;
+    padding: 2em 0em;
+    /* background: #fff; */
+  }
+  .homeDiv_section3 {
+    padding: 2em 0em;
+    position: relative;
   }
 }
