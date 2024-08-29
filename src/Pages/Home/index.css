@@ -684,4 +684,10 @@ details[open] > summary::before {
     padding: 2em 0em;
     position: relative;
   }
+  .homeDiv_section3_area2_cont1_cont2_img {
+    width: 100%;
+    height: 240px;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
 }

@@ -41,6 +41,16 @@
   align-items: center;
   justify-content: space-between;
 }
+.footerDiv1_area1_cont1 {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 500;
+}
+.footerDiv1_img2 {
+  width: 40px;
+  margin-right: 5px;
+}
 @media (max-width: 999px) {
   .newFooterDiv_area_1 {
     display: flex;

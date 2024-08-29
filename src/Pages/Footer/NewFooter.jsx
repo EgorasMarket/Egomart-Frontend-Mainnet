@@ -26,7 +26,7 @@ const NewFooter = () => {
                   About us{" "}
                 </a>
                 <a
-                  href="/whitepaper"
+                  href="https://egochain.org/whitepaper"
                   className="newFooterDiv_area_1_cont1_body_link"
                 >
                   Whitepaper
@@ -67,7 +67,10 @@ const NewFooter = () => {
                 >
                   Egomart
                 </a>
-                <a href="/farm" className="newFooterDiv_area_1_cont1_body_link">
+                <a
+                  href="https://egochain.org/farm"
+                  className="newFooterDiv_area_1_cont1_body_link"
+                >
                   EGAX staking
                 </a>
                 <a
@@ -164,14 +167,14 @@ const NewFooter = () => {
                   Medium
                 </a>
                 <a
-                  href="/audit.pdf"
+                  href="https://egochain.org/audit.pdf"
                   target="_blank"
                   className="newFooterDiv_area_1_cont1_body_link"
                 >
                   Audit
                 </a>
                 <a
-                  href="/about"
+                  href="https://egochain.org/about"
                   className="newFooterDiv_area_1_cont1_body_link"
                 >
                   Roadmap
@@ -252,13 +255,13 @@ const NewFooter = () => {
               <div className="newFooterDiv_area_1_cont1_title">Legal</div>
               <div className="newFooterDiv_area_1_cont1_body">
                 <a
-                  href="/terms"
+                  href="https://egochain.org/terms"
                   className="newFooterDiv_area_1_cont1_body_link"
                 >
                   Terms
                 </a>
                 <a
-                  href="/privacy"
+                  href="https://egochain.org/privacy"
                   className="newFooterDiv_area_1_cont1_body_link"
                 >
                   Privacy
@@ -267,7 +270,7 @@ const NewFooter = () => {
                   Cookies
                 </a> */}
                 <a
-                  href="/audit.pdf"
+                  href="https://egochain.org/audit.pdf"
                   target="_blank"
                   className="newFooterDiv_area_1_cont1_body_link"
                 >
