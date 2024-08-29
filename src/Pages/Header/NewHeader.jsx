@@ -36,9 +36,6 @@ const NewHeader = () => {
               onMouseOver={() => {
                 toggleProductsDrop("products");
               }}
-              onMouseLeave={() => {
-                setProductsDrop("");
-              }}
             >
               Products{" "}
               <ArrowDown01Icon
@@ -46,7 +43,12 @@ const NewHeader = () => {
                 size={18}
               />
               {productsDrop == "products" ? (
-                <div className="new_header_div_area_2_div_drop">
+                <div
+                  className="new_header_div_area_2_div_drop"
+                  onMouseLeave={() => {
+                    setProductsDrop("");
+                  }}
+                >
                   <a
                     href="https://egoswap.io"
                     target="_blank"
@@ -89,6 +91,9 @@ const NewHeader = () => {
               href="https://docs.egochain.org/building-on-egochain/introduction-to-egochain-development"
               target="_blank"
               className="newHeaderDiv_area2_link1"
+              onMouseOver={() => {
+                setProductsDrop("");
+              }}
             >
               Developers{" "}
               <ArrowUpRight01Icon
@@ -101,9 +106,6 @@ const NewHeader = () => {
               onMouseOver={() => {
                 toggleProductsDrop("learn");
               }}
-              onMouseLeave={() => {
-                setProductsDrop("");
-              }}
             >
               About Us
               <ArrowDown01Icon
@@ -111,7 +113,12 @@ const NewHeader = () => {
                 size={18}
               />
               {productsDrop == "learn" ? (
-                <div className="new_header_div_area_2_div_drop">
+                <div
+                  className="new_header_div_area_2_div_drop"
+                  onMouseLeave={() => {
+                    setProductsDrop("");
+                  }}
+                >
                   <a
                     href="https://egoras.medium.com/"
                     target="_blank"
@@ -122,7 +129,7 @@ const NewHeader = () => {
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
                   </a>
                   <a
-                    href="/whitepaper"
+                    href="https://www.egochain.org/whitepaper"
                     className="new_header_div_area_2_div_drop_link1"
                   >
                     {/* <InfoIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "} */}
@@ -130,7 +137,7 @@ const NewHeader = () => {
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
                   </a>
                   <a
-                    href="/https://docs.egochain.org/"
+                    href="https://docs.egochain.org/egomart-overview/protocol-basics"
                     target="_blank"
                     className="new_header_div_area_2_div_drop_link1"
                   >
@@ -154,6 +161,9 @@ const NewHeader = () => {
               href="mailto:support@egoras.com"
               target="_blank"
               className="newHeaderDiv_area2_link1"
+              onMouseOver={() => {
+                setProductsDrop("");
+              }}
             >
               Support{" "}
               <ArrowUpRight01Icon

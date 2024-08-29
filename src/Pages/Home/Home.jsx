@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.css";
 import Marquee from "react-fast-marquee";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -31,7 +32,12 @@ const Home = () => {
                 developing countries by trading with low fees, a fast order
                 book, and minimal slippage.
               </div>
-              <button className="homeDiv_section1_area_1_btn">Trade Now</button>
+              <Link
+                to="/app/trade/spot/ESTA-EGOD"
+                className="homeDiv_section1_area_1_btn"
+              >
+                Trade Now
+              </Link>
               <div className="homeDiv_section1_area_1_stats">
                 <div className="homeDiv_section1_area_1_stats_cont1">
                   <div className="homeDiv_section1_area_1_stats_cont1_title">
@@ -46,7 +52,7 @@ const Home = () => {
                     24h Volume
                   </div>
                   <div className="homeDiv_section1_area_1_stats_cont1_txt">
-                    $664,321,902
+                    $664M
                   </div>
                 </div>
                 <div className="homeDiv_section1_area_1_stats_cont1">
