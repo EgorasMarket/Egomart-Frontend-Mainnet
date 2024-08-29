@@ -28,15 +28,22 @@ const ExchangeHeader = () => {
       <div className="container_fluid">
         <div className="exchangeHeader_area">
           <div className="exchangeHeader_div1">
-            <img
-              src="/img/vertex_logo.svg"
-              alt=""
-              className="exchangeHeader_div1_img"
-            />
+            <div className="exchangeHeader_div1_cont1">
+              <img
+                src="/egomart_logo.png"
+                alt=""
+                className="exchangeHeader_div1_img"
+              />
+              Egomart
+            </div>
+
             <div className="exchangeHeader_div1_links">
               <Link
                 to={"/app/portfolio/overview"}
                 className="exchangeHeader_div1_links_tab1"
+                onMouseOver={() => {
+                  setMarketsDrop(false);
+                }}
               >
                 Portfolio
               </Link>
@@ -45,20 +52,24 @@ const ExchangeHeader = () => {
                 onMouseOver={() => {
                   setMarketsDrop(true);
                 }}
-                onMouseOut={() => {
-                  setMarketsDrop(false);
-                }}
               >
                 Trade{" "}
-                <ArrowDown01Icon
-                  className="exchangeHeader_div1_links_tab1_icon"
-                  size={18}
-                />
+                {marketsDrop ? (
+                  <ArrowUp01Icon
+                    className="exchangeHeader_div1_links_tab1_icon"
+                    size={18}
+                  />
+                ) : (
+                  <ArrowDown01Icon
+                    className="exchangeHeader_div1_links_tab1_icon"
+                    size={18}
+                  />
+                )}
                 {marketsDrop && (
                   <div
                     className="ExchangeTrade_div1_cont1_markets_dropb"
-                    onMouseOver={() => {
-                      setMarketsDrop(true);
+                    onMouseOut={() => {
+                      setMarketsDrop(false);
                     }}
                   >
                     <div className="ExchangeTrade_div1_cont1_markets_drop_cont1">
@@ -142,10 +153,20 @@ const ExchangeHeader = () => {
               <Link
                 to={"/app/market"}
                 className="exchangeHeader_div1_links_tab1"
+                onMouseOver={() => {
+                  setMarketsDrop(false);
+                }}
               >
                 Markets
               </Link>
-              <div className="exchangeHeader_div1_links_tab1">More </div>
+              <div
+                className="exchangeHeader_div1_links_tab1"
+                onMouseOver={() => {
+                  setMarketsDrop(false);
+                }}
+              >
+                More{" "}
+              </div>
             </div>
           </div>
           <div className="exchangeHeader_div2">
