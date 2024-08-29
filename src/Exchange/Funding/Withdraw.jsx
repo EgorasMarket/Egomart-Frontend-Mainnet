@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import { assets } from "../../Components/Static";
 import {
@@ -6,18 +6,81 @@ import {
   ArrowUp01Icon,
   InformationCircleIcon,
 } from "hugeicons-react";
+import useTokenAllowance from "../../hooks/useTokenAllowance";
+import { useAccount, useBalance, useWriteContract } from "wagmi";
+import abi from "../../web3/contracts/Egomart.json";
+import { parseEther } from "ethers";
 
 const Withdraw = () => {
+  const { address, isConnecting, isDisconnected } = useAccount();
+
   const [assetList, setAssetList] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(assets[0]);
+  const [assetBal, setAssetBal] = useState("0");
+  const [withdrawAmount, setWithdrawAmount] = useState("");
 
   const toggleAssetList = () => {
     setAssetList(!assetList);
   };
+
+  // Using the custom hook
+  // const { setAllowance, allowancePending, allowanceSuccess, allowanceError } =
+  //   useTokenAllowance(
+  //     selectedAsset.tokenAddress,
+  //     import.meta.env.VITE_CONTRACT_ADDRESS
+  //   );
   const selectAsset = (data) => {
     setSelectedAsset(data);
     toggleAssetList();
   };
+  const {
+    data: balanceData,
+    isPending: balancePending,
+    error: balanceError,
+    isSuccess: balanceSuccess,
+  } = useBalance({
+    address: address,
+    token: selectedAsset.tokenAddress, // Specify the token contract address here
+  });
+
+  useEffect(() => {
+    if (address) {
+      if (balancePending) {
+        console.log("fetching balance...");
+      } else if (balanceError) {
+        console.error("Error fetching balance:", balanceError);
+      } else if (balanceData) {
+        console.log("Fetching bal successful:", balanceData);
+        setAssetBal(balanceData.formatted);
+      }
+    }
+  }, [balancePending, balanceError, balanceData, address, selectedAsset]);
+
+  const {
+    isPending: withdrawing,
+    data: withdraw,
+    writeContract: initiateWithdraw,
+    isError: withdrawError,
+    error: error,
+    isSuccess: withdrawSuccess,
+    status: withdrawStatus,
+  } = useWriteContract();
+  const withdrawFn = async () => {
+    initiateWithdraw({
+      address: import.meta.env.VITE_CONTRACT_ADDRESS,
+      abi,
+      functionName: "withdraw",
+      args: [
+        selectedAsset.tokenAddress,
+        parseEther(withdrawAmount.toString(), "wei").toString(),
+      ],
+    });
+  };
+
+  const changeWithdrawAmount = (e) => {
+    setWithdrawAmount(e.target.value);
+  };
+
   return (
     <div className="depositDiv">
       <div className="depositDiv_cont1">
@@ -29,9 +92,8 @@ const Withdraw = () => {
             <div className="depositDiv_cont1_div1_select_dvi_cont1">
               <img
                 src={selectedAsset.img}
-                alt=""
                 className="depositDiv_cont1_div1_select_dvi_cont1_img"
-              />{" "}
+              />
               {selectedAsset.tokenSymbol}
               {assetList ? (
                 <ArrowUp01Icon className="depositDiv_cont1_div1_select_dvi_cont1_icon" />
@@ -44,6 +106,8 @@ const Withdraw = () => {
             type="text"
             className="depositDiv_cont1_div1_input"
             placeholder="0.00"
+            value={withdrawAmount}
+            onChange={changeWithdrawAmount}
           />
 
           {assetList && (
@@ -108,7 +172,9 @@ const Withdraw = () => {
           </div>
         </div>
       </div>
-      <button className="depositDiv_cont4_btn">Withdraw</button>
+      <button onClick={withdrawFn} className="depositDiv_cont4_btn">
+        Withdraw
+      </button>
     </div>
   );
 };

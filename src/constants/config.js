@@ -1,1 +1,1 @@
-export const DECIMAL_COUNT = 8;
+export const DECIMAL_COUNT = 3;

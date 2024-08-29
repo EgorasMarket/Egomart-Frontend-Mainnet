@@ -9,12 +9,11 @@ import {
   GET_EXCHANGE_EVENT,
   GET_USER_TRADE_ORDERS,
 } from "../../../../../services/trade.services";
+import { DECIMAL_COUNT } from "../../../../../constants/config";
 
 const DesktopOrderBook = ({ current }) => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log("reload");
-  }, [current]);
+  useEffect(() => {}, [current]);
 
   const { orders } = useSelector((state) => state.orders);
   const { trades } = useSelector((state) => state.trades);
@@ -35,8 +34,8 @@ const DesktopOrderBook = ({ current }) => {
       data = {
         id: order?.id,
         price: order?.amount,
-        indexId: order.indexId,
-        ticker: "ESTA-EGOD",
+        indexId: order.index_id,
+        ticker: order?.ticker,
         type: order?.orderType,
         amount: order?.numberOfShares,
         address: order?.userAddress,
@@ -45,53 +44,10 @@ const DesktopOrderBook = ({ current }) => {
       };
       arr.push(data);
     });
-
     console.log(res, "response from backend");
     dispatch(addOrders(arr));
-
-    //   [
-    //   {
-    //     id: "1",
-    //     price: 900,
-    //     ticker: "ESTA-EGOD",
-    //     type: "SELL",
-    //     address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-    //     amount: 100,
-    //     status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-    //     createdAt: "2024-07-15T12:00:00Z",
-    //   },
-    //   {
-    //     id: "10",
-    //     price: 91,
-    //     ticker: "ESTA-EGOD",
-    //     type: "BUY",
-    //     address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-    //     amount: 700,
-    //     status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-    //     createdAt: "2024-07-15T12:00:00Z",
-    //   },
-    //   {
-    //     id: "11",
-    //     price: 80,
-    //     ticker: "EGTV-EGOD",
-    //     type: "BUY",
-    //     address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-    //     amount: 2500,
-    //     status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-    //     createdAt: "2024-07-15T12:00:00Z",
-    //   },
-    //   {
-    //     id: "12",
-    //     price: "79",
-    //     ticker: "EGAX-EGOD",
-    //     type: "BUY",
-    //     address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-    //     amount: "600",
-    //     status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-    //     createdAt: "2024-07-15T12:00:00Z",
-    //   },
-    // ]
   };
+
   const fillTrade = async () => {
     const arr = [
       {
@@ -102,48 +58,9 @@ const DesktopOrderBook = ({ current }) => {
         price: 1915.3,
         amount: 0.5,
       },
-      {
-        createdAt: "2024-07-15T12:00:00Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "ESTA-EGOD",
-        type: "BUY",
-        price: 1915.3,
-        amount: 0.5,
-      },
-      {
-        createdAt: "2024-07-15T12:00:00Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "ESTA-EGOD",
-        type: "BUY",
-        price: 1915.3,
-        amount: 0.5,
-      },
-      {
-        createdAt: "2024-07-15T12:00:00Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "EGAX-EGOD",
-        type: "BUY",
-        price: 1915.3,
-        amount: 0.5,
-      },
-      {
-        createdAt: "2024-07-15T12:00:00Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "EGTV-EGOD",
-        type: "BUY",
-        price: 1915.3,
-        amount: 0.5,
-      },
-      {
-        createdAt: "2024-07-15T12:00:05Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "ETRI-EGOD",
-        type: "BUY",
-        price: 1915.0,
-        amount: 0.3,
-      },
     ];
-    dispatch(setTrade(arr));
+    
+    // dispatch(setTrade([]));
   };
   useEffect(() => {
     fillorder();
@@ -151,23 +68,33 @@ const DesktopOrderBook = ({ current }) => {
   }, []);
 
   const groupedByPrice = orders
-    .filter((order) => order.type === "BUY" && order?.ticker === current?.pair)
+    .filter(
+      (order) =>
+        order.type === "BUY" &&
+        order.status === "OPEN" &&
+        order?.ticker === current?.pair
+    )
     .reduce((acc, item) => {
       const price = item.price;
       if (!acc[price]) {
         acc[price] = { ...item, amount: 0 };
       }
-      acc[price].amount += parseInt(item.amount);
+      acc[price].amount += parseFloat(item.amount);
       return acc;
     }, {});
   const groupedSellPrice = orders
-    .filter((order) => order.type === "SELL" && order?.ticker === current?.pair)
+    .filter(
+      (order) =>
+        order.type === "SELL" &&
+        order.status === "OPEN" &&
+        order?.ticker === current?.pair
+    )
     .reduce((acc, item) => {
       const price = item.price;
       if (!acc[price]) {
         acc[price] = { ...item, amount: 0 };
       }
-      acc[price].amount += parseInt(item.amount);
+      acc[price].amount += parseFloat(item.amount);
       return acc;
     }, {});
 
@@ -242,7 +169,7 @@ const DesktopOrderBook = ({ current }) => {
               return (
                 <div className="ProductDetailPage_div_body_div2_body_area_trades_body">
                   <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
-                    {format(parseISO(data?.createdAt), "h:mm:ssaa")}
+                    {/* {format(parseISO(data?.createdAt), "h:mm:ssaa")} */}
                   </div>
                   <div
                     className="ProductDetailPage_div_body_div2_body_area_trades_body_cont2"
@@ -417,7 +344,6 @@ const DesktopOrderBook = ({ current }) => {
           </div>
           {showOrders === "Buy" ? (
             <>
-              {" "}
               <div className="executed_price_div" style={{ color: "#ff445d" }}>
                 $1,000.00
                 <span className="executed_price_div_span">≈ $1,000</span>
@@ -435,16 +361,17 @@ const DesktopOrderBook = ({ current }) => {
                       key={data.id}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {data.amount * data.price}
+                        {parseFloat(data?.price).toFixed(2)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data.amount).toFixed(2)}
+                        {parseFloat(data.amount)}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#16b979" }}
                       >
-                        {parseFloat(data.price).toFixed(2)}
+                        {parseFloat(data?.amount).toFixed(DECIMAL_COUNT) *
+                          parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div
                         style={{ width: `${widthPercentage}%` }}
@@ -470,17 +397,18 @@ const DesktopOrderBook = ({ current }) => {
                       key={data.id}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data?.amount).toFixed(2) *
-                          parseFloat(data?.price).toFixed(2)}
+                        {parseFloat(data?.price).toFixed(2)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data?.amount).toFixed(2)}
+                        {/* {parseFloat(data?.amount).toFixed(DECIMAL_COUNT)} */}
+                        {parseFloat(data?.amount)}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#e74c3c" }}
                       >
-                        {parseFloat(data?.price).toFixed(2)}
+                        {parseFloat(data?.amount).toFixed(DECIMAL_COUNT) *
+                          parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div
                         style={{ width: `${widthPercentage}%` }}
@@ -517,7 +445,7 @@ const DesktopOrderBook = ({ current }) => {
                           parseFloat(data.price).toFixed(2)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data.amount).toFixed(2)}
+                        {parseFloat(data.amount)}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"
@@ -555,7 +483,7 @@ const DesktopOrderBook = ({ current }) => {
                           parseFloat(data.price).toFixed(2)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data.amount).toFixed(2)}
+                        {parseFloat(data.amount)}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"

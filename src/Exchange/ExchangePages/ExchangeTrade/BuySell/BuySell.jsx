@@ -26,8 +26,6 @@ import { DECIMAL_COUNT } from "../../../../constants/config";
 import { updateOrder } from "../../../../features/orders/OrderSlice";
 const BuySell = ({ payload }) => {
   const dispatch = useDispatch();
-  const { orders } = useSelector((state) => state.orders);
-  console.log(payload, "BuyAndSellMe");
   const {
     data: hash,
     writeContract,
