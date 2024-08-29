@@ -1,17 +1,12 @@
 import React from "react";
 import Blockies from "react-blockies";
-
+import { useAccount } from "wagmi";
 const ExchangePortfolioSideBar = ({ toggleActiveTab, activeTab }) => {
-  const address = "0xa5ff0Fd1a84D004649E97b465779499546654feD";
+  const { address } = useAccount();
   return (
     <div className="exPortfolioSideBar">
       <div className="exPortfolioSideBar_div1">
-        <Blockies
-          seed={"0xa5ff0Fd1a84D004649E97b465779499546654feD"}
-          size={8}
-          scale={4}
-          className="blockies_icon"
-        />{" "}
+        <Blockies seed={address} size={8} scale={4} className="blockies_icon" />{" "}
         <div className="exPortfolioSideBar_div1_cont1">
           <div className="exPortfolioSideBar_div1_cont1_title">Account</div>
           <div className="exPortfolioSideBar_div1_cont1_address">

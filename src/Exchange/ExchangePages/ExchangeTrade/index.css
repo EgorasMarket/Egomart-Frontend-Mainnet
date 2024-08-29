@@ -306,6 +306,10 @@
 }
 .ExchangeTrade_div1_cont1_markets_drop_cont1 {
   margin-bottom: 1em;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: inherit;
 }
 .ExchangeTrade_div1_cont1_markets_drop_cont1_input {
   width: 100%;
@@ -379,6 +383,7 @@
 }
 .ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price {
   font-size: 12px;
+  color: #fff;
 }
 .ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent {
   font-size: 10px;
