@@ -4,6 +4,9 @@ import Marquee from "react-fast-marquee";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+  // console.log("====================================");
+  // // console.log("jfjfj");
+  // console.log("====================================");
   return (
     <div className="homeDiv">
       <section className="homeDiv_section1">
