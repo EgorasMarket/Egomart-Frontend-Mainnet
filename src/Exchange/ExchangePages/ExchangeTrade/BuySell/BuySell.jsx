@@ -110,6 +110,9 @@ const BuySell = ({ payload }) => {
       });
     } catch (error) {
       console.log(error, "error");
+      console.log("====================================");
+      console.log("gdgdg");
+      console.log("====================================");
     }
   };
 

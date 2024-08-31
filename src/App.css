@@ -67,8 +67,8 @@ input[type="number"]::-webkit-inner-spin-button {
   width: -webkit-fill-available;
   padding: 0 1em;
 }
-wui-connect-button ~ button {
+/* wui-connect-button ~ button {
   background: #12b66f !important;
   border-radius: 10px !important;
   padding: 10px 20px !important;
-}
+} */
