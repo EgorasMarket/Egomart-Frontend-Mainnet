@@ -59,7 +59,7 @@ const DesktopOrderBook = ({ current }) => {
         amount: 0.5,
       },
     ];
-    
+
     // dispatch(setTrade([]));
   };
   useEffect(() => {

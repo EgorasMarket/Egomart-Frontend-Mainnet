@@ -57,16 +57,17 @@ const Exchange = () => {
     abi,
     eventName: "OrderCanceled",
     onLogs: async (logs) => {
-      console.log(" Order Cancellation triggered", logs);
+      console.log(" Order Cancel triggered", logs);
 
       //prepare payload
       const payload = {
         address: logs[0]?.args?.userAddress,
-        orderId: formatEther(logs[0]?.args?.orderId),
+        orderId: parseInt(formatEther(logs[0]?.args?.orderId)),
         type: logs[0].args.isSale === false ? "BUY" : "SELL",
         price: parseFloat(formatEther(logs[0].args.value)),
         amount: parseFloat(formatEther(logs[0]?.args?.numberOfShares)),
       };
+      console.log("payload to be sent to cancellation", payload);
       dispatch(cancelTrade(payload));
       //find the order and use it to dispatch an update
     },
@@ -80,27 +81,31 @@ const Exchange = () => {
       console.log("Trade Orders Received", logs);
 
       const payload = {
-        createdAt: new Date(),
-        address:
-          logs[0].args.typeOfTrade === 0
-            ? logs[0].args.seller
-            : logs[0].address,
+        createdAt: parseInt(formatEther(logs[0].args.createdAt)),
+        buyer: logs[0].args.buyer,
+        seller: logs[0].args.seller,
+        isMarketOrder: logs[0].args.isMarketOrder,
         ticker: logs[0].args.ticker,
         type: logs[0].args?.typeOfTrade === 0 ? "BUY" : "SELL",
         price: parseFloat(formatEther(logs[0].args.value)),
-        amount: parseFloat(formatEther(logs[0]?.args?.numberOfShares)),
+        amount: parseFloat(formatEther(logs[0]?.args?.numberOfShares)).toFixed(
+          5
+        ),
         orderId: formatEther(logs[0].args.orderId),
       };
 
+      console.log(payload, "to be sent to store ");
+
       //add the order to the order slice
       dispatch(updateTrade(payload));
-      dispatch(changeTradeState(payload));
+      dispatch(cancelTrade(payload));
     },
   });
 
   useEffect(() => {
     fetchTickers();
   }, []);
+
   return (
     <div className="ExchangeDiv">
       <ExchangeHeader />

@@ -92,12 +92,17 @@ const BuySell = ({ payload }) => {
 
   const setOrder = () => {
     // const quantity =
+    // console.log
+
+    // return ;
     const marketType = activeBtn === "sell" ? true : false;
     try {
+      console.log("inside the pool");
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
         functionName: "matchingEngine",
+
         args: [
           payload?.pair,
           [
@@ -105,6 +110,7 @@ const BuySell = ({ payload }) => {
             address,
             parseEther(price).toString(),
             parseEther(amount).toString(),
+            0,
           ],
         ],
       });
@@ -113,6 +119,10 @@ const BuySell = ({ payload }) => {
     }
   };
 
+  useEffect(() => {
+    console.log(isError);
+  }, [hash, loading, isError]);
+
   useWatchContractEvent({
     address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi,
@@ -120,21 +130,16 @@ const BuySell = ({ payload }) => {
     async onLogs(logs) {
       console.log("New Order placed!", logs);
 
-      console.log(formatEther(logs[0].args.value), "formatted value");
-
+      console.log(logs, "formatted value");
       //construct payload and dispatch to store
 
       const data = {
-        id: parseInt(formatEther(logs[0].args?.orderId).toString()),
-        price: parseFloat(formatEther(logs[0].args.value)).toFixed(
-          DECIMAL_COUNT
-        ),
+        id: formatEther(logs[0].args.orderId),
+        price: parseFloat(formatEther(logs[0].args.value)),
         indexId: parseInt(formatEther(logs[0].args?.orderId)),
         ticker: logs[0].args?.ticker,
         type: logs[0].args?.isSale === false ? "BUY" : "SELL",
-        amount: parseFloat(formatEther(logs[0]?.args?.numberOfShares)).toFixed(
-          DECIMAL_COUNT
-        ),
+        amount: parseFloat(formatEther(logs[0]?.args?.numberOfShares)),
         address: logs[0].args?.userAddress,
         status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
         createdAt: new Date(),
@@ -157,8 +162,8 @@ const BuySell = ({ payload }) => {
 
       //after pushing the data to the store,
       //post to backend to correlate record
-      const res = await INSERT_NEW_ORDER(payload);
-      console.log(res, "to backend");
+      // const res = await INSERT_NEW_ORDER(payload);
+      // console.log(res, "to backend");
     },
   });
   return (

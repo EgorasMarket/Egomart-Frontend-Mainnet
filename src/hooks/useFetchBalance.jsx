@@ -23,7 +23,6 @@ const useFetchBalance = (ticker) => {
   if (!ticker) {
     return 0.0;
   }
-  console.log(error, "error here");
   if (loading === false && address) {
     return parseFloat(formatEther(balance));
   }

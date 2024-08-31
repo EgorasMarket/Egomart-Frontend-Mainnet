@@ -36,7 +36,7 @@ const TradeSlice = createSlice({
       const actualTrade = state.trades.find(
         (trade) =>
           trade.address === action.payload.address &&
-          trade?.orderId === action.payload.orderId &&
+          trade?.orderId === parseInt(action.payload.orderId) &&
           trade.type === action.payload.type &&
           trade.price === action.payload.price &&
           trade.amount === action.payload.amount

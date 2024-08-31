@@ -200,7 +200,7 @@ const Deposit = ({ symbol }) => {
 
   useEffect(() => {
     if (depositError === true) {
-      console.log(depositError);
+      console.log(depositError, error);
       toast.error("Error Depositing !", {
         position: "bottom-right",
       });
