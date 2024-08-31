@@ -132,7 +132,7 @@ const Deposit = ({ symbol }) => {
       functionName: "deposit",
       args: [
         selectedAsset.tokenAddress,
-        parseEther(depositAmount.toString(), "wei").toString(),
+        parseEther(depositAmount?.toString(), "wei").toString(),
       ],
     });
   };
@@ -158,11 +158,11 @@ const Deposit = ({ symbol }) => {
       if (!isLoading) {
         console.log(
           "Allowance Data: ",
-          allowanceData.toString(),
+          allowanceData?.toString(),
           "depositAmount:",
           depositAmount
         );
-        if (parseFloat(allowanceData.toString()) < parseFloat(depositAmount)) {
+        if (parseFloat(allowanceData?.toString()) < parseFloat(depositAmount)) {
           setUserAllowance(true);
         } else {
           setUserAllowance(false);

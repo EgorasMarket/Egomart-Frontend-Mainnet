@@ -6,11 +6,20 @@ const ExchangePortfolioSideBar = ({ toggleActiveTab, activeTab }) => {
   return (
     <div className="exPortfolioSideBar">
       <div className="exPortfolioSideBar_div1">
-        <Blockies seed={address} size={8} scale={4} className="blockies_icon" />{" "}
+        <Blockies
+          seed={address ? address : "0xXXXX"}
+          size={8}
+          scale={4}
+          className="blockies_icon"
+        />{" "}
         <div className="exPortfolioSideBar_div1_cont1">
           <div className="exPortfolioSideBar_div1_cont1_title">Account</div>
           <div className="exPortfolioSideBar_div1_cont1_address">
-            {`${address.slice(0, 4)}...${address.slice(37, 42)}`}
+            {address ? (
+              <> {`${address?.slice(0, 4)}...${address?.slice(37, 42)}`}</>
+            ) : (
+              <>0xXXXX</>
+            )}
           </div>
         </div>
       </div>
