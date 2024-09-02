@@ -15,7 +15,7 @@ import Withdraw from "../../../Funding/Withdraw";
 import useFetchBalance from "../../../../hooks/useFetchBalance";
 import { useAccount } from "wagmi";
 export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
-  const balance = useFetchBalance(data.tokenAddress);
+  const balance = useFetchBalance(data?.tokenAddress);
 
   return (
     <div className="exPortoflioOverviewDiv_3_body_cont_div">
@@ -57,6 +57,7 @@ export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
 const Overview = () => {
   const [deposit, setDeposit] = useState(false);
   const [depositUnique, setDepositUnique] = useState(false);
+  const [withdrawUnique, setWithdrawUnique] = useState(false);
   const [withdraw, setWithdraw] = useState(false);
   const [selectedSymbol, setSelectedSymbol] = useState(null);
 
@@ -142,6 +143,13 @@ const Overview = () => {
     setDepositUnique(true);
     setSelectedSymbol(symbol);
   };
+  const closeWithdrawModalUnique = () => {
+    setWithdrawUnique(false);
+  };
+  const openWithdrawModalUnique = (symbol) => {
+    setWithdrawUnique(true);
+    setSelectedSymbol(symbol);
+  };
   const closeWithdrawModal = () => {
     setWithdraw(false);
   };
@@ -170,9 +178,11 @@ const Overview = () => {
       </div>
       <div className="exPortoflioOverviewDiv_2">
         <div className="exPortoflioOverviewDiv_2_div1">
-          <div className="exPortoflioOverviewDiv_2_div1_cont1">Account</div>
-          <div className="exPortoflioOverviewDiv_2_div1_cont2">$0.00</div>
-          <div className="exPortoflioOverviewDiv_2_div1_cont3">$0.00</div>
+          <div className="exPortoflioOverviewDiv_2_div1_area1">
+            <div className="exPortoflioOverviewDiv_2_div1_cont1">Account</div>
+            <div className="exPortoflioOverviewDiv_2_div1_cont2">$0.00</div>
+            <div className="exPortoflioOverviewDiv_2_div1_cont3">$0.00</div>
+          </div>
           <div className="exPortoflioOverviewDiv_2_div1_cont4">
             <div className="exPortoflioOverviewDiv_2_div1_cont4_div1">
               Details
@@ -183,7 +193,7 @@ const Overview = () => {
                   Locked Funds
                 </div>
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div2">
-                  $150.00
+                  $0.0
                 </div>
               </div>
               <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
@@ -191,7 +201,7 @@ const Overview = () => {
                   Funds Available
                 </div>
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div2">
-                  $850.00
+                  $0.0
                 </div>
               </div>
               <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
@@ -199,7 +209,7 @@ const Overview = () => {
                   Total Funds
                 </div>
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div2">
-                  $1,000.00
+                  $0.0
                 </div>
               </div>
             </div>
@@ -209,7 +219,7 @@ const Overview = () => {
                   Account Level
                 </div>
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div2">
-                  level5
+                  level1
                 </div>
               </div>
             </div>
@@ -291,7 +301,9 @@ const Overview = () => {
                 openDepositModal={() => {
                   openDepositModalUnique(data.tokenSymbol);
                 }}
-                openWithdrawModal={openWithdrawModal}
+                openWithdrawModal={() => {
+                  openWithdrawModalUnique(data.tokenSymbol);
+                }}
               />
             ))}
           </div>
@@ -313,6 +325,13 @@ const Overview = () => {
         closeModal={closeWithdrawModal}
       >
         <Withdraw />
+      </Modal>
+      <Modal
+        isOpen={withdrawUnique}
+        title={"Withdraw"}
+        closeModal={closeWithdrawModalUnique}
+      >
+        <Withdraw symbol={selectedSymbol} />
       </Modal>
     </div>
   );
