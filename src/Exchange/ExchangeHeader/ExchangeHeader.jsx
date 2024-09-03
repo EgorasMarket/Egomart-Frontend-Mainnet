@@ -11,6 +11,7 @@ import {
   ArrowUp01Icon,
   InformationCircleIcon,
 } from "hugeicons-react";
+import { Padding } from "@mui/icons-material";
 
 const ExchangeHeader = () => {
   const { tickers } = useSelector((state) => state.pairs);
