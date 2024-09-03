@@ -348,35 +348,46 @@ const Deposit = ({ symbol }) => {
             </div>
           </div>
         </div>
-
-        {userAllowance ? (
-          <button
-            className="depositDiv_cont4_btn"
-            onClick={setAllowance}
-            disabled={allowancePending ? true : false}
-          >
-            {allowancePending ? (
-              <>
-                <ClipLoader color="#6ba28b" size={18} /> Approving...
-              </>
+        {address ? (
+          <>
+            {" "}
+            {userAllowance ? (
+              <button
+                className="depositDiv_cont4_btn"
+                onClick={setAllowance}
+                disabled={allowancePending ? true : false}
+              >
+                {allowancePending ? (
+                  <>
+                    <ClipLoader color="#6ba28b" size={18} /> Approving...
+                  </>
+                ) : (
+                  <>Approve {selectedAsset.tokenSymbol}</>
+                )}
+              </button>
             ) : (
-              <>Approve {selectedAsset.tokenSymbol}</>
+              <button
+                className="depositDiv_cont4_btn"
+                onClick={depositFn}
+                disabled={depositing ? true : false}
+              >
+                {depositing ? (
+                  <>
+                    <ClipLoader color="#6ba28b" size={18} /> Depositing...
+                  </>
+                ) : (
+                  "Deposit"
+                )}
+              </button>
             )}
-          </button>
+          </>
         ) : (
-          <button
-            className="depositDiv_cont4_btn"
-            onClick={depositFn}
-            disabled={depositing ? true : false}
-          >
-            {depositing ? (
-              <>
-                <ClipLoader color="#6ba28b" size={18} /> Depositing...
-              </>
-            ) : (
-              "Deposit"
-            )}
-          </button>
+          <>
+            {" "}
+            <button className="depositDiv_cont4_btn" disabled={true}>
+              Connect Wallet
+            </button>
+          </>
         )}
       </div>
       <ToastContainer />

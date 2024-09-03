@@ -1,1 +1,1 @@
-export const DECIMAL_COUNT = 3;
+export const DECIMAL_COUNT = 4;

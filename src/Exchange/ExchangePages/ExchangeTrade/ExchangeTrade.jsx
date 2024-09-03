@@ -7,6 +7,7 @@ import {
 } from "hugeicons-react";
 import TradingChart from "./TradingChart/TradingChart";
 import BuySell from "./BuySell/BuySell";
+import MarketDepth from "./MarketDepth/MarketDepth";
 import DesktopOrderBook from "./OrderBook/DeskTopOrderBook/DesktopOrderBook";
 import TokenDetail from "./TokenDetail/TokenDetail";
 import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
@@ -283,6 +284,8 @@ const ExchangeTrade = () => {
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTab === "price" ? (
               <TradingChart />
+            ) : activeTab === "depth" ? (
+              <MarketDepth />
             ) : (
               <TokenDetail payload={currentMarket} />
             )}

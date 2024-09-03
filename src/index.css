@@ -1,3 +1,19 @@
 html.theme-dark .group-BfVZxb4b {
   background: #16241f !important;
 }
+
+:root {
+  --w3m-accent: #12b66f !important;
+  --w3m-default: #fff;
+  --wui-color-modal-bg-base: #121313;
+  --wui-color-accent-base-100: var(--w3m-accent);
+  --wui-color-blueberry-100: #12b66f !important;
+  --wui-color-blueberry-090: hsla(231, 76%, 61%, 1) !important;
+  --wui-color-blueberry-080: hsl(230deg 59.01% 23.87%) !important;
+}
+w3m-button button[data-size="sm"] {
+  padding: 10px 20px !important;
+}
+w3m-button w3m-connect-button wui-connect-button button {
+  padding: 10px 20px !important;
+}
