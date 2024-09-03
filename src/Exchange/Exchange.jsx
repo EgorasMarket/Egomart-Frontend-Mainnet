@@ -9,13 +9,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { useWatchContractEvent, useClient } from "wagmi";
 import useSocket from "../hooks/useSocket";
 import { subscribeToEvent } from "../services/socket";
-import { updateOrder } from "../features/orders/OrderSlice";
+import { updateArr, updateOrder } from "../features/orders/OrderSlice";
 
 const Exchange = () => {
-  useSocket();
-
   const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
+
+  subscribeToEvent("/orders-event", (err, payload) => {
+    console.log(payload, "orders event");
+    let arr = [];
+    let newP = {};
+
+    // payload.forEach((log) => {
+    //   newP = {
+    //     id: orders.length + 1,
+    //     price: log.amount,
+    //     indexId: log.index_id,
+    //     ticker: log.ticker,
+    //     type: log.orderType,
+    //     amount: log.numberOfShares,
+    //     address: log.userAddress,
+    //     status: log.state,
+    //     createdAt: log.timePlaced,
+    //     transHash: log.transHash,
+    //   };
+    //   arr.push(newP);
+    //   // dispatch(updateOrder(newP));
+    // });
+    // console.log(arr, "new form");
+    // dispatch(updateArr(newP));
+  });
   const fetchTickers = async () => {
     const res = await GET_TICKER_PAIRS();
     if (!res?.success) return;
@@ -56,26 +79,6 @@ const Exchange = () => {
   //listen for event
   subscribeToEvent("/trade-event", (err, payload) => {
     console.log(payload, "from event");
-  });
-
-  subscribeToEvent("/orders-event", (err, payload) => {
-    console.log(payload, "orders event");
-    // let newP = {};
-    // payload.forEach((log) => {
-    //   newP = {
-    //     id: orders.length + 1,
-    //     price: log.amount,
-    //     indexId: log.index_id,
-    //     ticker: log.ticker,
-    //     type: log.orderType,
-    //     amount: log.numberOfShares,
-    //     address: log.userAddress,
-    //     status: log.state,
-    //     createdAt: log.timePlaced,
-    //     transHash: log.transHash,
-    //   };
-    //   dispatch(updateOrder(newP));
-    // });
   });
 
   return (

@@ -15,11 +15,18 @@ const OrderSlice = createSlice({
       });
       state.orders = newArr;
     },
+    updateArr: (state, action) => {
+      // const newArr = [...action?.payload];
+      // newArr.sort((a, b) => {
+      //   return new Date(b?.createdAt) - new Date(a?.createdAt);
+      // });
+      // state.orders = newArr;
+    },
     updateOrder: (state, action) => {
       state.orders.push(action.payload);
     },
   },
 });
 
-export const { addOrders, updateOrder } = OrderSlice.actions;
+export const { addOrders, updateOrder, updateArr } = OrderSlice.actions;
 export default OrderSlice.reducer;
