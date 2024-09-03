@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useWatchContractEvent, useClient } from "wagmi";
 import useSocket from "../hooks/useSocket";
 import { subscribeToEvent } from "../services/socket";
+import { updateOrder } from "../features/orders/OrderSlice";
 
 const Exchange = () => {
   const { orders } = useSelector((state) => state.orders);
@@ -58,6 +59,24 @@ const Exchange = () => {
 
   subscribeToEvent("/orders-event", (err, payload) => {
     console.log(payload, "orders event");
+    let newP = {};
+    payload.forEach((log) => {
+      newP = {
+        id: orders.length + 1,
+
+        price: log.amount,
+        indexId: log.index_id,
+        ticker: log.ticker,
+        type: log.orderType,
+        amount: log.numberOfShares,
+        address: log.userAddress,
+        status: log.state,
+        createdAt: log.timePlaced,
+        transHash: log.transHash,
+      };
+      //add the order to the order slice
+      dispatch(updateOrder(newP));
+    });
   });
 
   return (
