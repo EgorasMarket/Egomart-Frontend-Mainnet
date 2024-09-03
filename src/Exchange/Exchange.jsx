@@ -5,18 +5,13 @@ import ExchangeFooter from "./ExchangeFooter/ExchangeFooter";
 import { Outlet } from "react-router-dom";
 import { GET_TICKER_PAIRS } from "../services/trade.services";
 import { setTickers } from "../features/PairsSlice";
-import { useDispatch } from "react-redux";
-import { useWatchContractEvent } from "wagmi";
+import { useDispatch, useSelector } from "react-redux";
+import { useWatchContractEvent, useClient } from "wagmi";
+import useSocket from "../hooks/useSocket";
+import { subscribeToEvent } from "../services/socket";
 
-import abi from "../web3/contracts/Egomart.json";
-import {
-  cancelTrade,
-  changeTradeState,
-  setTrade,
-  updateTrade,
-} from "../features/trades/TradeSlice";
-import { formatEther } from "ethers";
 const Exchange = () => {
+  const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
   const fetchTickers = async () => {
     const res = await GET_TICKER_PAIRS();
@@ -51,60 +46,19 @@ const Exchange = () => {
     await dispatch(setTickers(array));
   };
 
-  //listen for successful trade events
-  useWatchContractEvent({
-    address: import.meta.env.VITE_CONTRACT_ADDRESS,
-    abi,
-    eventName: "OrderCanceled",
-    onLogs: async (logs) => {
-      console.log(" Order Cancel triggered", logs);
-
-      //prepare payload
-      const payload = {
-        address: logs[0]?.args?.userAddress,
-        orderId: parseInt(formatEther(logs[0]?.args?.orderId)),
-        type: logs[0].args.isSale === false ? "BUY" : "SELL",
-        price: parseFloat(formatEther(logs[0].args.value)),
-        amount: parseFloat(formatEther(logs[0]?.args?.numberOfShares)),
-      };
-      console.log("payload to be sent to cancellation", payload);
-      dispatch(cancelTrade(payload));
-      //find the order and use it to dispatch an update
-    },
-  });
-
-  useWatchContractEvent({
-    address: import.meta.env.VITE_CONTRACT_ADDRESS,
-    abi,
-    eventName: "Trade",
-    onLogs: async (logs) => {
-      console.log("Trade Orders Received", logs);
-
-      const payload = {
-        createdAt: parseInt(formatEther(logs[0].args.createdAt)),
-        buyer: logs[0].args.buyer,
-        seller: logs[0].args.seller,
-        isMarketOrder: logs[0].args.isMarketOrder,
-        ticker: logs[0].args.ticker,
-        type: logs[0].args?.typeOfTrade === 0 ? "BUY" : "SELL",
-        price: parseFloat(formatEther(logs[0].args.value)),
-        amount: parseFloat(formatEther(logs[0]?.args?.numberOfShares)).toFixed(
-          5
-        ),
-        orderId: formatEther(logs[0].args.orderId),
-      };
-
-      console.log(payload, "to be sent to store ");
-
-      //add the order to the order slice
-      dispatch(updateTrade(payload));
-      dispatch(cancelTrade(payload));
-    },
-  });
-
+  useSocket();
   useEffect(() => {
     fetchTickers();
   }, []);
+
+  //listen for event
+  subscribeToEvent("/trade-event", (err, payload) => {
+    console.log(payload, "from event");
+  });
+
+  subscribeToEvent("/orders-event", (err, payload) => {
+    console.log(payload, "orders event");
+  });
 
   return (
     <div className="ExchangeDiv">

@@ -20,11 +20,16 @@ import ExchangeMarket from "./Exchange/ExchangePages/ExchangeMarket/ExchangeMark
 import ExchangeTrade from "./Exchange/ExchangePages/ExchangeTrade/ExchangeTrade";
 import ExchangePortfolio from "./Exchange/ExchangePages/ExchangePortfolio/ExchangePortfolio";
 import Overview from "./Exchange/ExchangePages/ExchangePortfolio/Pages/Overview";
+import Home from "./Pages/Home/Home";
+import useSocket from "./hooks/useSocket.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<RootRoute />}></Route>
+      <Route path="/" element={<RootRoute />}>
+        {" "}
+        <Route path="" element={<Home />} />
+      </Route>
       <Route path="/app" element={<Exchange />}>
         <Route path="market" element={<ExchangeMarket />} />
         <Route path="portfolio" element={<ExchangePortfolio />}>

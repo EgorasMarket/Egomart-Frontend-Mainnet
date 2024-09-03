@@ -44,7 +44,7 @@ const OpenOrders = ({ ticker }) => {
         abi: contractAbi,
         functionName: "cancelOrder",
         args: [
-          data.indexId,
+          parseEther(data.indexId),
           data.ticker,
           parseEther(data?.price).toString(),
           data.type === "BUY" ? 0 : 1,
