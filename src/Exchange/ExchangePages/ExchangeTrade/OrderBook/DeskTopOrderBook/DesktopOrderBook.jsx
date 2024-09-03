@@ -363,17 +363,18 @@ const DesktopOrderBook = ({ current }) => {
                       key={data.id}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data?.price).toFixed(2)}
+                        {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data.amount)}
+                        {parseFloat(data.amount).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#16b979" }}
                       >
-                        {parseFloat(data?.amount).toFixed(DECIMAL_COUNT) *
-                          parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
+                        {parseFloat(
+                          parseFloat(data?.amount) * parseFloat(data?.price)
+                        ).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div
                         style={{ width: `${widthPercentage}%` }}
@@ -399,18 +400,19 @@ const DesktopOrderBook = ({ current }) => {
                       key={data.id}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data?.price).toFixed(2)}
+                        {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {/* {parseFloat(data?.amount).toFixed(DECIMAL_COUNT)} */}
-                        {parseFloat(data?.amount)}
+                        {parseFloat(data?.amount).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#e74c3c" }}
                       >
-                        {parseFloat(data?.amount).toFixed(DECIMAL_COUNT) *
-                          parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
+                        {parseFloat(
+                          parseFloat(data?.amount) * parseFloat(data?.price)
+                        ).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div
                         style={{ width: `${widthPercentage}%` }}
@@ -443,17 +445,18 @@ const DesktopOrderBook = ({ current }) => {
                       key={data.id}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data.amount).toFixed(2) *
-                          parseFloat(data.price).toFixed(2)}
+                        {parseFloat(
+                          parseFloat(data.amount) * parseFloat(data.price)
+                        ).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data.amount)}
+                        {parseFloat(data.amount).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#e74c3c" }}
                       >
-                        {parseFloat(data.price).toFixed(2)}
+                        {parseFloat(data.price).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div
                         style={{ width: `${widthPercentage}%` }}
@@ -481,17 +484,18 @@ const DesktopOrderBook = ({ current }) => {
                       key={data.id}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data.amount).toFixed(2) *
-                          parseFloat(data.price).toFixed(2)}
+                        {parseFloat(
+                          parseFloat(data.amount) * parseFloat(data.price)
+                        ).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data.amount)}
+                        {parseFloat(data.amount).toFixed(DECIMAL_COUNT)}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#16b979" }}
                       >
-                        {parseFloat(data.price).toFixed(2)}
+                        {parseFloat(data.price).toFixed(DECIMAL_COUNT)}
                       </div>
 
                       <div

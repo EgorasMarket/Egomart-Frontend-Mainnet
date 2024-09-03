@@ -158,6 +158,17 @@ svg.sc-eqUAAy.cMqsAc.mx-icon.svg-icon.orderbook_iconBuySell__HkmTg {
   position: relative;
   z-index: 1;
   color: #d3e5dd;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+.walletSelectModalDiv_body_amount_display_cont1:nth-child(2) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.walletSelectModalDiv_body_amount_display_cont1:first-child {
+  justify-content: flex-end;
 }
 .walletSelectModalDiv_body_amount_display_body_display {
   display: flex;

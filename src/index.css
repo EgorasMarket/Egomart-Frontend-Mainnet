@@ -14,3 +14,6 @@ html.theme-dark .group-BfVZxb4b {
 w3m-button button[data-size="sm"] {
   padding: 10px 20px !important;
 }
+w3m-button w3m-connect-button wui-connect-button button {
+  padding: 10px 20px !important;
+}
