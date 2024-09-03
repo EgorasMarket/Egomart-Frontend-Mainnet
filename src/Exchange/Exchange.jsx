@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import ExchangeHeader from "./ExchangeHeader/ExchangeHeader";
 import ExchangeFooter from "./ExchangeFooter/ExchangeFooter";
@@ -12,6 +12,8 @@ import { subscribeToEvent } from "../services/socket";
 import { updateOrder } from "../features/orders/OrderSlice";
 
 const Exchange = () => {
+  useSocket();
+
   const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
   const fetchTickers = async () => {
@@ -47,7 +49,6 @@ const Exchange = () => {
     await dispatch(setTickers(array));
   };
 
-  useSocket();
   useEffect(() => {
     fetchTickers();
   }, []);
@@ -59,24 +60,22 @@ const Exchange = () => {
 
   subscribeToEvent("/orders-event", (err, payload) => {
     console.log(payload, "orders event");
-    let newP = {};
-    payload.forEach((log) => {
-      newP = {
-        id: orders.length + 1,
-
-        price: log.amount,
-        indexId: log.index_id,
-        ticker: log.ticker,
-        type: log.orderType,
-        amount: log.numberOfShares,
-        address: log.userAddress,
-        status: log.state,
-        createdAt: log.timePlaced,
-        transHash: log.transHash,
-      };
-      //add the order to the order slice
-      dispatch(updateOrder(newP));
-    });
+    // let newP = {};
+    // payload.forEach((log) => {
+    //   newP = {
+    //     id: orders.length + 1,
+    //     price: log.amount,
+    //     indexId: log.index_id,
+    //     ticker: log.ticker,
+    //     type: log.orderType,
+    //     amount: log.numberOfShares,
+    //     address: log.userAddress,
+    //     status: log.state,
+    //     createdAt: log.timePlaced,
+    //     transHash: log.transHash,
+    //   };
+    //   dispatch(updateOrder(newP));
+    // });
   });
 
   return (

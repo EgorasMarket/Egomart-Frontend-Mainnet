@@ -19,7 +19,7 @@ export const disconnectSocket = () => {
 export const subscribeToEvent = (event, cb) => {
   if (!socket) return true;
   socket.on(event, (msg) => {
-    // console.log("Websocket event received!", event, msg);
+    console.log("Websocket event received!", event, msg);
     return cb(null, msg);
   });
 };

@@ -121,9 +121,7 @@ const Exchange = () => {
     eventName: "OrderPlaced",
     async onLogs(logs) {
       console.log("New Order placed!", logs);
-
       //loop through the array of logs
-
       logs.forEach((log) => {
         const data = {
           id: orders.length + 1,
