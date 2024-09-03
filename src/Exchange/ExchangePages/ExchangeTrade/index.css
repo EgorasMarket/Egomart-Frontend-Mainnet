@@ -303,6 +303,7 @@
   flex-direction: column;
   height: 100vh;
   left: 0;
+  z-index: 1;
 }
 .ExchangeTrade_div1_cont1_markets_drop_cont1 {
   margin-bottom: 1em;
@@ -392,4 +393,8 @@
 .ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent_loss {
   font-size: 10px;
   color: #cc5353;
+}
+.tokenDetailDiv_cont1_links_link1_icon {
+  margin-left: 5px;
+  width: 15px;
 }
