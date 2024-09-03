@@ -93,6 +93,7 @@ const BuySell = ({ payload }) => {
   };
 
   const setOrder = () => {
+    console.log("heeeee");
     // const quantity =
     // console.log
 
@@ -125,8 +126,8 @@ const BuySell = ({ payload }) => {
   };
 
   useEffect(() => {
-    console.log(isError);
-  }, [hash, loading, isError]);
+    console.log(error, "error");
+  }, [hash, loading, error]);
 
   return (
     <div>
@@ -324,7 +325,7 @@ const BuySell = ({ payload }) => {
                       className="ProductDetailPage_div_body_div2_div7_btn"
                     >
                       Buy
-                      {hash && <p> laoding...</p>}
+                      {/* {hash && <p> laoding...</p>} */}
                     </button>
                   </>
                 )}
