@@ -76,14 +76,6 @@ const Deposit = ({ symbol }) => {
       selectedAsset.tokenAddress,
       import.meta.env.VITE_CONTRACT_ADDRESS
     );
-  //   useWatchContractEvent({
-  //     address: import.meta.env.VITE_CONTRACT_ADDRESS,
-  //     abi,
-  //     eventName: "Deposit",
-  //     onLogs(logs) {
-  //       console.log("New Deposit!", logs);
-  //     },
-  //   });
 
   const toggleAssetList = () => {
     setAssetList(!assetList);
@@ -103,6 +95,7 @@ const Deposit = ({ symbol }) => {
   });
 
   useEffect(() => {
+    // setAllowance();
     if (address) {
       if (balancePending) {
         console.log("fetching balance...");
@@ -200,7 +193,7 @@ const Deposit = ({ symbol }) => {
 
   useEffect(() => {
     if (depositError === true) {
-      console.log(depositError);
+      console.log(depositError, error);
       toast.error("Error Depositing !", {
         position: "bottom-right",
       });

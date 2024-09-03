@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DECIMAL_COUNT } from "../../../../constants/config";
 import { updateOrder } from "../../../../features/orders/OrderSlice";
 const BuySell = ({ payload }) => {
+  const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
   const {
     data: hash,
@@ -35,6 +36,7 @@ const BuySell = ({ payload }) => {
     error,
     writeContractAsync,
   } = useWriteContract();
+
   const { address } = useAccount();
 
   const [selectedValue, setSelectedValue] = useState("Limit");
@@ -92,12 +94,17 @@ const BuySell = ({ payload }) => {
 
   const setOrder = () => {
     // const quantity =
+    // console.log
+
+    // return ;
     const marketType = activeBtn === "sell" ? true : false;
     try {
+      console.log("inside the pool");
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
         functionName: "matchingEngine",
+
         args: [
           payload?.pair,
           [
@@ -105,6 +112,7 @@ const BuySell = ({ payload }) => {
             address,
             parseEther(price).toString(),
             parseEther(amount).toString(),
+            0,
           ],
         ],
       });
@@ -116,54 +124,10 @@ const BuySell = ({ payload }) => {
     }
   };
 
-  useWatchContractEvent({
-    address: import.meta.env.VITE_CONTRACT_ADDRESS,
-    abi,
-    eventName: "OrderPlaced",
-    async onLogs(logs) {
-      console.log("New Order placed!", logs);
+  useEffect(() => {
+    console.log(isError);
+  }, [hash, loading, isError]);
 
-      console.log(formatEther(logs[0].args.value), "formatted value");
-
-      //construct payload and dispatch to store
-
-      const data = {
-        id: parseInt(formatEther(logs[0].args?.orderId).toString()),
-        price: parseFloat(formatEther(logs[0].args.value)).toFixed(
-          DECIMAL_COUNT
-        ),
-        indexId: parseInt(formatEther(logs[0].args?.orderId)),
-        ticker: logs[0].args?.ticker,
-        type: logs[0].args?.isSale === false ? "BUY" : "SELL",
-        amount: parseFloat(formatEther(logs[0]?.args?.numberOfShares)).toFixed(
-          DECIMAL_COUNT
-        ),
-        address: logs[0].args?.userAddress,
-        status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-        createdAt: new Date(),
-      };
-      console.log(data, "prepared response");
-
-      dispatch(updateOrder(data));
-
-      let payload = {
-        userAddress: data.address,
-        orderType: data.type,
-        amount: data?.price,
-        numberOfShares: data.amount,
-        transHash: logs[0].transactionHash,
-        time: logs[0].args?.time.toString().split("n")[0],
-        ticker: data?.ticker,
-        orderId: data?.indexId,
-      };
-      console.log(payload, "to be sent to backend");
-
-      //after pushing the data to the store,
-      //post to backend to correlate record
-      const res = await INSERT_NEW_ORDER(payload);
-      console.log(res, "to backend");
-    },
-  });
   return (
     <div>
       <div className="buy_modal_div_div1_cont1">

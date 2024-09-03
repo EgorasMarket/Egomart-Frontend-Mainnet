@@ -16,7 +16,7 @@ import { Padding } from "@mui/icons-material";
 const ExchangeHeader = () => {
   const { tickers } = useSelector((state) => state.pairs);
   const [marketsDrop, setMarketsDrop] = useState(false);
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address, isConnecting, isDisconnected } = useAccount({});
   const { open, close } = useWeb3Modal();
   const toggleMarketsDropDown = () => {
     setMarketsDrop(!marketsDrop);

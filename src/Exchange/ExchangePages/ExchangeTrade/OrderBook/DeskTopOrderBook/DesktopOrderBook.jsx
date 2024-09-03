@@ -30,9 +30,10 @@ const DesktopOrderBook = ({ current }) => {
 
     let data = {};
     const arr = [];
-    res?.data.forEach((order) => {
+    let count = 0;
+    res?.data.forEach((order, position) => {
       data = {
-        id: order?.id,
+        id: position + 1,
         price: order?.amount,
         indexId: order.index_id,
         ticker: order?.ticker,
@@ -43,6 +44,7 @@ const DesktopOrderBook = ({ current }) => {
         createdAt: order?.createdAt,
       };
       arr.push(data);
+      count++;
     });
     console.log(res, "response from backend");
     dispatch(addOrders(arr));
@@ -59,7 +61,7 @@ const DesktopOrderBook = ({ current }) => {
         amount: 0.5,
       },
     ];
-    
+
     // dispatch(setTrade([]));
   };
   useEffect(() => {
