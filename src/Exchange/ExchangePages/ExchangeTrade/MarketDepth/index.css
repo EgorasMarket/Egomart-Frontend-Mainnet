@@ -61,9 +61,28 @@ span.intro_span {
   font-weight: 400;
   margin-right: 5px;
 }
-
+.marketDepthDiv_depth1_mobile {
+  display: none;
+}
 @media (max-width: 990px) {
   .marketDepthDiv {
     height: 100%;
+  }
+  .marketDepthDiv_depth1 {
+    display: none;
+  }
+  .marketDepthDiv_depth2 {
+    display: none;
+  }
+  .marketDepthDiv_depth1_mobile {
+    height: 100%;
+    width: 100%;
+    display: block;
+  }
+  .marketDepthDiv_depth2_mobile {
+    height: 100%;
+    width: 100%;
+    margin-left: 5px;
+    display: block;
   }
 }

@@ -73,3 +73,8 @@
   border: solid 1px #3d534c;
   padding-top: 0;
 }
+@media (max-width: 990px) {
+  .exchangeHeader_div1_links {
+    display: none;
+  }
+}
