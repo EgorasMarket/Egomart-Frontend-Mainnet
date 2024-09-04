@@ -38,6 +38,7 @@ const ExchangeTrade = () => {
   const [deposit, setDeposit] = useState(false);
   const [withdraw, setWithdraw] = useState(false);
   const [mobBuySellModal, setMobBuySellModal] = useState(false);
+  const [activeBtn, setActiveBtn] = useState("buy");
   console.log(ticker);
   const splitTicker = ticker.split("-");
   console.log(splitTicker[0]);
@@ -66,6 +67,9 @@ const ExchangeTrade = () => {
   //     ],
   //   });
   // };
+  const toggleActiveBtn = async (e) => {
+    setActiveBtn(e.currentTarget.id);
+  };
   const toggleMarketsDropDown = () => {
     setMarketsDrop(!marketsDrop);
   };
@@ -385,7 +389,11 @@ const ExchangeTrade = () => {
           <DesktopOrderBook current={currentMarket} />
         </div>
         <div className="ExchangeTrade_div2_cont3">
-          <BuySell payload={currentMarket} />
+          <BuySell
+            payload={currentMarket}
+            activeBtn={activeBtn}
+            toggleActiveBtn={toggleActiveBtn}
+          />
         </div>
       </div>
       <div className="ExchangeTrade_div3">
@@ -490,13 +498,19 @@ const ExchangeTrade = () => {
       <div className="mobileBuySellBtnsDiv">
         <button
           className="mobileBuySellBtnsDiv_buy"
-          onClick={openMobBuySellModal}
+          onClick={() => {
+            openMobBuySellModal();
+            setActiveBtn("buy");
+          }}
         >
           Buy
         </button>
         <button
           className="mobileBuySellBtnsDiv_sell"
-          onClick={openMobBuySellModal}
+          onClick={() => {
+            openMobBuySellModal();
+            setActiveBtn("sell");
+          }}
         >
           Sell
         </button>
@@ -522,7 +536,11 @@ const ExchangeTrade = () => {
         <div className="mobile_trade_">
           <div className="mobile_trade__div1">
             <div className="mobile_trade__div1_cont1">
-              <BuySell payload={currentMarket} />{" "}
+              <BuySell
+                payload={currentMarket}
+                activeBtn={activeBtn}
+                toggleActiveBtn={toggleActiveBtn}
+              />{" "}
             </div>
             <div className="mobile_trade__div1_cont2">
               <DesktopOrderBook current={currentMarket} />
