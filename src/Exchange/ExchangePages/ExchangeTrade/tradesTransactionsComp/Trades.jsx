@@ -13,8 +13,7 @@ const Trades = ({ ticker }) => {
     const arr = orders.filter(
       (order) =>
         order.address === address &&
-        order.ticker === ticker &&
-        order?.status === "COMPLETED"
+        order.ticker === ticker && order?.status === "COMPLETED"
     );
     setOrders(arr);
     //filter the records that is native for just user wallet

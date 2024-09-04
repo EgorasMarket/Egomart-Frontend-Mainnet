@@ -17,7 +17,7 @@ import {
 } from "../features/trades/TradeSlice";
 import { formatEther } from "ethers";
 import { updateOrder } from "../features/orders/OrderSlice";
-const Exchange = () => {
+const Exchange2 = () => {
   const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
   const fetchTickers = async () => {
@@ -175,4 +175,4 @@ const Exchange = () => {
   );
 };
 
-export default Exchange;
+export default Exchange2;
