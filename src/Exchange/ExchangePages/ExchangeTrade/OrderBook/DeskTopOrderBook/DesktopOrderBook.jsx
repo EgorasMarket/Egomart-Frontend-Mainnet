@@ -120,7 +120,7 @@ const DesktopOrderBook = ({ current }) => {
   );
 
   return (
-    <div>
+    <>
       <div className="ExchangeTrade_div2_cont1_header">
         <div className="ExchangeTrade_div2_cont1_header_contb">
           <div
@@ -179,11 +179,11 @@ const DesktopOrderBook = ({ current }) => {
                       color: data?.type === "SELL" ? "#ff445d" : "#12b66f",
                     }}
                   >
-                    {parseFloat(data?.price).toFixed(2)}
+                    {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
                   </div>
 
                   <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont3">
-                    {data?.amount}
+                    {parseFloat(data?.amount).toFixed(DECIMAL_COUNT)}
                   </div>
                 </div>
               );
@@ -510,7 +510,7 @@ const DesktopOrderBook = ({ current }) => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

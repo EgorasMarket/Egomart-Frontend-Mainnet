@@ -21,3 +21,49 @@
   height: 100%;
   width: 100%;
 }
+.custom-tooltip {
+  width: 120px;
+  background: #000000;
+  padding: 1em;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  border: solid 1px #33413c;
+}
+p.label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+span.label_span {
+  font-size: 12px;
+  font-weight: 500;
+  color: #ff535b;
+  margin-right: 3px;
+}
+span.label_span2 {
+  font-size: 12px;
+  font-weight: 500;
+  color: #22ad62;
+  margin-right: 3px;
+}
+p.intro {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+span.intro_span {
+  font-size: 12px;
+  color: #dedede;
+  font-weight: 400;
+  margin-right: 5px;
+}
+
+@media (max-width: 990px) {
+  .marketDepthDiv {
+    height: 100%;
+  }
+}

@@ -93,7 +93,48 @@ const MarketDepth = () => {
   );
 
   console.log(sortedSellOffers);
+  const CustomTooltip = ({ payload, label, active }) => {
+    if (active && payload && payload.length) {
+      console.log(payload, label, active);
+      return (
+        <div className="custom-tooltip">
+          <p className="label">
+            {" "}
+            <span className="label_span">Selling Price:</span>
+            {payload[0].payload.price}
+          </p>
+          <p className="intro">
+            {" "}
+            <span className="intro_span">Total Amount:</span>
+            {payload[0].value}
+          </p>
+        </div>
+      );
+    }
 
+    return null;
+  };
+  const CustomTooltip2 = ({ payload, label, active }) => {
+    if (active && payload && payload.length) {
+      console.log(payload, label, active);
+      return (
+        <div className="custom-tooltip">
+          <p className="label">
+            {" "}
+            <span className="label_span2">Buying Price:</span>
+            {payload[0].payload.price}
+          </p>
+          <p className="intro">
+            {" "}
+            <span className="intro_span">Total Amount:</span>
+            {payload[0].value}
+          </p>
+        </div>
+      );
+    }
+
+    return null;
+  };
   return (
     <div className="marketDepthDiv">
       <div className="marketDepthDiv_area">
@@ -118,7 +159,7 @@ const MarketDepth = () => {
               </defs>
               {/* <CartesianGrid strokeDasharray="3 3" stroke="#fff" opacity={0.2} /> */}
               {/* <XAxis dataKey="price" stroke="0" /> */}
-              <Tooltip />
+              <Tooltip content={<CustomTooltip2 />} />
               <Area
                 type="monotone"
                 dataKey="amount"
@@ -151,7 +192,7 @@ const MarketDepth = () => {
               </defs>
               {/* <CartesianGrid strokeDasharray="3 3" stroke="#fff" opacity={0.2} /> */}
               {/* <XAxis dataKey="price" stroke="0" /> */}
-              <Tooltip />
+              <Tooltip content={<CustomTooltip />} />
               <Area
                 type="monotone"
                 dataKey="amount"

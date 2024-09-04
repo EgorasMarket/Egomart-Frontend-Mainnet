@@ -365,3 +365,107 @@ span.ant-slider-mark-text {
   font-weight: 600;
   cursor: pointer;
 }
+
+@media (max-width: 990px) {
+  .mobile_trade_ {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+  .mobile_trade__div1 {
+    display: flex;
+  }
+  .mobile_trade__div1_cont1 {
+    width: 100%;
+  }
+  .mobile_trade__div1_cont2 {
+    width: 60%;
+    margin-left: 1em;
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_header_tab
+    .walletSelectModalDiv_body_header_tab_cont:last-child {
+    display: none;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_amount_display_body_display
+    .walletSelectModalDiv_body_amount_display_cont1:first-child {
+    display: none;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_amount_display_body_display
+    .walletSelectModalDiv_body_amount_display_cont1:nth-child(2) {
+    justify-content: flex-start;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_amount_display_body_display_full
+    .walletSelectModalDiv_body_amount_display_cont1:first-child {
+    display: none;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_amount_display_body_display_full
+    .walletSelectModalDiv_body_amount_display_cont1 {
+    position: relative;
+    z-index: 1;
+    color: #d3e5dd;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_amount_display_body_display_full
+    .walletSelectModalDiv_body_amount_display_cont1:nth-child(2) {
+    justify-content: flex-start;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_amount_display_body_display
+    .walletSelectModalDiv_body_amount_display_cont1 {
+    justify-content: flex-end;
+  }
+  .mobile_trade__div1_cont2 .walletSelectModalDiv_body_header_tab {
+    flex-direction: row-reverse;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_header_tab
+    .walletSelectModalDiv_body_header_tab_cont:nth-child(2) {
+    text-align: left !important;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_header_tab
+    .walletSelectModalDiv_body_header_tab_cont {
+    text-align: end;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_header
+    .walletSelectModalDiv_body_header_cont1 {
+    margin-right: 5px;
+    margin-left: 0;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_header
+    .walletSelectModalDiv_body_header_cont1_active {
+    margin-right: 5px;
+    margin-left: 0;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_amount_display_body_display {
+    height: 125px;
+  }
+  .mobile_trade__div1_cont2
+    .walletSelectModalDiv_body_amount_display_body_display_full {
+    height: 250px;
+  }
+  .mobile_trade__div2 {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    padding-top: 1em;
+  }
+  .mobile_trade__div2 .ExchangeTrade_div2_cont1_header_mobile {
+    margin-bottom: 10px;
+    display: flex;
+    width: -webkit-fill-available;
+  }
+}

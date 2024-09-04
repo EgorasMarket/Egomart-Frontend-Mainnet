@@ -1,0 +1,127 @@
+.customButtomSheetDiv_open {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background: #00000075;
+  width: 100vw;
+
+  padding-top: 0em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* transition: z-index 2s ease-in-out, visibility 1s ease-in-out; */
+  z-index: 100000;
+  visibility: visible;
+  /* transform: translateY(0vh); */
+}
+.customButtomSheetDiv_hidden {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background: #00000075;
+  width: 100vw;
+  padding-top: 0em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: z-index 1s ease-in-out, visibility 1s ease-in-out;
+  z-index: -100000;
+  visibility: hidden;
+  /* transform: translateY(100vh); */
+}
+
+.customButtomSheetDiv_container_full {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  opacity: 0;
+  transform: translateY(100%);
+}
+.customButtomSheetDiv_open .customButtomSheetDiv_container_full {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.customButtomSheetDiv_hidden .customButtomSheetDiv_container_full {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.customButtomSheetDiv_container_content {
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  position: relative;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  opacity: 0;
+  transform: translateY(100%);
+}
+.customButtomSheetDiv_open .customButtomSheetDiv_container_content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.customButtomSheetDiv_hidden .customButtomSheetDiv_container_content {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.customButtomSheetDiv_container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.customButtomSheetDiv_open .customButtomSheetDiv_container {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.customButtomSheetDiv_hidden .customButtomSheetDiv_container {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.customButtomSheetDiv_container_head {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.customButtomSheetDiv_container_body {
+  height: 100%;
+  background: #151e1b;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  position: relative;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+.customButtomSheetDiv_container_body_div1 {
+  display: flex;
+  align-items: center;
+  padding: 0.5em 1em;
+  padding-top: 1em;
+  position: sticky;
+  top: 0;
+  background: #151e1b;
+  z-index: 10;
+  justify-content: space-between;
+}
+.customButtomSheetDiv_container_body_div1_txt {
+  font-weight: 600;
+  font-size: 14px;
+}
+.customButtomSheetDiv_container_body_div1_iocn {
+  display: flex;
+  align-items: center;
+}
+.customButtomSheetDiv_container_body_div2 {
+  height: -webkit-fill-available;
+}
