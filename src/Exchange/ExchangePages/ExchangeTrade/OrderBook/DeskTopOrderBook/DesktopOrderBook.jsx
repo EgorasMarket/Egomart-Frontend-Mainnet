@@ -351,7 +351,7 @@ const DesktopOrderBook = ({ current }) => {
                 <span className="executed_price_div_span">≈ $1,000</span>
               </div>
               <div className="walletSelectModalDiv_body_amount_display_body_display_full">
-                {sortedGroupedBuyOffersArr.map((data) => {
+                {sortedGroupedBuyOffersArr.map((data, index) => {
                   // Calculate the width percentage
 
                   const widthPercentage =
@@ -360,7 +360,7 @@ const DesktopOrderBook = ({ current }) => {
                     <div
                       className="walletSelectModalDiv_body_amount_display"
                       id={data.id}
-                      key={data.id}
+                      key={index}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
@@ -388,7 +388,7 @@ const DesktopOrderBook = ({ current }) => {
           ) : showOrders === "Sell" ? (
             <>
               <div className="walletSelectModalDiv_body_amount_display_body_display_full">
-                {sortedGroupedSellOffersArr.map((data) => {
+                {sortedGroupedSellOffersArr.map((data, index) => {
                   // Calculate the width percentage
                   const widthPercentage =
                     (parseInt(data?.amount) / maxSellAmount) * 100;
@@ -397,7 +397,7 @@ const DesktopOrderBook = ({ current }) => {
                     <div
                       className="walletSelectModalDiv_body_amount_display"
                       id={data.id}
-                      key={data.id}
+                      key={index}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
@@ -431,7 +431,7 @@ const DesktopOrderBook = ({ current }) => {
             <>
               {" "}
               <div className="walletSelectModalDiv_body_amount_display_body_display">
-                {sortedGroupedSellOffersArr.map((data) => {
+                {sortedGroupedSellOffersArr.map((data, index) => {
                   // Calculate the width percentage
                   const widthPercentage =
                     (parseInt(parseFloat(data.amount).toFixed(2)) /
@@ -442,7 +442,7 @@ const DesktopOrderBook = ({ current }) => {
                     <div
                       className="walletSelectModalDiv_body_amount_display"
                       id={data.id}
-                      key={data.id}
+                      key={index}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {parseFloat(
@@ -471,7 +471,7 @@ const DesktopOrderBook = ({ current }) => {
                 <span className="executed_price_div_span">≈ $1,000</span>
               </div>
               <div className="walletSelectModalDiv_body_amount_display_body_display">
-                {sortedGroupedBuyOffersArr.map((data) => {
+                {sortedGroupedBuyOffersArr.map((data, index) => {
                   // Calculate the width percentage
                   const widthPercentage =
                     (parseInt(parseFloat(data.amount).toFixed(2)) / maxAmount) *
@@ -481,7 +481,7 @@ const DesktopOrderBook = ({ current }) => {
                     <div
                       className="walletSelectModalDiv_body_amount_display"
                       id={data.id}
-                      key={data.id}
+                      key={index}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {parseFloat(

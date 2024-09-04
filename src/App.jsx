@@ -1,6 +1,7 @@
 import { Outlet, Route, Router, Routes } from "react-router-dom";
 import "./App.css";
 import Web3ModalProvider from "./constants/Web3ModalProvider";
+import useSocket from "./hooks/useSocket";
 
 function App() {
   return (

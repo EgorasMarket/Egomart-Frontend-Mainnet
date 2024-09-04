@@ -5,8 +5,10 @@ let socket;
 
 export const initiateSocket = () => {
   try {
-    socket = io(BASE_URL, {});
-    console.log(socket, "Connecting socket...");
+    if (!socket) {
+      socket = io(BASE_URL, {});
+      console.log(socket, "Web socket connected...");
+    }
   } catch (err) {
     console.log(`An error occured ------ ${err}`);
   }
