@@ -68,15 +68,27 @@ const Orders = ({ ticker }) => {
               </div>
               <div className="TradesDiv_body_cont1">LIMIT</div>
               <div className="TradesDiv_body_cont1">
-                {parseFloat(data.price).toFixed(2)}
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(data.price).toFixed(4)}
+                  <span className="TradesDiv_body_cont1_span">EGOD</span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {parseFloat(data.amount).toFixed(2)}{" "}
-                <span className="TradesDiv_body_cont1_span">EGOD</span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(data?.amount).toFixed(4)}{" "}
+                  <span className="TradesDiv_body_cont1_span">
+                    {ticker.split("-")[0]}
+                  </span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {data.total}{" "}
-                <span className="TradesDiv_body_cont1_span">{data.token}</span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(
+                    parseFloat(data?.amount).toFixed(4) *
+                      parseFloat(data.price).toFixed(4)
+                  ).toFixed(4)}{" "}
+                  <span className="TradesDiv_body_cont1_span">EGOD</span>
+                </div>
               </div>
 
               <div className="TradesDiv_body_cont1_last">
