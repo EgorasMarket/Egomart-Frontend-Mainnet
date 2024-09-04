@@ -1,6 +1,7 @@
 .ExchangeTrade {
   display: flex;
   flex-direction: column;
+  height: -webkit-fill-available;
 }
 .ExchangeTrade_div1 {
   display: flex;
@@ -24,7 +25,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  height: -webkit-fill-available;
+  /* height: -webkit-fill-available; */
 }
 .ExchangeTrade_div1_cont1:hover {
   background: #32413c;
@@ -464,6 +465,7 @@
     margin-right: 0;
     display: flex;
     flex-direction: column;
+    height: 400px;
   }
   .ExchangeTrade_div2_cont2 {
     display: none;
@@ -480,6 +482,7 @@
     border-radius: 5px;
     border: solid 1px #1e2d27;
     flex-direction: column;
+    /* height: -webkit-fill-available; */
   }
   .ExchangeTrade_div1_cont2_cont2 {
     display: none;
@@ -552,12 +555,13 @@
     position: sticky;
     bottom: -5px;
     background: #000000;
-    z-index: 10000;
+    z-index: 1;
     width: -webkit-fill-available;
     left: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: auto;
   }
   .mobileBuySellBtnsDiv_buy {
     width: 100%;

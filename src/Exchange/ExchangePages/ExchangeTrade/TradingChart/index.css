@@ -3,6 +3,6 @@
 }
 @media (max-width: 990px) {
   .tradingview-widget-container {
-    height: 400px !important;
+    height: 100% !important;
   }
 }
