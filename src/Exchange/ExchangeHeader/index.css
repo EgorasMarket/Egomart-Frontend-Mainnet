@@ -7,7 +7,7 @@
   background: #040f0b;
   z-index: 1000;
   /* max-height: 8vh; */
-  height: 7vh;
+  height: 7dvh;
   min-height: 63px;
 }
 .exchangeHeader .container_fluid {

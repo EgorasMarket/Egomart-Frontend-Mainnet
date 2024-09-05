@@ -2,7 +2,7 @@
   display: block;
   /* flex-direction: column; */
   /* height: -webkit-fill-available; */
-  height: 92vh;
+  height: 92dvh;
   overflow: auto;
   width: -webkit-fill-available;
   padding: 10px 10px;
