@@ -153,7 +153,7 @@ const Exchange = () => {
 
         //find the order in the orders arrary
 
-        const curr_order = orders.find(
+        let curr_order = orders.find(
           (order) =>
             order.indexId === payload.orderId &&
             order.price === payload.price &&

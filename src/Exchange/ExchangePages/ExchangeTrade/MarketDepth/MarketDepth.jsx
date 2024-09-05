@@ -86,16 +86,16 @@ const MarketDepth = () => {
     (a, b) => parseInt(b.amount) - parseInt(a.amount)
   );
 
-  console.log(sortedBuyOffers);
+  // console.log(sortedBuyOffers);
 
   const sortedSellOffers = sellOffers.sort(
     (a, b) => parseInt(a.amount) - parseInt(b.amount)
   );
 
-  console.log(sortedSellOffers);
+  // console.log(sortedSellOffers);
   const CustomTooltip = ({ payload, label, active }) => {
     if (active && payload && payload.length) {
-      console.log(payload, label, active);
+      // console.log(payload, label, active);
       return (
         <div className="custom-tooltip">
           <p className="label">
@@ -116,7 +116,7 @@ const MarketDepth = () => {
   };
   const CustomTooltip2 = ({ payload, label, active }) => {
     if (active && payload && payload.length) {
-      console.log(payload, label, active);
+      // console.log(payload, label, active);
       return (
         <div className="custom-tooltip">
           <p className="label">

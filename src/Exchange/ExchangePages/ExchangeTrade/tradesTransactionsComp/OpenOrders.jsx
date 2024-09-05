@@ -37,25 +37,32 @@ const OpenOrders = ({ ticker }) => {
   }, [loading, error, isError]);
 
   const cancelOrder = (data) => {
-    // console.log(data, "order info");
+    console.log("hhhh");
+    const _snd = {
+      a: parseEther(data?.indexId.toString()).toString(),
+      b: data.ticker.toString(),
+      c: `${parseEther(data?.price.toString()).toString()}`,
+      d: data.type === "BUY" ? 0 : 1,
+    };
+
+    console.log(data, _snd, "chcek this !!!");
+
     try {
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
         functionName: "cancelOrder",
         args: [
-          parseEther(data.indexId),
-          data.ticker,
-          parseEther(data?.price).toString(),
+          data?.indexId,
+          data.ticker.toString(),
+          `${parseEther(data?.price.toString()).toString()}`,
           data.type === "BUY" ? 0 : 1,
-          //
         ],
       });
     } catch (error) {
-      console.log(error, "error");
+      console.log(error.message, "error");
     }
   };
-  console.log(positions);
   return (
     <div className="TradesDiv">
       <div className="TradesDiv_head">
