@@ -68,7 +68,19 @@ const DesktopOrderBook = ({ current }) => {
     fillorder();
     fillTrade();
   }, []);
-
+  const filteredTrades = trades.filter((t) => t.ticker === current?.pair);
+  const filledTrades =
+    filteredTrades.length < 25
+      ? [
+          ...filteredTrades,
+          ...Array(25 - filteredTrades.length).fill({
+            price: "--",
+            amount: "--",
+            type: "--",
+            createdAt: "--",
+          }),
+        ]
+      : filteredTrades; // No changes if length is 25 or more
   const groupedByPrice = orders
     .filter(
       (order) =>
@@ -119,6 +131,27 @@ const DesktopOrderBook = ({ current }) => {
     ...sortedGroupedSellOffersArr.map((offer) => parseInt(offer.amount))
   );
 
+  const sellOffers = sortedGroupedSellOffersArr;
+
+  // Check if the length is less than 25
+  const filledSellOffers =
+    sellOffers.length < 25
+      ? [
+          ...sellOffers,
+          ...Array(25 - sellOffers.length).fill({ price: "--", amount: "--" }),
+        ]
+      : sellOffers; // No changes if length is 25 or more
+  const buyOffers = sortedGroupedBuyOffersArr;
+
+  // Check if the length is less than 25
+  const filledBuyOffers =
+    buyOffers.length < 25
+      ? [
+          ...buyOffers,
+          ...Array(25 - buyOffers.length).fill({ price: "--", amount: "--" }),
+        ]
+      : buyOffers; // No changes if length is 25 or more
+
   return (
     <>
       <div className="ExchangeTrade_div2_cont1_header">
@@ -165,29 +198,43 @@ const DesktopOrderBook = ({ current }) => {
           </div>
 
           {/* filter sort map */}
-          {trades
-            .filter((t) => t.ticker === current?.pair)
-            .map((data) => {
-              return (
-                <div className="ProductDetailPage_div_body_div2_body_area_trades_body">
-                  <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
-                    {/* {format(parseISO(data?.createdAt), "h:mm:ssaa")} */}
-                  </div>
-                  <div
-                    className="ProductDetailPage_div_body_div2_body_area_trades_body_cont2"
-                    style={{
-                      color: data?.type === "SELL" ? "#ff445d" : "#12b66f",
-                    }}
-                  >
-                    {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
-                  </div>
+          {filledTrades.map((data, index) => {
+            const formattedTime =
+              data.createdAt !== "--"
+                ? format(parseISO(data.createdAt), "h:mm:ss aa")
+                : "--";
 
-                  <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont3">
-                    {parseFloat(data?.amount).toFixed(DECIMAL_COUNT)}
-                  </div>
+            return (
+              <div
+                className="ProductDetailPage_div_body_div2_body_area_trades_body"
+                key={data.id || `placeholder-${index}`} // Provide unique key for placeholders
+              >
+                <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
+                  {formattedTime}
                 </div>
-              );
-            })}
+                <div
+                  className="ProductDetailPage_div_body_div2_body_area_trades_body_cont2"
+                  style={{
+                    color:
+                      data.type === "SELL"
+                        ? "#ff445d"
+                        : data.type === "SELL"
+                        ? "#12b66f"
+                        : "#fff",
+                  }}
+                >
+                  {data.price !== "--"
+                    ? parseFloat(data.price).toFixed(DECIMAL_COUNT)
+                    : "--"}
+                </div>
+                <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont3">
+                  {data.amount !== "--"
+                    ? parseFloat(data.amount).toFixed(DECIMAL_COUNT)
+                    : "--"}
+                </div>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <>
@@ -351,7 +398,7 @@ const DesktopOrderBook = ({ current }) => {
                 <span className="executed_price_div_span">≈ $1,000</span>
               </div>
               <div className="walletSelectModalDiv_body_amount_display_body_display_full">
-                {sortedGroupedBuyOffersArr.map((data, index) => {
+                {/* {sortedGroupedBuyOffersArr.map((data, index) => {
                   // Calculate the width percentage
 
                   const widthPercentage =
@@ -382,37 +429,90 @@ const DesktopOrderBook = ({ current }) => {
                       ></div>
                     </div>
                   );
+                })} */}
+                {filledBuyOffers.map((data, index) => {
+                  const widthPercentage =
+                    data.amount !== "--"
+                      ? (parseInt(data?.amount) / maxAmount) * 100
+                      : 0;
+
+                  const total =
+                    data.price !== "--" && data.amount !== "--"
+                      ? (
+                          parseFloat(data?.amount) * parseFloat(data?.price)
+                        ).toFixed(DECIMAL_COUNT)
+                      : "--";
+
+                  return (
+                    <div
+                      className="walletSelectModalDiv_body_amount_display"
+                      id={data.id || `placeholder-${index}`}
+                      key={data.id || `placeholder-${index}`}
+                    >
+                      <div className="walletSelectModalDiv_body_amount_display_cont1">
+                        {data.price !== "--"
+                          ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                          : "--"}
+                      </div>
+                      <div className="walletSelectModalDiv_body_amount_display_cont1">
+                        {data.amount !== "--"
+                          ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                          : "--"}
+                      </div>
+                      <div
+                        className="walletSelectModalDiv_body_amount_display_cont1"
+                        style={{ color: "#16b979" }}
+                      >
+                        {total}
+                      </div>
+                      <div
+                        style={{ width: `${widthPercentage}%` }}
+                        className="amount_bg_stat"
+                      ></div>
+                    </div>
+                  );
                 })}
               </div>
             </>
           ) : showOrders === "Sell" ? (
             <>
               <div className="walletSelectModalDiv_body_amount_display_body_display_full">
-                {sortedGroupedSellOffersArr.map((data, index) => {
-                  // Calculate the width percentage
+                {filledSellOffers.map((data, index) => {
+                  // Calculate width percentage only if amount is valid
                   const widthPercentage =
-                    (parseInt(data?.amount) / maxSellAmount) * 100;
+                    data.amount !== "--"
+                      ? (parseFloat(data.amount) / maxSellAmount) * 100
+                      : 0;
+
+                  // Calculate total and other fields only if price and amount are valid
+                  const total =
+                    data.amount !== "--" && data.price !== "--"
+                      ? (
+                          parseFloat(data.amount) * parseFloat(data.price)
+                        ).toFixed(DECIMAL_COUNT)
+                      : "--";
 
                   return (
                     <div
                       className="walletSelectModalDiv_body_amount_display"
-                      id={data.id}
-                      key={index}
+                      id={data.id || `placeholder-${index}`}
+                      key={data.id || `placeholder-${index}`}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
+                        {total}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {/* {parseFloat(data?.amount).toFixed(DECIMAL_COUNT)} */}
-                        {parseFloat(data?.amount).toFixed(DECIMAL_COUNT)}
+                        {data.amount !== "--"
+                          ? parseFloat(data.amount).toFixed(DECIMAL_COUNT)
+                          : "--"}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#e74c3c" }}
                       >
-                        {parseFloat(
-                          parseFloat(data?.amount) * parseFloat(data?.price)
-                        ).toFixed(DECIMAL_COUNT)}
+                        {data.price !== "--"
+                          ? parseFloat(data.price).toFixed(DECIMAL_COUNT)
+                          : "--"}
                       </div>
                       <div
                         style={{ width: `${widthPercentage}%` }}
@@ -431,32 +531,42 @@ const DesktopOrderBook = ({ current }) => {
             <>
               {" "}
               <div className="walletSelectModalDiv_body_amount_display_body_display">
-                {sortedGroupedSellOffersArr.map((data, index) => {
-                  // Calculate the width percentage
+                {filledSellOffers.map((data, index) => {
+                  // Calculate width percentage only if amount is valid
                   const widthPercentage =
-                    (parseInt(parseFloat(data.amount).toFixed(2)) /
-                      maxSellAmount) *
-                    100;
+                    data.amount !== "--"
+                      ? (parseFloat(data.amount) / maxSellAmount) * 100
+                      : 0;
+
+                  // Calculate total and other fields only if price and amount are valid
+                  const total =
+                    data.amount !== "--" && data.price !== "--"
+                      ? (
+                          parseFloat(data.amount) * parseFloat(data.price)
+                        ).toFixed(DECIMAL_COUNT)
+                      : "--";
 
                   return (
                     <div
                       className="walletSelectModalDiv_body_amount_display"
-                      id={data.id}
-                      key={index}
+                      id={data.id || `placeholder-${index}`}
+                      key={data.id || `placeholder-${index}`}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(
-                          parseFloat(data.amount) * parseFloat(data.price)
-                        ).toFixed(DECIMAL_COUNT)}
+                        {total}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data.amount).toFixed(DECIMAL_COUNT)}
+                        {data.amount !== "--"
+                          ? parseFloat(data.amount).toFixed(DECIMAL_COUNT)
+                          : "--"}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#e74c3c" }}
                       >
-                        {parseFloat(data.price).toFixed(DECIMAL_COUNT)}
+                        {data.price !== "--"
+                          ? parseFloat(data.price).toFixed(DECIMAL_COUNT)
+                          : "--"}
                       </div>
                       <div
                         style={{ width: `${widthPercentage}%` }}
@@ -471,33 +581,41 @@ const DesktopOrderBook = ({ current }) => {
                 <span className="executed_price_div_span">≈ $1,000</span>
               </div>
               <div className="walletSelectModalDiv_body_amount_display_body_display">
-                {sortedGroupedBuyOffersArr.map((data, index) => {
-                  // Calculate the width percentage
+                {filledBuyOffers.map((data, index) => {
                   const widthPercentage =
-                    (parseInt(parseFloat(data.amount).toFixed(2)) / maxAmount) *
-                    100;
+                    data.amount !== "--"
+                      ? (parseInt(data?.amount) / maxAmount) * 100
+                      : 0;
+
+                  const total =
+                    data.price !== "--" && data.amount !== "--"
+                      ? (
+                          parseFloat(data?.amount) * parseFloat(data?.price)
+                        ).toFixed(DECIMAL_COUNT)
+                      : "--";
 
                   return (
                     <div
                       className="walletSelectModalDiv_body_amount_display"
-                      id={data.id}
-                      key={index}
+                      id={data.id || `placeholder-${index}`}
+                      key={data.id || `placeholder-${index}`}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(
-                          parseFloat(data.amount) * parseFloat(data.price)
-                        ).toFixed(DECIMAL_COUNT)}
+                        {data.price !== "--"
+                          ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                          : "--"}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {parseFloat(data.amount).toFixed(DECIMAL_COUNT)}
+                        {data.amount !== "--"
+                          ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                          : "--"}
                       </div>
                       <div
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#16b979" }}
                       >
-                        {parseFloat(data.price).toFixed(DECIMAL_COUNT)}
+                        {total}
                       </div>
-
                       <div
                         style={{ width: `${widthPercentage}%` }}
                         className="amount_bg_stat"
