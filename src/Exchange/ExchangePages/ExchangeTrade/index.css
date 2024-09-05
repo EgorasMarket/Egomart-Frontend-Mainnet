@@ -1,6 +1,11 @@
 .ExchangeTrade {
   display: flex;
   flex-direction: column;
+  /* height: -webkit-fill-available; */
+  height: 92dvh;
+  overflow: auto;
+  width: -webkit-fill-available;
+  padding: 10px 10px;
 }
 .ExchangeTrade_div1 {
   display: flex;
@@ -24,7 +29,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  height: -webkit-fill-available;
+  /* height: -webkit-fill-available; */
 }
 .ExchangeTrade_div1_cont1:hover {
   background: #32413c;
@@ -404,18 +409,80 @@
 .mobileBuySellBtnsDiv {
   display: none;
 }
+.ExchangeTrade_div1_mobile {
+  display: none;
+}
 @media (max-width: 990px) {
   .ExchangeDiv_body {
     padding: 5px 5px;
+    padding-bottom: 0;
   }
   .ExchangeTrade_div1 {
+    display: none;
+  }
+  .ExchangeTrade_div1_mobile {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+  }
+  .ExchangeTrade_div1_mobile_div1 {
     display: flex;
     flex-direction: column;
-    border: solid 1px #1e2d27;
-    border-radius: 5px;
-    background: #151e1b;
+    width: 100%;
   }
-
+  .ExchangeTrade_div1_mobile_div1_title {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .ExchangeTrade_div1_cont1_div2_icon {
+    width: 20px;
+    margin-left: 3px;
+    color: #fff;
+    stroke-width: 2px;
+  }
+  .ExchangeTrade_div1_mobile_div1_price {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    font-weight: 900;
+    color: #12b66f;
+  }
+  .ExchangeTrade_div1_mobile_div1_price_span {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 10px;
+    color: #fff;
+  }
+  .ExchangeTrade_div1_mobile_div1_price_span_change {
+    margin-left: 3px;
+    color: #12b66f;
+    font-weight: 700;
+  }
+  .ExchangeTrade_div1_mobile_div2 {
+    display: grid;
+    /* grid-gap: 10px; */
+    gap: 0px;
+    width: 60%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ExchangeTrade_div1_mobile_div2_cont1 {
+    display: flex;
+    flex-direction: column;
+    /* width: 20%; */
+  }
+  .ExchangeTrade_div1_mobile_div2_cont1_title {
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    color: grey;
+  }
+  .ExchangeTrade_div1_mobile_div2_cont1_para {
+    font-size: 12px;
+    font-weight: 600;
+  }
   .ExchangeTrade_div1_cont1 {
     display: flex;
     align-items: center;
@@ -464,6 +531,7 @@
     margin-right: 0;
     display: flex;
     flex-direction: column;
+    height: 400px;
   }
   .ExchangeTrade_div2_cont2 {
     display: none;
@@ -480,6 +548,10 @@
     border-radius: 5px;
     border: solid 1px #1e2d27;
     flex-direction: column;
+    height: 755px;
+    height: auto;
+    overflow: hidden;
+    /* margin-bottom: 5em; */
   }
   .ExchangeTrade_div1_cont2_cont2 {
     display: none;
@@ -550,14 +622,15 @@
   .mobileBuySellBtnsDiv {
     padding: 10px 0;
     position: sticky;
-    bottom: -5px;
+    bottom: 0;
     background: #000000;
-    z-index: 10000;
+    z-index: 1;
     width: -webkit-fill-available;
     left: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: auto;
   }
   .mobileBuySellBtnsDiv_buy {
     width: 100%;
@@ -591,4 +664,17 @@
     font-size: 12px;
     font-weight: 500;
   }
+  .ExchangeTrade {
+    padding: 5px 5px;
+    padding-bottom: 0;
+  }
+  .mobile_markets_drop {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 100%;
+  }
+  /* .ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1 {
+    padding: 10px 0px;
+  } */
 }

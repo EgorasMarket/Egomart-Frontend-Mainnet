@@ -95,6 +95,17 @@ const MobileOrderBook = ({ current }) => {
     ...sortedGroupedSellOffersArr.map((offer) => parseInt(offer.amount))
   );
 
+  const buyOffers = sortedGroupedBuyOffersArr.slice(0, 25); // Get the first 25 buy offers
+  const filledBuyOffers = [
+    ...buyOffers,
+    ...Array(25 - buyOffers.length).fill({ amount: "--", price: "--" }),
+  ]; // Fill remaining spots with placeholders
+
+  const sellOffers = sortedGroupedSellOffersArr.slice(0, 25);
+  const filledSellOffers = [
+    ...sellOffers,
+    ...Array(25 - sellOffers.length).fill({ amount: "--", price: "--" }),
+  ]; // Fill remaining spots with placeholders
   return (
     <div className="ProductDetailPage_div_body_div2_body_area">
       <div className="ProductDetailPage_div_body_div2_body_area_1">
@@ -102,23 +113,30 @@ const MobileOrderBook = ({ current }) => {
           Buy
         </div>
         <div className="ProductDetailPage_div_body_div2_body_area_1_body">
-          {sortedGroupedBuyOffersArr.map((data, index) => {
-            const widthPercentage = (parseInt(data?.amount) / maxAmount) * 100;
+          {filledBuyOffers.map((data, index) => {
+            const widthPercentage =
+              data.amount !== "--"
+                ? (parseInt(data?.amount) / maxAmount) * 100
+                : 0;
 
             return (
               <div
                 className="walletSelectModalDiv_body_amount_display"
-                id={data.id}
-                key={data.id}
+                id={data.id || `placeholder-${index}`} // Provide unique key for placeholders
+                key={data.id || `placeholder-${index}`}
               >
                 <div className="walletSelectModalDiv_body_amount_display_cont1">
-                  {parseFloat(data.amount).toFixed(DECIMAL_COUNT)}
+                  {data.amount !== "--"
+                    ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                    : "--"}
                 </div>
                 <div
                   className="walletSelectModalDiv_body_amount_display_cont1"
                   style={{ color: "#16b979", marginRight: "1em" }}
                 >
-                  {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
+                  {data.price !== "--"
+                    ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                    : "--"}
                 </div>
                 <div
                   style={{ width: `${widthPercentage}%` }}
@@ -134,23 +152,30 @@ const MobileOrderBook = ({ current }) => {
           Sell
         </div>
         <div className="ProductDetailPage_div_body_div2_body_area_1_body">
-          {sortedGroupedSellOffersArr.map((data, index) => {
+          {filledSellOffers.map((data, index) => {
             const widthPercentage =
-              (parseInt(data?.amount) / maxSellAmount) * 100;
+              data.amount !== "--"
+                ? (parseInt(data?.amount) / maxSellAmount) * 100
+                : 0;
+
             return (
               <div
                 className="walletSelectModalDiv_body_amount_display"
-                id={data.id}
-                key={data.id}
+                id={data.id || `placeholder-${index}`} // Provide unique key for placeholders
+                key={data.id || `placeholder-${index}`}
               >
                 <div
                   className="walletSelectModalDiv_body_amount_display_cont1"
                   style={{ color: "#ff445d", marginLeft: "1em" }}
                 >
-                  {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}{" "}
+                  {data.price !== "--"
+                    ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                    : "--"}
                 </div>
                 <div className="walletSelectModalDiv_body_amount_display_cont1">
-                  {parseFloat(data?.amount).toFixed(DECIMAL_COUNT)}
+                  {data.amount !== "--"
+                    ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                    : "--"}
                 </div>
                 <div
                   style={{ width: `${widthPercentage}%` }}

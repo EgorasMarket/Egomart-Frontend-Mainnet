@@ -3,7 +3,7 @@
   /* justify-content: space-between; */
   margin-top: 1em;
   flex-direction: column;
-  height: 610px;
+  /* height: 610px; */
   overflow: auto;
 }
 .ProductDetailPage_div_body_div2_body_area_trades_head {
@@ -161,6 +161,7 @@ svg.sc-eqUAAy.cMqsAc.mx-icon.svg-icon.orderbook_iconBuySell__HkmTg {
   width: 100%;
   display: flex;
   justify-content: flex-start;
+  text-decoration: none !important;
 }
 .walletSelectModalDiv_body_amount_display_cont1:nth-child(2) {
   display: flex;

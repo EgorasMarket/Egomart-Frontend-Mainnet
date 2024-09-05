@@ -6,15 +6,18 @@
   left: 0;
   background: #040f0b;
   z-index: 1000;
-  height: 8vh;
+  /* max-height: 8vh; */
+  height: 7dvh;
+  min-height: 63px;
 }
 .exchangeHeader .container_fluid {
-  height: 100%;
+  height: -webkit-fill-available;
 }
 .exchangeHeader_area {
   display: flex;
   justify-content: space-between;
-  height: 100%;
+  height: -webkit-fill-available;
+  align-items: center;
 }
 .exchangeHeader_div1 {
   display: flex;
@@ -72,4 +75,9 @@
   padding: 1em;
   border: solid 1px #3d534c;
   padding-top: 0;
+}
+@media (max-width: 990px) {
+  .exchangeHeader_div1_links {
+    display: none;
+  }
 }

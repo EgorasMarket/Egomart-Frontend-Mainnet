@@ -25,7 +25,18 @@ const MobileTrades = ({ current }) => {
   useEffect(() => {
     fillTrade();
   }, []);
-
+  const filteredTrades = trades
+    .filter((t) => t.ticker === current?.pair)
+    .slice(0, 25); // Filter and limit to first 25 trades
+  const filledTrades = [
+    ...filteredTrades,
+    ...Array(25 - filteredTrades.length).fill({
+      price: "--",
+      amount: "--",
+      type: "--",
+      createdAt: "--",
+    }),
+  ]; // Fill remaining spots with placeholders
   return (
     <div className="ProductDetailPage_div_body_div2_body_area_trades">
       <div className="ProductDetailPage_div_body_div2_body_area_trades_head">
@@ -41,29 +52,40 @@ const MobileTrades = ({ current }) => {
       </div>
 
       {/* filter sort map */}
-      {trades
-        .filter((t) => t.ticker === current?.pair)
-        .map((data) => {
-          return (
-            <div className="ProductDetailPage_div_body_div2_body_area_trades_body">
-              <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
-                {/* {format(parseISO(data?.createdAt), "h:mm:ssaa")} */}
-              </div>
-              <div
-                className="ProductDetailPage_div_body_div2_body_area_trades_body_cont2"
-                style={{
-                  color: data?.type === "SELL" ? "#ff445d" : "#12b66f",
-                }}
-              >
-                {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
-              </div>
-
-              <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont3">
-                {parseFloat(data?.amount).toFixed(DECIMAL_COUNT)}
-              </div>
+      {filledTrades.map((data, index) => {
+        return (
+          <div
+            className="ProductDetailPage_div_body_div2_body_area_trades_body"
+            key={data.id || `placeholder-${index}`} // Provide unique key for placeholders
+          >
+            <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
+              {data.createdAt !== "--"
+                ? format(parseISO(data.createdAt), "h:mm:ss aa")
+                : "--"}
             </div>
-          );
-        })}
+            <div
+              className="ProductDetailPage_div_body_div2_body_area_trades_body_cont2"
+              style={{
+                color:
+                  data?.type === "SELL"
+                    ? "#ff445d"
+                    : data?.type === "BUY"
+                    ? "#12b66f"
+                    : "fff",
+              }}
+            >
+              {data.price !== "--"
+                ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                : "--"}
+            </div>
+            <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont3">
+              {data.amount !== "--"
+                ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                : "--"}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

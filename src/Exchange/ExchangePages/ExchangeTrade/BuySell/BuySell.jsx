@@ -24,7 +24,7 @@ import { INSERT_NEW_ORDER } from "../../../../services/trade.services";
 import { useDispatch, useSelector } from "react-redux";
 import { DECIMAL_COUNT } from "../../../../constants/config";
 import { updateOrder } from "../../../../features/orders/OrderSlice";
-const BuySell = ({ payload }) => {
+const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
   const {
@@ -42,7 +42,6 @@ const BuySell = ({ payload }) => {
   const [selectedValue, setSelectedValue] = useState("Limit");
   const [price, setPrice] = useState("10.00");
   const [amount, setAmount] = useState("");
-  const [activeBtn, setActiveBtn] = useState("buy");
   const [buyOffersArr, setBuyOffersArr] = useState([]);
   const [balanceOf, setBalance] = useState(0);
 
@@ -87,10 +86,6 @@ const BuySell = ({ payload }) => {
   const parsedPrice = parseFloat(price);
   const parsedAmount = parseFloat(amount);
   const Total = parsedPrice * parsedAmount;
-
-  const toggleActiveBtn = async (e) => {
-    setActiveBtn(e.currentTarget.id);
-  };
 
   const setOrder = () => {
     console.log("heeeee");
