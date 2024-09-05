@@ -409,6 +409,9 @@
 .mobileBuySellBtnsDiv {
   display: none;
 }
+.ExchangeTrade_div1_mobile {
+  display: none;
+}
 @media (max-width: 990px) {
   .ExchangeDiv_body {
     padding: 5px 5px;
@@ -417,7 +420,69 @@
   .ExchangeTrade_div1 {
     display: none;
   }
-
+  .ExchangeTrade_div1_mobile {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+  }
+  .ExchangeTrade_div1_mobile_div1 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .ExchangeTrade_div1_mobile_div1_title {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .ExchangeTrade_div1_cont1_div2_icon {
+    width: 20px;
+    margin-left: 3px;
+    color: #fff;
+    stroke-width: 2px;
+  }
+  .ExchangeTrade_div1_mobile_div1_price {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    font-weight: 900;
+    color: #12b66f;
+  }
+  .ExchangeTrade_div1_mobile_div1_price_span {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 10px;
+    color: #fff;
+  }
+  .ExchangeTrade_div1_mobile_div1_price_span_change {
+    margin-left: 3px;
+    color: #12b66f;
+    font-weight: 700;
+  }
+  .ExchangeTrade_div1_mobile_div2 {
+    display: grid;
+    /* grid-gap: 10px; */
+    gap: 0px;
+    width: 60%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ExchangeTrade_div1_mobile_div2_cont1 {
+    display: flex;
+    flex-direction: column;
+    /* width: 20%; */
+  }
+  .ExchangeTrade_div1_mobile_div2_cont1_title {
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    color: grey;
+  }
+  .ExchangeTrade_div1_mobile_div2_cont1_para {
+    font-size: 12px;
+    font-weight: 600;
+  }
   .ExchangeTrade_div1_cont1 {
     display: flex;
     align-items: center;
@@ -603,4 +668,13 @@
     padding: 5px 5px;
     padding-bottom: 0;
   }
+  .mobile_markets_drop {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 100%;
+  }
+  /* .ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1 {
+    padding: 10px 0px;
+  } */
 }

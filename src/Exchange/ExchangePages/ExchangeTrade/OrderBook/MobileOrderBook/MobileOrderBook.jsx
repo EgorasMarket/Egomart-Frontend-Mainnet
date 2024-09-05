@@ -102,7 +102,7 @@ const MobileOrderBook = ({ current }) => {
           Buy
         </div>
         <div className="ProductDetailPage_div_body_div2_body_area_1_body">
-          {sortedGroupedBuyOffersArr.map((data, index) => {
+          {/* {sortedGroupedBuyOffersArr.map((data, index) => {
             const widthPercentage = (parseInt(data?.amount) / maxAmount) * 100;
 
             return (
@@ -126,6 +126,55 @@ const MobileOrderBook = ({ current }) => {
                 ></div>
               </div>
             );
+          })} */}
+          {Array.from({ length: 25 }).map((_, index) => {
+            const data = sortedGroupedBuyOffersArr[index];
+
+            if (data) {
+              const widthPercentage =
+                (parseInt(data?.amount) / maxAmount) * 100;
+
+              return (
+                <div
+                  className="walletSelectModalDiv_body_amount_display"
+                  id={data.id}
+                  key={data.id}
+                >
+                  <div className="walletSelectModalDiv_body_amount_display_cont1">
+                    {parseFloat(data.amount).toFixed(DECIMAL_COUNT)}
+                  </div>
+                  <div
+                    className="walletSelectModalDiv_body_amount_display_cont1"
+                    style={{ color: "#16b979", marginRight: "1em" }}
+                  >
+                    {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}
+                  </div>
+                  <div
+                    style={{ width: `${widthPercentage}%` }}
+                    className="amount_bg_stat"
+                  ></div>
+                </div>
+              );
+            } else {
+              // Placeholder for missing entries
+              return (
+                <div
+                  className="walletSelectModalDiv_body_amount_display"
+                  key={index}
+                >
+                  <div className="walletSelectModalDiv_body_amount_display_cont1">
+                    --
+                  </div>
+                  <div
+                    className="walletSelectModalDiv_body_amount_display_cont1"
+                    style={{ color: "#16b979", marginRight: "1em" }}
+                  >
+                    --
+                  </div>
+                  <div style={{ width: `0%` }} className="amount_bg_stat"></div>
+                </div>
+              );
+            }
           })}
         </div>
       </div>
@@ -134,7 +183,57 @@ const MobileOrderBook = ({ current }) => {
           Sell
         </div>
         <div className="ProductDetailPage_div_body_div2_body_area_1_body">
-          {sortedGroupedSellOffersArr.map((data, index) => {
+          {Array.from({ length: 25 }).map((_, index) => {
+            const data = sortedGroupedSellOffersArr[index];
+
+            if (data) {
+              const widthPercentage =
+                (parseInt(data?.amount) / maxSellAmount) * 100;
+
+              return (
+                <div
+                  className="walletSelectModalDiv_body_amount_display"
+                  id={data.id}
+                  key={data.id}
+                >
+                  <div
+                    className="walletSelectModalDiv_body_amount_display_cont1"
+                    style={{ color: "#ff445d", marginLeft: "1em" }}
+                  >
+                    {parseFloat(data?.price).toFixed(DECIMAL_COUNT)}{" "}
+                  </div>
+                  <div className="walletSelectModalDiv_body_amount_display_cont1">
+                    {parseFloat(data?.amount).toFixed(DECIMAL_COUNT)}
+                  </div>
+                  <div
+                    style={{ width: `${widthPercentage}%` }}
+                    className="amount_bg_stat_Sell"
+                  ></div>
+                </div>
+              );
+            } else {
+              // Placeholder for missing entries
+              return (
+                <div
+                  className="walletSelectModalDiv_body_amount_display"
+                  key={index}
+                >
+                  <div
+                    className="walletSelectModalDiv_body_amount_display_cont1"
+                    style={{ color: "#ff445d", marginLeft: "1em" }}
+                  >
+                    --
+                  </div>
+                  <div className="walletSelectModalDiv_body_amount_display_cont1">
+                    --
+                  </div>
+                  <div style={{ width: `0%` }} className="amount_bg_stat"></div>
+                </div>
+              );
+            }
+          })}
+
+          {/* {sortedGroupedSellOffersArr.map((data, index) => {
             const widthPercentage =
               (parseInt(data?.amount) / maxSellAmount) * 100;
             return (
@@ -158,7 +257,7 @@ const MobileOrderBook = ({ current }) => {
                 ></div>
               </div>
             );
-          })}
+          })} */}
         </div>
       </div>
     </div>
