@@ -1,6 +1,6 @@
 .ExchangeTrade {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  /* flex-direction: column; */
   /* height: -webkit-fill-available; */
   height: 92vh;
   overflow: auto;
