@@ -551,9 +551,9 @@
     display: none;
   }
   .mobileBuySellBtnsDiv {
-    padding: 10px 10px;
-    position: absolute;
-    bottom: 25px;
+    padding: 10px 0;
+    position: sticky;
+    bottom: 0;
     background: #000000;
     z-index: 1;
     width: -webkit-fill-available;
