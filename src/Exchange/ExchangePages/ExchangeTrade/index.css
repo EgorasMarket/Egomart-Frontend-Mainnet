@@ -549,17 +549,16 @@
     display: none;
   }
   .mobileBuySellBtnsDiv {
-    padding: 10px 0;
-    position: sticky;
-    bottom: 0;
+    padding: 10px 10px;
+    position: absolute;
+    bottom: 3%;
     background: #000000;
     z-index: 1;
     width: -webkit-fill-available;
-    /* left: 0; */
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: auto;
   }
   .mobileBuySellBtnsDiv_buy {
     width: 100%;

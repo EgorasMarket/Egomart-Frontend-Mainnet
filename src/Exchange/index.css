@@ -3,7 +3,8 @@
   padding: 10px 10px;
   /* padding-bottom: 10px; */
   height: 92vh;
-  overflow: auto;
+  overflow: hidden;
+  padding-bottom: 4em !important;
 }
 .ExchangeDiv {
   display: flex;
