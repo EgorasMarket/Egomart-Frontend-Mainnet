@@ -275,6 +275,7 @@ const ExchangeTrade = () => {
           </div>
         </div>
       </div>
+
       <div className="ExchangeTrade_div2">
         <div className="ExchangeTrade_div2_cont1">
           <div className="ExchangeTrade_div2_cont1_header">
