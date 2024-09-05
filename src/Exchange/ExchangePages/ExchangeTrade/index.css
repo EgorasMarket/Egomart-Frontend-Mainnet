@@ -480,7 +480,9 @@
     border: solid 1px #1e2d27;
     flex-direction: column;
     height: 755px;
+    height: auto;
     overflow: hidden;
+    margin-bottom: 5em;
   }
   .ExchangeTrade_div1_cont2_cont2 {
     display: none;
@@ -551,7 +553,7 @@
   .mobileBuySellBtnsDiv {
     padding: 10px 10px;
     position: absolute;
-    bottom: 3%;
+    bottom: 25px;
     background: #000000;
     z-index: 1;
     width: -webkit-fill-available;
