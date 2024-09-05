@@ -1,9 +1,11 @@
 .ExchangeTrade {
   display: flex;
   flex-direction: column;
-  height: -webkit-fill-available;
-  /* overflow: auto; */
+  /* height: -webkit-fill-available; */
+  height: 92vh;
+  overflow: auto;
   width: -webkit-fill-available;
+  padding: 10px 10px;
 }
 .ExchangeTrade_div1 {
   display: flex;
@@ -596,5 +598,9 @@
   .ExchangeTrade_div1_cont2_cont1_cont2_span2 {
     font-size: 12px;
     font-weight: 500;
+  }
+  .ExchangeTrade {
+    padding: 5px 5px;
+    padding-bottom: 0;
   }
 }
