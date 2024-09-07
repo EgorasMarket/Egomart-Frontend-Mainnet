@@ -84,7 +84,7 @@ const MobileOrderBook = ({ current }) => {
     .filter((f) => f?.status === "OPEN");
 
   const sortedGroupedSellOffersArr = groupedSellOffersArr
-    .sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+    .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
     .filter((f) => f?.status === "OPEN");
 
   const maxAmount = Math.max(
