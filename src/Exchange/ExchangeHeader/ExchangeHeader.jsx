@@ -11,6 +11,7 @@ import {
   ArrowUp01Icon,
   Menu01Icon,
   Cancel01Icon,
+  ArrowRight01Icon,
   InformationCircleIcon,
 } from "hugeicons-react";
 import { Padding } from "@mui/icons-material";
@@ -201,7 +202,9 @@ const ExchangeHeader = () => {
       {mobileDrop ? (
         <div className="MobileDropDiv">
           <div className="MobileDropDiv_cont">
-            <div className="MobileDropDiv_cont_1">Portfolio</div>
+            <div className="MobileDropDiv_cont_1">
+              Portfolio <ArrowRight01Icon />
+            </div>
 
             <details className="MobileDropDiv_cont_1" open>
               <summary className="baccordion_title"> Trade</summary>
@@ -270,7 +273,9 @@ const ExchangeHeader = () => {
               </div>
             </details>
 
-            <div className="MobileDropDiv_cont_1">Markets</div>
+            <div className="MobileDropDiv_cont_1">
+              Markets <ArrowRight01Icon />
+            </div>
           </div>
         </div>
       ) : null}

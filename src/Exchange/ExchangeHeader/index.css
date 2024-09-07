@@ -108,6 +108,8 @@
     height: -webkit-fill-available;
     align-items: flex-end;
     margin-top: 4em;
+    overflow: auto;
+    padding-bottom: 4em;
   }
   .MobileDropDiv_cont_1 {
     border-bottom: solid 1px #192421;
@@ -116,8 +118,15 @@
     display: flex;
     align-items: center;
     width: -webkit-fill-available;
+    font-size: 14px;
+    justify-content: space-between;
   }
   .exchangeHeader_mobile_btn_icon:hover {
     background: #25352f;
+  }
+  .accordion_body_cont1 .ExchangeTrade_div1_cont1_markets_drop_cont2_body {
+    display: flex;
+    flex-direction: column;
+    background: #111d18;
   }
 }
