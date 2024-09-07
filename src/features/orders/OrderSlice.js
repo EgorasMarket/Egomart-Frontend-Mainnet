@@ -40,9 +40,22 @@ const OrderSlice = createSlice({
         };
       }
     },
+    cancelOne: (state, action) => {
+      const { id, newData } = action.payload;
+
+      const orderIndex = state.orders.findIndex((order) => order.id === id);
+
+      if (orderIndex !== -1) {
+        // Update the specific order
+        state.orders[orderIndex] = {
+          ...state.orders[orderIndex],
+          status: "CANCELLED",
+        };
+      }
+    },
   },
 });
 
-export const { addOrders, updateOrder, updateArr, updateOne } =
+export const { addOrders, updateOrder, updateArr, updateOne, cancelOne } =
   OrderSlice.actions;
 export default OrderSlice.reducer;

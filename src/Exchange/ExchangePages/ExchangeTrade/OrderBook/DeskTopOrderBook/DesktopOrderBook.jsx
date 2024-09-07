@@ -4,12 +4,13 @@ import "./index.css";
 import { format, getTime, parseISO } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrders } from "../../../../../features/orders/OrderSlice";
-import { setTrade } from "../../../../../features/trades/TradeSlice";
 import {
   GET_EXCHANGE_EVENT,
+  GET_EXCHANGE_TRADES,
   GET_USER_TRADE_ORDERS,
 } from "../../../../../services/trade.services";
 import { DECIMAL_COUNT } from "../../../../../constants/config";
+import { setTrade } from "../../../../../features/trades/TradeSlice";
 
 const DesktopOrderBook = ({ current }) => {
   const dispatch = useDispatch();
@@ -50,23 +51,37 @@ const DesktopOrderBook = ({ current }) => {
     dispatch(addOrders(arr));
   };
 
-  const fillTrade = async () => {
-    const arr = [
-      {
-        createdAt: "2024-07-15T12:00:00Z",
-        address: "0x690B4cBEF361ccD9F2f4eAf0a47BE649b9910b7d",
-        ticker: "EGAX-EGOD",
-        type: "BUY",
-        price: 1915.3,
-        amount: 0.5,
-      },
-    ];
+  const fillTrades = async () => {
+    const res = await GET_EXCHANGE_TRADES();
+    console.log(res, "bbbb");
 
-    // dispatch(setTrade([]));
+    if (!res?.returned) return;
+
+    let data = {};
+    const arr = [];
+
+    res?.data[0].forEach((order, position) => {
+      data = {
+        id: trades.length + 1,
+        price: order?.value,
+        indexId: order.orderId,
+        ticker: order?.ticker,
+        type: order?.typeOfTrade,
+        amount: order?.numberOfShares,
+        buyer: order?.buyer,
+        seller: order?.seller,
+        status: order?.state, //ENUM OPEN, CANCELLED,COMPLETED,
+        createdAt: order?.timedAdded,
+        transactionHash: order?.transactionHash,
+      };
+      arr.push(data);
+    });
+
+    dispatch(setTrade(arr));
   };
   useEffect(() => {
+    fillTrades();
     fillorder();
-    fillTrade();
   }, []);
   const filteredTrades = trades.filter((t) => t.ticker === current?.pair);
   const filledTrades =

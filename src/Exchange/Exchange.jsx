@@ -10,6 +10,7 @@ import { useWatchContractEvent, useClient } from "wagmi";
 import useSocket from "../hooks/useSocket";
 import { subscribeToEvent } from "../services/socket";
 import {
+  cancelOne,
   updateArr,
   updateOne,
   updateOrder,
@@ -17,10 +18,19 @@ import {
 import abi from "../web3/contracts/Egomart.json";
 import { formatEther } from "ethers";
 import { selectMatchingOrder } from "../features/orders/selectors";
+import { updateTrade } from "../features/trades/TradeSlice";
 const Exchange = () => {
   const { orders } = useSelector((state) => state.orders);
-  useSocket();
+  // useSocket();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "socket/connect" });
+
+    return () => {
+      dispatch({ type: "socket/disconnect" });
+    };
+  }, [dispatch]);
 
   // useWatchContractEvent({
   //   address: import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -67,30 +77,33 @@ const Exchange = () => {
   //     // console.log(res, "to backend");
   //   },
   // });
-  subscribeToEvent("/orders-event", (err, payload) => {
-    console.log(payload, "orders event");
-    let arr = [];
-    let newP = {};
 
-    payload.forEach((log) => {
-      newP = {
-        id: orders.length + 1,
-        price: parseFloat(log.amount).toFixed(30),
-        indexId: log.index_id,
-        ticker: log.ticker,
-        type: log.orderType,
-        amount: log.numberOfShares,
-        address: log.userAddress,
-        status: log.state,
-        createdAt: log.timePlaced,
-        transHash: log.transHash,
-      };
-      arr.push(newP);
-      dispatch(updateOrder(newP));
-    });
-    // console.log(arr, "new form");
-    // dispatch(updateArr(newP));
-  });
+  /** */
+
+  // subscribeToEvent("/orders-event", (err, payload) => {
+  //   console.log(payload, "orders event");
+  //   let arr = [];
+  //   let newP = {};
+
+  //   payload.forEach((log) => {
+  //     newP = {
+  //       id: orders.length + 1,
+  //       price: parseFloat(log.amount).toFixed(30),
+  //       indexId: log.index_id,
+  //       ticker: log.ticker,
+  //       type: log.orderType,
+  //       amount: log.numberOfShares,
+  //       address: log.userAddress,
+  //       status: log.state,
+  //       createdAt: log.timePlaced,
+  //       transHash: log.transHash,
+  //     };
+  //     arr.push(newP);
+  //     dispatch(updateOrder(newP));
+  //   });
+  //   // console.log(arr, "new form");
+  //   // dispatch(updateArr(newP));
+  // });
 
   const fetchTickers = async () => {
     const res = await GET_TICKER_PAIRS();
@@ -132,6 +145,44 @@ const Exchange = () => {
   useWatchContractEvent({
     address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi,
+    eventName: "OrderCanceled",
+    onLogs: async (logs) => {
+      console.log("Trade Orders Received", logs);
+
+      //loop through the logs
+
+      logs.forEach(async (log) => {
+        const payload = {
+          createdAt: new Date(Number(log.args.time) * 1000),
+          address: log.args.userAddress,
+          ticker: log?.args?.ticker,
+          type: log.args?.isSale === false ? "BUY" : "SELL",
+          price: parseFloat(formatEther(log.args.value)).toFixed(30),
+          amount: parseFloat(formatEther(log?.args?.numberOfShares)),
+          orderId: Number(log.args.orderId),
+        };
+
+        // //find the order in the orders arrary
+
+        let curr_order = orders.find(
+          (order) =>
+            order.indexId === payload.orderId &&
+            order.price === payload.price &&
+            order.type === payload.type
+        );
+        console.log(curr_order);
+        if (curr_order) {
+          dispatch(cancelOne({ id: curr_order.id, curr_order }));
+          console.log(payload, curr_order, "to be sent to store ");
+          return;
+        }
+        console.log("not sent to store");
+      });
+    },
+  });
+  useWatchContractEvent({
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
+    abi,
     eventName: "Trade",
     onLogs: async (logs) => {
       console.log("Trade Orders Received", logs);
@@ -149,6 +200,7 @@ const Exchange = () => {
           price: parseFloat(formatEther(log.args.value)).toFixed(30),
           amount: parseFloat(formatEther(log?.args?.numberOfShares)),
           orderId: Number(log.args.orderId),
+          transactionHash: log.transactionHash,
         };
 
         //find the order in the orders arrary
@@ -162,31 +214,32 @@ const Exchange = () => {
         console.log(curr_order);
         if (curr_order) {
           dispatch(updateOne({ id: curr_order.id, curr_order }));
+          //push this payload to the tradeslice
+
+          dispatch(updateTrade(payload));
           console.log(payload, curr_order, "to be sent to store ");
+          return;
         }
         console.log("not sent to store");
-
-        //add the order to the order slice
-        // await dispatch(cancelTrade(payload));
-        // dispatch(cancelTrade(payload));
       });
     },
   });
+
   //listen for event
-  subscribeToEvent("/trade-event", (err, payload) => {
-    console.log(payload, "from event");
+  // subscribeToEvent("/trade-event", (err, payload) => {
+  //   console.log(payload, "from event");
 
-    orders.find(
-      (trade) =>
-        trade.address === payload.address &&
-        trade?.orderId === payload.orderId &&
-        trade.type === payload.type &&
-        trade.price === payload.price
-    );
-    //when a trade event is received search for it in the orders array
+  //   orders.find(
+  //     (trade) =>
+  //       trade.address === payload.address &&
+  //       trade?.orderId === payload.orderId &&
+  //       trade.type === payload.type &&
+  //       trade.price === payload.price
+  //   );
+  //   //when a trade event is received search for it in the orders array
 
-    //when found call the updateOne action from the orderslice and change the data state
-  });
+  //   //when found call the updateOne action from the orderslice and change the data state
+  // });
 
   return (
     <div className="ExchangeDiv">

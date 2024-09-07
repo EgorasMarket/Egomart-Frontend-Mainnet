@@ -24,6 +24,7 @@ import { INSERT_NEW_ORDER } from "../../../../services/trade.services";
 import { useDispatch, useSelector } from "react-redux";
 import { DECIMAL_COUNT } from "../../../../constants/config";
 import { updateOrder } from "../../../../features/orders/OrderSlice";
+import { toast, ToastContainer } from "react-toastify";
 const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
@@ -44,10 +45,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const [amount, setAmount] = useState("");
   const [buyOffersArr, setBuyOffersArr] = useState([]);
   const [balanceOf, setBalance] = useState(0);
-
-  useEffect(() => {
-    console.log("switch");
-  }, [activeBtn]);
 
   const aa = useFetchBalance(
     activeBtn === "buy" ? payload?.tickerB : payload?.tickerA
@@ -88,14 +85,8 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const Total = parsedPrice * parsedAmount;
 
   const setOrder = () => {
-    console.log("heeeee");
-    // const quantity =
-    // console.log
-
-    // return ;
     const marketType = activeBtn === "sell" ? true : false;
     try {
-      console.log("inside the pool");
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
@@ -121,7 +112,13 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   };
 
   useEffect(() => {
-    console.log(error, "error");
+    if (error) {
+      console.log(error, "error");
+    }
+    if (hash) {
+      // toast.success(`Order have been placed successfuly!!!`);
+      console.log("Order have been placed successfully!!!");
+    }
   }, [hash, loading, error]);
 
   return (
@@ -344,6 +341,8 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
           </div>
         </div>
       </div>
+
+      {/* <ToastContainer /> */}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { useAccount, useWriteContract } from "wagmi";
 import { format } from "date-fns";
 import contractAbi from "../../../../web3/contracts/Egomart.json";
 import { formatEther, parseEther } from "ethers";
+import { toast, ToastContainer } from "react-toastify";
 const OpenOrders = ({ ticker }) => {
   const {
     data: cancelledOrder,
@@ -35,18 +36,14 @@ const OpenOrders = ({ ticker }) => {
       console.log(error, "error from cancellation");
     }
   }, [loading, error, isError]);
+  useEffect(() => {
+    if (cancelledOrder) {
+      // toast.success("Order cancelled successfully!!!");
+      console.log("order was successful");
+    }
+  }, [cancelledOrder]);
 
   const cancelOrder = (data) => {
-    console.log("hhhh");
-    const _snd = {
-      a: parseEther(data?.indexId.toString()).toString(),
-      b: data.ticker.toString(),
-      c: `${parseEther(data?.price.toString()).toString()}`,
-      d: data.type === "BUY" ? 0 : 1,
-    };
-
-    console.log(data, _snd, "chcek this !!!");
-
     try {
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -60,7 +57,7 @@ const OpenOrders = ({ ticker }) => {
         ],
       });
     } catch (error) {
-      console.log(error.message, "error");
+      console.log(error, "error");
     }
   };
   return (
@@ -159,6 +156,7 @@ const OpenOrders = ({ ticker }) => {
           );
         })}
       </div>
+      <ToastContainer />
     </div>
   );
 };

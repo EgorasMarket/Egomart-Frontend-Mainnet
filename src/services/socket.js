@@ -1,31 +1,27 @@
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 import { BASE_URL } from "../core/core";
 
+// const SOCKET_URL = "http://your-server-url"; // Replace with your server URL
 let socket;
 
-export const initiateSocket = () => {
-  try {
-    if (!socket) {
-      socket = io(BASE_URL, {});
-      console.log(socket, "Web socket connected...");
-    }
-  } catch (err) {
-    console.log(`An error occured ------ ${err}`);
-  }
+export const initiateSocketConnection = () => {
+  socket = io(BASE_URL);
+  console.log("Socket connected:", socket);
 };
 
 export const disconnectSocket = () => {
-  console.log("Disconnecting socket...");
-  if (socket) socket.disconnect();
-};
-export const subscribeToEvent = (event, cb) => {
-  if (!socket) return true;
-  socket.on(event, (msg) => {
-    console.log("Websocket event received!", event, msg);
-    return cb(null, msg);
-  });
+  if (socket) {
+    socket.disconnect();
+    console.log("Socket disconnected");
+  }
 };
 
-export const sendMessage = (event, data) => {
-  if (socket) socket.emit(event, data);
+export const subscribeToEvent = (eventName, callback) => {
+  if (!socket) return;
+  socket.on(eventName, callback);
+};
+
+export const emitEvent = (eventName, data) => {
+  if (!socket) return;
+  socket.emit(eventName, data);
 };
