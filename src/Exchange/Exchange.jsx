@@ -32,78 +32,53 @@ const Exchange = () => {
     };
   }, [dispatch]);
 
-  // useWatchContractEvent({
-  //   address: import.meta.env.VITE_CONTRACT_ADDRESS,
-  //   abi,
-  //   eventName: "OrderPlaced",
-  //   async onLogs(logs) {
-  //     console.log("New Order placed!", logs);
-  //     //loop through the array of logs
+  useWatchContractEvent({
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
+    abi,
+    eventName: "OrderPlaced",
+    async onLogs(logs) {
+      console.log("New Order placed!", logs);
+      //loop through the array of logs
 
-  //     logs.forEach((log) => {
-  //       const data = {
-  //         id: orders.length + 1,
-  //         price: parseFloat(formatEther(log.args.value)).toFixed(30),
-  //         indexId: Number(log.args.orderId),
-  //         ticker: log.args?.ticker,
-  //         type: log.args?.isSale === false ? "BUY" : "SELL",
-  //         amount: parseFloat(formatEther(log?.args?.numberOfShares)),
-  //         address: log.args?.userAddress,
-  //         status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-  //         createdAt: new Date(Number(log.args.time) * 1000),
-  //       };
-  //       console.log(data, "prepared response");
+      logs.forEach((log) => {
+        const data = {
+          id: orders.length + 1,
+          price: parseFloat(formatEther(log.args.value)).toFixed(30),
+          indexId: Number(log.args.orderId),
+          ticker: log.args?.ticker,
+          type: log.args?.isSale === false ? "BUY" : "SELL",
+          amount: parseFloat(formatEther(log?.args?.numberOfShares)),
+          address: log.args?.userAddress,
+          status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
+          createdAt: new Date(Number(log.args.time) * 1000),
+        };
+        console.log(data, "prepared response");
 
-  //       dispatch(updateOrder(data));
-  //     });
+        dispatch(updateOrder(data));
+      });
 
-  //     //construct payload and dispatch to store
+      //construct payload and dispatch to store
 
-  //     // let payload = {
-  //     //   userAddress: data.address,
-  //     //   orderType: data.type,
-  //     //   amount: data?.price,
-  //     //   numberOfShares: data.amount,
-  //     //   transHash: logs[0].transactionHash,
-  //     //   time: logs[0].args?.time.toString().split("n")[0],
-  //     //   ticker: data?.ticker,
-  //     //   orderId: data?.indexId,
-  //     // };
-  //     // console.log(payload, "to be sent to backend");
+      // let payload = {
+      //   userAddress: data.address,
+      //   orderType: data.type,
+      //   amount: data?.price,
+      //   numberOfShares: data.amount,
+      //   transHash: logs[0].transactionHash,
+      //   time: logs[0].args?.time.toString().split("n")[0],
+      //   ticker: data?.ticker,
+      //   orderId: data?.indexId,
+      // };
+      // console.log(payload, "to be sent to backend");
 
-  //     // after pushing the data to the store,
-  //     // post to backend to correlate record
-  //     // const res = await INSERT_NEW_ORDER(payload);
-  //     // console.log(res, "to backend");
-  //   },
-  // });
+      // after pushing the data to the store,
+      // post to backend to correlate record
+      // const res = await INSERT_NEW_ORDER(payload);
+      // console.log(res, "to backend");
+    },
+  });
 
   /** */
-
-  // subscribeToEvent("/orders-event", (err, payload) => {
-  //   console.log(payload, "orders event");
-  //   let arr = [];
-  //   let newP = {};
-
-  //   payload.forEach((log) => {
-  //     newP = {
-  //       id: orders.length + 1,
-  //       price: parseFloat(log.amount).toFixed(30),
-  //       indexId: log.index_id,
-  //       ticker: log.ticker,
-  //       type: log.orderType,
-  //       amount: log.numberOfShares,
-  //       address: log.userAddress,
-  //       status: log.state,
-  //       createdAt: log.timePlaced,
-  //       transHash: log.transHash,
-  //     };
-  //     arr.push(newP);
-  //     dispatch(updateOrder(newP));
-  //   });
-  //   // console.log(arr, "new form");
-  //   // dispatch(updateArr(newP));
-  // });
 
   const fetchTickers = async () => {
     const res = await GET_TICKER_PAIRS();
