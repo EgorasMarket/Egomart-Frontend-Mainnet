@@ -237,7 +237,11 @@ const DesktopOrderBook = ({ current }) => {
                 key={data?.id || `placeholder-${index}`} // Provide unique key for placeholders
               >
                 <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
-                  {formatDate(new Date())}
+                  {/* {formatDate(new Date())} */}
+
+                  {data?.createdAt !== "--"
+                    ? formatDate(data?.createdAt || new Date())
+                    : "--"}
                 </div>
                 <div
                   className="ProductDetailPage_div_body_div2_body_area_trades_body_cont2"
@@ -481,7 +485,10 @@ const DesktopOrderBook = ({ current }) => {
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                          ? parseFloat(
+                              parseFloat(data?.amount) -
+                                parseFloat(data?.filled)
+                            ).toFixed(DECIMAL_COUNT)
                           : "--"}
                       </div>
                       <div
@@ -533,7 +540,10 @@ const DesktopOrderBook = ({ current }) => {
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? parseFloat(data.amount).toFixed(DECIMAL_COUNT)
+                          ? parseFloat(
+                              parseFloat(data?.amount) -
+                                parseFloat(data?.filled)
+                            ).toFixed(DECIMAL_COUNT)
                           : "--"}
                       </div>
                       <div
@@ -590,7 +600,10 @@ const DesktopOrderBook = ({ current }) => {
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? parseFloat(data.amount).toFixed(DECIMAL_COUNT)
+                          ? parseFloat(
+                              parseFloat(data?.amount) -
+                                parseFloat(data?.filled)
+                            ).toFixed(DECIMAL_COUNT)
                           : "--"}
                       </div>
                       <div
@@ -638,7 +651,10 @@ const DesktopOrderBook = ({ current }) => {
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                          ? parseFloat(
+                              parseFloat(data?.amount) -
+                                parseFloat(data?.filled)
+                            ).toFixed(DECIMAL_COUNT)
                           : "--"}
                       </div>
                       <div

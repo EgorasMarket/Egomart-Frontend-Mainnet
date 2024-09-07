@@ -45,6 +45,7 @@ const socketMiddleware = (store) => {
             status: log.state,
             createdAt: log.timePlaced,
             transHash: log.transHash,
+            filled: 0.0,
           };
           arr.push(newP);
           dispatch(updateOrder(newP));
