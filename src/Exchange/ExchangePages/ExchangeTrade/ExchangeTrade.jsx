@@ -35,6 +35,7 @@ const ExchangeTrade = () => {
   const [marketsDropMobile, setMarketsDropMobile] = useState(false);
   const { address } = useAccount();
   const { tickers } = useSelector((state) => state.pairs);
+  const { trades } = useSelector((state) => state.trades);
   const [currentMarket, setCurrentMarket] = useState(tickers[0]?.open24h);
   const [deposit, setDeposit] = useState(false);
   const [withdraw, setWithdraw] = useState(false);
@@ -69,6 +70,9 @@ const ExchangeTrade = () => {
   //   });
   // };
 
+  useEffect(() => {
+    console.log("refreshing...");
+  }, [trades]);
   const toggleActiveBtn = async (e) => {
     setActiveBtn(e.currentTarget.id);
   };
@@ -236,7 +240,10 @@ const ExchangeTrade = () => {
                 className="ExchangeTrade_div1_cont2_cont1_cont1_span1
               "
               >
-                {Number(currentMarket?.open24h)}
+                {parseFloat(
+                  trades.find((obj) => obj.ticker === currentMarket?.pair)
+                    ?.price
+                )}
               </span>
               <span
                 className="ExchangeTrade_div1_cont2_cont1_cont1_span2

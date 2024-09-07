@@ -17,7 +17,7 @@ const TradeSlice = createSlice({
     },
 
     updateTrade: (state, action) => {
-      state.trades.push(action.payload);
+      state.trades.unshift(action.payload);
     },
 
     changeTradeState: (state, action) => {

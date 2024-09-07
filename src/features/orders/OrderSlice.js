@@ -23,7 +23,7 @@ const OrderSlice = createSlice({
       // state.orders = newArr;
     },
     updateOrder: (state, action) => {
-      state.orders.push(action.payload);
+      state.orders.unshift(action.payload);
     },
 
     updateOne: (state, action) => {
