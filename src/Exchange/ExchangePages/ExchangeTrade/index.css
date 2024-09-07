@@ -16,7 +16,7 @@
   background: #151e1b;
   /* border: solid 1px grey; */
   border-radius: 10px;
-  width: 18%;
+  width: 300px;
   justify-content: space-between;
   cursor: pointer;
   border: solid 1px #1d2d27;
@@ -24,7 +24,7 @@
   position: relative;
 }
 .ExchangeTrade_div1_cont1_area {
-  width: 300px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;

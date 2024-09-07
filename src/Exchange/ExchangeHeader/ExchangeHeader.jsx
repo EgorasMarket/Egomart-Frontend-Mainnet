@@ -10,6 +10,7 @@ import {
   ArrowDown01Icon,
   ArrowUp01Icon,
   Menu01Icon,
+  Cancel01Icon,
   InformationCircleIcon,
 } from "hugeicons-react";
 import { Padding } from "@mui/icons-material";
@@ -17,6 +18,7 @@ import { Padding } from "@mui/icons-material";
 const ExchangeHeader = () => {
   const { tickers } = useSelector((state) => state.pairs);
   const [marketsDrop, setMarketsDrop] = useState(false);
+  const [mobileDrop, setMobileDrop] = useState(false);
   const { address, isConnecting, isDisconnected } = useAccount({});
   const { open, close } = useWeb3Modal();
   const toggleMarketsDropDown = () => {
@@ -25,6 +27,9 @@ const ExchangeHeader = () => {
   console.log("====================================");
   console.log(tickers);
   console.log("====================================");
+  const toggleMobileDrop = () => {
+    setMobileDrop(!mobileDrop);
+  };
   return (
     <div className="exchangeHeader">
       <div className="container_fluid">
@@ -174,11 +179,101 @@ const ExchangeHeader = () => {
           <div className="exchangeHeader_div2">
             <w3m-button size="sm" />
             {/* <div className="exchangeHeader_mobile_btn"> */}
-            <Menu01Icon className="exchangeHeader_mobile_btn_icon" size={18} />
+
+            {mobileDrop ? (
+              <Cancel01Icon
+                className="exchangeHeader_mobile_btn_icon"
+                size={18}
+                onClick={toggleMobileDrop}
+              />
+            ) : (
+              <Menu01Icon
+                className="exchangeHeader_mobile_btn_icon"
+                size={18}
+                onClick={toggleMobileDrop}
+              />
+            )}
+
             {/* </div> */}
           </div>
         </div>
       </div>
+      {mobileDrop ? (
+        <div className="MobileDropDiv">
+          <div className="MobileDropDiv_cont">
+            <div className="MobileDropDiv_cont_1">Portfolio</div>
+
+            <details className="MobileDropDiv_cont_1" open>
+              <summary className="baccordion_title"> Trade</summary>
+              <div className="accordion_body">
+                <div className="accordion_body_cont1">
+                  {/* <div className="mobile_nav_links_div"> */}
+                  <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body">
+                    {markets.map((market) => {
+                      // Function to calculate percentage difference
+                      const calculatePercentageDifference = (
+                        currentPrice,
+                        openPrice
+                      ) => {
+                        return ((currentPrice - openPrice) / openPrice) * 100;
+                      };
+
+                      const percentageDifference =
+                        calculatePercentageDifference(
+                          market.currentPrice,
+                          market.OpenPrice
+                        );
+                      return (
+                        <Link
+                          to={"/app/trade/spot/" + market?.pair}
+                          className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
+                          onClick={toggleMobileDrop}
+                        >
+                          <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
+                            <img
+                              src={market?.img}
+                              alt=""
+                              className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_img"
+                            />
+                            <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
+                              <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
+                                {market.pair}
+                              </div>
+                              <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
+                                $ {market?.volume24h}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
+                            <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
+                              {market.currentPrice}
+                            </div>
+                            <div
+                              className={
+                                market.OpenPrice < market.currentPrice
+                                  ? "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent"
+                                  : "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent_loss"
+                              }
+                            >
+                              {market.OpenPrice < market.currentPrice
+                                ? "+"
+                                : "-"}{" "}
+                              {parseFloat(percentageDifference).toFixed(2)}%
+                            </div>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+                {/* </div> */}
+              </div>
+            </details>
+
+            <div className="MobileDropDiv_cont_1">Markets</div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
