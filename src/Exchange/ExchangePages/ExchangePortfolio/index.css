@@ -1,12 +1,10 @@
 .PortfolioDiv {
-  display: flex;
-  /* padding-top: 1em; */
-  height: -webkit-fill-available;
-  justify-content: space-between;
-  /* overflow: auto; */
-  width: -webkit-fill-available;
   position: relative;
-  overflow: hidden;
+  display: flex;
+  height: 92dvh;
+  overflow: auto;
+  width: -webkit-fill-available;
+  padding: 10px 10px;
 }
 .PortfolioDiv_1 {
   width: 215px;
@@ -336,4 +334,171 @@
   color: #fff;
   border: none;
   margin-left: 10px;
+}
+@media (max-width: 990px) {
+  .PortfolioDiv_1 {
+    display: none;
+  }
+  .PortfolioDiv_2 {
+    width: -webkit-fill-available;
+    flex-direction: column;
+    padding-top: 0em;
+  }
+  .exPortoflioOverviewDiv {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exPortoflioOverviewDiv_1_cont1 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .exPortoflioOverviewDiv_1_cont2_btn1 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    margin-right: 5px;
+  }
+  .exPortoflioOverviewDiv_1_cont2_btn2 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    /* margin-right: 10px; */
+  }
+  .exPortoflioOverviewDiv_2 {
+    display: flex;
+    flex-direction: column;
+  }
+  .exPortoflioOverviewDiv_2_div1 {
+    width: -webkit-fill-available;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 0;
+    margin-bottom: 5px;
+    justify-content: space-between;
+  }
+  .exPortoflioOverviewDiv_2_div1_cont2 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .exPortoflioOverviewDiv_2_div1_cont3 {
+    font-size: 10px;
+  }
+  .exPortoflioOverviewDiv_2_div1_cont4 {
+    margin-top: 3em;
+    display: flex;
+    flex-direction: column;
+  }
+  .exPortoflioOverviewDiv_2_div2 {
+    width: -webkit-fill-available;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    /* margin-right: 2em; */
+  }
+  .exPortoflioOverviewDiv_2_div2_body {
+    height: 220px;
+    width: 100%;
+  }
+  .exPortoflioOverviewDiv_3 {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+  }
+  .exPortoflioOverviewDiv_3_body {
+    margin-top: 1em;
+    overflow: auto;
+  }
+  .exPortoflioOverviewDiv_3_body_head {
+    display: -webkit-box;
+    padding: 1em;
+    text-wrap: nowrap;
+    width: max-content;
+    min-width: 100%;
+  }
+  .exPortoflioOverviewDiv_3_body_head_cont1 {
+    font-size: 12px;
+    width: 100px;
+    margin-right: 2em;
+  }
+  .exPortoflioOverviewDiv_3_body_head_cont1_last {
+    width: 200px;
+    /* display: none; */
+  }
+  .exPortoflioOverviewDiv_3_body_cont {
+    display: flex;
+    flex-direction: column;
+    text-wrap: nowrap;
+  }
+  .exPortoflioOverviewDiv_3_body_cont_div {
+    display: -webkit-box;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 1em;
+    cursor: pointer;
+    text-wrap: nowrap;
+    width: max-content;
+    min-width: 100%;
+  }
+  .exPortoflioOverviewDiv_3_body_cont_1 {
+    margin-right: 2em;
+    width: 100px;
+  }
+  .exPortoflioOverviewDiv_3_body_cont_last {
+    display: flex;
+    align-items: center;
+    width: 200px;
+    justify-content: flex-end;
+  }
+  .exPortoflioOverviewDiv_3_body_cont_last_btn1 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    margin-right: 5px;
+  }
+  .exPortoflioOverviewDiv_3_body_cont_last_btn2 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    margin-right: 0;
+  }
+  .exPortoflioOverviewDiv_1 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1em;
+    flex-direction: column;
+  }
+  .exPortoflioOverviewDiv_1_cont2 {
+    display: flex;
+    width: -webkit-fill-available;
+  }
 }

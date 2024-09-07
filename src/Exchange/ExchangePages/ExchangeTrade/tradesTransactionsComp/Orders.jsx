@@ -18,7 +18,7 @@ const Orders = ({ ticker }) => {
     setOrders(arr);
 
     //filter the records that is native for just user wallet
-    console.log(arr, "orders is here");
+    // console.log(arr, "orders is here");
   }, [ticker]);
 
   return (
@@ -33,13 +33,13 @@ const Orders = ({ ticker }) => {
         <div className="TradesDiv_head_cont1_last">Status</div>
       </div>
       <div className="TradesDiv_body">
-        {allOrders.map((data) => {
+        {allOrders.map((data, index) => {
           function formatDate(dateString) {
             const date = new Date(dateString);
             return format(date, "MMM do, yyyy / h:mm aaa");
           }
           return (
-            <div className="TradesDiv_body_cont">
+            <div key={index} className="TradesDiv_body_cont">
               <div className="TradesDiv_body_cont1">
                 {formatDate(data?.createdAt || new Date())}
               </div>
@@ -68,15 +68,27 @@ const Orders = ({ ticker }) => {
               </div>
               <div className="TradesDiv_body_cont1">LIMIT</div>
               <div className="TradesDiv_body_cont1">
-                {parseFloat(data.price).toFixed(2)}
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(data.price).toFixed(4)}
+                  <span className="TradesDiv_body_cont1_span">EGOD</span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {parseFloat(data.amount).toFixed(2)}{" "}
-                <span className="TradesDiv_body_cont1_span">EGOD</span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(data?.amount).toFixed(4)}{" "}
+                  <span className="TradesDiv_body_cont1_span">
+                    {ticker.split("-")[0]}
+                  </span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {data.total}{" "}
-                <span className="TradesDiv_body_cont1_span">{data.token}</span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(
+                    parseFloat(data?.amount).toFixed(4) *
+                      parseFloat(data.price).toFixed(4)
+                  ).toFixed(4)}{" "}
+                  <span className="TradesDiv_body_cont1_span">EGOD</span>
+                </div>
               </div>
 
               <div className="TradesDiv_body_cont1_last">

@@ -21,6 +21,7 @@ import ExchangeTrade from "./Exchange/ExchangePages/ExchangeTrade/ExchangeTrade"
 import ExchangePortfolio from "./Exchange/ExchangePages/ExchangePortfolio/ExchangePortfolio";
 import Overview from "./Exchange/ExchangePages/ExchangePortfolio/Pages/Overview";
 import Home from "./Pages/Home/Home";
+import useSocket from "./hooks/useSocket.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

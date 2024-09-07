@@ -3,10 +3,11 @@
   bottom: 0;
   width: -webkit-fill-available;
   /* padding: 5px 0; */
-  background: #040f0b;
+  background: #000;
   z-index: 1000;
-  border-top: solid 1px #202c28;
-  height: 3vh;
+  height: 3dvh;
+  min-height: 30px;
+  border-top: solid 1px #151e1b;
 }
 .ExchangeFooter .container_fluid {
   height: 100%;

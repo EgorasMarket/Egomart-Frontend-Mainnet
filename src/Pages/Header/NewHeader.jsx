@@ -50,7 +50,7 @@ const NewHeader = () => {
                   }}
                 >
                   <a
-                    href="https://egoswap.io"
+                    href="/app/trade/spot/ESTA-EGOD"
                     target="_blank"
                     className="new_header_div_area_2_div_drop_link1"
                   >
@@ -59,7 +59,7 @@ const NewHeader = () => {
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
                   </a>
                   <a
-                    href="/farm"
+                    href="/app/market"
                     className="new_header_div_area_2_div_drop_link1"
                   >
                     {/* <InfoIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "} */}
@@ -67,7 +67,7 @@ const NewHeader = () => {
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
                   </a>
                   <a
-                    href="https://t.me/egomartbot"
+                    href="#"
                     target="_blank"
                     className="new_header_div_area_2_div_drop_link1"
                   >
@@ -76,7 +76,7 @@ const NewHeader = () => {
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
                   </a>
                   <a
-                    href="https://t.me/egomartbot"
+                    href="/app/portfolio/overview"
                     target="_blank"
                     className="new_header_div_area_2_div_drop_link1"
                   >
@@ -173,7 +173,7 @@ const NewHeader = () => {
             </a>
           </div>
           <div className="newHeaderDiv_area3">
-            <a href="https://t.me/egomartbot" target="_blank">
+            <a href="/app/trade/spot/ESTA-EGOD" target="_blank">
               <button className="newHeaderDiv_area3_btn">Trade</button>
             </a>
           </div>

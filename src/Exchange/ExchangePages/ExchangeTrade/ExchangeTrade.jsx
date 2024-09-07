@@ -7,6 +7,7 @@ import {
 } from "hugeicons-react";
 import TradingChart from "./TradingChart/TradingChart";
 import BuySell from "./BuySell/BuySell";
+import MarketDepth from "./MarketDepth/MarketDepth";
 import DesktopOrderBook from "./OrderBook/DeskTopOrderBook/DesktopOrderBook";
 import TokenDetail from "./TokenDetail/TokenDetail";
 import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
@@ -17,43 +18,65 @@ import { useNavigate, useParams } from "react-router-dom";
 import Trades from "./tradesTransactionsComp/Trades";
 import OpenOrders from "./tradesTransactionsComp/OpenOrders";
 import Orders from "./tradesTransactionsComp/Orders";
+import Modal from "../../../Components/Modal/Modal";
+import Deposit from "../../Funding/Deposit";
+import Withdraw from "../../Funding/Withdraw";
+import MobileOrderBook from "./OrderBook/MobileOrderBook/MobileOrderBook";
+import MobileTrades from "./OrderBook/MobileOrderBook/MobileTrades";
+import CustomBottomSheet from "../../../Components/CustomBottomSheet/CustomBottomSheet";
 
 const ExchangeTrade = () => {
   const navigate = useNavigate();
   const { ticker } = useParams();
   const [activeTab, setActiveTab] = useState("price");
+  const [mobActiveTab, setMobActiveTab] = useState("mobOrderBook");
   const [activeTxTab, setActiveTxTab] = useState("position");
   const [marketsDrop, setMarketsDrop] = useState(false);
+  const [marketsDropMobile, setMarketsDropMobile] = useState(false);
   const { address } = useAccount();
   const { tickers } = useSelector((state) => state.pairs);
   const [currentMarket, setCurrentMarket] = useState(tickers[0]?.open24h);
-  useWatchContractEvent({
-    address: import.meta.env.VITE_CONTRACT_ADDRESS,
-    abi,
-    eventName: "Deposit",
-    onLogs(logs) {},
-  });
-  const {
-    isPending: depositing,
-    data: deposit,
-    writeContract: initiateDeposit,
-    isError,
-    error,
-  } = useWriteContract();
+  const [deposit, setDeposit] = useState(false);
+  const [withdraw, setWithdraw] = useState(false);
+  const [mobBuySellModal, setMobBuySellModal] = useState(false);
+  const [activeBtn, setActiveBtn] = useState("buy");
+  console.log(ticker);
+  const splitTicker = ticker.split("-");
+  console.log(splitTicker[0]);
+  // useWatchContractEvent({
+  //   address: import.meta.env.VITE_CONTRACT_ADDRESS,
+  //   abi,
+  //   eventName: "Deposit",
+  //   onLogs(logs) {},
+  // });
+  // const {
+  //   isPending: depositing,
+  //   data: deposit,
+  //   writeContract: initiateDeposit,
+  //   isError,
+  //   error,
+  // } = useWriteContract();
 
-  const depositFn = async () => {
-    initiateDeposit({
-      address: import.meta.env.VITE_CONTRACT_ADDRESS,
-      abi,
-      functionName: "deposit",
-      args: [
-        "0xae65f10A157d99E35AD81782B86E4C1e6Ec6e78D",
-        1000000000000000000000,
-      ],
-    });
+  // const depositFn = async () => {
+  //   initiateDeposit({
+  //     address: import.meta.env.VITE_CONTRACT_ADDRESS,
+  //     abi,
+  //     functionName: "deposit",
+  //     args: [
+  //       "0xae65f10A157d99E35AD81782B86E4C1e6Ec6e78D",
+  //       1000000000000000000000,
+  //     ],
+  //   });
+  // };
+
+  const toggleActiveBtn = async (e) => {
+    setActiveBtn(e.currentTarget.id);
   };
   const toggleMarketsDropDown = () => {
     setMarketsDrop(!marketsDrop);
+  };
+  const toggleMarketsDropDownMobile = () => {
+    setMarketsDropMobile(!marketsDropMobile);
   };
   const SetCurrentMarketFunc = (data) => {
     setCurrentMarket(data);
@@ -72,6 +95,24 @@ const ExchangeTrade = () => {
     fetchTicker();
   }, [currentMarket, ticker]);
 
+  const closeDepositModal = () => {
+    setDeposit(false);
+  };
+  const openDepositModal = () => {
+    setDeposit(true);
+  };
+  const closeWithdrawModal = () => {
+    setWithdraw(false);
+  };
+  const openWithdrawModal = () => {
+    setWithdraw(true);
+  };
+  const openMobBuySellModal = () => {
+    setMobBuySellModal(true);
+  };
+  const closeMobBuySellModal = () => {
+    setMobBuySellModal(false);
+  };
   return (
     <div className="ExchangeTrade">
       <div className="ExchangeTrade_div1">
@@ -146,6 +187,7 @@ const ExchangeTrade = () => {
                         className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
                         onClick={() => {
                           navigate("/app/trade/spot/" + market?.pair);
+                          setMarketsDrop(false);
                         }}
                       >
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
@@ -238,6 +280,74 @@ const ExchangeTrade = () => {
           </div>
         </div>
       </div>
+      {/* ===== */}
+      {/* ===== */}
+      {/* ===== */}
+      {/* ===== */}
+      <div className="ExchangeTrade_div1_mobile">
+        <div className="ExchangeTrade_div1_mobile_div1">
+          <div
+            className="ExchangeTrade_div1_mobile_div1_title"
+            onClick={toggleMarketsDropDownMobile}
+          >
+            <div className="ExchangeTrade_div1_mobile_div1_title_txt">
+              {currentMarket?.pair}
+            </div>
+            {marketsDropMobile ? (
+              <ArrowUp01Icon className="ExchangeTrade_div1_cont1_div2_icon" />
+            ) : (
+              <ArrowDown01Icon className="ExchangeTrade_div1_cont1_div2_icon" />
+            )}
+          </div>
+          <div className="ExchangeTrade_div1_mobile_div1_price">
+            {parseInt(currentMarket?.open24h)}
+            <span className="ExchangeTrade_div1_mobile_div1_price_span">
+              ≈$0.00{" "}
+              <div className="ExchangeTrade_div1_mobile_div1_price_span_change">
+                +0.00%
+              </div>
+            </span>
+          </div>
+        </div>
+        <div className="ExchangeTrade_div1_mobile_div2">
+          <div className="ExchangeTrade_div1_mobile_div2_cont1">
+            <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
+              24h High
+            </div>
+            <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
+              0.00
+            </div>
+          </div>
+          <div className="ExchangeTrade_div1_mobile_div2_cont1">
+            <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
+              24h Vol (ESTA)
+            </div>
+            <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
+              0.00
+            </div>
+          </div>
+          <div className="ExchangeTrade_div1_mobile_div2_cont1">
+            <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
+              24h Low
+            </div>
+            <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
+              0.00
+            </div>
+          </div>
+          <div className="ExchangeTrade_div1_mobile_div2_cont1">
+            <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
+              24h Vol (EGOD)
+            </div>
+            <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
+              0.00
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* ===== */}
+      {/* ===== */}
+      {/* ===== */}
+      {/* ===== */}
       <div className="ExchangeTrade_div2">
         <div className="ExchangeTrade_div2_cont1">
           <div className="ExchangeTrade_div2_cont1_header">
@@ -283,16 +393,80 @@ const ExchangeTrade = () => {
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTab === "price" ? (
               <TradingChart />
+            ) : activeTab === "depth" ? (
+              <MarketDepth />
             ) : (
               <TokenDetail payload={currentMarket} />
             )}
           </div>
         </div>
+        <div className="ExchangeTrade_div2_cont2_mobile">
+          <div className="ExchangeTrade_div2_cont1_header_mobile">
+            <div className="ExchangeTrade_div2_cont1_header_cont">
+              <div
+                className={
+                  mobActiveTab === "mobOrderBook"
+                    ? "ExchangeTrade_div2_cont1_header_cont1"
+                    : "ExchangeTrade_div2_cont1_header_cont2"
+                }
+                onClick={() => {
+                  setMobActiveTab("mobOrderBook");
+                }}
+              >
+                Order Book
+              </div>
+              <div
+                className={
+                  mobActiveTab === "mobDepth"
+                    ? "ExchangeTrade_div2_cont1_header_cont1"
+                    : "ExchangeTrade_div2_cont1_header_cont2"
+                }
+                onClick={() => {
+                  setMobActiveTab("mobDepth");
+                }}
+              >
+                Trades
+              </div>
+              <div
+                className={
+                  mobActiveTab === "mobDetail"
+                    ? "ExchangeTrade_div2_cont1_header_cont1"
+                    : "ExchangeTrade_div2_cont1_header_cont2"
+                }
+                onClick={() => {
+                  setMobActiveTab("mobDetail");
+                }}
+              >
+                Info
+              </div>
+            </div>
+          </div>
+
+          <>
+            {mobActiveTab === "mobDepth" ? (
+              <MobileTrades current={currentMarket} />
+            ) : mobActiveTab === "mobDetail" ? (
+              <TokenDetail payload={currentMarket} />
+            ) : (
+              <>
+                {" "}
+                <div className="ExchangeTrade_div2_cont2_mobile_depth">
+                  <MarketDepth />
+                </div>
+                <MobileOrderBook current={currentMarket} />
+              </>
+            )}
+          </>
+        </div>
         <div className="ExchangeTrade_div2_cont2">
           <DesktopOrderBook current={currentMarket} />
         </div>
         <div className="ExchangeTrade_div2_cont3">
-          <BuySell payload={currentMarket} />
+          <BuySell
+            payload={currentMarket}
+            activeBtn={activeBtn}
+            toggleActiveBtn={toggleActiveBtn}
+          />
         </div>
       </div>
       <div className="ExchangeTrade_div3">
@@ -380,17 +554,205 @@ const ExchangeTrade = () => {
           </div>
           <div className="ExchangeTrade_div3_cont2_conts_button">
             <button
-              onClick={depositFn}
+              onClick={openDepositModal}
               className="ExchangeTrade_div3_cont2_conts_button_1"
             >
               Deposit
             </button>
-            <button className="ExchangeTrade_div3_cont2_conts_button_1">
+            <button
+              onClick={openWithdrawModal}
+              className="ExchangeTrade_div3_cont2_conts_button_1"
+            >
               Withdraw
             </button>
           </div>
         </div>
       </div>
+      <div className="mobileBuySellBtnsDiv">
+        <button
+          className="mobileBuySellBtnsDiv_buy"
+          onClick={() => {
+            openMobBuySellModal();
+            setActiveBtn("buy");
+          }}
+        >
+          Buy
+        </button>
+        <button
+          className="mobileBuySellBtnsDiv_sell"
+          onClick={() => {
+            openMobBuySellModal();
+            setActiveBtn("sell");
+          }}
+        >
+          Sell
+        </button>
+      </div>
+      <Modal isOpen={deposit} title={"Deposit"} closeModal={closeDepositModal}>
+        <Deposit symbol={splitTicker[0]} />
+      </Modal>
+      <Modal
+        isOpen={withdraw}
+        title={"Withdraw"}
+        closeModal={closeWithdrawModal}
+      >
+        <Withdraw symbol={splitTicker[0]} />
+      </Modal>
+      <CustomBottomSheet
+        isOpen={marketsDropMobile}
+        content="fullHeight"
+        title={"All Markets"}
+        closeModal={toggleMarketsDropDownMobile}
+      >
+        <div className="mobile_markets_drop">
+          <div className="ExchangeTrade_div1_cont1_markets_drop_cont1">
+            <input
+              type="search"
+              placeholder="search"
+              className="ExchangeTrade_div1_cont1_markets_drop_cont1_input"
+            />
+          </div>
+          <div className="ExchangeTrade_div1_cont1_markets_drop_cont2">
+            <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_head">
+              <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_head_txt1">
+                Market/Volume
+              </div>
+              <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_head_txt1">
+                Price
+              </div>
+            </div>
+            <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body">
+              {tickers.map((market) => {
+                // Function to calculate percentage difference
+                const calculatePercentageDifference = (
+                  currentPrice,
+                  openPrice
+                ) => {
+                  return ((currentPrice - openPrice) / openPrice) * 100;
+                };
+
+                const percentageDifference = calculatePercentageDifference(
+                  market.currentPrice,
+                  market.OpenPrice
+                );
+                return (
+                  <div
+                    className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
+                    onClick={() => {
+                      navigate("/app/trade/spot/" + market?.pair);
+                      setMarketsDropMobile(false);
+                    }}
+                  >
+                    <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
+                      <img
+                        src={market?.img}
+                        alt=""
+                        className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_img"
+                      />
+                      <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
+                        <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
+                          {market.pair}
+                        </div>
+                        <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
+                          $ {market?.open24h}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
+                      <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
+                        {market.change24h}
+                      </div>
+                      <div
+                        className={
+                          market.OpenPrice < market.currentPrice
+                            ? "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent"
+                            : "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent_loss"
+                        }
+                      >
+                        {market.OpenPrice < market.currentPrice ? "+" : "-"}{" "}
+                        {parseFloat(percentageDifference).toFixed(2)}%
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </CustomBottomSheet>
+      <CustomBottomSheet
+        isOpen={mobBuySellModal}
+        content="fullHeight"
+        title={currentMarket?.pair}
+        closeModal={closeMobBuySellModal}
+      >
+        {" "}
+        <div className="mobile_trade_">
+          <div className="mobile_trade__div1">
+            <div className="mobile_trade__div1_cont1">
+              <BuySell
+                payload={currentMarket}
+                activeBtn={activeBtn}
+                toggleActiveBtn={toggleActiveBtn}
+              />{" "}
+            </div>
+            <div className="mobile_trade__div1_cont2">
+              <DesktopOrderBook current={currentMarket} />
+            </div>
+          </div>
+          <div className="mobile_trade__div2">
+            <div className="ExchangeTrade_div2_cont1_header_mobile">
+              <div
+                className={
+                  activeTxTab === "position"
+                    ? "ExchangeTrade_div2_cont1_header_cont1"
+                    : "ExchangeTrade_div2_cont1_header_cont2"
+                }
+                onClick={() => {
+                  setActiveTxTab("position");
+                }}
+              >
+                Positions
+              </div>
+              <div
+                className={
+                  activeTxTab === "order"
+                    ? "ExchangeTrade_div2_cont1_header_cont1"
+                    : "ExchangeTrade_div2_cont1_header_cont2"
+                }
+                onClick={() => {
+                  setActiveTxTab("order");
+                }}
+              >
+                Orders
+              </div>
+              <div
+                className={
+                  activeTxTab === "trades"
+                    ? "ExchangeTrade_div2_cont1_header_cont1"
+                    : "ExchangeTrade_div2_cont1_header_cont2"
+                }
+                onClick={() => {
+                  setActiveTxTab("trades");
+                }}
+              >
+                Trades
+              </div>
+            </div>
+            <div className="ExchangeTrade_div2_cont1_body">
+              {activeTxTab === "position" && (
+                <OpenOrders ticker={currentMarket?.pair} />
+              )}
+              {activeTxTab === "order" && (
+                <Orders ticker={currentMarket?.pair} />
+              )}
+              {activeTxTab === "trades" && (
+                <Trades ticker={currentMarket?.pair} />
+              )}
+            </div>
+          </div>
+        </div>
+      </CustomBottomSheet>
     </div>
   );
 };

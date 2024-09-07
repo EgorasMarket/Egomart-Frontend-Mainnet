@@ -3,7 +3,7 @@
   /* justify-content: space-between; */
   margin-top: 1em;
   flex-direction: column;
-  height: 610px;
+  /* height: 610px; */
   overflow: auto;
 }
 .ProductDetailPage_div_body_div2_body_area_trades_head {
@@ -158,6 +158,18 @@ svg.sc-eqUAAy.cMqsAc.mx-icon.svg-icon.orderbook_iconBuySell__HkmTg {
   position: relative;
   z-index: 1;
   color: #d3e5dd;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  text-decoration: none !important;
+}
+.walletSelectModalDiv_body_amount_display_cont1:nth-child(2) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.walletSelectModalDiv_body_amount_display_cont1:first-child {
+  justify-content: flex-end;
 }
 .walletSelectModalDiv_body_amount_display_body_display {
   display: flex;
@@ -301,4 +313,19 @@ text.recharts-text tspan {
 .ProductDetailPage_div_body_div2_div6b
   .ProductDetailPage_div_body_div2_div6_title {
   border-bottom: solid 1px #e1e1e1;
+}
+
+@media (max-width: 990px) {
+  .walletSelectModalDiv_body_amount_display_cont1:first-child {
+    justify-content: flex-start;
+    margin-left: 0 !important;
+  }
+  .walletSelectModalDiv_body_amount_display {
+    flex-direction: row;
+  }
+  .walletSelectModalDiv_body_amount_display_cont1:nth-child(2) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
 }

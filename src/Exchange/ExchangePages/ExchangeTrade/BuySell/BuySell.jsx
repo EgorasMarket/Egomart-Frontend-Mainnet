@@ -24,7 +24,9 @@ import { INSERT_NEW_ORDER } from "../../../../services/trade.services";
 import { useDispatch, useSelector } from "react-redux";
 import { DECIMAL_COUNT } from "../../../../constants/config";
 import { updateOrder } from "../../../../features/orders/OrderSlice";
-const BuySell = ({ payload }) => {
+import { toast, ToastContainer } from "react-toastify";
+const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
+  const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
   const {
     data: hash,
@@ -35,18 +37,14 @@ const BuySell = ({ payload }) => {
     error,
     writeContractAsync,
   } = useWriteContract();
+
   const { address } = useAccount();
 
   const [selectedValue, setSelectedValue] = useState("Limit");
   const [price, setPrice] = useState("10.00");
   const [amount, setAmount] = useState("");
-  const [activeBtn, setActiveBtn] = useState("buy");
   const [buyOffersArr, setBuyOffersArr] = useState([]);
   const [balanceOf, setBalance] = useState(0);
-
-  useEffect(() => {
-    console.log("switch");
-  }, [activeBtn]);
 
   const aa = useFetchBalance(
     activeBtn === "buy" ? payload?.tickerB : payload?.tickerA
@@ -86,18 +84,14 @@ const BuySell = ({ payload }) => {
   const parsedAmount = parseFloat(amount);
   const Total = parsedPrice * parsedAmount;
 
-  const toggleActiveBtn = async (e) => {
-    setActiveBtn(e.currentTarget.id);
-  };
-
   const setOrder = () => {
-    // const quantity =
     const marketType = activeBtn === "sell" ? true : false;
     try {
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
         functionName: "matchingEngine",
+
         args: [
           payload?.pair,
           [
@@ -105,62 +99,28 @@ const BuySell = ({ payload }) => {
             address,
             parseEther(price).toString(),
             parseEther(amount).toString(),
+            0,
           ],
         ],
       });
     } catch (error) {
       console.log(error, "error");
+      console.log("====================================");
+      console.log("gdgdg");
+      console.log("====================================");
     }
   };
 
-  useWatchContractEvent({
-    address: import.meta.env.VITE_CONTRACT_ADDRESS,
-    abi,
-    eventName: "OrderPlaced",
-    async onLogs(logs) {
-      console.log("New Order placed!", logs);
+  useEffect(() => {
+    if (error) {
+      console.log(error, "error");
+    }
+    if (hash) {
+      // toast.success(`Order have been placed successfuly!!!`);
+      console.log("Order have been placed successfully!!!");
+    }
+  }, [hash, loading, error]);
 
-      console.log(formatEther(logs[0].args.value), "formatted value");
-
-      //construct payload and dispatch to store
-
-      const data = {
-        id: parseInt(formatEther(logs[0].args?.orderId).toString()),
-        price: parseFloat(formatEther(logs[0].args.value)).toFixed(
-          DECIMAL_COUNT
-        ),
-        indexId: parseInt(formatEther(logs[0].args?.orderId)),
-        ticker: logs[0].args?.ticker,
-        type: logs[0].args?.isSale === false ? "BUY" : "SELL",
-        amount: parseFloat(formatEther(logs[0]?.args?.numberOfShares)).toFixed(
-          DECIMAL_COUNT
-        ),
-        address: logs[0].args?.userAddress,
-        status: "OPEN", //ENUM OPEN, CANCELLED,COMPLETED,
-        createdAt: new Date(),
-      };
-      console.log(data, "prepared response");
-
-      dispatch(updateOrder(data));
-
-      let payload = {
-        userAddress: data.address,
-        orderType: data.type,
-        amount: data?.price,
-        numberOfShares: data.amount,
-        transHash: logs[0].transactionHash,
-        time: logs[0].args?.time.toString().split("n")[0],
-        ticker: data?.ticker,
-        orderId: data?.indexId,
-      };
-      console.log(payload, "to be sent to backend");
-
-      //after pushing the data to the store,
-      //post to backend to correlate record
-      const res = await INSERT_NEW_ORDER(payload);
-      console.log(res, "to backend");
-    },
-  });
   return (
     <div>
       <div className="buy_modal_div_div1_cont1">
@@ -357,7 +317,7 @@ const BuySell = ({ payload }) => {
                       className="ProductDetailPage_div_body_div2_div7_btn"
                     >
                       Buy
-                      {hash && <p> laoding...</p>}
+                      {/* {hash && <p> laoding...</p>} */}
                     </button>
                   </>
                 )}
@@ -381,6 +341,8 @@ const BuySell = ({ payload }) => {
           </div>
         </div>
       </div>
+
+      {/* <ToastContainer /> */}
     </div>
   );
 };

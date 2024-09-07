@@ -90,3 +90,47 @@
   padding-bottom: 10px;
   margin-bottom: 10px;
 }
+@media (max-width: 990px) {
+  .tokenDetailDiv {
+    width: -webkit-fill-available;
+    max-width: 800px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    padding: 10px;
+  }
+  .tokenDetailDiv_cont2 {
+    width: -webkit-fill-available;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .tokenDetailDiv_cont1_title {
+    font-size: 18px;
+  }
+  .tokenDetailDiv_cont1_img {
+    width: 28px;
+    margin-right: 5px;
+  }
+  .tokenDetailDiv_cont1_txt {
+    font-size: 12px;
+  }
+  .tokenDetailDiv_cont1_links_link1 {
+    padding: 6px 10px;
+    font-size: 10px;
+    width: 75px;
+  }
+  .tokenDetailDiv_cont1_links_link2 {
+    padding: 6px 10px;
+    font-size: 10px;
+    width: 100px;
+    margin-right: 0;
+  }
+  .tokenDetailDiv_cont2_stat_cont_2 {
+    font-size: 12px;
+  }
+  .tokenDetailDiv_cont2_stat_cont_1 {
+    font-size: 10px;
+  }
+}

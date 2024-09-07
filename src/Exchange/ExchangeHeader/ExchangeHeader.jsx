@@ -9,13 +9,15 @@ import { useSelector } from "react-redux";
 import {
   ArrowDown01Icon,
   ArrowUp01Icon,
+  Menu01Icon,
   InformationCircleIcon,
 } from "hugeicons-react";
+import { Padding } from "@mui/icons-material";
 
 const ExchangeHeader = () => {
   const { tickers } = useSelector((state) => state.pairs);
   const [marketsDrop, setMarketsDrop] = useState(false);
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address, isConnecting, isDisconnected } = useAccount({});
   const { open, close } = useWeb3Modal();
   const toggleMarketsDropDown = () => {
     setMarketsDrop(!marketsDrop);
@@ -171,6 +173,9 @@ const ExchangeHeader = () => {
           </div>
           <div className="exchangeHeader_div2">
             <w3m-button size="sm" />
+            {/* <div className="exchangeHeader_mobile_btn"> */}
+            <Menu01Icon className="exchangeHeader_mobile_btn_icon" size={18} />
+            {/* </div> */}
           </div>
         </div>
       </div>

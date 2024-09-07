@@ -76,14 +76,6 @@ const Deposit = ({ symbol }) => {
       selectedAsset.tokenAddress,
       import.meta.env.VITE_CONTRACT_ADDRESS
     );
-  //   useWatchContractEvent({
-  //     address: import.meta.env.VITE_CONTRACT_ADDRESS,
-  //     abi,
-  //     eventName: "Deposit",
-  //     onLogs(logs) {
-  //       console.log("New Deposit!", logs);
-  //     },
-  //   });
 
   const toggleAssetList = () => {
     setAssetList(!assetList);
@@ -103,6 +95,7 @@ const Deposit = ({ symbol }) => {
   });
 
   useEffect(() => {
+    // setAllowance();
     if (address) {
       if (balancePending) {
         console.log("fetching balance...");
@@ -132,7 +125,7 @@ const Deposit = ({ symbol }) => {
       functionName: "deposit",
       args: [
         selectedAsset.tokenAddress,
-        parseEther(depositAmount.toString(), "wei").toString(),
+        parseEther(depositAmount?.toString(), "wei").toString(),
       ],
     });
   };
@@ -158,11 +151,11 @@ const Deposit = ({ symbol }) => {
       if (!isLoading) {
         console.log(
           "Allowance Data: ",
-          allowanceData.toString(),
+          allowanceData?.toString(),
           "depositAmount:",
           depositAmount
         );
-        if (parseFloat(allowanceData.toString()) < parseFloat(depositAmount)) {
+        if (parseFloat(allowanceData?.toString()) < parseFloat(depositAmount)) {
           setUserAllowance(true);
         } else {
           setUserAllowance(false);
@@ -200,7 +193,7 @@ const Deposit = ({ symbol }) => {
 
   useEffect(() => {
     if (depositError === true) {
-      console.log(depositError);
+      console.log(depositError, error);
       toast.error("Error Depositing !", {
         position: "bottom-right",
       });
@@ -355,35 +348,46 @@ const Deposit = ({ symbol }) => {
             </div>
           </div>
         </div>
-
-        {userAllowance ? (
-          <button
-            className="depositDiv_cont4_btn"
-            onClick={setAllowance}
-            disabled={allowancePending ? true : false}
-          >
-            {allowancePending ? (
-              <>
-                <ClipLoader color="#6ba28b" size={18} /> Approving...
-              </>
+        {address ? (
+          <>
+            {" "}
+            {userAllowance ? (
+              <button
+                className="depositDiv_cont4_btn"
+                onClick={setAllowance}
+                disabled={allowancePending ? true : false}
+              >
+                {allowancePending ? (
+                  <>
+                    <ClipLoader color="#6ba28b" size={18} /> Approving...
+                  </>
+                ) : (
+                  <>Approve {selectedAsset.tokenSymbol}</>
+                )}
+              </button>
             ) : (
-              <>Approve {selectedAsset.tokenSymbol}</>
+              <button
+                className="depositDiv_cont4_btn"
+                onClick={depositFn}
+                disabled={depositing ? true : false}
+              >
+                {depositing ? (
+                  <>
+                    <ClipLoader color="#6ba28b" size={18} /> Depositing...
+                  </>
+                ) : (
+                  "Deposit"
+                )}
+              </button>
             )}
-          </button>
+          </>
         ) : (
-          <button
-            className="depositDiv_cont4_btn"
-            onClick={depositFn}
-            disabled={depositing ? true : false}
-          >
-            {depositing ? (
-              <>
-                <ClipLoader color="#6ba28b" size={18} /> Depositing...
-              </>
-            ) : (
-              "Deposit"
-            )}
-          </button>
+          <>
+            {" "}
+            <button className="depositDiv_cont4_btn" disabled={true}>
+              Connect Wallet
+            </button>
+          </>
         )}
       </div>
       <ToastContainer />

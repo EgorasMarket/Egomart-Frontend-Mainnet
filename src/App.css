@@ -65,5 +65,16 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .container_fluid {
   width: -webkit-fill-available;
-  padding: 0 1em;
+  padding: 0 10px;
+}
+/* wui-connect-button ~ button {
+  background: #12b66f !important;
+  border-radius: 10px !important;
+  padding: 10px 20px !important;
+} */
+.recharts-default-tooltip {
+  background: #000 !important;
+  color: #fff !important;
+  border: solid 1px #000000 !important;
+  border-radius: 10px;
 }
