@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import {
   ArrowDown01Icon,
   ArrowUp01Icon,
+  Menu01Icon,
   InformationCircleIcon,
 } from "hugeicons-react";
 import { Padding } from "@mui/icons-material";
@@ -172,6 +173,9 @@ const ExchangeHeader = () => {
           </div>
           <div className="exchangeHeader_div2">
             <w3m-button size="sm" />
+            {/* <div className="exchangeHeader_mobile_btn"> */}
+            <Menu01Icon className="exchangeHeader_mobile_btn_icon" size={18} />
+            {/* </div> */}
           </div>
         </div>
       </div>

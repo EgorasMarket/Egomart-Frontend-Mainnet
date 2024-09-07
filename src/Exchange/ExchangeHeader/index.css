@@ -4,11 +4,12 @@
   position: sticky;
   top: 0;
   left: 0;
-  background: #040f0b;
+  background: #000000;
   z-index: 1000;
   /* max-height: 8vh; */
-  height: 7dvh;
+  height: 5dvh;
   min-height: 63px;
+  border-bottom: solid 1px #151e1b;
 }
 .exchangeHeader .container_fluid {
   height: -webkit-fill-available;
@@ -76,8 +77,18 @@
   border: solid 1px #3d534c;
   padding-top: 0;
 }
+.exchangeHeader_mobile_btn_icon {
+  display: none;
+}
 @media (max-width: 990px) {
   .exchangeHeader_div1_links {
     display: none;
+  }
+  .exchangeHeader_mobile_btn_icon {
+    display: block;
+    background: #151e1b;
+    padding: 6px;
+    border-radius: 6px;
+    border: solid 1px #1e2d27;
   }
 }

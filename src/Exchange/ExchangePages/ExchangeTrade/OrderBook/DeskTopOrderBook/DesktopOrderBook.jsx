@@ -135,7 +135,7 @@ const DesktopOrderBook = ({ current }) => {
     .filter((f) => f?.status === "OPEN");
 
   const sortedGroupedSellOffersArr = groupedSellOffersArr
-    .sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+    .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
     .filter((f) => f?.status === "OPEN");
 
   const maxAmount = Math.max(
@@ -218,7 +218,6 @@ const DesktopOrderBook = ({ current }) => {
               data.createdAt !== "--"
                 ? format(parseISO(data.createdAt), "h:mm:ss aa")
                 : "--";
-
             return (
               <div
                 className="ProductDetailPage_div_body_div2_body_area_trades_body"
@@ -465,9 +464,7 @@ const DesktopOrderBook = ({ current }) => {
                       key={data.id || `placeholder-${index}`}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {data.price !== "--"
-                          ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
-                          : "--"}
+                        {total}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
@@ -478,7 +475,9 @@ const DesktopOrderBook = ({ current }) => {
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#16b979" }}
                       >
-                        {total}
+                        {data.price !== "--"
+                          ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                          : "--"}
                       </div>
                       <div
                         style={{ width: `${widthPercentage}%` }}
@@ -491,7 +490,10 @@ const DesktopOrderBook = ({ current }) => {
             </>
           ) : showOrders === "Sell" ? (
             <>
-              <div className="walletSelectModalDiv_body_amount_display_body_display_full">
+              <div
+                className="walletSelectModalDiv_body_amount_display_body_display_full"
+                style={{ flexDirection: "column-reverse" }}
+              >
                 {filledSellOffers.map((data, index) => {
                   // Calculate width percentage only if amount is valid
                   const widthPercentage =
@@ -545,7 +547,10 @@ const DesktopOrderBook = ({ current }) => {
           ) : (
             <>
               {" "}
-              <div className="walletSelectModalDiv_body_amount_display_body_display">
+              <div
+                className="walletSelectModalDiv_body_amount_display_body_display"
+                style={{ flexDirection: "column-reverse" }}
+              >
                 {filledSellOffers.map((data, index) => {
                   // Calculate width percentage only if amount is valid
                   const widthPercentage =
@@ -616,9 +621,7 @@ const DesktopOrderBook = ({ current }) => {
                       key={data.id || `placeholder-${index}`}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {data.price !== "--"
-                          ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
-                          : "--"}
+                        {total}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
@@ -629,7 +632,9 @@ const DesktopOrderBook = ({ current }) => {
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#16b979" }}
                       >
-                        {total}
+                        {data.price !== "--"
+                          ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                          : "--"}
                       </div>
                       <div
                         style={{ width: `${widthPercentage}%` }}
