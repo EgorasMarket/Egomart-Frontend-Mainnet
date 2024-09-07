@@ -100,6 +100,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
             parseEther(price).toString(),
             parseEther(amount).toString(),
             0,
+            0,
           ],
         ],
       });

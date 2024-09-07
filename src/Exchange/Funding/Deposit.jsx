@@ -3,7 +3,6 @@ import "./index.css";
 import { assets } from "../../Components/Static";
 import {
   useAccount,
-  useWatchContractEvent,
   useReadContract,
   useWriteContract,
   useBalance,
@@ -12,15 +11,11 @@ import { parseEther, formatEther } from "ethers";
 import abi from "../../web3/contracts/Egomart.json";
 import allowanceAbi from "../../web3/erc20.json";
 import ClipLoader from "react-spinners/ClipLoader";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 import useTokenAllowance from "../../hooks/useTokenAllowance";
 // import { useAccount } from "wagmi";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  ArrowDown01Icon,
-  ArrowUp01Icon,
-  InformationCircleIcon,
-} from "hugeicons-react";
+import { ArrowDown01Icon, ArrowUp01Icon } from "hugeicons-react";
 export const AssetItem = ({ asset, address, selectAsset }) => {
   const {
     data: balanceData,
@@ -184,9 +179,9 @@ const Deposit = ({ symbol }) => {
       console.log("====================================");
       console.log(depositSuccess);
       console.log("====================================");
-      toast.success("Success Depositing !", {
-        position: "bottom-right",
-      });
+      // toast.success("Success Depositing !", {
+      //   position: "bottom-right",
+      // });
       return;
     }
   }, [depositSuccess]);
@@ -390,7 +385,7 @@ const Deposit = ({ symbol }) => {
           </>
         )}
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </>
   );
 };
