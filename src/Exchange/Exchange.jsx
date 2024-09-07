@@ -80,31 +80,6 @@ const Exchange = () => {
 
   /** */
 
-  // subscribeToEvent("/orders-event", (err, payload) => {
-  //   console.log(payload, "orders event");
-  //   let arr = [];
-  //   let newP = {};
-
-  //   payload.forEach((log) => {
-  //     newP = {
-  //       id: orders.length + 1,
-  //       price: parseFloat(log.amount).toFixed(30),
-  //       indexId: log.index_id,
-  //       ticker: log.ticker,
-  //       type: log.orderType,
-  //       amount: log.numberOfShares,
-  //       address: log.userAddress,
-  //       status: log.state,
-  //       createdAt: log.timePlaced,
-  //       transHash: log.transHash,
-  //     };
-  //     arr.push(newP);
-  //     dispatch(updateOrder(newP));
-  //   });
-  //   // console.log(arr, "new form");
-  //   // dispatch(updateArr(newP));
-  // });
-
   const fetchTickers = async () => {
     const res = await GET_TICKER_PAIRS();
     if (!res?.success) return;
@@ -181,50 +156,50 @@ const Exchange = () => {
     },
   });
   /** wagmi event watcher for trade event */
-  useWatchContractEvent({
-    address: import.meta.env.VITE_CONTRACT_ADDRESS,
-    abi,
-    eventName: "Trade",
-    onLogs: async (logs) => {
-      console.log("Trade Orders Received", logs);
+  // useWatchContractEvent({
+  //   address: import.meta.env.VITE_CONTRACT_ADDRESS,
+  //   abi,
+  //   eventName: "Trade",
+  //   onLogs: async (logs) => {
+  //     console.log("Trade Orders Received", logs);
 
-      //loop through the logs
+  //     //loop through the logs
 
-      logs.forEach(async (log) => {
-        const payload = {
-          createdAt: new Date(Number(log.args.createdAt) * 1000),
-          buyer: log.args.buyer,
-          seller: log.args.seller,
-          isMarketOrder: log.args.isMarketOrder,
-          ticker: log.args.ticker,
-          type: log.args?.typeOfTrade === 0 ? "BUY" : "SELL",
-          price: parseFloat(formatEther(log.args.value)).toFixed(30),
-          amount: parseFloat(formatEther(log?.args?.numberOfShares)),
-          orderId: Number(log.args.orderId),
-          transactionHash: log.transactionHash,
-        };
+  //     logs.forEach(async (log) => {
+  //       const payload = {
+  //         createdAt: new Date(Number(log.args.createdAt) * 1000),
+  //         buyer: log.args.buyer,
+  //         seller: log.args.seller,
+  //         isMarketOrder: log.args.isMarketOrder,
+  //         ticker: log.args.ticker,
+  //         type: log.args?.typeOfTrade === 0 ? "BUY" : "SELL",
+  //         price: parseFloat(formatEther(log.args.value)).toFixed(30),
+  //         amount: parseFloat(formatEther(log?.args?.numberOfShares)),
+  //         orderId: Number(log.args.orderId),
+  //         transactionHash: log.transactionHash,
+  //       };
 
-        //find the order in the orders arrary
+  //       //find the order in the orders arrary
 
-        let curr_order = orders.find(
-          (order) =>
-            order.indexId === payload.orderId &&
-            order.price === payload.price &&
-            order.type === payload.type
-        );
-        console.log(curr_order);
-        if (curr_order) {
-          dispatch(updateOne({ id: curr_order.id, curr_order }));
-          //push this payload to the tradeslice
+  //       let curr_order = orders.find(
+  //         (order) =>
+  //           order.indexId === payload.orderId &&
+  //           order.price === payload.price &&
+  //           order.type === payload.type
+  //       );
+  //       console.log(curr_order);
+  //       if (curr_order) {
+  //         dispatch(updateOne({ id: curr_order.id, curr_order }));
+  //         //push this payload to the tradeslice
 
-          dispatch(updateTrade(payload));
-          console.log(payload, curr_order, "to be sent to store ");
-          return;
-        }
-        console.log("not sent to store");
-      });
-    },
-  });
+  //         dispatch(updateTrade(payload));
+  //         console.log(payload, curr_order, "to be sent to store ");
+  //         return;
+  //       }
+  //       console.log("not sent to store");
+  //     });
+  //   },
+  // });
 
   /** */
 
