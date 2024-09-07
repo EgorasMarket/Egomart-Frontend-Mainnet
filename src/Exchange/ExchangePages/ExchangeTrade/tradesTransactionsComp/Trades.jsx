@@ -8,16 +8,16 @@ const Trades = ({ ticker }) => {
   const { address } = useAccount();
   const [allOrders, setOrders] = useState([]);
   const { orders } = useSelector((state) => state.orders);
+  const { trades } = useSelector((state) => state.trades);
 
   useEffect(() => {
-    const arr = orders.filter(
+    const arr = trades.filter(
       (order) =>
-        order.address === address &&
-        order.ticker === ticker && order?.status === "COMPLETED"
+        order.buyer === address ||
+        (order.seller === address && order.ticker === ticker)
     );
     setOrders(arr);
     //filter the records that is native for just user wallet
-    console.log(arr, "trades");
   }, [ticker]);
 
   return (
@@ -25,7 +25,7 @@ const Trades = ({ ticker }) => {
       <div className="TradesDiv_head">
         <div className="TradesDiv_head_cont1">Time</div>
         <div className="TradesDiv_head_cont1">Market/Action</div>
-        <div className="TradesDiv_head_cont1">Type</div>
+        {/* <div className="TradesDiv_head_cont1">Type</div> */}
         <div className="TradesDiv_head_cont1">Avg.Price</div>
         <div className="TradesDiv_head_cont1">Amount</div>
         <div className="TradesDiv_head_cont1">Total</div>
@@ -36,9 +36,7 @@ const Trades = ({ ticker }) => {
         {allOrders.map((data) => {
           return (
             <div className="TradesDiv_body_cont">
-              <div className="TradesDiv_body_cont1">
-                Aug 1st, 2024 / 10:00 pm
-              </div>
+              <div className="TradesDiv_body_cont1">{data.createdAt}</div>
               <div className="TradesDiv_body_cont1">
                 <img
                   src={data.img}
@@ -47,7 +45,7 @@ const Trades = ({ ticker }) => {
                 />
                 <div className="TradesDiv_body_cont1_cont">
                   <div className="TradesDiv_body_cont1_cont_div1">
-                    {data.pair}
+                    {data.ticker}
                   </div>
                   <div className="TradesDiv_body_cont1_cont_div2">
                     <span
@@ -58,15 +56,17 @@ const Trades = ({ ticker }) => {
                       }
                     >
                       {" "}
-                      {data.action}
+                      {data.buyer === address ? "BUY" : "SELL"}
                     </span>
                   </div>
                 </div>
               </div>
-              <div className="TradesDiv_body_cont1"> {data.type}</div>
-              <div className="TradesDiv_body_cont1">{data.price}</div>
+              {/* <div className="TradesDiv_body_cont1"> {data.type}</div> */}
               <div className="TradesDiv_body_cont1">
-                {data.baseAmount}{" "}
+                {parseFloat(data.price)}
+              </div>
+              <div className="TradesDiv_body_cont1">
+                {parseFloat(data.amount)}{" "}
                 <span className="TradesDiv_body_cont1_span">EGOD</span>
               </div>
               <div className="TradesDiv_body_cont1">

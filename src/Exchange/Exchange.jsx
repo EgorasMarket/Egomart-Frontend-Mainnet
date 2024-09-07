@@ -180,6 +180,7 @@ const Exchange = () => {
       });
     },
   });
+  /** wagmi event watcher for trade event */
   useWatchContractEvent({
     address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi,
@@ -225,21 +226,7 @@ const Exchange = () => {
     },
   });
 
-  //listen for event
-  // subscribeToEvent("/trade-event", (err, payload) => {
-  //   console.log(payload, "from event");
-
-  //   orders.find(
-  //     (trade) =>
-  //       trade.address === payload.address &&
-  //       trade?.orderId === payload.orderId &&
-  //       trade.type === payload.type &&
-  //       trade.price === payload.price
-  //   );
-  //   //when a trade event is received search for it in the orders array
-
-  //   //when found call the updateOne action from the orderslice and change the data state
-  // });
+  /** */
 
   return (
     <div className="ExchangeDiv">
