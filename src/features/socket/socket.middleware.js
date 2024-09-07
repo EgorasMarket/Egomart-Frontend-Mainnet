@@ -47,6 +47,28 @@ const socketMiddleware = (store) => {
           dispatch(updateOrder(newP));
         });
       });
+      socket.on("/trade-event", (payload) => {
+        console.log(payload, "latest Trade HIT!!!");
+        let arr = [];
+        let newP = {};
+
+        // payload.forEach((log, index) => {
+        //   newP = {
+        //     id: getState().orders.orders.length + 1,
+        //     price: parseFloat(log.amount).toFixed(30),
+        //     indexId: log.index_id,
+        //     ticker: log.ticker,
+        //     type: log.orderType,
+        //     amount: log.numberOfShares,
+        //     address: log.userAddress,
+        //     status: log.state,
+        //     createdAt: log.timePlaced,
+        //     transHash: log.transHash,
+        //   };
+        //   arr.push(newP);
+        //   dispatch(updateOrder(newP));
+        // });
+      });
     }
 
     if (action.type === "socket/disconnect") {

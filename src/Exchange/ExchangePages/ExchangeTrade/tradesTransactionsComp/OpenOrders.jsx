@@ -22,14 +22,19 @@ const OpenOrders = ({ ticker }) => {
 
   const [positions, setPositions] = useState([]);
   useEffect(() => {
-    const arr = orders.filter(
-      (order) =>
-        order.address === address &&
-        order.status === "OPEN" &&
-        order.ticker === ticker
-    );
+    //order this array to DESC using createdAt
+    let arr = orders
+      // .sort((a, b) => {
+      //   return new Date(b.createdAt) - new Date(a.createdAt);
+      // })
+      .filter(
+        (order) =>
+          order.address === address &&
+          order.status === "OPEN" &&
+          order.ticker === ticker
+      );
     setPositions(arr);
-  }, [ticker]);
+  }, [ticker, orders]);
 
   useEffect(() => {
     if (loading === false && error) {
@@ -40,6 +45,7 @@ const OpenOrders = ({ ticker }) => {
     if (cancelledOrder) {
       // toast.success("Order cancelled successfully!!!");
       console.log("order was successful");
+      alert("Order cancelled successfully");
     }
   }, [cancelledOrder]);
 

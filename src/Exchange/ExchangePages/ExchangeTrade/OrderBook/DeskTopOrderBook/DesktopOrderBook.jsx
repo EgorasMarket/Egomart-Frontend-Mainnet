@@ -215,13 +215,13 @@ const DesktopOrderBook = ({ current }) => {
           {/* filter sort map */}
           {filledTrades.map((data, index) => {
             const formattedTime =
-              data.createdAt !== "--"
-                ? format(parseISO(data.createdAt), "h:mm:ss aa")
+              data?.createdAt !== "--"
+                ? format(parseISO(data?.createdAt), "h:mm:ss aa")
                 : "--";
             return (
               <div
                 className="ProductDetailPage_div_body_div2_body_area_trades_body"
-                key={data.id || `placeholder-${index}`} // Provide unique key for placeholders
+                key={data?.id || `placeholder-${index}`} // Provide unique key for placeholders
               >
                 <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
                   {formattedTime}
@@ -230,20 +230,20 @@ const DesktopOrderBook = ({ current }) => {
                   className="ProductDetailPage_div_body_div2_body_area_trades_body_cont2"
                   style={{
                     color:
-                      data.type === "SELL"
+                      data?.type === "SELL"
                         ? "#ff445d"
-                        : data.type === "SELL"
+                        : data?.type === "SELL"
                         ? "#12b66f"
                         : "#fff",
                   }}
                 >
-                  {data.price !== "--"
-                    ? parseFloat(data.price).toFixed(DECIMAL_COUNT)
+                  {data?.price !== "--"
+                    ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
                     : "--"}
                 </div>
                 <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont3">
-                  {data.amount !== "--"
-                    ? parseFloat(data.amount).toFixed(DECIMAL_COUNT)
+                  {data?.amount !== "--"
+                    ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
                     : "--"}
                 </div>
               </div>
@@ -498,7 +498,7 @@ const DesktopOrderBook = ({ current }) => {
                   // Calculate width percentage only if amount is valid
                   const widthPercentage =
                     data.amount !== "--"
-                      ? (parseFloat(data.amount) / maxSellAmount) * 100
+                      ? (parseFloat(data?.amount) / maxSellAmount) * 100
                       : 0;
 
                   // Calculate total and other fields only if price and amount are valid
