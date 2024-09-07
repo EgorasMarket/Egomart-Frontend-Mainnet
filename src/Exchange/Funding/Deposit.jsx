@@ -189,9 +189,9 @@ const Deposit = ({ symbol }) => {
   useEffect(() => {
     if (depositError === true) {
       console.log(depositError, error);
-      toast.error("Error Depositing !", {
-        position: "bottom-right",
-      });
+      // toast.error("Error Depositing !", {
+      //   position: "bottom-right",
+      // });
       return;
     }
   }, [depositError]);
@@ -201,9 +201,9 @@ const Deposit = ({ symbol }) => {
       console.log(allowanceSuccess);
       console.log("====================================");
       setUserAllowance(false);
-      toast.success("Success fully Approved " + selectedAsset.tokenSymbol, {
-        position: "bottom-center",
-      });
+      // toast.success("Success fully Approved " + selectedAsset.tokenSymbol, {
+      //   position: "bottom-center",
+      // });
       console.log("====================================");
       console.log("dgd");
       console.log("====================================");
@@ -215,9 +215,9 @@ const Deposit = ({ symbol }) => {
     if (allowanceError === true) {
       console.log(allowanceError);
       setUserAllowance(false);
-      toast.error("Error Approving " + selectedAsset.tokenSymbol, {
-        position: "bottom-center",
-      });
+      // toast.error("Error Approving " + selectedAsset.tokenSymbol, {
+      //   position: "bottom-center",
+      // });
       return;
     }
   }, [allowanceError]);

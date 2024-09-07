@@ -6,7 +6,9 @@ import { useAccount, useWriteContract } from "wagmi";
 import { format } from "date-fns";
 import contractAbi from "../../../../web3/contracts/Egomart.json";
 import { formatEther, parseEther } from "ethers";
-import { toast, ToastContainer } from "react-toastify";
+// import { toast, ToastContainer } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
+
 const OpenOrders = ({ ticker }) => {
   const {
     data: cancelledOrder,
@@ -17,33 +19,28 @@ const OpenOrders = ({ ticker }) => {
     error,
   } = useWriteContract();
   const { address } = useAccount();
-
   const { orders } = useSelector((state) => state.orders);
-
   const [positions, setPositions] = useState([]);
   useEffect(() => {
-    //order this array to DESC using createdAt
-    let arr = orders
-      // .sort((a, b) => {
-      //   return new Date(b.createdAt) - new Date(a.createdAt);
-      // })
-      .filter(
-        (order) =>
-          order.address === address &&
-          order.status === "OPEN" &&
-          order.ticker === ticker
-      );
+    let arr = orders.filter(
+      (order) =>
+        order.address === address &&
+        order.status === "OPEN" &&
+        order.ticker === ticker
+    );
     setPositions(arr);
   }, [ticker, orders]);
 
   useEffect(() => {
     if (loading === false && error) {
-      console.log(error, "error from cancellation");
+      console.log(error.shortMessage, "error from cancellation");
+
+      toast.error(error.shortMessage);
     }
   }, [loading, error, isError]);
   useEffect(() => {
     if (cancelledOrder) {
-      // toast.success("Order cancelled successfully!!!");
+      toast.success("Order cancelled successfully!!!");
       console.log("order was successful");
       alert("Order cancelled successfully");
     }
@@ -140,13 +137,12 @@ const OpenOrders = ({ ticker }) => {
                 </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {/* {data.total}{" "} */}
+                {parseFloat(data.filled)}
                 {/* <span className="TradesDiv_body_cont1_span">{data.token}</span> */}
-                --
               </div>
               <div className="TradesDiv_body_cont1">
                 {/* {parseFloat(data.total - data.filled).toFixed(2)}{" "} */}
-                --
+                {parseFloat(data.amount) - parseFloat(data.filled)}
               </div>
               <div className="TradesDiv_body_cont1_last">
                 <button
@@ -162,7 +158,7 @@ const OpenOrders = ({ ticker }) => {
           );
         })}
       </div>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 };

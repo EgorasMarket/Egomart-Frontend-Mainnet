@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import { setConnectionStatus, addMessage } from "./socketSlice";
 import { useDispatch } from "react-redux";
 import { BASE_URL } from "../../core/core";
-import { cancelOne, updateOrder } from "../orders/OrderSlice";
+import { cancelOne, updateOne, updateOrder } from "../orders/OrderSlice";
 import { updateTrade } from "../trades/TradeSlice";
 import { formatEther } from "ethers";
 
@@ -37,6 +37,7 @@ const socketMiddleware = (store) => {
             id: getState().orders.orders.length + 1,
             price: parseFloat(log.amount).toFixed(30),
             indexId: log.index_id,
+            uuid: log.uniqueOrderID,
             ticker: log.ticker,
             type: log.orderType,
             amount: log.numberOfShares,
@@ -49,45 +50,46 @@ const socketMiddleware = (store) => {
           dispatch(updateOrder(newP));
         });
       });
-      // socket.on("/trade-event", (logs) => {
-      //   console.log(logs, "latest Trade HIT!!!");
-      //   let arr = [];
-      //   let newP = {};
+      socket.on("/trade-event", (logs) => {
+        console.log(logs, "latest Trade HIT!!!");
+        let arr = [];
+        let newP = {};
 
-      //   logs.forEach(async (log) => {
-      //     const payload = {
-      //       id: getState().trades.trades.length + 1,
-      //       price: parseFloat(log.value).toFixed(30),
-      //       indexId: log.orderId,
-      //       ticker: log.ticker,
-      //       type: log.typeOfTrade,
-      //       amount: parseFloat(log.numberOfShares).toFixed(30),
-      //       buyer: log.buyer,
-      //       seller: log.seller,
-      //       createdAt: log.timeAdded,
-      //       transactionHash: log.transactionHash,
-      //     };
-      //     //find the order in the orders arrary
-      //     console.log(getState().orders.orders, "see orders .....");
+        logs.forEach(async (log) => {
+          const payload = {
+            id: getState().trades.trades.length + 1,
+            price: parseFloat(log.value).toFixed(30),
+            indexId: log.orderId,
+            ticker: log.ticker,
+            type: log.typeOfTrade,
+            amount: parseFloat(log.numberOfShares).toFixed(30),
+            uuid: log.uniqueOrderID,
+            buyer: log.buyer,
+            seller: log.seller,
+            createdAt: log.timeAdded,
+            transactionHash: log.transactionHash,
+          };
+          //find the order in the orders arrary
+          console.log(getState().orders.orders, "see orders .....");
 
-      //     let curr_order = getState().orders.orders.find(
-      //       (order) =>
-      //         order.indexId === payload.orderId &&
-      //         order.price === parseFloat(payload.value).toFixed(30) &&
-      //         order.type === payload.typeOfTrade
-      //     );
-      //     console.log(curr_order, "check record");
-      //     if (curr_order) {
-      //       dispatch(updateOne({ id: curr_order.id, curr_order }));
-      //       //push this payload to the tradeslice
+          let curr_order = getState().orders.orders.find(
+            (order) => order.uuid === payload.uuid
+          );
 
-      //       dispatch(updateTrade(payload));
-      //       console.log(payload, curr_order, "to be sent to store ");
-      //       return;
-      //     }
-      //     console.log("not sent to store");
-      //   });
-      // });
+          console.log(curr_order, "check record");
+          if (curr_order) {
+            dispatch(updateOne({ id: curr_order.id, curr_order }));
+            //push this payload to the tradeslice
+
+            dispatch(updateTrade(payload));
+            console.log(payload, curr_order, "to be sent to store ");
+            return;
+          }
+
+          console.log("not sent to store");
+        });
+      });
+
       socket.on("/cancel-order-event", (logs) => {
         console.log(logs, "Cancel Event triggered!!!");
         let arr = [];
