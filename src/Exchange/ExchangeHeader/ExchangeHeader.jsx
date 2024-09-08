@@ -206,7 +206,7 @@ const ExchangeHeader = () => {
               Portfolio <ArrowRight01Icon />
             </div>
 
-            <details className="MobileDropDiv_cont_1" open>
+            <details className="MobileDropDiv_cont_1">
               <summary className="baccordion_title"> Trade</summary>
               <div className="accordion_body">
                 <div className="accordion_body_cont1">

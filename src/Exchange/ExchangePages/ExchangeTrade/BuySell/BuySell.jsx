@@ -114,11 +114,13 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
 
   useEffect(() => {
     if (error) {
+      console.log(hash);
       console.log(error, "error");
     }
     if (hash) {
       // toast.success(`Order have been placed successfuly!!!`);
       console.log("Order have been placed successfully!!!");
+      console.log(hash);
     }
   }, [hash, loading, error]);
 

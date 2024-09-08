@@ -3,7 +3,7 @@
   /* justify-content: space-between; */
   margin-top: 1em;
   flex-direction: column;
-  /* height: 610px; */
+  height: 610px;
   overflow: auto;
 }
 .ProductDetailPage_div_body_div2_body_area_trades_head {
@@ -327,5 +327,9 @@ text.recharts-text tspan {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+  }
+  .ProductDetailPage_div_body_div2_body_area_trades {
+    height: auto;
+    overflow: hidden;
   }
 }

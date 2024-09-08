@@ -80,6 +80,9 @@
 .exchangeHeader_mobile_btn_icon {
   display: none;
 }
+.MobileDropDiv {
+  display: none;
+}
 @media (max-width: 990px) {
   .exchangeHeader_div1_links {
     display: none;
@@ -93,6 +96,7 @@
     margin-left: 10px;
   }
   .MobileDropDiv {
+    display: block;
     height: 100dvh;
     background: #000000;
     width: -webkit-fill-available;

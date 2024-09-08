@@ -237,10 +237,8 @@ const DesktopOrderBook = ({ current }) => {
                 key={data?.id || `placeholder-${index}`} // Provide unique key for placeholders
               >
                 <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
-                  {/* {formatDate(new Date())} */}
-
-                  {data?.createdAt !== "--"
-                    ? formatDate(data?.createdAt || new Date())
+                  {data.createdAt !== "--"
+                    ? format(parseISO(data.createdAt), "h:mm:ss aa")
                     : "--"}
                 </div>
                 <div
@@ -249,7 +247,7 @@ const DesktopOrderBook = ({ current }) => {
                     color:
                       data?.type === "SELL"
                         ? "#ff445d"
-                        : data?.type === "SELL"
+                        : data?.type === "BUY"
                         ? "#12b66f"
                         : "#fff",
                   }}
