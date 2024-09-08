@@ -24,7 +24,8 @@ import { INSERT_NEW_ORDER } from "../../../../services/trade.services";
 import { useDispatch, useSelector } from "react-redux";
 import { DECIMAL_COUNT } from "../../../../constants/config";
 import { updateOrder } from "../../../../features/orders/OrderSlice";
-import { toast, ToastContainer } from "react-toastify";
+import ClipLoader from "react-spinners/ClipLoader";
+import { Toaster, toast } from "react-hot-toast";
 const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
@@ -119,6 +120,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     if (hash) {
       // toast.success(`Order have been placed successfuly!!!`);
       console.log("Order have been placed successfully!!!");
+      toast.success("Order have been placed successfully");
     }
   }, [hash, loading, error]);
 
@@ -315,9 +317,10 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
                   <>
                     <button
                       onClick={setOrder}
+                      disabled={loading}
                       className="ProductDetailPage_div_body_div2_div7_btn"
                     >
-                      Buy
+                      {loading ? <ClipLoader color="#fff" size={18} /> : "Buy"}
                       {/* {hash && <p> laoding...</p>} */}
                     </button>
                   </>
@@ -328,13 +331,15 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
                 {selectedValue === "market" ? (
                   <button className="ProductDetailPage_div_body_div2_div7_btn_sell">
                     Sell
+                    <ClipLoader color="#fff" size={18} />
                   </button>
                 ) : (
                   <button
                     onClick={setOrder}
+                    disabled={loading}
                     className="ProductDetailPage_div_body_div2_div7_btn_sell"
                   >
-                    Sell
+                    {loading ? <ClipLoader color="#fff" size={18} /> : "Sell"}
                   </button>
                 )}
               </>
@@ -342,6 +347,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
           </div>
         </div>
       </div>
+      <Toaster />
 
       {/* <ToastContainer /> */}
     </div>
