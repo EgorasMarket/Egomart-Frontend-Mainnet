@@ -9,6 +9,7 @@ import TradeSlice from "../features/trades/TradeSlice";
 import createIndexedDBStorage from "redux-persist-indexeddb-storage";
 import socketMiddleware from "../features/socket/socket.middleware";
 import socketSlice from "../features/socket/socketSlice";
+import portfolioSlice from "../features/portfolio/portfolioSlice";
 // import productSlice from "../features/products/productSlice";
 // import offerSlice from "../features/Offers/offerSlice";
 // import TradeSlice from "../features/Trades/TradeSlice";
@@ -27,10 +28,15 @@ const tradeConfig = {
   key: "trades",
   storage: createIndexedDBStorage("exchange"),
 };
+const portfolioConfig = {
+  key: "portfolio",
+  storage: createIndexedDBStorage("exchange"),
+};
 
 const persistPairs = persistReducer(pairsConfig, PairsSlice);
 const persistOrders = persistReducer(orderConfig, OrderSlice);
 const persistTrades = persistReducer(tradeConfig, TradeSlice);
+const persistPorfolio = persistReducer(portfolioConfig, portfolioSlice);
 
 // const persistedReducer = persistReducer(persistConfig, initSlice);
 // const productPersisted = persistReducer(productConfig, productSlice);
@@ -42,6 +48,7 @@ export const store = configureStore({
     orders: persistOrders,
     trades: persistTrades,
     socket: socketSlice,
+    portfolio: persistPorfolio,
   },
   // devTools: false, // add this flag in production
   middleware: (getDefaultMiddleWare) =>

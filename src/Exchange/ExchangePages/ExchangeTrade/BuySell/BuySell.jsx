@@ -19,11 +19,7 @@ import "./index.css";
 import { ethers, formatEther, parseEther } from "ethers";
 
 import useFetchBalance from "../../../../hooks/useFetchBalance";
-import abi from "../../../../web3/contracts/Egomart.json";
-import { INSERT_NEW_ORDER } from "../../../../services/trade.services";
 import { useDispatch, useSelector } from "react-redux";
-import { DECIMAL_COUNT } from "../../../../constants/config";
-import { updateOrder } from "../../../../features/orders/OrderSlice";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Toaster, toast } from "react-hot-toast";
 const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
@@ -37,6 +33,14 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     isSuccess,
     error,
     writeContractAsync,
+  } = useWriteContract();
+  const {
+    data: marketHash,
+    writeContract: write,
+    isPending: marketOrderLoading,
+    isError: isMarketOrderError,
+    isSuccess: isMarketOrderSuccess,
+    error: marketOrderError,
   } = useWriteContract();
 
   const { address } = useAccount();
@@ -88,6 +92,41 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const setOrder = () => {
     const marketType = activeBtn === "sell" ? true : false;
     try {
+      if (payload.meta.minimum_order_size > Total) {
+        toast.error(
+          "Minimum order of " +
+            payload.meta.minimum_order_size +
+            " is required "
+        );
+        return;
+      }
+      writeContract({
+        address: import.meta.env.VITE_CONTRACT_ADDRESS,
+        abi: contractAbi,
+        functionName: "matchingEngine",
+
+        args: [
+          payload?.pair,
+          [
+            marketType,
+            address,
+            parseEther(price).toString(),
+            parseEther(amount).toString(),
+            0,
+            0,
+          ],
+        ],
+      });
+    } catch (error) {
+      console.log(error, "error");
+      console.log("====================================");
+      console.log("gdgdg");
+      console.log("====================================");
+    }
+  };
+  const marketOrder = () => {
+    const marketType = activeBtn === "sell" ? true : false;
+    try {
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
@@ -116,6 +155,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   useEffect(() => {
     if (error) {
       console.log(error, "error");
+      toast.error(error.shortMessage);
     }
     if (hash) {
       // toast.success(`Order have been placed successfuly!!!`);

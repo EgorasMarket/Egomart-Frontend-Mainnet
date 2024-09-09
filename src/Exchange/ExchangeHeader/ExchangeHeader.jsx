@@ -128,13 +128,13 @@ const ExchangeHeader = () => {
                                     {market.pair}
                                   </div>
                                   <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                                    $ {market?.volume24h}
+                                    $ {parseFloat(market?.volume24h)}
                                   </div>
                                 </div>
                               </div>
                               <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
                                 <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
-                                  {market.currentPrice}
+                                  {parseFloat(market.currentPrice)}
                                 </div>
                                 <div
                                   className={

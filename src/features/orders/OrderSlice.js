@@ -34,9 +34,7 @@ const OrderSlice = createSlice({
       if (orderIndex !== -1) {
         // Update the specific order
         state.orders[orderIndex] = {
-          ...state.orders[orderIndex],
           ...newData,
-          status: "COMPLETED",
         };
       }
     },

@@ -1,7 +1,9 @@
 import { api } from "../core/AxiosInstance";
 import {
+  GET_24_HOUR_VOLUME_ROUTE,
   GET_ALL_ORDERS_ROUTE,
   GET_ALL_TRADES_ROUTE,
+  GET_DEPOSIT_TRANSACTION_ROUTES,
   GET_TICKER_PAIRS_ROUTE,
   GET_USER_TRADE_ORDERS_ROUTE,
   INSERT_NEW_ORDER_ROUTE,
@@ -54,6 +56,24 @@ export const GET_EXCHANGE_TRADES = async () => {
 export const INSERT_NEW_ORDER = async (payload) => {
   try {
     const response = await api.post(`${INSERT_NEW_ORDER_ROUTE}`, payload);
+    return response.data;
+  } catch (error) {
+    return error?.response?.data || error?.response || error.message;
+  }
+};
+export const GET_24_HOUR_VOLUME = async (ticker) => {
+  try {
+    const response = await api.get(`${GET_24_HOUR_VOLUME_ROUTE}/${ticker}`);
+    return response.data;
+  } catch (error) {
+    return error?.response?.data || error?.response || error.message;
+  }
+};
+export const GET_ALL_DEPOSIT_TRANSACTION = async ({ account }) => {
+  try {
+    const response = await api.get(
+      `${GET_DEPOSIT_TRANSACTION_ROUTES}/${account}`
+    );
     return response.data;
   } catch (error) {
     return error?.response?.data || error?.response || error.message;

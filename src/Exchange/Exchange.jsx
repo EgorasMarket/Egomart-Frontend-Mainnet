@@ -3,10 +3,13 @@ import "./index.css";
 import ExchangeHeader from "./ExchangeHeader/ExchangeHeader";
 import ExchangeFooter from "./ExchangeFooter/ExchangeFooter";
 import { Outlet } from "react-router-dom";
-import { GET_TICKER_PAIRS } from "../services/trade.services";
+import {
+  GET_ALL_DEPOSIT_TRANSACTION,
+  GET_TICKER_PAIRS,
+} from "../services/trade.services";
 import { setTickers } from "../features/PairsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useWatchContractEvent, useClient } from "wagmi";
+import { useWatchContractEvent, useClient, useAccount } from "wagmi";
 import useSocket from "../hooks/useSocket";
 import { subscribeToEvent } from "../services/socket";
 import {
@@ -20,6 +23,7 @@ import { formatEther } from "ethers";
 import { selectMatchingOrder } from "../features/orders/selectors";
 import { updateTrade } from "../features/trades/TradeSlice";
 const Exchange = () => {
+  const { address } = useAccount();
   const { orders } = useSelector((state) => state.orders);
   // useSocket();
   const dispatch = useDispatch();
@@ -31,6 +35,11 @@ const Exchange = () => {
       dispatch({ type: "socket/disconnect" });
     };
   }, [dispatch]);
+
+  const fetchPortfolioRecords = async () => {
+    const res = await GET_ALL_DEPOSIT_TRANSACTION({ account: address });
+    console.log(res, "porfolio response");
+  };
 
   // useWatchContractEvent({
   //   address: import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -77,7 +86,6 @@ const Exchange = () => {
   //     // console.log(res, "to backend");
   //   },
   // });
-
   /** */
 
   const fetchTickers = async () => {
@@ -117,44 +125,47 @@ const Exchange = () => {
     fetchTickers();
   }, []);
 
-  useWatchContractEvent({
-    address: import.meta.env.VITE_CONTRACT_ADDRESS,
-    abi,
-    eventName: "OrderCanceled",
-    onLogs: async (logs) => {
-      console.log("Trade Orders Received", logs);
+  useEffect(() => {
+    fetchPortfolioRecords();
+  }, [address]);
+  // useWatchContractEvent({
+  //   address: import.meta.env.VITE_CONTRACT_ADDRESS,
+  //   abi,
+  //   eventName: "OrderCanceled",
+  //   onLogs: async (logs) => {
+  //     console.log("Trade Orders Received", logs);
 
-      //loop through the logs
+  //     //loop through the logs
 
-      logs.forEach(async (log) => {
-        const payload = {
-          createdAt: new Date(Number(log.args.time) * 1000),
-          address: log.args.userAddress,
-          ticker: log?.args?.ticker,
-          type: log.args?.isSale === false ? "BUY" : "SELL",
-          price: parseFloat(formatEther(log.args.value)).toFixed(30),
-          amount: parseFloat(formatEther(log?.args?.numberOfShares)),
-          orderId: Number(log.args.orderId),
-        };
+  //     logs.forEach(async (log) => {
+  //       const payload = {
+  //         createdAt: new Date(Number(log.args.time) * 1000),
+  //         address: log.args.userAddress,
+  //         ticker: log?.args?.ticker,
+  //         type: log.args?.isSale === false ? "BUY" : "SELL",
+  //         price: parseFloat(formatEther(log.args.value)).toFixed(30),
+  //         amount: parseFloat(formatEther(log?.args?.numberOfShares)),
+  //         orderId: Number(log.args.orderId),
+  //       };
 
-        // //find the order in the orders arrary
+  //       // //find the order in the orders arrary
 
-        let curr_order = orders.find(
-          (order) =>
-            order.indexId === payload.orderId &&
-            order.price === payload.price &&
-            order.type === payload.type
-        );
-        console.log(curr_order);
-        if (curr_order) {
-          dispatch(cancelOne({ id: curr_order.id, curr_order }));
-          console.log(payload, curr_order, "to be sent to store ");
-          return;
-        }
-        console.log("not sent to store");
-      });
-    },
-  });
+  //       let curr_order = orders.find(
+  //         (order) =>
+  //           order.indexId === payload.orderId &&
+  //           order.price === payload.price &&
+  //           order.type === payload.type
+  //       );
+  //       console.log(curr_order);
+  //       if (curr_order) {
+  //         dispatch(cancelOne({ id: curr_order.id, curr_order }));
+  //         console.log(payload, curr_order, "to be sent to store ");
+  //         return;
+  //       }
+  //       console.log("not sent to store");
+  //     });
+  //   },
+  // });
   /** wagmi event watcher for trade event */
   // useWatchContractEvent({
   //   address: import.meta.env.VITE_CONTRACT_ADDRESS,
