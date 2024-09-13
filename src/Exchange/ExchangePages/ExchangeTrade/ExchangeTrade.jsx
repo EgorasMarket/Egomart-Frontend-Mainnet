@@ -12,7 +12,7 @@ import DesktopOrderBook from "./OrderBook/DeskTopOrderBook/DesktopOrderBook";
 import TokenDetail from "./TokenDetail/TokenDetail";
 import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
 import abi from "../../../web3/contracts/Egomart.json";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { markets } from "../../../Components/Static";
 import { useNavigate, useParams } from "react-router-dom";
 import Trades from "./tradesTransactionsComp/Trades";
@@ -24,8 +24,12 @@ import Withdraw from "../../Funding/Withdraw";
 import MobileOrderBook from "./OrderBook/MobileOrderBook/MobileOrderBook";
 import MobileTrades from "./OrderBook/MobileOrderBook/MobileTrades";
 import CustomBottomSheet from "../../../Components/CustomBottomSheet/CustomBottomSheet";
+import { useQuery } from "@tanstack/react-query";
+import { GET_24_HOUR_VOLUME } from "../../../services/trade.services";
+import { updateTicker } from "../../../features/PairsSlice";
 
 const ExchangeTrade = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { ticker } = useParams();
   const [activeTab, setActiveTab] = useState("price");
@@ -44,6 +48,7 @@ const ExchangeTrade = () => {
   console.log(ticker);
   const splitTicker = ticker.split("-");
   console.log(splitTicker[0]);
+
   // useWatchContractEvent({
   //   address: import.meta.env.VITE_CONTRACT_ADDRESS,
   //   abi,
@@ -58,19 +63,39 @@ const ExchangeTrade = () => {
   //   error,
   // } = useWriteContract();
 
-  // const depositFn = async () => {
-  //   initiateDeposit({
-  //     address: import.meta.env.VITE_CONTRACT_ADDRESS,
-  //     abi,
-  //     functionName: "deposit",
-  //     args: [
-  //       "0xae65f10A157d99E35AD81782B86E4C1e6Ec6e78D",
-  //       1000000000000000000000,
-  //     ],
-  //   });
-  // };
+  const get24hr = async () => {
+    if (!ticker) {
+      return;
+    }
+
+    const res = await GET_24_HOUR_VOLUME(ticker);
+    console.log(res, "24hr volume ");
+
+    if (!res.success) return {};
+    const payload = {
+      open24h: res.dailyStats.openPrice,
+      volume24h: res.dailyStats.volume,
+      lowPrice24h: res.dailyStats.lowPrice,
+      highPrice24h: res.dailyStats.highPrice,
+      closePrice24h: res.dailyStats.closePrice,
+    };
+
+    dispatch(updateTicker({ pair: ticker, data: payload }));
+
+    return res;
+  };
+  // const {
+  //   data,
+  //   isPending: pending,
+  //   isError,
+  //   error,
+  // } = useQuery({
+  //   queryKey: ["24hour"],
+  //   queryFn: get24hr,
+  // });
 
   useEffect(() => {
+    get24hr();
     console.log("refreshing...");
   }, [trades]);
   const toggleActiveBtn = async (e) => {
@@ -205,13 +230,13 @@ const ExchangeTrade = () => {
                               {market.pair}
                             </div>
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                              $ {market?.open24h}
+                              $ {parseFloat(market?.open24h)}
                             </div>
                           </div>
                         </div>
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
                           <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
-                            {market.change24h}
+                            {parseFloat(market.change24h)}
                           </div>
                           <div
                             className={
@@ -263,7 +288,7 @@ const ExchangeTrade = () => {
                 className="ExchangeTrade_div1_cont2_cont1_cont2_span2
               "
               >
-                {currentMarket?.change24h}
+                {parseFloat(currentMarket?.change24h)}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont3">
@@ -277,7 +302,7 @@ const ExchangeTrade = () => {
                 className="ExchangeTrade_div1_cont2_cont1_cont2_span2
               "
               >
-                ${currentMarket?.volume24h}
+                ${parseFloat(currentMarket?.volume24h)}
               </span>
             </div>
           </div>
@@ -661,13 +686,13 @@ const ExchangeTrade = () => {
                           {market.pair}
                         </div>
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                          $ {market?.open24h}
+                          $ {parseFloat(market?.open24h)}
                         </div>
                       </div>
                     </div>
                     <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
                       <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
-                        {market.change24h}
+                        {parseFloat(market.change24h)}
                       </div>
                       <div
                         className={

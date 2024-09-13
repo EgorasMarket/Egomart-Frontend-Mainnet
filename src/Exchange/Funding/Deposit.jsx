@@ -16,6 +16,7 @@ import useTokenAllowance from "../../hooks/useTokenAllowance";
 // import { useAccount } from "wagmi";
 import "react-toastify/dist/ReactToastify.css";
 import { ArrowDown01Icon, ArrowUp01Icon } from "hugeicons-react";
+import toast, { Toaster } from "react-hot-toast";
 export const AssetItem = ({ asset, address, selectAsset }) => {
   const {
     data: balanceData,
@@ -167,18 +168,19 @@ const Deposit = ({ symbol }) => {
         console.error("Error fetching allowance data");
         return;
       }
-      console.log("====================================");
-      console.log(isLoading, isError);
-      console.log("====================================");
+      // console.log("====================================");
+      // console.log(isLoading, isError);
+      // console.log("====================================");
       return;
     }
   }, [allowanceData, isLoading, isError, selectedAsset, depositAmount]);
 
   useEffect(() => {
     if (depositSuccess === true) {
-      console.log("====================================");
-      console.log(depositSuccess);
-      console.log("====================================");
+      // console.log("====================================");
+      // console.log(depositSuccess);
+      // console.log("====================================");
+      toast.success("Deposit Success!!!");
       // toast.success("Success Depositing !", {
       //   position: "bottom-right",
       // });
@@ -188,7 +190,8 @@ const Deposit = ({ symbol }) => {
 
   useEffect(() => {
     if (depositError === true) {
-      console.log(depositError, error);
+      // console.log(depositError, error);
+      toast.error(error.shortMessage);
       // toast.error("Error Depositing !", {
       //   position: "bottom-right",
       // });
@@ -204,9 +207,8 @@ const Deposit = ({ symbol }) => {
       // toast.success("Success fully Approved " + selectedAsset.tokenSymbol, {
       //   position: "bottom-center",
       // });
-      console.log("====================================");
-      console.log("dgd");
-      console.log("====================================");
+      toast.success("Success fully Approved " + selectedAsset.tokenSymbol);
+
       return;
     }
   }, [allowanceSuccess]);
@@ -218,6 +220,9 @@ const Deposit = ({ symbol }) => {
       // toast.error("Error Approving " + selectedAsset.tokenSymbol, {
       //   position: "bottom-center",
       // });
+
+      toast.error("Error Approving " + selectedAsset.tokenSymbol);
+
       return;
     }
   }, [allowanceError]);
@@ -386,6 +391,7 @@ const Deposit = ({ symbol }) => {
         )}
       </div>
       {/* <ToastContainer /> */}
+      <Toaster />
     </>
   );
 };

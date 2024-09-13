@@ -53,8 +53,6 @@ const socketMiddleware = (store) => {
       });
       socket.on("/trade-event", (logs) => {
         console.log(logs, "latest Trade HIT!!!");
-        let arr = [];
-        let newP = {};
 
         logs.forEach(async (log) => {
           const payload = {
@@ -67,11 +65,10 @@ const socketMiddleware = (store) => {
             uuid: log.uniqueOrderID,
             buyer: log.buyer,
             seller: log.seller,
-            createdAt: log.timeAdded,
+            createdAt: log.timedAdded,
             transactionHash: log.transactionHash,
           };
           //find the order in the orders arrary
-          console.log(getState().orders.orders, "see orders .....");
 
           let curr_order = getState().orders.orders.find(
             (order) => order.uuid === payload.uuid
@@ -79,7 +76,19 @@ const socketMiddleware = (store) => {
 
           console.log(curr_order, "check record");
           if (curr_order) {
-            dispatch(updateOne({ id: curr_order.id, curr_order }));
+            //check if the filled is equal to the amount
+            let action = "OPEN";
+            let _sum_filled = parseFloat(
+              parseFloat(curr_order.filled) + parseFloat(payload.amount)
+            ).toFixed(30);
+            //check if it's equal to the object amount
+            let _formatted = {
+              ...curr_order,
+              filled: _sum_filled,
+              status: _sum_filled === curr_order.amount ? "COMPLETED" : "OPEN",
+            };
+
+            dispatch(updateOne({ id: curr_order.id, newData: _formatted }));
             //push this payload to the tradeslice
 
             dispatch(updateTrade(payload));
@@ -98,22 +107,21 @@ const socketMiddleware = (store) => {
 
         logs.forEach(async (log) => {
           const payload = {
-            createdAt: new Date(Number(log.args.time) * 1000),
-            address: log.args.userAddress,
-            ticker: log?.args?.ticker,
-            type: log.args?.isSale === false ? "BUY" : "SELL",
-            price: parseFloat(formatEther(log.args.value)).toFixed(30),
-            amount: parseFloat(formatEther(log?.args?.numberOfShares)),
-            orderId: Number(log.args.orderId),
+            createdAt: log.time,
+            address: log.userAddress,
+            ticker: log?.ticker,
+            type: log.orderType,
+            price: parseFloat(log.value).toFixed(30),
+            amount: parseFloat(log?.numberOfShares),
+            orderId: Number(log.orderId),
+            transHash: log.transHash,
+            uniqueOrderID: log.uniqueOrderID,
           };
 
           // //find the order in the orders arrary
 
-          let curr_order = orders.find(
-            (order) =>
-              order.indexId === payload.orderId &&
-              order.price === parseFloat(payload.valuee).toFixed(30) &&
-              order.type === payload.type
+          let curr_order = getState().orders.orders.find(
+            (order) => order.uuid === payload.uniqueOrderID
           );
           console.log(curr_order);
           if (curr_order) {
