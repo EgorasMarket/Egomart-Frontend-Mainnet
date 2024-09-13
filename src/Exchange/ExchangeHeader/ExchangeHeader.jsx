@@ -189,14 +189,14 @@ const ExchangeHeader = () => {
               >
                 Bond
               </Link>
-              <div
+              {/* <div
                 className="exchangeHeader_div1_links_tab1"
                 onMouseOver={() => {
                   setMarketsDrop(false);
                 }}
               >
                 More{" "}
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="exchangeHeader_div2">

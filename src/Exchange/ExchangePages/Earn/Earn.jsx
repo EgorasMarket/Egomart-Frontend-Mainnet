@@ -180,6 +180,7 @@ const Earn = () => {
   ];
 
   const containerRef = useRef(null);
+
   const scrollToBottom = () => {
     if (containerRef.current) {
       const container = containerRef.current;
@@ -386,16 +387,13 @@ const Earn = () => {
                   User
                 </div>
                 <div className="earn_div_section2_area2_area_header_cont2">
-                  24h Volume
-                </div>
-                <div className="earn_div_section2_area2_area_header_cont2">
-                  24h Amount Earned
-                </div>
-                <div className="earn_div_section2_area2_area_header_cont2">
                   Total Volume
                 </div>
                 <div className="earn_div_section2_area2_area_header_cont3">
-                  Total Amount Earned
+                  Egax Rewards
+                </div>
+                <div className="earn_div_section2_area2_area_header_cont3">
+                  Plt Rewards
                 </div>
               </div>
               <div className="earn_div_section2_area2_area_body">
@@ -411,13 +409,10 @@ const Earn = () => {
                         @0x3de...5634
                       </div>
                       <div className="earn_div_section2_area2_area_body_cont1_div2">
-                        10,000 Egod
-                      </div>
-                      <div className="earn_div_section2_area2_area_body_cont1_div2">
-                        1,000,000 plt
-                      </div>
-                      <div className="earn_div_section2_area2_area_body_cont1_div2">
                         100,000 Egod
+                      </div>
+                      <div className="earn_div_section2_area2_area_body_cont1_div_last">
+                        100 egax
                       </div>
                       <div className="earn_div_section2_area2_area_body_cont1_div_last">
                         100,000 plt
