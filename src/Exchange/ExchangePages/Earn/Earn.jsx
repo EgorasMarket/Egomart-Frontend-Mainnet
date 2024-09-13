@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "./index.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import Modal from "../../../Components/Modal/Modal";
+import { TRADE_VOLUME_REWARD } from "../../../services/earn.service";
 
 const Earn = () => {
   const [itemsToShow, setItemsToShow] = useState(10);
@@ -206,6 +207,19 @@ const Earn = () => {
   const ToggleRedeemModal = () => {
     setRedeemModal(!redeemModal);
   };
+
+  const fetchUserTradeVolume = async () => {
+    const res = await TRADE_VOLUME_REWARD(
+      "0xa5ff0Fd1a84D004649E97b465779499546654feD"
+    );
+    console.log("====================================");
+    console.log(res, "user Trades");
+    console.log("====================================");
+  };
+
+  useEffect(() => {
+    fetchUserTradeVolume();
+  }, []);
 
   return (
     <div className="earn_div">
