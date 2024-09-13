@@ -8,6 +8,7 @@ const Earn = () => {
   const [itemsToShow, setItemsToShow] = useState(10);
   const [isLoading2, setIsLoading2] = useState(false);
   const [redeemModal, setRedeemModal] = useState(false);
+  const [userEgaxReward, setUserEgaxReward] = useState(0);
 
   const referralLeaderBoard = [
     {
@@ -214,6 +215,11 @@ const Earn = () => {
     );
     console.log("====================================");
     console.log(res, "user Trades");
+    if (res?.userRec.length < 0) {
+      setUserEgaxReward(0);
+      return;
+    }
+    // console.log(res, "user Trades");
     console.log("====================================");
   };
 

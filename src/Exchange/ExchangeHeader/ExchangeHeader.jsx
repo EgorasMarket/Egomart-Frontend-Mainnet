@@ -98,7 +98,7 @@ const ExchangeHeader = () => {
                         </div>
                       </div>
                       <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body">
-                        {markets.map((market) => {
+                        {tickers.map((market) => {
                           // Function to calculate percentage difference
                           const calculatePercentageDifference = (
                             currentPrice,
@@ -130,13 +130,13 @@ const ExchangeHeader = () => {
                                     {market.pair}
                                   </div>
                                   <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                                    $ {parseFloat(market?.volume24h)}
+                                    $ {parseFloat(market?.open24h)}
                                   </div>
                                 </div>
                               </div>
                               <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
                                 <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
-                                  {parseFloat(market.currentPrice)}
+                                  {parseFloat(market.change24h)}
                                 </div>
                                 <div
                                   className={
@@ -234,7 +234,7 @@ const ExchangeHeader = () => {
                 <div className="accordion_body_cont1">
                   {/* <div className="mobile_nav_links_div"> */}
                   <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body">
-                    {markets.map((market) => {
+                    {tickers.map((market) => {
                       // Function to calculate percentage difference
                       const calculatePercentageDifference = (
                         currentPrice,
@@ -252,7 +252,6 @@ const ExchangeHeader = () => {
                         <Link
                           to={"/app/trade/spot/" + market?.pair}
                           className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
-                          onClick={toggleMobileDrop}
                         >
                           <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
                             <img
@@ -265,13 +264,13 @@ const ExchangeHeader = () => {
                                 {market.pair}
                               </div>
                               <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                                $ {market?.volume24h}
+                                $ {parseFloat(market?.open24h)}
                               </div>
                             </div>
                           </div>
                           <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
-                              {market.currentPrice}
+                              {parseFloat(market.change24h)}
                             </div>
                             <div
                               className={
