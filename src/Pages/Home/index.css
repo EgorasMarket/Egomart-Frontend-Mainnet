@@ -1,7 +1,7 @@
 .homeDiv {
   display: flex;
   flex-direction: column;
-  background: #111916;
+  background: #000;
 }
 .homeDiv_section1 {
   padding: 4em 0em;

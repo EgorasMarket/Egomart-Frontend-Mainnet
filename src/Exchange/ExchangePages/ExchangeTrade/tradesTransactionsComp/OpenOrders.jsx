@@ -42,7 +42,6 @@ const OpenOrders = ({ ticker }) => {
     if (cancelledOrder) {
       toast.success("Order cancelled successfully!!!");
       console.log("order was successful");
-      alert("Order cancelled successfully");
     }
   }, [cancelledOrder]);
 

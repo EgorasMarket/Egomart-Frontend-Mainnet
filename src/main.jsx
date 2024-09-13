@@ -21,6 +21,7 @@ import ExchangeTrade from "./Exchange/ExchangePages/ExchangeTrade/ExchangeTrade"
 import ExchangePortfolio from "./Exchange/ExchangePages/ExchangePortfolio/ExchangePortfolio";
 import Overview from "./Exchange/ExchangePages/ExchangePortfolio/Pages/Overview";
 import Home from "./Pages/Home/Home";
+import Earn from "./Exchange/ExchangePages/Earn/Earn";
 import useSocket from "./hooks/useSocket.jsx";
 
 const router = createBrowserRouter(
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/app" element={<Exchange />}>
         <Route path="market" element={<ExchangeMarket />} />
+        <Route path="earn" element={<Earn />} />
         <Route path="portfolio" element={<ExchangePortfolio />}>
           <Route path="overview" element={<Overview />} />
         </Route>

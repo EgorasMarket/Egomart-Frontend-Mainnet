@@ -11,6 +11,7 @@ import {
   ArrowUp01Icon,
   Menu01Icon,
   Cancel01Icon,
+  GiftIcon,
   ArrowRight01Icon,
   InformationCircleIcon,
 } from "hugeicons-react";
@@ -166,6 +167,27 @@ const ExchangeHeader = () => {
                 }}
               >
                 Markets
+              </Link>
+              <Link
+                to={"/app/earn"}
+                className="exchangeHeader_div1_links_tab1"
+                onMouseOver={() => {
+                  setMarketsDrop(false);
+                }}
+              >
+                Earn{" "}
+                <span style={{ marginLeft: "5px" }}>
+                  <GiftIcon size={16} />
+                </span>
+              </Link>
+              <Link
+                to={"/app/market"}
+                className="exchangeHeader_div1_links_tab1"
+                onMouseOver={() => {
+                  setMarketsDrop(false);
+                }}
+              >
+                Bond
               </Link>
               <div
                 className="exchangeHeader_div1_links_tab1"
