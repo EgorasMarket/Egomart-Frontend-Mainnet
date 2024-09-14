@@ -10,6 +10,7 @@ const AssetSlice = createSlice({
   reducers: {
     addAssets: (state, action) => {
       state.assets = action.payload;
+      state.orders = [];
     },
   },
 });
