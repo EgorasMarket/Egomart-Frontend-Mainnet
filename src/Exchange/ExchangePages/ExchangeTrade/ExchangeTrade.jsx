@@ -279,15 +279,31 @@ const ExchangeTrade = () => {
                 {" "}
                 {parseFloat(currentMarket?.open24h) <
                 parseFloat(currentMarket?.close24h) ? (
-                  <ArrowUp01Icon
-                    size={14}
-                    className="ExchangeTrade_div1_cont2_cont1_cont1_span1_icon"
-                  />
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 256 256"
+                    class="text-positive"
+                    height="1em"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M215.39,163.06A8,8,0,0,1,208,168H48a8,8,0,0,1-5.66-13.66l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,215.39,163.06Z"></path>
+                  </svg>
                 ) : (
-                  <ArrowDown01Icon
-                    size={14}
-                    className="ExchangeTrade_div1_cont2_cont1_cont1_span1_icon"
-                  />
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 256 256"
+                    class="text-negative"
+                    height="1em"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,48,88H208a8,8,0,0,1,5.66,13.66Z"></path>
+                  </svg>
                 )}
                 {parseFloat(
                   trades.find((obj) => obj.ticker === currentMarket?.pair)
