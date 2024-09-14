@@ -10,25 +10,53 @@ import { useSelector } from "react-redux";
 import JoinLeftSharpIcon from "@mui/icons-material/JoinLeftSharp";
 import WhatshotSharpIcon from "@mui/icons-material/WhatshotSharp";
 import TollIcon from "@mui/icons-material/Toll";
+import abi from "./bondAbi.json";
 // import ComponentLoaderLogin from "../../../Components/ComponentLoaderLogin/ComponentLoaderLogin";
 // import ErrorModal from "../../../Components/SuccessErrorModals/ErrorModal";
 // import SuccessModal from "../../../Components/SuccessErrorModals/SuccessModal";
 import { useNavigate } from "react-router-dom";
 import { Wallet02Icon } from "hugeicons-react";
 import { numberWithCommas } from "../../../assets/js/numberWithCommas";
+import {
+  useWriteContract,
+  useReadContract,
+  useAccount,
+  useWatchContractEvent,
+} from "wagmi";
+import { ethers, formatEther, parseEther } from "ethers";
+import { Toaster, toast } from "react-hot-toast";
 
 const Bond = () => {
   const [amount, setAmount] = useState("");
   const [egodAmount, setEgodAmount] = useState("");
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState("");
   const [itemsToShow, setItemsToShow] = useState(10);
   const [isLoading2, setIsLoading2] = useState(false);
   const containerRef = useRef(null);
 
+  const {
+    data: hash,
+    writeContract,
+    isPending: loading,
+    isError,
+    isSuccess,
+    error: error,
+    writeContractAsync,
+  } = useWriteContract();
+
   const bond = async () => {
-    console.log("bonding...");
+    try {
+      writeContract({
+        address: "0xc3fAA61ddad7Db6392c9A6efa41EC5c4AB3d64BE",
+        abi: abi,
+        functionName: "bond",
+        value: (amount.toString() * "1000000000000000000").toString(),
+      });
+    } catch (error) {
+      console.log(error, "error");
+      console.log("====================================");
+      console.log("gdgdg");
+      console.log("====================================");
+    }
   };
 
   const changeAmount = (e) => {
@@ -234,6 +262,26 @@ const Bond = () => {
       setIsLoading2(false);
     }, 2000); // Adjust the delay duration as needed (e.g., 1000 milliseconds or 1 second)
   };
+  console.log("====================================");
+  console.log((amount.toString() * "1000000000000000000").toString());
+  console.log("====================================");
+
+  useEffect(() => {
+    if (isSuccess === true) {
+      toast.success(
+        `You've successfully bonded${amount}egax to ${egodAmount}egod !!!`
+      );
+      return;
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError === true) {
+      toast.error(error.shortMessage);
+      return;
+    }
+  }, [isError]);
+
   return (
     <div className="bond_comp">
       <div className="bond_comp_div1">
@@ -377,8 +425,19 @@ const Bond = () => {
               </div>
             </div>
           </div>
-          <button className="bond_btn" onClick={bond}>
-            Bond
+          <button
+            className="depositDiv_cont4_btn"
+            onClick={bond}
+            disabled={loading ? true : false}
+          >
+            {loading ? (
+              <>
+                {" "}
+                bonding <ClipLoader color="#6ba28b" size={18} />{" "}
+              </>
+            ) : (
+              " bond"
+            )}
           </button>
         </div>
       </div>
@@ -474,6 +533,7 @@ const Bond = () => {
       {/* ================== */}
       {/* ================== */}
       {/* ================== */}
+      <Toaster />
     </div>
   );
 };
