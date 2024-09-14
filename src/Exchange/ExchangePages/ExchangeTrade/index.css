@@ -474,11 +474,11 @@
     width: 60%;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .text-negative {
-    margin-right: 3px;
+  svg.text-negative {
+    margin-right: 3px !important;
   }
-  .text-positive {
-    margin-right: 3px;
+  svg.text-positive {
+    margin-right: 3px !important;
   }
   .ExchangeTrade_div1_mobile_div2_cont1 {
     display: flex;
