@@ -278,14 +278,21 @@ const ExchangeTrade = () => {
               >
                 {" "}
                 {parseFloat(currentMarket?.open24h) <
-                parseFloat(currentMarket?.close24h)
-                  ? "+"
-                  : "-"}
+                parseFloat(currentMarket?.close24h) ? (
+                  <ArrowUp01Icon
+                    size={14}
+                    className="ExchangeTrade_div1_cont2_cont1_cont1_span1_icon"
+                  />
+                ) : (
+                  <ArrowDown01Icon
+                    size={14}
+                    className="ExchangeTrade_div1_cont2_cont1_cont1_span1_icon"
+                  />
+                )}
                 {parseFloat(
                   trades.find((obj) => obj.ticker === currentMarket?.pair)
                     ?.price
                 ).toFixed(2) || 0}{" "}
-                Egod
               </span>
               <span
                 className="ExchangeTrade_div1_cont2_cont1_cont1_span2

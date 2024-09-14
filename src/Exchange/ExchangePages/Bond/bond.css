@@ -4,16 +4,21 @@
   height: 92dvh;
   overflow: auto;
   width: -webkit-fill-available;
-  padding: 10px 10px;
+  padding: 10px 0px;
+  flex-direction: column;
 }
 
 .bond_body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1em;
-  padding-bottom: 2em;
+  /* padding: 1em; */
+  /* padding-bottom: 2em; */
   overflow: auto;
+  max-width: 800px;
+  margin: auto;
+  width: -webkit-fill-available;
+  margin-top: 4em;
 }
 
 .TokenListDetailBody_warning_div {
@@ -36,7 +41,7 @@
   margin-bottom: 3em;
   color: #fff;
   font-size: 14px;
-  margin-top: auto;
+  margin-top: 4em;
 }
 
 .bond_body_div1_cont1_img {
@@ -51,7 +56,7 @@
 .bond_body_div1_cont1 {
   display: flex;
   align-items: center;
-  background: #f1f1f1;
+  background: #151e1b;
   padding: 17px 12px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -60,7 +65,7 @@
 }
 .bond_body_div1_cont2 {
   width: -webkit-fill-available;
-  background: #fff;
+  background: #21302b;
   /* box-shadow: 0px 0px 10px #80808014; */
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -82,7 +87,7 @@
   justify-content: space-between;
 }
 .bond_body_div1_cont1_title_balance {
-  color: #000;
+  color: #acc2ba;
   font-weight: 600;
   display: flex;
   align-items: normal;
@@ -91,6 +96,8 @@
   font-size: 16px;
   font-weight: 600;
   border: none;
+  background: inherit;
+  color: #fff;
 }
 
 .bond_body_div2 {
@@ -103,7 +110,7 @@
 .bond_body_div2::before {
   top: 0;
   content: "";
-  background: #e8e8e8;
+  background: #364741;
   position: absolute;
   left: 32px;
   width: 2px;
@@ -123,7 +130,7 @@
   margin-left: 1em;
   font-weight: 400;
   font-size: 14px;
-  color: #525252;
+  color: #fff;
 }
 .detail_div {
   margin-top: 1em;
