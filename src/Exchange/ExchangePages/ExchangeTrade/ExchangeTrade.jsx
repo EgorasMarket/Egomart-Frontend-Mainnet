@@ -27,7 +27,7 @@ import CustomBottomSheet from "../../../Components/CustomBottomSheet/CustomBotto
 import { useQuery } from "@tanstack/react-query";
 import { GET_24_HOUR_VOLUME } from "../../../services/trade.services";
 import { updateTicker } from "../../../features/PairsSlice";
-import { _priceChangeStyling } from "../../../helpers/helper";
+import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
 
 const ExchangeTrade = () => {
   const dispatch = useDispatch();
@@ -255,8 +255,9 @@ const ExchangeTrade = () => {
                               }),
                             }}
                           >
-                            {market?.open24h < market?.close24h && "+"}
-                            {parseFloat(market?.change24h).toFixed(2) || 0}%
+                            {_symbolChecker({ pair: market })}
+                            {parseFloat(market?.change24h || 0).toFixed(2) || 0}
+                            %
                           </div>
                         </div>
                       </div>
@@ -276,25 +277,21 @@ const ExchangeTrade = () => {
               "
                 style={{ color: _priceChangeStyling({ pair: currentMarket }) }}
               >
-                {" "}
-                {parseFloat(currentMarket?.open24h) <
-                parseFloat(currentMarket?.close24h)
-                  ? "+"
-                  : "-"}
+                {_symbolChecker({ pair: currentMarket })}
                 {parseFloat(
                   trades.find((obj) => obj.ticker === currentMarket?.pair)
-                    ?.price
-                ).toFixed(2) || 0}{" "}
-                Egod
+                    ?.price || 0
+                ).toFixed(2)}
+                {/* Egod */}
               </span>
               <span
                 className="ExchangeTrade_div1_cont2_cont1_cont1_span2
               "
               >
-                ≈${" "}
+                ≈$
                 {parseFloat(
                   trades.find((obj) => obj.ticker === currentMarket?.pair)
-                    ?.price
+                    ?.price || 0
                 ).toFixed(2) || 0}
               </span>
             </div>
@@ -310,9 +307,10 @@ const ExchangeTrade = () => {
               "
                 style={{ color: _priceChangeStyling({ pair: currentMarket }) }}
               >
-                {parseFloat(currentMarket?.open24h) <
-                  parseFloat(currentMarket?.close24h) && "+"}
-                {parseFloat(currentMarket?.change24h).toFixed(2) || 0}%
+                {/* {parseFloat(currentMarket?.open24h) <
+                  parseFloat(currentMarket?.close24h) && "+"} */}
+                {_symbolChecker({ pair: currentMarket })}
+                {parseFloat(currentMarket?.change24h || 0).toFixed(2)}%
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont2">
@@ -327,7 +325,7 @@ const ExchangeTrade = () => {
               "
                 style={{ color: "#12b66f" }}
               >
-                {parseFloat(currentMarket?.highPrice24h).toFixed(2) || 0}
+                {parseFloat(currentMarket?.highPrice24h || 0).toFixed(2) || 0}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont2">
@@ -342,7 +340,7 @@ const ExchangeTrade = () => {
               "
                 style={{ color: "#ff445d" }}
               >
-                {parseFloat(currentMarket?.lowPrice24h).toFixed(2) || 0}
+                {parseFloat(currentMarket?.lowPrice24h || 0).toFixed(2) || 0}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont3">
@@ -746,7 +744,7 @@ const ExchangeTrade = () => {
                     </div>
                     <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
                       <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
-                        {parseFloat(market.change24h)}
+                        {parseFloat(market.change24h || 0)}
                       </div>
                       <div
                         className={
@@ -755,8 +753,8 @@ const ExchangeTrade = () => {
                             : "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent_loss"
                         }
                       >
-                        {market.open24h < market.close24h ? "+" : "-"}{" "}
-                        {parseFloat(market?.change24h) || 0}%
+                        {_symbolChecker({ pair: currentMarket })}
+                        {parseFloat(market?.change24h || 0)}%
                       </div>
                     </div>
                   </div>
