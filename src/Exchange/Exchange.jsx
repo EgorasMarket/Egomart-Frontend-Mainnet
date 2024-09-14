@@ -4,6 +4,7 @@ import ExchangeHeader from "./ExchangeHeader/ExchangeHeader";
 import ExchangeFooter from "./ExchangeFooter/ExchangeFooter";
 import { Outlet } from "react-router-dom";
 import {
+  FETCH_ALL_LISTED_ASSETS,
   GET_ALL_DEPOSIT_TRANSACTION,
   GET_TICKER_PAIRS,
 } from "../services/trade.services";
@@ -22,6 +23,7 @@ import abi from "../web3/contracts/Egomart.json";
 import { formatEther } from "ethers";
 import { selectMatchingOrder } from "../features/orders/selectors";
 import { updateTrade } from "../features/trades/TradeSlice";
+import { addAssets } from "../features/assets/AssetSlice";
 const Exchange = () => {
   const { address } = useAccount();
   const { orders } = useSelector((state) => state.orders);
@@ -120,9 +122,20 @@ const Exchange = () => {
 
     await dispatch(setTickers(array));
   };
+  const fetchAssets = async () => {
+    const res = await FETCH_ALL_LISTED_ASSETS();
+    console.log(res, "assets returned");
+    if (!res?.Returned) return;
+
+    dispatch(addAssets(res.Data));
+    //loop through the recor
+
+    // await dispatch(setTickers(array));
+  };
 
   useEffect(() => {
     fetchTickers();
+    fetchAssets();
   }, []);
 
   useEffect(() => {

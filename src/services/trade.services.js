@@ -1,5 +1,6 @@
 import { api } from "../core/AxiosInstance";
 import {
+  FETCH_ALL_LISTED_ASSETS_ROUTES,
   GET_24_HOUR_VOLUME_ROUTE,
   GET_ALL_ORDERS_ROUTE,
   GET_ALL_TRADES_ROUTE,
@@ -74,6 +75,14 @@ export const GET_ALL_DEPOSIT_TRANSACTION = async ({ account }) => {
     const response = await api.get(
       `${GET_DEPOSIT_TRANSACTION_ROUTES}/${account}`
     );
+    return response.data;
+  } catch (error) {
+    return error?.response?.data || error?.response || error.message;
+  }
+};
+export const FETCH_ALL_LISTED_ASSETS = async () => {
+  try {
+    const response = await api.get(`${FETCH_ALL_LISTED_ASSETS_ROUTES}`);
     return response.data;
   } catch (error) {
     return error?.response?.data || error?.response || error.message;
