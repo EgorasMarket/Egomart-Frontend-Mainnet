@@ -20,7 +20,7 @@ const TradeSlice = createSlice({
       let pair = state.tickers.find(
         (tick) => tick.pair === action.payload.pair
       );
-      let pairIndex = state.tickers.findIndex((tick) => tick.id === pair.id);
+      let pairIndex = state.tickers.findIndex((tick) => tick.id === pair?.id);
 
       //  state.tickers[pairIndex]
       if (pairIndex !== -1) {

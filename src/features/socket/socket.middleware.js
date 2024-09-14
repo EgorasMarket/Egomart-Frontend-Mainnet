@@ -79,7 +79,8 @@ const socketMiddleware = (store) => {
             //check if the filled is equal to the amount
             let action = "OPEN";
             let _sum_filled = parseFloat(
-              parseFloat(curr_order.filled) + parseFloat(payload.amount)
+              parseFloat(curr_order.filled) +
+                parseFloat(payload.amount).toFixed(30)
             ).toFixed(30);
             //check if it's equal to the object amount
             let _formatted = {

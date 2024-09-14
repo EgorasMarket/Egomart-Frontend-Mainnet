@@ -11,6 +11,7 @@ import {
 } from "../../../../../services/trade.services";
 import { DECIMAL_COUNT } from "../../../../../constants/config";
 import { setTrade } from "../../../../../features/trades/TradeSlice";
+import { _priceChangeStyling } from "../../../../../helpers/helper";
 
 const DesktopOrderBook = ({ current }) => {
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ const DesktopOrderBook = ({ current }) => {
   };
 
   const fillorder = async () => {
+    // dispatch(addOrders([]));
+
     const res = await GET_EXCHANGE_EVENT();
     console.log("see here...", res);
     if (!res?.success) {
@@ -56,9 +59,8 @@ const DesktopOrderBook = ({ current }) => {
         filled: order?.filled,
       };
       arr.push(data);
-      count++;
     });
-    console.log(res, "response from backend");
+    console.log(res, "order from backend");
     dispatch(addOrders(arr));
   };
 
@@ -422,9 +424,21 @@ const DesktopOrderBook = ({ current }) => {
           </div>
           {showOrders === "Buy" ? (
             <>
-              <div className="executed_price_div" style={{ color: "#ff445d" }}>
-                $1,000.00
-                <span className="executed_price_div_span">≈ $1,000</span>
+              <div
+                className="executed_price_div"
+                style={{ color: _priceChangeStyling(current) }}
+                // style={{ color:  "#ff445d" }}
+              >
+                {parseFloat(
+                  trades.find((obj) => obj.ticker === current?.pair)?.price
+                ) || 0}
+
+                <span className="executed_price_div_span">
+                  ≈ ${" "}
+                  {parseFloat(
+                    trades.find((obj) => obj.ticker === current?.pair)?.price
+                  ) || 0}{" "}
+                </span>
               </div>
               <div className="walletSelectModalDiv_body_amount_display_body_display_full">
                 {/* {sortedGroupedBuyOffersArr.map((data, index) => {
@@ -560,9 +574,20 @@ const DesktopOrderBook = ({ current }) => {
                   );
                 })}
               </div>
-              <div className="executed_price_div" style={{ color: "#ff445d" }}>
-                1,000.00
-                <span className="executed_price_div_span">≈ $1,000</span>
+              <div
+                className="executed_price_div"
+                style={{ color: _priceChangeStyling(current) }}
+              >
+                {parseFloat(
+                  trades.find((obj) => obj.ticker === current?.pair)?.price
+                ) || 0}
+
+                <span className="executed_price_div_span">
+                  ≈ ${" "}
+                  {parseFloat(
+                    trades.find((obj) => obj.ticker === current?.pair)?.price
+                  ) || 0}
+                </span>
               </div>
             </>
           ) : (
@@ -621,8 +646,15 @@ const DesktopOrderBook = ({ current }) => {
                 })}
               </div>
               <div className="executed_price_div">
-                1,000.00
-                <span className="executed_price_div_span">≈ $1,000</span>
+                {parseFloat(
+                  trades.find((obj) => obj.ticker === current?.pair)?.price
+                ) || 0}
+                <span className="executed_price_div_span">
+                  ≈ ${" "}
+                  {parseFloat(
+                    trades.find((obj) => obj.ticker === current?.pair)?.price
+                  ) || 0}
+                </span>
               </div>
               <div className="walletSelectModalDiv_body_amount_display_body_display">
                 {filledBuyOffers.map((data, index) => {

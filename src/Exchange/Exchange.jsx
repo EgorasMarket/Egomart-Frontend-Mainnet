@@ -108,7 +108,7 @@ const Exchange = () => {
         tickerBName: ticker.tokenBName,
         tokenName: ticker.tokenAName,
         change24h: 0,
-        open24h: 1000,
+        open24h: 0,
         volume24h: 10,
 
         // "{"website": "https://egochain.org",
