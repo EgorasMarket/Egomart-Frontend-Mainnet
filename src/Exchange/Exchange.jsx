@@ -128,8 +128,6 @@ const Exchange = () => {
     if (!res?.Returned) return;
 
     dispatch(addAssets(res.Data));
-    //loop through the recor
-
     // await dispatch(setTickers(array));
   };
 
