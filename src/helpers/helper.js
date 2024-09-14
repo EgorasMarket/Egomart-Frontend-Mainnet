@@ -11,3 +11,14 @@ export const _priceChangeStyling = ({ pair }) => {
   }
   return "#fff";
 };
+
+export const _symbolChecker = ({ pair }) => {
+  if (parseFloat(pair?.open24h) > parseFloat(pair?.close24h)) {
+    return "";
+  }
+
+  if (parseFloat(pair?.open24h) < parseFloat(pair?.close24h)) {
+    return "+";
+  }
+  return "";
+};
