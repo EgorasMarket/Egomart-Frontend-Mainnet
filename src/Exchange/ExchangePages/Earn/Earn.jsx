@@ -399,7 +399,7 @@ const Earn = () => {
                     Connect Wallet
                   </div>
                   <div className="earn_div_section2_area1_area_1_para">
-                    Connect Your Wallet Connect any EVM-compatible wallet such
+                    Connect Your Wallet Connect any EVM-compatible wallet such
                     as MetaMask or Trust Wallet to get started.
                   </div>
                 </div>
@@ -418,7 +418,7 @@ const Earn = () => {
                     NFts
                   </div>
                   <div className="earn_div_section2_area1_area_1_para">
-                    Trade NFTs Engage in trading redeemable NFTs on Egomart.
+                    Trade NFTs Engage in trading redeemable NFTs on Egomart.
                     Profit from price fluctuations or redeem the physical
                     equivalent of the NFT.
                   </div>
@@ -438,7 +438,7 @@ const Earn = () => {
                     Claim Reward
                   </div>
                   <div className="earn_div_section2_area1_area_1_para">
-                    Claim Your Rewards Earn APEX Ego404 tokens at a 1:1 ratio
+                    Claim Your Rewards Earn APEX Ego404 tokens at a 1:1 ratio
                     based on your trade volume. Withdraw your rewards within 24
                     hours to secure your earnings.
                   </div>

@@ -19,6 +19,7 @@
   margin: auto;
   width: -webkit-fill-available;
   margin-top: 4em;
+  margin-bottom: 4em;
 }
 
 .TokenListDetailBody_warning_div {
@@ -37,8 +38,7 @@
   padding: 17px;
   border-radius: 15px;
   font-weight: 600;
-  margin-top: 2em;
-  margin-bottom: 3em;
+  margin-bottom: 0;
   color: #fff;
   font-size: 14px;
   margin-top: 4em;
@@ -61,6 +61,7 @@
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   font-size: 14px;
+  border: solid 1px #2f453d;
   /* font-weight: 600; */
 }
 .bond_body_div1_cont2 {
@@ -134,4 +135,73 @@
 }
 .detail_div {
   margin-top: 1em;
+}
+.bond_comp_div1 {
+  width: -webkit-fill-available;
+  max-width: 1400px;
+  margin: auto;
+  margin-top: 3em;
+  display: flex;
+  flex-direction: column;
+}
+.bond_comp_title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bond_comp_title_span {
+  font-size: 18px;
+  color: #a0c6b5;
+  font-weight: 500;
+}
+.bond_comp_para {
+  width: 50%;
+  line-height: 1.2;
+  color: #ababab;
+}
+.bond_comp_div1_cont {
+  margin-top: 2em;
+  display: flex;
+  justify-content: space-between;
+}
+.bond_comp_div1_cont_card {
+  padding: 1em;
+  background: #22302b;
+  width: -webkit-fill-available;
+  margin: 5px;
+  border-radius: 10px;
+  border: solid 1px #22302b;
+}
+.bond_comp_div1_cont_card_title {
+  font-size: 14px;
+  color: #a4c8bb;
+  font-weight: 500;
+}
+.bond_comp_div1_cont_card_content {
+  font-size: 32px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.bond_comp_div2 {
+  /* border-top: solid 1px #22302b; */
+  margin-top: 3em;
+  background: #151e1b;
+}
+
+.bond_comp_div3 {
+  display: flex;
+  flex-direction: column;
+  padding: 4em 10px;
+  background: #151e1b;
+}
+
+.bond_comp_div3_cont1 {
+  display: flex;
+  flex-direction: column;
+  width: -webkit-fill-available;
+  max-width: 1200px;
+  margin: auto;
 }
