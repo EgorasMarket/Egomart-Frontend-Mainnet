@@ -88,6 +88,11 @@
   font-size: 14px;
   font-weight: 700;
   color: #42d975f2;
+  display: flex;
+  align-items: center;
+}
+.ExchangeTrade_div1_cont2_cont1_cont1_span1_icon {
+  stroke-width: 3px;
 }
 .ExchangeTrade_div1_cont2_cont1_cont1_span2 {
   font-size: 10px;

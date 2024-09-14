@@ -277,7 +277,18 @@ const ExchangeTrade = () => {
               "
                 style={{ color: _priceChangeStyling({ pair: currentMarket }) }}
               >
-                {_symbolChecker({ pair: currentMarket })}
+                {parseFloat(currentMarket?.open24h) <
+                parseFloat(currentMarket?.close24h) ? (
+                  <ArrowUp01Icon
+                    size={14}
+                    className="ExchangeTrade_div1_cont2_cont1_cont1_span1_icon"
+                  />
+                ) : (
+                  <ArrowDown01Icon
+                    size={14}
+                    className="ExchangeTrade_div1_cont2_cont1_cont1_span1_icon"
+                  />
+                )}
                 {parseFloat(
                   trades.find((obj) => obj.ticker === currentMarket?.pair)
                     ?.price || 0
