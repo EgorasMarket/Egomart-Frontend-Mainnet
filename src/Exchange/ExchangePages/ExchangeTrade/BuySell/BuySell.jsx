@@ -55,6 +55,9 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     activeBtn === "buy" ? payload?.tickerB : payload?.tickerA
   );
 
+  console.log("====================================");
+  console.log(payload?.tickerB, payload?.tickerA);
+  console.log("====================================");
   // console.log(formatEther(aa), "aa balance");
 
   const marks = {
@@ -104,7 +107,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
         functionName: "matchingEngine",
-
         args: [
           payload?.pair,
           [
@@ -130,7 +132,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
-        functionName: "matchingEngine",
+        functionName: "marketOrderEngine",
 
         args: [
           payload?.pair,

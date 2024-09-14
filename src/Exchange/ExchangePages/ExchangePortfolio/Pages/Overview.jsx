@@ -8,14 +8,23 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { markets, userAssets, assets } from "../../../../Components/Static";
+// import { markets, userAssets, assets } from "../../../../Components/Static";
+import { Link } from "react-router-dom";
 import Modal from "../../../../Components/Modal/Modal";
 import Deposit from "../../../Funding/Deposit";
 import Withdraw from "../../../Funding/Withdraw";
 import useFetchBalance from "../../../../hooks/useFetchBalance";
-import { useAccount } from "wagmi";
+import useUserLockedFunds from "../../../../hooks/useUserLockedFunds";
+import { useDispatch, useSelector } from "react-redux";
+import { useAccount, useBalance } from "wagmi";
+
 export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
-  const balance = useFetchBalance(data?.tokenAddress);
+  const nullAddress = "0x0000000000000000000000000000000000000000";
+
+  const balance =
+    data.tokenSymbol === "EGAX"
+      ? useFetchBalance(nullAddress)
+      : useFetchBalance(data?.tokenAddress);
 
   return (
     <div className="exPortoflioOverviewDiv_3_body_cont_div">
@@ -27,11 +36,21 @@ export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
         />
         {data.tokenSymbol}
       </div>
-      <div className="exPortoflioOverviewDiv_3_body_cont_1">{balance}</div>
+      <div className="exPortoflioOverviewDiv_3_body_cont_1">
+        {parseFloat(balance).toFixed(4)}
+      </div>
       <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
       <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
       <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
       <div className="exPortoflioOverviewDiv_3_body_cont_last">
+        <Link to={`/app/trade/spot/${data.tokenSymbol}-EGOD`}>
+          <button
+            className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
+            // onClick={openDepositModal}
+          >
+            Trade
+          </button>
+        </Link>
         <button
           className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
           onClick={openDepositModal}
@@ -55,6 +74,7 @@ export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
 };
 
 const Overview = () => {
+  const { assets } = useSelector((state) => state.assets);
   const [deposit, setDeposit] = useState(false);
   const [depositUnique, setDepositUnique] = useState(false);
   const [withdrawUnique, setWithdrawUnique] = useState(false);
@@ -156,7 +176,11 @@ const Overview = () => {
   const openWithdrawModal = () => {
     setWithdraw(true);
   };
+  console.log(assets);
+  console.log(assets[0]);
+  console.log(assets[0][0]);
 
+  useUserLockedFunds();
   return (
     <div className="exPortoflioOverviewDiv">
       <div className="exPortoflioOverviewDiv_1">
@@ -294,7 +318,7 @@ const Overview = () => {
             <div className="exPortoflioOverviewDiv_3_body_head_cont1_last"></div>
           </div>
           <div className="exPortoflioOverviewDiv_3_body_cont">
-            {assets?.map((data) => (
+            {assets[0]?.map((data) => (
               <AssetItem
                 key={data.id}
                 data={data}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import { assets } from "../../Components/Static";
+// import { assets } from "../../Components/Static";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useAccount,
   useReadContract,
@@ -60,9 +61,10 @@ export const AssetItem = ({ asset, address, selectAsset }) => {
 };
 
 const Deposit = ({ symbol }) => {
+  const { assets } = useSelector((state) => state.assets);
   const { address, isConnecting, isDisconnected } = useAccount();
   const [assetList, setAssetList] = useState(false);
-  const [selectedAsset, setSelectedAsset] = useState(assets[0]);
+  const [selectedAsset, setSelectedAsset] = useState(assets[0][0]);
   const [assetBal, setAssetBal] = useState("0");
   const [depositAmount, setDepositAmount] = useState("");
   const [userAllowance, setUserAllowance] = useState(false);
@@ -105,27 +107,19 @@ const Deposit = ({ symbol }) => {
   }, [balancePending, balanceError, balanceData, address, selectedAsset]);
 
   const {
-    isPending: depositing,
     data: deposit,
-    writeContract: initiateDeposit,
+    isPending: depositing,
     isError: depositError,
     error: error,
     isSuccess: depositSuccess,
     status: depositStatus,
-  } = useWriteContract();
-  const {
-    isPending: depositingNative,
-    data: depositNative,
-    writeContract: initiateDepositNative,
-    isError: depositErrorNative,
-    error: errorNativce,
-    isSuccess: depositSuccessNative,
-    status: depositStatusNative,
+    writeContract,
   } = useWriteContract();
 
+  console.log(selectedAsset.tokenSymbol);
   const depositFn = async () => {
-    if (selectedAsset.tokenAddress === "EGAX") {
-      initiateDepositNative({
+    if (selectedAsset.tokenSymbol === "EGAX") {
+      writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi,
         functionName: "depositNativeToken",
@@ -134,7 +128,7 @@ const Deposit = ({ symbol }) => {
       return;
     }
 
-    initiateDeposit({
+    writeContract({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi,
       functionName: "deposit",
@@ -250,7 +244,9 @@ const Deposit = ({ symbol }) => {
   console.log("====================================");
   useEffect(() => {
     if (symbol) {
-      const foundAsset = assets.find((asset) => asset.tokenSymbol === symbol);
+      const foundAsset = assets[0].find(
+        (asset) => asset.tokenSymbol === symbol
+      );
       if (foundAsset) {
         setSelectedAsset(foundAsset);
       }
@@ -295,7 +291,7 @@ const Deposit = ({ symbol }) => {
                   <div className="AssetListDrop_title_2">Available</div>
                 </div>
                 <div className="AssetListDrop_body">
-                  {assets.map((asset) => (
+                  {assets[0].map((asset) => (
                     <AssetItem
                       key={asset.tokenAddress}
                       asset={asset}

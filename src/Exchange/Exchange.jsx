@@ -92,6 +92,9 @@ const Exchange = () => {
 
   const fetchTickers = async () => {
     const res = await GET_TICKER_PAIRS();
+    console.log("====================================");
+    console.log(res, "ressss");
+    console.log("====================================");
     if (!res?.success) return;
 
     //loop through the record
