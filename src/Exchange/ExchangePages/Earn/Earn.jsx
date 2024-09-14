@@ -2,13 +2,19 @@ import React, { useEffect, useState, useRef } from "react";
 import "./index.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import Modal from "../../../Components/Modal/Modal";
-import { TRADE_VOLUME_REWARD } from "../../../services/earn.service";
+import {
+  TRADE_VOLUME_REWARD,
+  CLAIM_REWARD,
+} from "../../../services/earn.service";
+import { useAccount } from "wagmi";
 
 const Earn = () => {
+  const { address } = useAccount();
   const [itemsToShow, setItemsToShow] = useState(10);
   const [isLoading2, setIsLoading2] = useState(false);
   const [redeemModal, setRedeemModal] = useState(false);
-  const [userEgaxReward, setUserEgaxReward] = useState(0);
+  const [user24hReward, setUser24hReward] = useState(0);
+  const [user24hVolume, setUser24hVolume] = useState(0);
 
   const referralLeaderBoard = [
     {
@@ -210,22 +216,31 @@ const Earn = () => {
   };
 
   const fetchUserTradeVolume = async () => {
-    const res = await TRADE_VOLUME_REWARD(
-      "0xa5ff0Fd1a84D004649E97b465779499546654feD"
-    );
+    const res = await TRADE_VOLUME_REWARD(address);
     console.log("====================================");
     console.log(res, "user Trades");
     if (res?.userRec.length < 0) {
-      setUserEgaxReward(0);
+      setUser24hReward(0);
+      setUser24hVolume(0);
       return;
     }
     // console.log(res, "user Trades");
     console.log("====================================");
   };
 
+  const claimRewardFunc = async () => {
+    const res = await CLAIM_REWARD(address);
+    console.log("====================================");
+    console.log(res);
+    console.log("====================================");
+  };
+
   useEffect(() => {
-    fetchUserTradeVolume();
-  }, []);
+    if (address) {
+      fetchUserTradeVolume();
+      return;
+    }
+  }, [address]);
 
   return (
     <div className="earn_div">
@@ -235,11 +250,14 @@ const Earn = () => {
             <div className="earn_div_section1_area1">
               <div className="earn_div_section1_area1_cont1">
                 <div className="earn_div_section1_area1_cont1_title">
-                  ETH Staking
+                  EGO404 Trade Mining
                 </div>
                 <div className="earn_div_section1_area1_cont1_para">
-                  Stake to receive BETH for liquidity at 1:1 ratio and earn
-                  daily BETH rewards
+                  Maximize your rewards by engaging in trade mining on the
+                  exchange. For every $1,000 in trade volume, you will receive
+                  1,000 Apex tokens (1:1 ratio). Don't forget to withdraw your
+                  earnings to your on-chain wallet daily, as all earnings reset
+                  after 24 hours.
                 </div>
               </div>
               <div className="earn_div_section1_area1_cont2">
@@ -251,51 +269,84 @@ const Earn = () => {
               </div>
             </div>
             <div className="earn_div_section1_area2">
-              <div className="earn_div_section1_area2_title">
-                Accumulated Rewards
-              </div>
-              <div className="earn_div_section1_area2_cont_area">
-                <div className="earn_div_section1_area2_cont_area_1">
-                  <div className="earn_div_section1_area2_para">
-                    Plt Rewards
-                  </div>
-                  <div className="earn_div_section1_area2_amount">
-                    0.00
-                    <span className="earn_div_section1_area2_amount_span">
-                      plt
-                    </span>
+              <div className="earn_div_section1_area2_area_card1">
+                <div className="earn_div_section1_area2_area_card1_title">
+                  24h Points
+                </div>
+                <div className="earn_div_section1_area2_cont_area">
+                  <div className="earn_div_section1_area2_cont_area_1">
+                    <div className="earn_div_section1_area2_para">Points</div>
+                    <div className="earn_div_section1_area2_amount">
+                      {parseFloat(user24hReward).toFixed(4)}
+                      <span className="earn_div_section1_area2_amount_span">
+                        pts
+                      </span>{" "}
+                    </div>
                   </div>
                 </div>
-                <div className="earn_div_section1_area2_cont_area_1">
-                  <div className="earn_div_section1_area2_para">
-                    Egax Rewards
-                  </div>
-                  <div className="earn_div_section1_area2_amount">
-                    0.00
-                    <span className="earn_div_section1_area2_amount_span">
-                      egax
-                    </span>{" "}
+                <div className="earn_div_section1_area2_btns">
+                  <button
+                    className="earn_div_section1_area2_btns_btn2"
+                    onClick={ToggleRedeemModal}
+                    disabled={redeemModal}
+                  >
+                    {redeemModal ? (
+                      <>
+                        loading <ClipLoader color="#717171" size={10} />
+                      </>
+                    ) : (
+                      <>Redeem</>
+                    )}
+                  </button>
+                </div>
+              </div>
+              <div className="earn_div_section1_area2_area_card1">
+                <div className="earn_div_section1_area2_area_card1_title">
+                  24h Volume
+                </div>
+                <div className="earn_div_section1_area2_cont_area">
+                  <div className="earn_div_section1_area2_cont_area_1">
+                    <div className="earn_div_section1_area2_para">Volume</div>
+                    <div className="earn_div_section1_area2_amount">
+                      {parseFloat(user24hVolume).toFixed(4)}
+                      <span className="earn_div_section1_area2_amount_span">
+                        vol
+                      </span>{" "}
+                    </div>
                   </div>
                 </div>
               </div>
-
-              <div className="earn_div_section1_area2_btns">
-                <button className="earn_div_section1_area2_btns_btn1">
-                  Earn Now
-                </button>
-                <button
-                  className="earn_div_section1_area2_btns_btn2"
-                  onClick={ToggleRedeemModal}
-                  disabled={redeemModal}
-                >
-                  {redeemModal ? (
-                    <>
-                      loading <ClipLoader color="#717171" size={10} />
-                    </>
-                  ) : (
-                    <>Redeem</>
-                  )}
-                </button>
+              <div className="earn_div_section1_area2_area_card1">
+                <div className="earn_div_section1_area2_area_card1_title">
+                  Total Points
+                </div>
+                <div className="earn_div_section1_area2_cont_area">
+                  <div className="earn_div_section1_area2_cont_area_1">
+                    <div className="earn_div_section1_area2_para">Points</div>
+                    <div className="earn_div_section1_area2_amount">
+                      0.00
+                      <span className="earn_div_section1_area2_amount_span">
+                        pts
+                      </span>{" "}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="earn_div_section1_area2_area_card1">
+                <div className="earn_div_section1_area2_area_card1_title">
+                  Total Volume
+                </div>
+                <div className="earn_div_section1_area2_cont_area">
+                  <div className="earn_div_section1_area2_cont_area_1">
+                    <div className="earn_div_section1_area2_para">Volume</div>
+                    <div className="earn_div_section1_area2_amount">
+                      0.00
+                      <span className="earn_div_section1_area2_amount_span">
+                        vol
+                      </span>{" "}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -345,11 +396,11 @@ const Earn = () => {
                 </span>
                 <div className="earn_div_section2_area1_area_1_body">
                   <div className="earn_div_section2_area1_area_1_title">
-                    Stake ETH
+                    Connect Wallet
                   </div>
                   <div className="earn_div_section2_area1_area_1_para">
-                    Deposit and stake ETH, receive BETH 1:1 for extra liquidity
-                    2 Earn daily rewards
+                    Connect Your Wallet Connect any EVM-compatible wallet such
+                    as MetaMask or Trust Wallet to get started.
                   </div>
                 </div>
               </div>
@@ -364,11 +415,12 @@ const Earn = () => {
                 </span>
                 <div className="earn_div_section2_area1_area_1_body">
                   <div className="earn_div_section2_area1_area_1_title">
-                    Stake ETH
+                    NFts
                   </div>
                   <div className="earn_div_section2_area1_area_1_para">
-                    Deposit and stake ETH, receive BETH 1:1 for extra liquidity
-                    2 Earn daily rewards
+                    Trade NFTs Engage in trading redeemable NFTs on Egomart.
+                    Profit from price fluctuations or redeem the physical
+                    equivalent of the NFT.
                   </div>
                 </div>
               </div>
@@ -383,11 +435,12 @@ const Earn = () => {
                 </span>
                 <div className="earn_div_section2_area1_area_1_body">
                   <div className="earn_div_section2_area1_area_1_title">
-                    Stake ETH
+                    Claim Reward
                   </div>
                   <div className="earn_div_section2_area1_area_1_para">
-                    Deposit and stake ETH, receive BETH 1:1 for extra liquidity
-                    2 Earn daily rewards
+                    Claim Your Rewards Earn APEX Ego404 tokens at a 1:1 ratio
+                    based on your trade volume. Withdraw your rewards within 24
+                    hours to secure your earnings.
                   </div>
                 </div>
               </div>
@@ -600,7 +653,7 @@ const Earn = () => {
                   alt=""
                   className="redeemModal_div_1_body_cont1_img"
                 />
-                PLT
+                pts
               </div>
               <div className="redeemModal_div_1_body_cont2">100,000</div>
             </div>
@@ -614,9 +667,9 @@ const Earn = () => {
                   alt=""
                   className="redeemModal_div_1_body_cont1_img"
                 />
-                EGAX
+                Apex
               </div>
-              <div className="redeemModal_div_1_body_cont2">100</div>
+              <div className="redeemModal_div_1_body_cont2">100,000</div>
             </div>
           </div>
           <div className="redeemModal_div_1">
@@ -633,7 +686,7 @@ const Earn = () => {
 
           <button
             className="depositDiv_cont4_btn"
-            // onClick={displayNextItems}
+            onClick={claimRewardFunc}
             // disabled={isLoading2 ? true : false}
           >
             Claim Rewards

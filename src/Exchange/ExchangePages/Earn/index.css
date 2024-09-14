@@ -39,7 +39,9 @@
   margin-bottom: 15px;
 }
 .earn_div_section1_area1_cont1_para {
-  font-size: 24px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #8c9d97;
 }
 .earn_div_section1_area1_cont2 {
   width: 100%;
@@ -48,18 +50,19 @@
   width: 100%;
 }
 .earn_div_section1_area2 {
-  background: #32413c;
+  /* background: #32413c; */
   position: absolute;
-  bottom: -200px;
+  bottom: -230px;
   left: 0;
   width: -webkit-fill-available;
-  color: #ffffff;
-  padding: 2em;
-  border-radius: 10px;
-  border: solid 1px #546962;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0px 8px 20px #00000017;
+  /* color: #ffffff; */
+  /* padding: 2em; */
+  /* border-radius: 10px; */
+  /* border: solid 1px #546962; */
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .earn_div_section1_area2_title {
   font-size: 24px;
@@ -86,9 +89,9 @@
 }
 .earn_div_section1_area2_para {
   width: max-content;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
-  color: #9daca7;
+  color: #0b342d;
   margin-bottom: 0px;
   border-bottom: solid;
   border-bottom-style: dashed;
@@ -108,7 +111,7 @@
   font-weight: 500;
 }
 .earn_div_section1_area2_btns {
-  margin-top: 2em;
+  margin-top: 1em;
   display: flex;
   align-items: center;
 }
@@ -123,9 +126,29 @@
   cursor: pointer;
   font-weight: 600;
 }
+.earn_div_section1_area2_area_card1 {
+  width: -webkit-fill-available;
+  background: #139d7e;
+  padding: 1em;
+  border-radius: 10px;
+}
+.earn_div_section1_area2_area_card1:nth-child(2) {
+  background: #13919d;
+}
+.earn_div_section1_area2_area_card1_title {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.earn_div_section1_area2_area_card1:nth-child(3) {
+  background: #ffffff;
+  color: #58736e;
+}
+.earn_div_section1_area2_area_card1:last-child {
+  background: #12b66f;
+}
 .earn_div_section1_area2_btns_btn2 {
-  width: 120px;
-  padding: 15px 15px;
+  width: 85px;
+  padding: 10px 10px;
   border-radius: 10px;
   border: none;
   background: #fff;
@@ -135,6 +158,7 @@
   align-items: center;
   display: flex;
   justify-content: center;
+  font-size: 12px;
 }
 .earn_div_section1_area2_btns_btn2:disabled {
   background: #cdcdcd;

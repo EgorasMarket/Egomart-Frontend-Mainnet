@@ -22,6 +22,7 @@ import ExchangePortfolio from "./Exchange/ExchangePages/ExchangePortfolio/Exchan
 import Overview from "./Exchange/ExchangePages/ExchangePortfolio/Pages/Overview";
 import Home from "./Pages/Home/Home";
 import Earn from "./Exchange/ExchangePages/Earn/Earn";
+import Bond from "./Exchange/ExchangePages/Bond/Bond";
 import useSocket from "./hooks/useSocket.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient({
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
       <Route path="/app" element={<Exchange />}>
         <Route path="market" element={<ExchangeMarket />} />
         <Route path="earn" element={<Earn />} />
+        <Route path="bond" element={<Bond />} />
         <Route path="portfolio" element={<ExchangePortfolio />}>
           <Route path="overview" element={<Overview />} />
         </Route>
