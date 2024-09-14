@@ -113,8 +113,27 @@ const Deposit = ({ symbol }) => {
     isSuccess: depositSuccess,
     status: depositStatus,
   } = useWriteContract();
+  const {
+    isPending: depositingNative,
+    data: depositNative,
+    writeContract: initiateDepositNative,
+    isError: depositErrorNative,
+    error: errorNativce,
+    isSuccess: depositSuccessNative,
+    status: depositStatusNative,
+  } = useWriteContract();
 
   const depositFn = async () => {
+    if (selectedAsset.tokenAddress === "EGAX") {
+      initiateDepositNative({
+        address: import.meta.env.VITE_CONTRACT_ADDRESS,
+        abi,
+        functionName: "depositNativeToken",
+        value: parseEther(depositAmount?.toString(), "wei").toString(),
+      });
+      return;
+    }
+
     initiateDeposit({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi,
