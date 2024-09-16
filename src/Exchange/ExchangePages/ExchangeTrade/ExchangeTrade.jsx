@@ -564,7 +564,7 @@ const ExchangeTrade = () => {
             {activeTab === "price" ? (
               <TradingChart />
             ) : activeTab === "depth" ? (
-              <MarketDepth />
+              <MarketDepth current={currentMarket} />
             ) : (
               <TokenDetail payload={currentMarket} />
             )}
@@ -621,7 +621,7 @@ const ExchangeTrade = () => {
               <>
                 {" "}
                 <div className="ExchangeTrade_div2_cont2_mobile_depth">
-                  <MarketDepth />
+                  <MarketDepth current={currentMarket} />
                 </div>
                 <MobileOrderBook current={currentMarket} />
               </>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AreaChart,
   Area,
@@ -9,10 +9,102 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import "./index.css";
-
+import { useDispatch, useSelector } from "react-redux";
 import { sellOffers, buyOffers } from "../../../../Components/Static";
+import { addOrders } from "../../../../features/orders/OrderSlice";
+import { GET_EXCHANGE_EVENT } from "../../../../services/trade.services";
 
-const MarketDepth = () => {
+const MarketDepth = ({ current }) => {
+  const dispatch = useDispatch();
+  const { orders } = useSelector((state) => state.orders);
+  useEffect(() => {}, [current]);
+
+  const fillorder = async () => {
+    // dispatch(addOrders([]));
+
+    const res = await GET_EXCHANGE_EVENT();
+    console.log("see here...", res);
+    if (!res?.success) {
+      dispatch(addOrders([]));
+
+      return;
+    }
+
+    let data = {};
+    const arr = [];
+    let count = 0;
+    if (res?.data.length === 0) {
+      dispatch(addOrders([]));
+      return;
+    }
+    res?.data.forEach((order, position) => {
+      data = {
+        id: position + 1,
+        price: order?.amount,
+        indexId: order.index_id,
+        ticker: order?.ticker,
+        type: order?.orderType,
+        uuid: order?.uniqueOrderID,
+        amount: order?.numberOfShares,
+        address: order?.userAddress,
+        status: order?.state, //ENUM OPEN, CANCELLED,COMPLETED,
+        createdAt: order?.createdAt,
+        filled: order?.filled,
+      };
+      arr.push(data);
+    });
+    console.log(res, "order from backend");
+    dispatch(addOrders(arr));
+  };
+
+  useEffect(() => {
+    fillorder();
+  }, []);
+  const groupedByPrice = orders
+    .filter(
+      (order) =>
+        order.type === "BUY" &&
+        order.status === "OPEN" &&
+        order?.ticker === current?.pair
+    )
+    .reduce((acc, item) => {
+      const price = item.price;
+      if (!acc[price]) {
+        acc[price] = { ...item, amount: 0 };
+      }
+      acc[price].amount += parseFloat(item.amount);
+      return acc;
+    }, {});
+  const groupedSellPrice = orders
+    .filter(
+      (order) =>
+        order.type === "SELL" &&
+        order.status === "OPEN" &&
+        order?.ticker === current?.pair
+    )
+    .reduce((acc, item) => {
+      const price = item.price;
+      if (!acc[price]) {
+        acc[price] = { ...item, amount: 0 };
+      }
+      acc[price].amount += parseFloat(item.amount);
+      return acc;
+    }, {});
+
+  const groupedBuyOffersArr = Object.values(groupedByPrice);
+  const groupedSellOffersArr = Object.values(groupedSellPrice);
+
+  const sortedGroupedBuyOffersArr = groupedBuyOffersArr
+    .sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+    .filter((f) => f?.status === "OPEN");
+
+  const sortedGroupedSellOffersArr = groupedSellOffersArr
+    .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
+    .filter((f) => f?.status === "OPEN");
+
+  const buyOffers = sortedGroupedBuyOffersArr;
+  const sellOffers = sortedGroupedSellOffersArr;
+
   const sortedBuyOffers = buyOffers.sort(
     (a, b) => parseInt(b.amount) - parseInt(a.amount)
   );
@@ -32,12 +124,12 @@ const MarketDepth = () => {
           <p className="label">
             {" "}
             <span className="label_span">Selling Price:</span>
-            {payload[0].payload.price}
+            {parseFloat(payload[0].payload.price)}
           </p>
           <p className="intro">
             {" "}
             <span className="intro_span">Total Amount:</span>
-            {payload[0].value}
+            {parseFloat(payload[0].value)}
           </p>
         </div>
       );
@@ -45,6 +137,10 @@ const MarketDepth = () => {
 
     return null;
   };
+
+  console.log("====================================");
+  console.log(buyOffers);
+  console.log("====================================");
   const CustomTooltip2 = ({ payload, label, active }) => {
     if (active && payload && payload.length) {
       // console.log(payload, label, active);
@@ -53,12 +149,12 @@ const MarketDepth = () => {
           <p className="label">
             {" "}
             <span className="label_span2">Buying Price:</span>
-            {payload[0].payload.price}
+            {parseFloat(payload[0].payload.price)}
           </p>
           <p className="intro">
             {" "}
             <span className="intro_span">Total Amount:</span>
-            {payload[0].value}
+            {parseFloat(payload[0].value)}
           </p>
         </div>
       );

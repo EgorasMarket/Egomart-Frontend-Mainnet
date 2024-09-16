@@ -104,10 +104,10 @@ const ExchangeHeader = () => {
                           // Function to calculate percentage difference
 
                           return (
-                            <div
+                            <Link
+                              to={"/app/trade/spot/" + market?.pair}
                               className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
                               onClick={() => {
-                                navigate("/app/trade/spot/" + market?.pair);
                                 setMarketsDrop(false);
                               }}
                             >
@@ -162,7 +162,7 @@ const ExchangeHeader = () => {
                                   %
                                 </div>
                               </div>
-                            </div>
+                            </Link>
                           );
                         })}
                       </div>

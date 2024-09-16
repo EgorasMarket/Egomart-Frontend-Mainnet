@@ -181,6 +181,8 @@ const DesktopOrderBook = ({ current }) => {
         ]
       : buyOffers; // No changes if length is 25 or more
 
+  console.log(buyOffers);
+
   return (
     <>
       <div className="ExchangeTrade_div2_cont1_header">
