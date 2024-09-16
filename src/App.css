@@ -78,3 +78,32 @@ input[type="number"]::-webkit-inner-spin-button {
   border: solid 1px #000000 !important;
   border-radius: 10px;
 }
+.toast_success {
+  background: #35433e !important;
+  color: #fff !important;
+  border: solid 1px #426256;
+  /* width: 300px; */
+  text-wrap: nowrap !important;
+  /* display: flex; */
+  /* justify-content: flex-start; */
+  max-width: max-content !important;
+}
+.toast_success .go3958317564 {
+  text-wrap: nowrap !important;
+}
+.toast_success_div {
+  display: flex;
+  flex-direction: column;
+}
+.toast_success_div_title {
+  color: #2fe275;
+  font-weight: 600;
+}
+.toast_error_div_title {
+  color: #ff6363;
+  font-weight: 600;
+}
+.toast_success_div_para {
+  font-size: 14px;
+  color: #aec7bd;
+}

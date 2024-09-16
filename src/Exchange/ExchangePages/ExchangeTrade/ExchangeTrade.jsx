@@ -291,7 +291,8 @@ const ExchangeTrade = () => {
                   >
                     <path d="M215.39,163.06A8,8,0,0,1,208,168H48a8,8,0,0,1-5.66-13.66l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,215.39,163.06Z"></path>
                   </svg>
-                ) : (
+                ) : parseFloat(currentMarket?.open24h) >
+                  parseFloat(currentMarket?.close24h) ? (
                   <svg
                     stroke="currentColor"
                     fill="currentColor"
@@ -304,7 +305,7 @@ const ExchangeTrade = () => {
                   >
                     <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,48,88H208a8,8,0,0,1,5.66,13.66Z"></path>
                   </svg>
-                )}
+                ) : null}
                 {parseFloat(
                   trades.find((obj) => obj.ticker === currentMarket?.pair)
                     ?.price || 0

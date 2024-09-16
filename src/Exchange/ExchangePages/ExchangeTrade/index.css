@@ -418,6 +418,35 @@
 .ExchangeTrade_div1_mobile {
   display: none;
 }
+
+.toast_success_div_order_cont {
+  display: flex;
+  align-items: center;
+  border-top: solid 1px #4f6059;
+  padding-top: 5px;
+  margin-top: 5px;
+  font-size: 14px;
+  color: #aec7bd;
+  width: -webkit-fill-available;
+  min-width: 250px;
+}
+.toast_success_div_order_cont_1_div1 {
+  margin-right: 10px;
+  color: #2fe276;
+  font-weight: 700;
+}
+.toast_success_div_order_cont_1_div2 {
+  margin-right: 10px;
+}
+.toast_success_div_order_cont_1_div3 {
+  margin-right: 10px;
+  color: #ffffff;
+}
+.toast_success_div_order_cont_1_div3_span {
+  font-size: 12px;
+  margin-left: 2px;
+  color: #8ca29a;
+}
 @media (max-width: 990px) {
   .ExchangeDiv_body {
     padding: 5px 5px;

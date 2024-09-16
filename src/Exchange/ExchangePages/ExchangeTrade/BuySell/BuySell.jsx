@@ -97,9 +97,18 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     try {
       if (payload.meta.minimum_order_size > Total) {
         toast.error(
-          "Minimum order of " +
-            payload.meta.minimum_order_size +
-            " is required "
+          <div className="toast_success_div">
+            <div className="toast_error_div_title">Error !!</div>
+            <div className="toast_success_div_para">
+              {"Minimum order of " +
+                payload.meta.minimum_order_size +
+                "Egod is required "}
+            </div>
+          </div>,
+          {
+            duration: 5000,
+            className: "toast_success",
+          }
         );
         return;
       }
@@ -158,13 +167,47 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     if (error) {
       console.log(hash);
       console.log(error, "error");
-      toast.error(error.shortMessage);
+      toast.error(
+        <div className="toast_success_div">
+          <div className="toast_error_div_title">Error!!</div>
+          <div className="toast_success_div_para">{error.shortMessage}</div>
+        </div>,
+        {
+          duration: 5000,
+          className: "toast_success",
+        }
+      );
     }
     if (hash) {
       // toast.success(`Order have been placed successfuly!!!`);
       console.log("Order have been placed successfully!!!");
       console.log(hash);
-      toast.success("Order have been placed successfully");
+      // toast.success("Order have been placed successfully");
+      toast.success(
+        <div className="toast_success_div">
+          <div className="toast_success_div_title">Order Placed!!</div>
+          <div className="toast_success_div_order_cont">
+            <div
+              className="toast_success_div_order_cont_1_div1"
+              style={{ color: activeBtn === "sell" ? "#ff445d" : "#2fe276" }}
+            >
+              {activeBtn === "sell" ? "Sell" : "Buy"}
+            </div>
+            <div className="toast_success_div_order_cont_1_div2">{amount}</div>
+            <div className="toast_success_div_order_cont_1_div3">
+              {price}
+              <span className="toast_success_div_order_cont_1_div3_span">
+                Egod
+              </span>{" "}
+            </div>
+            <div className="toast_success_div_order_cont_1_div4">Limit</div>
+          </div>
+        </div>,
+        {
+          duration: 5000,
+          className: "toast_success",
+        }
+      );
     }
   }, [hash, loading, error]);
 
