@@ -64,6 +64,7 @@
   border-left: solid 3px #23ad63;
   background: #222f2b;
   cursor: pointer;
+  color: #fff;
 }
 .exPortfolioSideBar_div2_cont1 {
   padding: 1.1em;
@@ -73,6 +74,7 @@
   /* background: grey; */
   cursor: pointer;
   border-left: solid 3px #151e1b;
+  color: #fff;
 }
 .exPortfolioSideBar_div2_cont1:hover {
   padding: 1.1em;
@@ -334,6 +336,24 @@
   color: #fff;
   border: none;
   margin-left: 10px;
+}
+.OpenOrders_div_area1 {
+  background: #151e1b;
+  padding: 1em;
+  border-radius: 10px;
+  margin-bottom: 2em;
+  display: flex;
+  flex-direction: column;
+  border: solid 1px #38433f;
+}
+.OpenOrders_div_area1_title {
+  font-size: 14px;
+  color: #839e95;
+}
+.OpenOrders_div_area1_para {
+  font-size: 32px;
+  margin-top: 5px;
+  font-weight: 600;
 }
 @media (max-width: 990px) {
   .PortfolioDiv_1 {
