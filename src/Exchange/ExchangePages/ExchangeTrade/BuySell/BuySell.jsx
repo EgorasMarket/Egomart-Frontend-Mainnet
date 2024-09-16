@@ -76,20 +76,36 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     console.log(`selected ${value}`);
   };
 
-  const handleTotalChange = (e) => {};
   const sliderChange = (value) => {
+    setTotalSum(
+      parseFloat(parseFloat(price) * parseFloat((value / 100) * aa)).toFixed(3)
+    );
     // setAmount(parseFloat(value).toFixed(3));
-    se;
+    // console.log(aa, "balance");
+    setAmount(parseFloat((value / 100) * aa).toFixed(3));
+    // setAmount( parseFloat(value).toFixed(3));
+  };
+
+  //total change
+  const handleTotalChange = (event) => {
+    setTotalSum(event.target.value);
+    setAmount(parseFloat(event.target.value) / parseFloat(price));
   };
 
   //  price change
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
+    setTotalSum(
+      parseFloat(parseFloat(event.target.value) * parseFloat(amount)).toFixed(3)
+    );
   };
 
   //  amount change
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
+    setTotalSum(
+      parseFloat(parseFloat(price) * parseFloat(event.target.value)).toFixed(3)
+    );
   };
 
   // calculating the total
