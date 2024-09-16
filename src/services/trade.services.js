@@ -62,6 +62,7 @@ export const INSERT_NEW_ORDER = async (payload) => {
     return error?.response?.data || error?.response || error.message;
   }
 };
+// halle
 export const GET_24_HOUR_VOLUME = async (ticker) => {
   try {
     const response = await api.get(`${GET_24_HOUR_VOLUME_ROUTE}/${ticker}`);
