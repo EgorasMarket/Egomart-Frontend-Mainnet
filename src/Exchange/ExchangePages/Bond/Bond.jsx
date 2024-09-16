@@ -269,7 +269,16 @@ const Bond = () => {
   useEffect(() => {
     if (isSuccess === true) {
       toast.success(
-        `You've successfully bonded${amount}egax to ${egodAmount}egod !!!`
+        <div className="toast_success_div">
+          <div className="toast_success_div_title">Successful bonding!!</div>
+          <div className="toast_success_div_para">
+            {`You've successfully bonded${amount}egax to ${egodAmount}egod !!!`}
+          </div>
+        </div>,
+        {
+          duration: 5000,
+          className: "toast_success",
+        }
       );
       return;
     }
@@ -277,7 +286,16 @@ const Bond = () => {
 
   useEffect(() => {
     if (isError === true) {
-      toast.error(error.shortMessage);
+      toast.error(
+        <div className="toast_success_div">
+          <div className="toast_error_div_title">Error bonding!!</div>
+          <div className="toast_success_div_para">{error.shortMessage}</div>
+        </div>,
+        {
+          duration: 5000,
+          className: "toast_success",
+        }
+      );
       return;
     }
   }, [isError]);

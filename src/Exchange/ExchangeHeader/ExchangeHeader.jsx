@@ -16,6 +16,8 @@ import {
   InformationCircleIcon,
 } from "hugeicons-react";
 import { Padding } from "@mui/icons-material";
+import { numberWithCommas } from "../../assets/js/numberWithCommas";
+import { _priceChangeStyling, _symbolChecker } from "../../helpers/helper";
 
 const ExchangeHeader = () => {
   const { tickers } = useSelector((state) => state.pairs);
@@ -100,24 +102,14 @@ const ExchangeHeader = () => {
                       <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body">
                         {tickers.map((market) => {
                           // Function to calculate percentage difference
-                          const calculatePercentageDifference = (
-                            currentPrice,
-                            openPrice
-                          ) => {
-                            return (
-                              ((currentPrice - openPrice) / openPrice) * 100
-                            );
-                          };
 
-                          const percentageDifference =
-                            calculatePercentageDifference(
-                              market.currentPrice,
-                              market.OpenPrice
-                            );
                           return (
                             <Link
                               to={"/app/trade/spot/" + market?.pair}
                               className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
+                              onClick={() => {
+                                setMarketsDrop(false);
+                              }}
                             >
                               <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
                                 <img
@@ -130,13 +122,26 @@ const ExchangeHeader = () => {
                                     {market.pair}
                                   </div>
                                   <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                                    $ {parseFloat(market?.open24h)}
+                                    ${" "}
+                                    {numberWithCommas(
+                                      parseFloat(market?.volume24h)
+                                    )}
                                   </div>
                                 </div>
                               </div>
                               <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
-                                <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
-                                  {parseFloat(market.change24h)}
+                                <div
+                                  className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price"
+                                  style={{
+                                    color: _priceChangeStyling({
+                                      pair: market,
+                                    }),
+                                  }}
+                                >
+                                  {/* {parseFloat(market.change24h) || 0}ss */}
+                                  {numberWithCommas(
+                                    parseFloat(market?.close24h || 0)
+                                  )}
                                 </div>
                                 <div
                                   className={
@@ -144,11 +149,17 @@ const ExchangeHeader = () => {
                                       ? "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent"
                                       : "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent_loss"
                                   }
+                                  style={{
+                                    color: _priceChangeStyling({
+                                      pair: market,
+                                    }),
+                                  }}
                                 >
-                                  {market.OpenPrice < market.currentPrice
-                                    ? "+"
-                                    : "-"}{" "}
-                                  {parseFloat(percentageDifference).toFixed(2)}%
+                                  {_symbolChecker({ pair: market })}
+                                  {numberWithCommas(
+                                    parseFloat(market?.change24h || 0) || 0
+                                  )}
+                                  %
                                 </div>
                               </div>
                             </Link>
@@ -236,22 +247,14 @@ const ExchangeHeader = () => {
                   <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body">
                     {tickers.map((market) => {
                       // Function to calculate percentage difference
-                      const calculatePercentageDifference = (
-                        currentPrice,
-                        openPrice
-                      ) => {
-                        return ((currentPrice - openPrice) / openPrice) * 100;
-                      };
 
-                      const percentageDifference =
-                        calculatePercentageDifference(
-                          market.currentPrice,
-                          market.OpenPrice
-                        );
                       return (
-                        <Link
-                          to={"/app/trade/spot/" + market?.pair}
+                        <div
                           className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
+                          onClick={() => {
+                            toggleMobileDrop();
+                            navigate("/app/trade/spot/" + market?.pair);
+                          }}
                         >
                           <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
                             <img
@@ -264,13 +267,26 @@ const ExchangeHeader = () => {
                                 {market.pair}
                               </div>
                               <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                                $ {parseFloat(market?.open24h)}
+                                ${" "}
+                                {numberWithCommas(
+                                  parseFloat(market?.volume24h)
+                                )}
                               </div>
                             </div>
                           </div>
                           <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
-                            <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
-                              {parseFloat(market.change24h)}
+                            <div
+                              className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price"
+                              style={{
+                                color: _priceChangeStyling({
+                                  pair: market,
+                                }),
+                              }}
+                            >
+                              {/* {parseFloat(market.change24h) || 0}ss */}
+                              {numberWithCommas(
+                                parseFloat(market?.close24h || 0)
+                              )}
                             </div>
                             <div
                               className={
@@ -278,14 +294,20 @@ const ExchangeHeader = () => {
                                   ? "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent"
                                   : "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent_loss"
                               }
+                              style={{
+                                color: _priceChangeStyling({
+                                  pair: market,
+                                }),
+                              }}
                             >
-                              {market.OpenPrice < market.currentPrice
-                                ? "+"
-                                : "-"}{" "}
-                              {parseFloat(percentageDifference).toFixed(2)}%
+                              {_symbolChecker({ pair: market })}
+                              {numberWithCommas(
+                                parseFloat(market?.change24h || 0) || 0
+                              )}
+                              %
                             </div>
                           </div>
-                        </Link>
+                        </div>
                       );
                     })}
                   </div>

@@ -3,8 +3,9 @@ import "./index.css";
 import { userTrades } from "../../../../Components/Static";
 import { useAccount } from "wagmi";
 import { useSelector } from "react-redux";
+import { format } from "date-fns";
 
-const Trades = ({ ticker }) => {
+const Trades = ({ ticker, ticker_img }) => {
   const { address } = useAccount();
   const [allOrders, setOrders] = useState([]);
   const { orders } = useSelector((state) => state.orders);
@@ -19,7 +20,9 @@ const Trades = ({ ticker }) => {
     setOrders(arr);
     //filter the records that is native for just user wallet
   }, [ticker]);
-
+  console.log("====================================");
+  console.log(allOrders);
+  console.log("====================================");
   return (
     <div className="TradesDiv">
       <div className="TradesDiv_head">
@@ -34,12 +37,20 @@ const Trades = ({ ticker }) => {
       </div>
       <div className="TradesDiv_body">
         {allOrders.map((data) => {
+          function formatDate(dateString) {
+            const date = new Date(dateString);
+            return format(date, "MMM do, yyyy / h:mm aaa");
+          }
+          const tradeFee = data.amount * 0.001;
           return (
             <div className="TradesDiv_body_cont">
-              <div className="TradesDiv_body_cont1">{data.createdAt}</div>
+              <div className="TradesDiv_body_cont1">
+                {" "}
+                {formatDate(data?.createdAt || new Date())}
+              </div>
               <div className="TradesDiv_body_cont1">
                 <img
-                  src={data.img}
+                  src={ticker_img}
                   alt=""
                   className="TradesDiv_body_cont1_img"
                 />
@@ -50,13 +61,13 @@ const Trades = ({ ticker }) => {
                   <div className="TradesDiv_body_cont1_cont_div2">
                     <span
                       className={
-                        data.action === "buy"
+                        data.type === "BUY"
                           ? "TradesDiv_body_cont1_span_type_buy"
                           : "TradesDiv_body_cont1_span_type_sell"
                       }
                     >
                       {" "}
-                      {data.buyer === address ? "BUY" : "SELL"}
+                      {data.type}
                     </span>
                   </div>
                 </div>
@@ -66,16 +77,29 @@ const Trades = ({ ticker }) => {
                 {parseFloat(data.price)}
               </div>
               <div className="TradesDiv_body_cont1">
-                {parseFloat(data.amount)}{" "}
-                <span className="TradesDiv_body_cont1_span">EGOD</span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(data.amount)}{" "}
+                  <span className="TradesDiv_body_cont1_span">
+                    {data.ticker.split("-")[0]}
+                  </span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {data.total}{" "}
-                <span className="TradesDiv_body_cont1_span">{data.token}</span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(
+                    parseFloat(data.price) * parseFloat(data.amount)
+                  ).toFixed(2)}{" "}
+                  <span className="TradesDiv_body_cont1_span">EGOD</span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {data.tradeFee}{" "}
-                <span className="TradesDiv_body_cont1_span">{data.token}</span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {tradeFee}{" "}
+                  <span className="TradesDiv_body_cont1_span">
+                    {" "}
+                    {data.ticker.split("-")[0]}
+                  </span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1_last"></div>
             </div>

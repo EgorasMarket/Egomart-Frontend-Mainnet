@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { format } from "date-fns";
 
-const Orders = ({ ticker }) => {
+const Orders = ({ ticker, ticker_img }) => {
   const { address } = useAccount();
   const [allOrders, setOrders] = useState([]);
 
@@ -18,9 +18,10 @@ const Orders = ({ ticker }) => {
     setOrders(arr);
 
     //filter the records that is native for just user wallet
-    // console.log(arr, "orders is here");
+    console.log(arr, "orders is here");
   }, [ticker]);
 
+  console.log(allOrders);
   return (
     <div className="TradesDiv">
       <div className="TradesDiv_head">
@@ -45,7 +46,7 @@ const Orders = ({ ticker }) => {
               </div>
               <div className="TradesDiv_body_cont1">
                 <img
-                  src={data.img}
+                  src={ticker_img}
                   alt=""
                   className="TradesDiv_body_cont1_img"
                 />

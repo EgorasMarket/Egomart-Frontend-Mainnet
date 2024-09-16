@@ -10,6 +10,7 @@ const useUserLockedFunds = () => {
     const res = await USER_LOCKED_FUNDS(address);
     console.log(res);
   };
+
   useEffect(() => {
     if (address) {
       fetchUserLockedFunds();

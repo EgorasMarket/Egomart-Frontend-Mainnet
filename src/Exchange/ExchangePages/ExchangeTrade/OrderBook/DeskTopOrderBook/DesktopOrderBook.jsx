@@ -12,6 +12,7 @@ import {
 import { DECIMAL_COUNT } from "../../../../../constants/config";
 import { setTrade } from "../../../../../features/trades/TradeSlice";
 import { _priceChangeStyling } from "../../../../../helpers/helper";
+import { numberWithCommas } from "../../../../../assets/js/numberWithCommas";
 
 const DesktopOrderBook = ({ current }) => {
   const dispatch = useDispatch();
@@ -180,6 +181,8 @@ const DesktopOrderBook = ({ current }) => {
         ]
       : buyOffers; // No changes if length is 25 or more
 
+  console.log(buyOffers);
+
   return (
     <>
       <div className="ExchangeTrade_div2_cont1_header">
@@ -255,12 +258,16 @@ const DesktopOrderBook = ({ current }) => {
                   }}
                 >
                   {data?.price !== "--"
-                    ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                    ? numberWithCommas(
+                        parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                      )
                     : "--"}
                 </div>
                 <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont3">
                   {data?.amount !== "--"
-                    ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                    ? numberWithCommas(
+                        parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                      )
                     : "--"}
                 </div>
               </div>
@@ -429,15 +436,19 @@ const DesktopOrderBook = ({ current }) => {
                 style={{ color: _priceChangeStyling(current) }}
                 // style={{ color:  "#ff445d" }}
               >
-                {parseFloat(
-                  trades.find((obj) => obj.ticker === current?.pair)?.price
-                ) || 0}
+                {numberWithCommas(
+                  parseFloat(
+                    trades.find((obj) => obj.ticker === current?.pair)?.price
+                  ) || 0
+                )}
 
                 <span className="executed_price_div_span">
-                  ≈ $x{" "}
-                  {parseFloat(
-                    trades.find((obj) => obj.ticker === current?.pair)?.price
-                  ) || 0}{" "}
+                  ≈ ${" "}
+                  {numberWithCommas(
+                    parseFloat(
+                      trades.find((obj) => obj.ticker === current?.pair)?.price
+                    ) || 0
+                  )}{" "}
                 </span>
               </div>
               <div className="walletSelectModalDiv_body_amount_display_body_display_full">
@@ -497,10 +508,12 @@ const DesktopOrderBook = ({ current }) => {
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? parseFloat(
-                              parseFloat(data?.amount) -
-                                parseFloat(data?.filled)
-                            ).toFixed(DECIMAL_COUNT)
+                          ? numberWithCommas(
+                              parseFloat(
+                                parseFloat(data?.amount) -
+                                  parseFloat(data?.filled)
+                              ).toFixed(DECIMAL_COUNT)
+                            )
                           : "--"}
                       </div>
                       <div
@@ -508,7 +521,9 @@ const DesktopOrderBook = ({ current }) => {
                         style={{ color: "#16b979" }}
                       >
                         {data.price !== "--"
-                          ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                          ? numberWithCommas(
+                              parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                            )
                           : "--"}
                       </div>
                       <div
@@ -553,10 +568,12 @@ const DesktopOrderBook = ({ current }) => {
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? parseFloat(
-                              parseFloat(data?.amount) -
-                                parseFloat(data?.filled)
-                            ).toFixed(DECIMAL_COUNT)
+                          ? numberWithCommas(
+                              parseFloat(
+                                parseFloat(data?.amount) -
+                                  parseFloat(data?.filled)
+                              ).toFixed(DECIMAL_COUNT)
+                            )
                           : "--"}
                       </div>
                       <div
@@ -564,7 +581,9 @@ const DesktopOrderBook = ({ current }) => {
                         style={{ color: "#e74c3c" }}
                       >
                         {data.price !== "--"
-                          ? parseFloat(data.price).toFixed(DECIMAL_COUNT)
+                          ? numberWithCommas(
+                              parseFloat(data.price).toFixed(DECIMAL_COUNT)
+                            )
                           : "--"}
                       </div>
                       <div
@@ -579,15 +598,19 @@ const DesktopOrderBook = ({ current }) => {
                 className="executed_price_div"
                 style={{ color: _priceChangeStyling(current) }}
               >
-                {parseFloat(
-                  trades.find((obj) => obj.ticker === current?.pair)?.price
-                ) || 0}
+                {numberWithCommas(
+                  parseFloat(
+                    trades.find((obj) => obj.ticker === current?.pair)?.price
+                  ) || 0
+                )}
 
                 <span className="executed_price_div_span">
-                  ≈ $y{" "}
-                  {parseFloat(
-                    trades.find((obj) => obj.ticker === current?.pair)?.price
-                  ) || 0}
+                  ≈ ${" "}
+                  {numberWithCommas(
+                    parseFloat(
+                      trades.find((obj) => obj.ticker === current?.pair)?.price
+                    ) || 0
+                  )}
                 </span>
               </div>
             </>
@@ -624,10 +647,12 @@ const DesktopOrderBook = ({ current }) => {
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? parseFloat(
-                              parseFloat(data?.amount) -
-                                parseFloat(data?.filled)
-                            ).toFixed(DECIMAL_COUNT)
+                          ? numberWithCommas(
+                              parseFloat(
+                                parseFloat(data?.amount) -
+                                  parseFloat(data?.filled)
+                              ).toFixed(DECIMAL_COUNT)
+                            )
                           : "--"}
                       </div>
                       <div
@@ -635,7 +660,9 @@ const DesktopOrderBook = ({ current }) => {
                         style={{ color: "#e74c3c" }}
                       >
                         {data.price !== "--"
-                          ? parseFloat(data.price).toFixed(DECIMAL_COUNT)
+                          ? numberWithCommas(
+                              parseFloat(data.price).toFixed(DECIMAL_COUNT)
+                            )
                           : "--"}
                       </div>
                       <div
@@ -647,14 +674,18 @@ const DesktopOrderBook = ({ current }) => {
                 })}
               </div>
               <div className="executed_price_div">
-                {parseFloat(
-                  trades.find((obj) => obj.ticker === current?.pair)?.price
-                ) || 0}
+                {numberWithCommas(
+                  parseFloat(
+                    trades.find((obj) => obj.ticker === current?.pair)?.price
+                  ) || 0
+                )}
                 <span className="executed_price_div_span">
                   ≈ ${" "}
-                  {parseFloat(
-                    trades.find((obj) => obj.ticker === current?.pair)?.price
-                  ) || 0}
+                  {numberWithCommas(
+                    parseFloat(
+                      trades.find((obj) => obj.ticker === current?.pair)?.price
+                    ) || 0
+                  )}
                 </span>
               </div>
               <div className="walletSelectModalDiv_body_amount_display_body_display">
@@ -682,10 +713,12 @@ const DesktopOrderBook = ({ current }) => {
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? parseFloat(
-                              parseFloat(data?.amount) -
-                                parseFloat(data?.filled)
-                            ).toFixed(DECIMAL_COUNT)
+                          ? numberWithCommas(
+                              parseFloat(
+                                parseFloat(data?.amount) -
+                                  parseFloat(data?.filled)
+                              ).toFixed(DECIMAL_COUNT)
+                            )
                           : "--"}
                       </div>
                       <div
@@ -693,7 +726,9 @@ const DesktopOrderBook = ({ current }) => {
                         style={{ color: "#16b979" }}
                       >
                         {data.price !== "--"
-                          ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                          ? numberWithCommas(
+                              parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                            )
                           : "--"}
                       </div>
                       <div

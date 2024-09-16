@@ -28,6 +28,7 @@ import { useQuery } from "@tanstack/react-query";
 import { GET_24_HOUR_VOLUME } from "../../../services/trade.services";
 import { updateTicker } from "../../../features/PairsSlice";
 import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
+import { numberWithCommas } from "../../../assets/js/numberWithCommas";
 
 const ExchangeTrade = () => {
   const dispatch = useDispatch();
@@ -156,6 +157,7 @@ const ExchangeTrade = () => {
   const closeMobBuySellModal = () => {
     setMobBuySellModal(false);
   };
+  // console.log(currentMarket);
   return (
     <div className="ExchangeTrade">
       <div className="ExchangeTrade_div1">
@@ -234,14 +236,24 @@ const ExchangeTrade = () => {
                               {market.pair}
                             </div>
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                              $ {parseFloat(market?.volume24h)}
+                              ${" "}
+                              {numberWithCommas(parseFloat(market?.volume24h))}
                             </div>
                           </div>
                         </div>
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
-                          <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
+                          <div
+                            className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price"
+                            style={{
+                              color: _priceChangeStyling({
+                                pair: market,
+                              }),
+                            }}
+                          >
                             {/* {parseFloat(market.change24h) || 0}ss */}
-                            {parseFloat(market?.close24h || 0)}
+                            {numberWithCommas(
+                              parseFloat(market?.close24h || 0)
+                            )}
                           </div>
                           <div
                             className={
@@ -256,7 +268,9 @@ const ExchangeTrade = () => {
                             }}
                           >
                             {_symbolChecker({ pair: market })}
-                            {parseFloat(market?.change24h || 0).toFixed(2) || 0}
+                            {numberWithCommas(
+                              parseFloat(market?.change24h || 0) || 0
+                            )}
                             %
                           </div>
                         </div>
@@ -291,7 +305,8 @@ const ExchangeTrade = () => {
                   >
                     <path d="M215.39,163.06A8,8,0,0,1,208,168H48a8,8,0,0,1-5.66-13.66l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,215.39,163.06Z"></path>
                   </svg>
-                ) : (
+                ) : parseFloat(currentMarket?.open24h) >
+                  parseFloat(currentMarket?.close24h) ? (
                   <svg
                     stroke="currentColor"
                     fill="currentColor"
@@ -304,11 +319,13 @@ const ExchangeTrade = () => {
                   >
                     <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,48,88H208a8,8,0,0,1,5.66,13.66Z"></path>
                   </svg>
+                ) : null}
+                {numberWithCommas(
+                  parseFloat(
+                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                      ?.price || 0
+                  ).toFixed(2)
                 )}
-                {parseFloat(
-                  trades.find((obj) => obj.ticker === currentMarket?.pair)
-                    ?.price || 0
-                ).toFixed(2)}
                 {/* Egod */}
               </span>
               <span
@@ -316,10 +333,12 @@ const ExchangeTrade = () => {
               "
               >
                 ≈$
-                {parseFloat(
-                  trades.find((obj) => obj.ticker === currentMarket?.pair)
-                    ?.price || 0
-                ).toFixed(2) || 0}
+                {numberWithCommas(
+                  parseFloat(
+                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                      ?.price || 0
+                  ).toFixed(2) || 0
+                )}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont2">
@@ -337,7 +356,10 @@ const ExchangeTrade = () => {
                 {/* {parseFloat(currentMarket?.open24h) <
                   parseFloat(currentMarket?.close24h) && "+"} */}
                 {_symbolChecker({ pair: currentMarket })}
-                {parseFloat(currentMarket?.change24h || 0).toFixed(2)}%
+                {numberWithCommas(
+                  parseFloat(currentMarket?.change24h || 0).toFixed(2)
+                )}
+                %
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont2">
@@ -352,7 +374,9 @@ const ExchangeTrade = () => {
               "
                 style={{ color: "#12b66f" }}
               >
-                {parseFloat(currentMarket?.highPrice24h || 0).toFixed(2) || 0}
+                {numberWithCommas(
+                  parseFloat(currentMarket?.highPrice24h || 0).toFixed(2) || 0
+                )}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont2">
@@ -367,7 +391,9 @@ const ExchangeTrade = () => {
               "
                 style={{ color: "#ff445d" }}
               >
-                {parseFloat(currentMarket?.lowPrice24h || 0).toFixed(2) || 0}
+                {numberWithCommas(
+                  parseFloat(currentMarket?.lowPrice24h || 0).toFixed(2) || 0
+                )}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont3">
@@ -381,7 +407,7 @@ const ExchangeTrade = () => {
                 className="ExchangeTrade_div1_cont2_cont1_cont2_span2
               "
               >
-                ${parseFloat(currentMarket?.volume24h || 0)}
+                ${numberWithCommas(parseFloat(currentMarket?.volume24h || 0))}
               </span>
             </div>
           </div>
@@ -410,12 +436,35 @@ const ExchangeTrade = () => {
               <ArrowDown01Icon className="ExchangeTrade_div1_cont1_div2_icon" />
             )}
           </div>
-          <div className="ExchangeTrade_div1_mobile_div1_price">
-            {parseInt(currentMarket?.open24h)}
+          <div
+            className="ExchangeTrade_div1_mobile_div1_price"
+            style={{ color: _priceChangeStyling({ pair: currentMarket }) }}
+          >
+            {numberWithCommas(
+              parseFloat(
+                trades.find((obj) => obj.ticker === currentMarket?.pair)
+                  ?.price || 0
+              ).toFixed(2)
+            )}
             <span className="ExchangeTrade_div1_mobile_div1_price_span">
-              ≈$0.00{" "}
-              <div className="ExchangeTrade_div1_mobile_div1_price_span_change">
-                +0.00%
+              ≈${" "}
+              {numberWithCommas(
+                parseFloat(
+                  trades.find((obj) => obj.ticker === currentMarket?.pair)
+                    ?.price || 0
+                ).toFixed(2) || 0
+              )}
+              <div
+                className="ExchangeTrade_div1_mobile_div1_price_span_change"
+                style={{ color: _priceChangeStyling({ pair: currentMarket }) }}
+              >
+                {/* {parseFloat(currentMarket?.open24h) <
+                  parseFloat(currentMarket?.close24h) && "+"} */}
+                {_symbolChecker({ pair: currentMarket })}
+                {numberWithCommas(
+                  parseFloat(currentMarket?.change24h || 0).toFixed(2)
+                )}
+                %
               </div>
             </span>
           </div>
@@ -425,24 +474,34 @@ const ExchangeTrade = () => {
             <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
               24h High
             </div>
-            <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
-              0.00
+            <div
+              className="ExchangeTrade_div1_mobile_div2_cont1_para"
+              // style={{ color: "#12b66f" }}
+            >
+              {numberWithCommas(
+                parseFloat(currentMarket?.highPrice24h || 0).toFixed(2) || 0
+              )}
             </div>
           </div>
           <div className="ExchangeTrade_div1_mobile_div2_cont1">
             <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
-              24h Vol (ESTA)
+              24h Vol ({ticker.split("-")[0]})
             </div>
             <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
-              0.00
+              {numberWithCommas(parseFloat(currentMarket?.volume24h || 0))}
             </div>
           </div>
           <div className="ExchangeTrade_div1_mobile_div2_cont1">
             <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
               24h Low
             </div>
-            <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
-              0.00
+            <div
+              className="ExchangeTrade_div1_mobile_div2_cont1_para"
+              // style={{ color: "#ff445d" }}
+            >
+              {numberWithCommas(
+                parseFloat(currentMarket?.lowPrice24h || 0).toFixed(2) || 0
+              )}
             </div>
           </div>
           <div className="ExchangeTrade_div1_mobile_div2_cont1">
@@ -450,7 +509,7 @@ const ExchangeTrade = () => {
               24h Vol (EGOD)
             </div>
             <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
-              0.00
+              {numberWithCommas(parseFloat(currentMarket?.volume24h || 0))}
             </div>
           </div>
         </div>
@@ -505,7 +564,7 @@ const ExchangeTrade = () => {
             {activeTab === "price" ? (
               <TradingChart />
             ) : activeTab === "depth" ? (
-              <MarketDepth />
+              <MarketDepth current={currentMarket} />
             ) : (
               <TokenDetail payload={currentMarket} />
             )}
@@ -562,7 +621,7 @@ const ExchangeTrade = () => {
               <>
                 {" "}
                 <div className="ExchangeTrade_div2_cont2_mobile_depth">
-                  <MarketDepth />
+                  <MarketDepth current={currentMarket} />
                 </div>
                 <MobileOrderBook current={currentMarket} />
               </>
@@ -624,11 +683,22 @@ const ExchangeTrade = () => {
           </div>
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTxTab === "position" && (
-              <OpenOrders ticker={currentMarket?.pair} />
+              <OpenOrders
+                ticker={currentMarket?.pair}
+                ticker_img={currentMarket?.img}
+              />
             )}
-            {activeTxTab === "order" && <Orders ticker={currentMarket?.pair} />}
+            {activeTxTab === "order" && (
+              <Orders
+                ticker={currentMarket?.pair}
+                ticker_img={currentMarket?.img}
+              />
+            )}
             {activeTxTab === "trades" && (
-              <Trades ticker={currentMarket?.pair} />
+              <Trades
+                ticker={currentMarket?.pair}
+                ticker_img={currentMarket?.img}
+              />
             )}
           </div>
         </div>
@@ -735,17 +805,7 @@ const ExchangeTrade = () => {
             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body">
               {tickers.map((market) => {
                 // Function to calculate percentage difference
-                const calculatePercentageDifference = (
-                  currentPrice,
-                  openPrice
-                ) => {
-                  return ((currentPrice - openPrice) / openPrice) * 100;
-                };
 
-                const percentageDifference = calculatePercentageDifference(
-                  market.currentPrice,
-                  market.OpenPrice
-                );
                 return (
                   <div
                     className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
@@ -765,23 +825,39 @@ const ExchangeTrade = () => {
                           {market.pair}
                         </div>
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                          $ {parseFloat(market?.open24h)}
+                          $ {numberWithCommas(parseFloat(market?.volume24h))}
                         </div>
                       </div>
                     </div>
                     <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
-                      <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
-                        {parseFloat(market.change24h || 0)}
+                      <div
+                        className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price"
+                        style={{
+                          color: _priceChangeStyling({
+                            pair: market,
+                          }),
+                        }}
+                      >
+                        {/* {parseFloat(market.change24h) || 0}ss */}
+                        {numberWithCommas(parseFloat(market?.close24h || 0))}
                       </div>
                       <div
                         className={
-                          market.open24h < market.close24h
+                          market.OpenPrice < market.currentPrice
                             ? "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent"
                             : "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent_loss"
                         }
+                        style={{
+                          color: _priceChangeStyling({
+                            pair: market,
+                          }),
+                        }}
                       >
-                        {_symbolChecker({ pair: currentMarket })}
-                        {parseFloat(market?.change24h || 0)}%
+                        {_symbolChecker({ pair: market })}
+                        {numberWithCommas(
+                          parseFloat(market?.change24h || 0) || 0
+                        )}
+                        %
                       </div>
                     </div>
                   </div>
