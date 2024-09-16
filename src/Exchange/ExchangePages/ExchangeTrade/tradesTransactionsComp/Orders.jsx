@@ -18,7 +18,7 @@ const Orders = ({ ticker, ticker_img }) => {
     setOrders(arr);
 
     //filter the records that is native for just user wallet
-    // console.log(arr, "orders is here");
+    console.log(arr, "orders is here");
   }, [ticker]);
 
   console.log(allOrders);

@@ -3,6 +3,7 @@ import "./index.css";
 import { format, getTime, parseISO } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import { DECIMAL_COUNT } from "../../../../../constants/config";
+import { numberWithCommas } from "../../../../../assets/js/numberWithCommas";
 
 const MobileTrades = ({ current }) => {
   const dispatch = useDispatch();
@@ -68,10 +69,16 @@ const MobileTrades = ({ current }) => {
 
       {/* filter sort map */}
       {filledTrades.map((data, index) => {
+        function formatDate(dateString) {
+          const date = new Date(dateString);
+
+          return format(date, "MMM do, yyyy / h:mm aaa");
+        }
+
         return (
           <div
             className="ProductDetailPage_div_body_div2_body_area_trades_body"
-            key={data.id || `placeholder-${index}`} // Provide unique key for placeholders
+            key={data?.id || `placeholder-${index}`} // Provide unique key for placeholders
           >
             <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont1">
               {data.createdAt !== "--"
@@ -86,16 +93,20 @@ const MobileTrades = ({ current }) => {
                     ? "#ff445d"
                     : data?.type === "BUY"
                     ? "#12b66f"
-                    : "fff",
+                    : "#fff",
               }}
             >
-              {data.price !== "--"
-                ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+              {data?.price !== "--"
+                ? numberWithCommas(
+                    parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                  )
                 : "--"}
             </div>
             <div className="ProductDetailPage_div_body_div2_body_area_trades_body_cont3">
-              {data.amount !== "--"
-                ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+              {data?.amount !== "--"
+                ? numberWithCommas(
+                    parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                  )
                 : "--"}
             </div>
           </div>

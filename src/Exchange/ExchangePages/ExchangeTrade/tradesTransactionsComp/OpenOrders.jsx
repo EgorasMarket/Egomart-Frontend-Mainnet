@@ -137,18 +137,23 @@ const OpenOrders = ({ ticker, ticker_img }) => {
                 </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {parseFloat(data.filled)}{" "}
-                <span className="TradesDiv_body_cont1_span">
-                  {ticker.split("-")[0]}
-                </span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(data.filled)}{" "}
+                  <span className="TradesDiv_body_cont1_span">
+                    {ticker.split("-")[0]}
+                  </span>
+                </div>
+
                 {/* <span className="TradesDiv_body_cont1_span">{data.token}</span> */}
               </div>
               <div className="TradesDiv_body_cont1">
                 {/* {parseFloat(data.total - data.filled).toFixed(2)}{" "} */}
-                {parseFloat(data.amount) - parseFloat(data.filled)}{" "}
-                <span className="TradesDiv_body_cont1_span">
-                  {ticker.split("-")[0]}
-                </span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(data.amount) - parseFloat(data.filled)}{" "}
+                  <span className="TradesDiv_body_cont1_span">
+                    {ticker.split("-")[0]}
+                  </span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1_last">
                 <button

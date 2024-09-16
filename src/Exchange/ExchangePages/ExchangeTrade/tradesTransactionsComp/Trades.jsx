@@ -77,23 +77,29 @@ const Trades = ({ ticker, ticker_img }) => {
                 {parseFloat(data.price)}
               </div>
               <div className="TradesDiv_body_cont1">
-                {parseFloat(data.amount)}{" "}
-                <span className="TradesDiv_body_cont1_span">
-                  {data.ticker.split("-")[0]}
-                </span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(data.amount)}{" "}
+                  <span className="TradesDiv_body_cont1_span">
+                    {data.ticker.split("-")[0]}
+                  </span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {parseFloat(
-                  parseFloat(data.price) * parseFloat(data.amount)
-                ).toFixed(2)}{" "}
-                <span className="TradesDiv_body_cont1_span">EGOD</span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {parseFloat(
+                    parseFloat(data.price) * parseFloat(data.amount)
+                  ).toFixed(2)}{" "}
+                  <span className="TradesDiv_body_cont1_span">EGOD</span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {tradeFee}{" "}
-                <span className="TradesDiv_body_cont1_span">
-                  {" "}
-                  {data.ticker.split("-")[0]}
-                </span>
+                <div className="TradesDiv_body_cont1_div_flex">
+                  {tradeFee}{" "}
+                  <span className="TradesDiv_body_cont1_span">
+                    {" "}
+                    {data.ticker.split("-")[0]}
+                  </span>
+                </div>
               </div>
               <div className="TradesDiv_body_cont1_last"></div>
             </div>

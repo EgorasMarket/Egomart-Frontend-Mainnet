@@ -10,18 +10,30 @@ import {
   GET_USER_TRADE_ORDERS,
 } from "../../../../../services/trade.services";
 import { DECIMAL_COUNT } from "../../../../../constants/config";
+import { numberWithCommas } from "../../../../../assets/js/numberWithCommas";
 
 const MobileOrderBook = ({ current }) => {
   const dispatch = useDispatch();
   useEffect(() => {}, [current]);
   const { orders } = useSelector((state) => state.orders);
   const fillorder = async () => {
+    // dispatch(addOrders([]));
+
     const res = await GET_EXCHANGE_EVENT();
-    if (!res?.success) return;
+    console.log("see here...", res);
+    if (!res?.success) {
+      dispatch(addOrders([]));
+
+      return;
+    }
 
     let data = {};
     const arr = [];
     let count = 0;
+    if (res?.data.length === 0) {
+      dispatch(addOrders([]));
+      return;
+    }
     res?.data.forEach((order, position) => {
       data = {
         id: position + 1,
@@ -29,15 +41,16 @@ const MobileOrderBook = ({ current }) => {
         indexId: order.index_id,
         ticker: order?.ticker,
         type: order?.orderType,
+        uuid: order?.uniqueOrderID,
         amount: order?.numberOfShares,
         address: order?.userAddress,
         status: order?.state, //ENUM OPEN, CANCELLED,COMPLETED,
         createdAt: order?.createdAt,
+        filled: order?.filled,
       };
       arr.push(data);
-      count++;
     });
-    console.log(res, "response from backend");
+    console.log(res, "order from backend");
     dispatch(addOrders(arr));
   };
 
@@ -116,7 +129,7 @@ const MobileOrderBook = ({ current }) => {
           {filledBuyOffers.map((data, index) => {
             const widthPercentage =
               data.amount !== "--"
-                ? (parseInt(data?.amount) / maxAmount) * 100
+                ? numberWithCommas((parseInt(data?.amount) / maxAmount) * 100)
                 : 0;
 
             return (
@@ -127,7 +140,9 @@ const MobileOrderBook = ({ current }) => {
               >
                 <div className="walletSelectModalDiv_body_amount_display_cont1">
                   {data.amount !== "--"
-                    ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                    ? numberWithCommas(
+                        parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                      )
                     : "--"}
                 </div>
                 <div
@@ -135,7 +150,9 @@ const MobileOrderBook = ({ current }) => {
                   style={{ color: "#16b979", marginRight: "1em" }}
                 >
                   {data.price !== "--"
-                    ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                    ? numberWithCommas(
+                        parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                      )
                     : "--"}
                 </div>
                 <div
@@ -155,7 +172,9 @@ const MobileOrderBook = ({ current }) => {
           {filledSellOffers.map((data, index) => {
             const widthPercentage =
               data.amount !== "--"
-                ? (parseInt(data?.amount) / maxSellAmount) * 100
+                ? numberWithCommas(
+                    (parseInt(data?.amount) / maxSellAmount) * 100
+                  )
                 : 0;
 
             return (
@@ -169,12 +188,16 @@ const MobileOrderBook = ({ current }) => {
                   style={{ color: "#ff445d", marginLeft: "1em" }}
                 >
                   {data.price !== "--"
-                    ? parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                    ? numberWithCommas(
+                        parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                      )
                     : "--"}
                 </div>
                 <div className="walletSelectModalDiv_body_amount_display_cont1">
                   {data.amount !== "--"
-                    ? parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                    ? numberWithCommas(
+                        parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                      )
                     : "--"}
                 </div>
                 <div
