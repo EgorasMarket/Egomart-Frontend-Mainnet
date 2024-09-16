@@ -1,5 +1,6 @@
 import React from "react";
 import Blockies from "react-blockies";
+import { Link } from "react-router-dom";
 import { useAccount } from "wagmi";
 const ExchangePortfolioSideBar = ({ toggleActiveTab, activeTab }) => {
   const { address } = useAccount();
@@ -25,7 +26,8 @@ const ExchangePortfolioSideBar = ({ toggleActiveTab, activeTab }) => {
       </div>
 
       <div className="exPortfolioSideBar_div2">
-        <div
+        <Link
+          to="/app/portfolio/overview"
           id="overview"
           className={
             activeTab === "overview"
@@ -35,8 +37,9 @@ const ExchangePortfolioSideBar = ({ toggleActiveTab, activeTab }) => {
           onClick={toggleActiveTab}
         >
           Overview
-        </div>
-        <div
+        </Link>
+        <Link
+          to="/app/portfolio/openOrder"
           id="orders"
           className={
             activeTab === "orders"
@@ -46,7 +49,7 @@ const ExchangePortfolioSideBar = ({ toggleActiveTab, activeTab }) => {
           onClick={toggleActiveTab}
         >
           Open Orders
-        </div>
+        </Link>
         <div
           id="history"
           className={
