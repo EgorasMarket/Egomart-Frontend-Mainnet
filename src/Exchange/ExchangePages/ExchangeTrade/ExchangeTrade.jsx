@@ -28,6 +28,7 @@ import { useQuery } from "@tanstack/react-query";
 import { GET_24_HOUR_VOLUME } from "../../../services/trade.services";
 import { updateTicker } from "../../../features/PairsSlice";
 import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
+import { numberWithCommas } from "../../../assets/js/numberWithCommas";
 
 const ExchangeTrade = () => {
   const dispatch = useDispatch();
@@ -156,6 +157,7 @@ const ExchangeTrade = () => {
   const closeMobBuySellModal = () => {
     setMobBuySellModal(false);
   };
+  // console.log(currentMarket);
   return (
     <div className="ExchangeTrade">
       <div className="ExchangeTrade_div1">
@@ -234,14 +236,24 @@ const ExchangeTrade = () => {
                               {market.pair}
                             </div>
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                              $ {parseFloat(market?.volume24h)}
+                              ${" "}
+                              {numberWithCommas(parseFloat(market?.volume24h))}
                             </div>
                           </div>
                         </div>
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
-                          <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price">
+                          <div
+                            className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price"
+                            style={{
+                              color: _priceChangeStyling({
+                                pair: market,
+                              }),
+                            }}
+                          >
                             {/* {parseFloat(market.change24h) || 0}ss */}
-                            {parseFloat(market?.close24h || 0)}
+                            {numberWithCommas(
+                              parseFloat(market?.close24h || 0)
+                            )}
                           </div>
                           <div
                             className={
@@ -256,7 +268,9 @@ const ExchangeTrade = () => {
                             }}
                           >
                             {_symbolChecker({ pair: market })}
-                            {parseFloat(market?.change24h || 0).toFixed(2) || 0}
+                            {numberWithCommas(
+                              parseFloat(market?.change24h || 0).toFixed(2) || 0
+                            )}
                             %
                           </div>
                         </div>
@@ -306,10 +320,12 @@ const ExchangeTrade = () => {
                     <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,48,88H208a8,8,0,0,1,5.66,13.66Z"></path>
                   </svg>
                 ) : null}
-                {parseFloat(
-                  trades.find((obj) => obj.ticker === currentMarket?.pair)
-                    ?.price || 0
-                ).toFixed(2)}
+                {numberWithCommas(
+                  parseFloat(
+                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                      ?.price || 0
+                  ).toFixed(2)
+                )}
                 {/* Egod */}
               </span>
               <span
@@ -317,10 +333,12 @@ const ExchangeTrade = () => {
               "
               >
                 ≈$
-                {parseFloat(
-                  trades.find((obj) => obj.ticker === currentMarket?.pair)
-                    ?.price || 0
-                ).toFixed(2) || 0}
+                {numberWithCommas(
+                  parseFloat(
+                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                      ?.price || 0
+                  ).toFixed(2) || 0
+                )}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont2">
@@ -338,7 +356,10 @@ const ExchangeTrade = () => {
                 {/* {parseFloat(currentMarket?.open24h) <
                   parseFloat(currentMarket?.close24h) && "+"} */}
                 {_symbolChecker({ pair: currentMarket })}
-                {parseFloat(currentMarket?.change24h || 0).toFixed(2)}%
+                {numberWithCommas(
+                  parseFloat(currentMarket?.change24h || 0).toFixed(2)
+                )}
+                %
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont2">
@@ -353,7 +374,9 @@ const ExchangeTrade = () => {
               "
                 style={{ color: "#12b66f" }}
               >
-                {parseFloat(currentMarket?.highPrice24h || 0).toFixed(2) || 0}
+                {numberWithCommas(
+                  parseFloat(currentMarket?.highPrice24h || 0).toFixed(2) || 0
+                )}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont2">
@@ -368,7 +391,9 @@ const ExchangeTrade = () => {
               "
                 style={{ color: "#ff445d" }}
               >
-                {parseFloat(currentMarket?.lowPrice24h || 0).toFixed(2) || 0}
+                {numberWithCommas(
+                  parseFloat(currentMarket?.lowPrice24h || 0).toFixed(2) || 0
+                )}
               </span>
             </div>
             <div className="ExchangeTrade_div1_cont2_cont1_cont3">
@@ -382,7 +407,7 @@ const ExchangeTrade = () => {
                 className="ExchangeTrade_div1_cont2_cont1_cont2_span2
               "
               >
-                ${parseFloat(currentMarket?.volume24h || 0)}
+                ${numberWithCommas(parseFloat(currentMarket?.volume24h || 0))}
               </span>
             </div>
           </div>
@@ -412,7 +437,7 @@ const ExchangeTrade = () => {
             )}
           </div>
           <div className="ExchangeTrade_div1_mobile_div1_price">
-            {parseInt(currentMarket?.open24h)}
+            {numberWithCommas(parseInt(currentMarket?.open24h))}
             <span className="ExchangeTrade_div1_mobile_div1_price_span">
               ≈$0.00{" "}
               <div className="ExchangeTrade_div1_mobile_div1_price_span_change">
@@ -625,11 +650,22 @@ const ExchangeTrade = () => {
           </div>
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTxTab === "position" && (
-              <OpenOrders ticker={currentMarket?.pair} />
+              <OpenOrders
+                ticker={currentMarket?.pair}
+                ticker_img={currentMarket?.img}
+              />
             )}
-            {activeTxTab === "order" && <Orders ticker={currentMarket?.pair} />}
+            {activeTxTab === "order" && (
+              <Orders
+                ticker={currentMarket?.pair}
+                ticker_img={currentMarket?.img}
+              />
+            )}
             {activeTxTab === "trades" && (
-              <Trades ticker={currentMarket?.pair} />
+              <Trades
+                ticker={currentMarket?.pair}
+                ticker_img={currentMarket?.img}
+              />
             )}
           </div>
         </div>

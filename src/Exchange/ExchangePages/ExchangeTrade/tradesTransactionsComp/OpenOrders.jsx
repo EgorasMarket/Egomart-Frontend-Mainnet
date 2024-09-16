@@ -9,7 +9,7 @@ import { formatEther, parseEther } from "ethers";
 // import { toast, ToastContainer } from "react-toastify";
 import toast, { Toaster } from "react-hot-toast";
 
-const OpenOrders = ({ ticker }) => {
+const OpenOrders = ({ ticker, ticker_img }) => {
   const {
     data: cancelledOrder,
     writeContract,
@@ -62,6 +62,7 @@ const OpenOrders = ({ ticker }) => {
       console.log(error, "error");
     }
   };
+  console.log(ticker);
   return (
     <div className="TradesDiv">
       <div className="TradesDiv_head">
@@ -90,7 +91,7 @@ const OpenOrders = ({ ticker }) => {
               </div>
               <div className="TradesDiv_body_cont1">
                 <img
-                  src={data?.img}
+                  src={ticker_img}
                   alt=""
                   className="TradesDiv_body_cont1_img"
                 />
@@ -136,12 +137,18 @@ const OpenOrders = ({ ticker }) => {
                 </div>
               </div>
               <div className="TradesDiv_body_cont1">
-                {parseFloat(data.filled)}
+                {parseFloat(data.filled)}{" "}
+                <span className="TradesDiv_body_cont1_span">
+                  {ticker.split("-")[0]}
+                </span>
                 {/* <span className="TradesDiv_body_cont1_span">{data.token}</span> */}
               </div>
               <div className="TradesDiv_body_cont1">
                 {/* {parseFloat(data.total - data.filled).toFixed(2)}{" "} */}
-                {parseFloat(data.amount) - parseFloat(data.filled)}
+                {parseFloat(data.amount) - parseFloat(data.filled)}{" "}
+                <span className="TradesDiv_body_cont1_span">
+                  {ticker.split("-")[0]}
+                </span>
               </div>
               <div className="TradesDiv_body_cont1_last">
                 <button
