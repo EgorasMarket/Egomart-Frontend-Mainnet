@@ -434,7 +434,7 @@ const DesktopOrderBook = ({ current }) => {
                 ) || 0}
 
                 <span className="executed_price_div_span">
-                  ≈ ${" "}
+                  ≈ $x{" "}
                   {parseFloat(
                     trades.find((obj) => obj.ticker === current?.pair)?.price
                   ) || 0}{" "}
@@ -532,6 +532,7 @@ const DesktopOrderBook = ({ current }) => {
                     data.amount !== "--"
                       ? (parseFloat(data?.amount) / maxSellAmount) * 100
                       : 0;
+                  console.log(data);
 
                   // Calculate total and other fields only if price and amount are valid
                   const total =
@@ -548,7 +549,7 @@ const DesktopOrderBook = ({ current }) => {
                       key={data.id || `placeholder-${index}`}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {total}
+                        {total} c
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
@@ -583,7 +584,7 @@ const DesktopOrderBook = ({ current }) => {
                 ) || 0}
 
                 <span className="executed_price_div_span">
-                  ≈ ${" "}
+                  ≈ $y{" "}
                   {parseFloat(
                     trades.find((obj) => obj.ticker === current?.pair)?.price
                   ) || 0}
