@@ -355,6 +355,12 @@
   margin-top: 5px;
   font-weight: 600;
 }
+.history_body {
+  width: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+}
+
 @media (max-width: 990px) {
   .PortfolioDiv_1 {
     display: none;

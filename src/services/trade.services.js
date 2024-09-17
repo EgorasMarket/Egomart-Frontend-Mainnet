@@ -9,6 +9,7 @@ import {
   GET_USER_TRADE_ORDERS_ROUTE,
   INSERT_NEW_ORDER_ROUTE,
   USER_TRADE_DEPOSIT_ROUTE,
+  GET_USER_HISTORY,
 } from "../core/routes";
 
 export const USER_TRADE_DEPOSIT = async (wallet) => {
@@ -32,6 +33,14 @@ export const GET_TICKER_PAIRS = async (wallet) => {
 export const GET_USER_TRADE_ORDERS = async (wallet) => {
   try {
     const response = await api.get(`${GET_USER_TRADE_ORDERS_ROUTE}/${wallet}`);
+    return response.data;
+  } catch (error) {
+    return error?.response?.data || error?.response || error.message;
+  }
+};
+export const GET_USER_DEPOSIT_WITHDRAW = async (wallet) => {
+  try {
+    const response = await api.get(`${GET_USER_HISTORY}/${wallet}`);
     return response.data;
   } catch (error) {
     return error?.response?.data || error?.response || error.message;

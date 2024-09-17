@@ -17,6 +17,8 @@ import useFetchBalance from "../../../../hooks/useFetchBalance";
 import useUserLockedFunds from "../../../../hooks/useUserLockedFunds";
 import { useDispatch, useSelector } from "react-redux";
 import { useAccount, useBalance } from "wagmi";
+import { GET_USER_DEPOSIT_WITHDRAW } from "../../../../services/trade.services";
+import { format } from "date-fns";
 
 export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
   const nullAddress = "0x0000000000000000000000000000000000000000";
@@ -43,14 +45,17 @@ export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
       <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
       <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
       <div className="exPortoflioOverviewDiv_3_body_cont_last">
-        <Link to={`/app/trade/spot/${data.tokenSymbol}-EGOD`}>
-          <button
-            className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
-            // onClick={openDepositModal}
-          >
-            Trade
-          </button>
-        </Link>
+        {data.tokenSymbol === "EGOD" ? null : (
+          <Link to={`/app/trade/spot/${data.tokenSymbol}-EGOD`}>
+            <button
+              className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
+              // onClick={openDepositModal}
+            >
+              Trade
+            </button>
+          </Link>
+        )}
+
         <button
           className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
           onClick={openDepositModal}
@@ -75,11 +80,41 @@ export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
 
 const Overview = () => {
   const { assets } = useSelector((state) => state.assets);
+  const { address } = useAccount();
   const [deposit, setDeposit] = useState(false);
   const [depositUnique, setDepositUnique] = useState(false);
   const [withdrawUnique, setWithdrawUnique] = useState(false);
   const [withdraw, setWithdraw] = useState(false);
   const [selectedSymbol, setSelectedSymbol] = useState(null);
+  const [history, setHistory] = useState([]);
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return format(date, "MMM do, yyyy / h:mm aaa");
+  }
+
+  const fetchUserHistory = async () => {
+    const res = await GET_USER_DEPOSIT_WITHDRAW(address);
+    console.log("====================================");
+    console.log(res);
+    const sortedRes = res.data.filter((data) => {
+      return (
+        (data.amount = parseFloat(data.amount)),
+        (data.createdAt = formatDate(data?.createdAt || new Date()))
+      );
+    });
+    console.log("====================================");
+    console.log(sortedRes);
+    console.log("====================================");
+    setHistory(res.data);
+    console.log("====================================");
+  };
+  useEffect(() => {
+    if (address) {
+      fetchUserHistory();
+      return;
+    }
+  }, [address]);
 
   const data = [
     {
@@ -260,7 +295,7 @@ const Overview = () => {
               <AreaChart
                 width={130}
                 height={10}
-                data={data}
+                data={history}
                 margin={{
                   top: 0,
                   right: 0,
@@ -279,11 +314,11 @@ const Overview = () => {
                   stroke="#fff"
                   opacity={0.2}
                 />
-                <XAxis dataKey="amt" stroke="0" />
+                <XAxis dataKey="createdAt" stroke="0" />
                 <Tooltip />
                 <Area
                   type="monotone"
-                  dataKey="amt"
+                  dataKey="amount"
                   stroke="#22ad62"
                   fillOpacity={1}
                   fill="url(#colorUv)"

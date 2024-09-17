@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import { assets } from "../../Components/Static";
+// import { assets } from "../../Components/Static";
 import {
   useAccount,
   useReadContract,
@@ -13,6 +13,7 @@ import allowanceAbi from "../../web3/erc20.json";
 import ClipLoader from "react-spinners/ClipLoader";
 // import { ToastContainer, toast } from "react-toastify";
 import useTokenAllowance from "../../hooks/useTokenAllowance";
+import { useDispatch, useSelector } from "react-redux";
 // import { useAccount } from "wagmi";
 import "react-toastify/dist/ReactToastify.css";
 import { ArrowDown01Icon, ArrowUp01Icon } from "hugeicons-react";
@@ -60,9 +61,10 @@ export const AssetItem = ({ asset, address, selectAsset }) => {
 };
 
 const Deposit = ({ symbol }) => {
+  const { assets } = useSelector((state) => state.assets);
   const { address, isConnecting, isDisconnected } = useAccount();
   const [assetList, setAssetList] = useState(false);
-  const [selectedAsset, setSelectedAsset] = useState(assets[0]);
+  const [selectedAsset, setSelectedAsset] = useState(assets[0][0]);
   const [assetBal, setAssetBal] = useState("0");
   const [depositAmount, setDepositAmount] = useState("");
   const [userAllowance, setUserAllowance] = useState(false);
@@ -107,25 +109,16 @@ const Deposit = ({ symbol }) => {
   const {
     isPending: depositing,
     data: deposit,
-    writeContract: initiateDeposit,
+    writeContract,
     isError: depositError,
     error: error,
     isSuccess: depositSuccess,
     status: depositStatus,
   } = useWriteContract();
-  const {
-    isPending: depositingNative,
-    data: depositNative,
-    writeContract: initiateDepositNative,
-    isError: depositErrorNative,
-    error: errorNativce,
-    isSuccess: depositSuccessNative,
-    status: depositStatusNative,
-  } = useWriteContract();
 
   const depositFn = async () => {
-    if (selectedAsset.tokenAddress === "EGAX") {
-      initiateDepositNative({
+    if (selectedAsset.tokenSymbol === "EGAX") {
+      writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi,
         functionName: "depositNativeToken",
@@ -134,7 +127,7 @@ const Deposit = ({ symbol }) => {
       return;
     }
 
-    initiateDeposit({
+    writeContract({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi,
       functionName: "deposit",
@@ -295,7 +288,7 @@ const Deposit = ({ symbol }) => {
                   <div className="AssetListDrop_title_2">Available</div>
                 </div>
                 <div className="AssetListDrop_body">
-                  {assets.map((asset) => (
+                  {assets[0].map((asset) => (
                     <AssetItem
                       key={asset.tokenAddress}
                       asset={asset}

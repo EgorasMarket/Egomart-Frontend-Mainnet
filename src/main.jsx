@@ -7,6 +7,7 @@ import { persistor, store } from "./app/store.js";
 import { PersistGate } from "redux-persist/integration/react";
 import Web3ModalProvider from "./constants/Web3ModalProvider";
 import PortfolioOpenOrders from "./Exchange/ExchangePages/ExchangePortfolio/Pages/PortfolioOpenOrders";
+import History from "./Exchange/ExchangePages/ExchangePortfolio/Pages/History";
 
 import {
   BrowserRouter,
@@ -46,6 +47,7 @@ const router = createBrowserRouter(
         <Route path="portfolio" element={<ExchangePortfolio />}>
           <Route path="overview" element={<Overview />} />
           <Route path="openOrder" element={<PortfolioOpenOrders />} />
+          <Route path="history" element={<History />} />
         </Route>
         <Route path="trade/spot/" element={<ExchangeTrade />}>
           <Route path=":ticker" element={<ExchangeTrade />} />
