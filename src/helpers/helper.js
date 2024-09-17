@@ -25,12 +25,14 @@ export const _symbolChecker = ({ pair }) => {
 };
 
 export const _highestSellOrder = ({ orders = [], ticker }) => {
-  const sellOrders = orders.filter(
-    (order) =>
-      order.type === "SELL" &&
-      order.status === "OPEN" &&
-      order.ticker === ticker
-  );
+  const sellOrders = orders
+    .filter(
+      (order) =>
+        order.type === "SELL" &&
+        order.status === "OPEN" &&
+        order.ticker === ticker
+    )
+    .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
   console.log(sellOrders);
   if (sellOrders.length === 0)
     return {
@@ -97,7 +99,7 @@ export const _all_prices = ({ orders = [], ticker, marketType }) => {
     const _sell_arr = orders
       .filter(
         (order) =>
-          order.type === marketType &&
+          order.type === "BUY" &&
           order.status === "OPEN" &&
           order.ticker === ticker
       )
@@ -114,11 +116,11 @@ export const _all_prices = ({ orders = [], ticker, marketType }) => {
     const _sell_arr = orders
       .filter(
         (order) =>
-          order.type === marketType &&
+          order.type === "SELL" &&
           order.status === "OPEN" &&
           order.ticker === ticker
       )
-      .sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+      .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
       .map((o) => {
         return parseEther(
           parseFloat(o.price).toFixed(5).toString(),
