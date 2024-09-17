@@ -127,7 +127,7 @@ const socketMiddleware = (store) => {
           console.log(curr_order);
           if (curr_order) {
             dispatch(cancelOne({ id: curr_order.id, curr_order }));
-            console.log(payload, curr_order, "to be sent to store ");
+            console.log(payload, curr_order, "to be  ");
             return;
           }
           console.log("not sent to store");

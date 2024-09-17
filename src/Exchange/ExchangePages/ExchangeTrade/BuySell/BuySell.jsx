@@ -21,7 +21,11 @@ import useFetchBalance from "../../../../hooks/useFetchBalance";
 import { useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Toaster, toast } from "react-hot-toast";
-import { _all_prices, _highestSellOrder } from "../../../../helpers/helper";
+import {
+  _all_prices,
+  _buyManager,
+  _highestSellOrder,
+} from "../../../../helpers/helper";
 import { parseEther } from "viem";
 import { parseUnits } from "ethers";
 const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
@@ -159,41 +163,45 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const marketOrder = () => {
     const marketType = activeBtn === "sell" ? true : false;
     try {
-      const highestSellOrder = _highestSellOrder({
-        orders: orders,
+      const marketManager = _buyManager({
+        market: marketType ? "SELL" : "BUY",
+        orders,
         ticker: payload?.pair,
       });
 
+      console.log(marketManager, "marketManager");
+
+      // const highestSellOrder = _highestSellOrder({
+      //   orders: orders,
+      //   ticker: payload?.pair,
+      // });
+
       let _amount = parseFloat(
-        amount / parseFloat(highestSellOrder.price)
+        amount / parseFloat(marketManager.price)
       ).toString();
 
-      console.log(highestSellOrder, _amount, "sese");
+      // console.log(highestSellOrder, _amount, "sese");
 
       console.log([
         payload?.pair,
         [
           marketType,
           address,
-          marketType
-            ? parseEther(price, "wei")
-            : parseEther(highestSellOrder.price, "wei"),
+          parseEther(marketManager?.price, "wei"),
           marketType
             ? parseEther(amount.toString(), "wei").toString()
             : parseEther(amount.toString(), "wei").toString(),
-          // : parseEther(_amount, "wei").toString(),
+
           0,
           0,
         ],
-        // _sell_arr,
         _all_prices({
           orders,
           ticker: payload?.pair,
           marketType: marketType ? "BUY" : "SELL",
         }),
       ]);
-
-      // return;
+      return;
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
@@ -206,7 +214,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
             address,
             marketType
               ? parseEther(price.toString(), "wei")
-              : parseEther(highestSellOrder.price, "wei"),
+              : parseEther(marketManager.price, "wei"),
             // parseEther(highestSellOrder.price),
             marketType
               ? parseEther(amount.toString(), "wei").toString()
