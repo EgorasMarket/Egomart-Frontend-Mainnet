@@ -102,11 +102,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
 
   //total change
   const handleTotalChange = (event) => {
-    if (selectedValue === "Limit" && activeBtn === "buy") {
-      setAmount(event.target.value);
-      setTotalSum(parseFloat(event.target.value) / parseFloat(price));
-      return;
-    }
     setTotalSum(event.target.value);
     setAmount(parseFloat(event.target.value) / parseFloat(price));
   };
@@ -121,11 +116,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
 
   //  amount change
   const handleAmountChange = (event) => {
-    // if (selectedValue === "Limit" && activeBtn === "buy") {
-    //   setAmount(event.target.value);
-    //   setTotalSum(parseFloat(event.target.value) / parseFloat(price));
-    //   return;
-    // }
     setAmount(event.target.value);
     setTotalSum(
       parseFloat(parseFloat(price) * parseFloat(event.target.value)).toFixed(3)
