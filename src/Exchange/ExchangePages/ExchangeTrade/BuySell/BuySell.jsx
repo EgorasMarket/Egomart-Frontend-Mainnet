@@ -28,7 +28,7 @@ import {
 } from "../../../../helpers/helper";
 import { parseEther } from "viem";
 import { parseUnits } from "ethers";
-const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
+const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
   const {
@@ -43,7 +43,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const { address } = useAccount();
 
   const [selectedValue, setSelectedValue] = useState("Limit");
-  const [price, setPrice] = useState("10.00");
+  const [price, setPrice] = useState(0);
   const [amount, setAmount] = useState("");
   const [buyOffersArr, setBuyOffersArr] = useState([]);
   const [balanceOf, setBalance] = useState(0);
@@ -65,6 +65,9 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     75: "75%",
     100: "100%",
   };
+  useEffect(() => {
+    setPrice(marketPrice);
+  }, [marketPrice]);
 
   const handleChange = (value) => {
     setSelectedValue(value);

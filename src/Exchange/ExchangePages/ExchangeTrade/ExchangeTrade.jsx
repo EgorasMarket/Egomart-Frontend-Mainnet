@@ -636,6 +636,10 @@ const ExchangeTrade = () => {
             payload={currentMarket}
             activeBtn={activeBtn}
             toggleActiveBtn={toggleActiveBtn}
+            marketPrice={parseFloat(
+              trades.find((obj) => obj.ticker === currentMarket?.pair)?.price ||
+                0
+            ).toFixed(2)}
           />
         </div>
       </div>
@@ -881,6 +885,10 @@ const ExchangeTrade = () => {
                 payload={currentMarket}
                 activeBtn={activeBtn}
                 toggleActiveBtn={toggleActiveBtn}
+                marketPrice={parseFloat(
+                  trades.find((obj) => obj.ticker === currentMarket?.pair)
+                    ?.price || 0
+                ).toFixed(2)}
               />{" "}
             </div>
             <div className="mobile_trade__div1_cont2">
