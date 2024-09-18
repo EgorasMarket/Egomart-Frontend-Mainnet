@@ -13,8 +13,11 @@ import { DECIMAL_COUNT } from "../../../../../constants/config";
 import { setTrade } from "../../../../../features/trades/TradeSlice";
 import { _priceChangeStyling } from "../../../../../helpers/helper";
 import { numberWithCommas } from "../../../../../assets/js/numberWithCommas";
+import { useAccount } from "wagmi";
+import DotIndicator from "../../../../../Components/DotIndicator";
 
 const DesktopOrderBook = ({ current }) => {
+  const { address } = useAccount();
   const dispatch = useDispatch();
   useEffect(() => {}, [current]);
 
@@ -521,6 +524,8 @@ const DesktopOrderBook = ({ current }) => {
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#16b979" }}
                       >
+                        {data.address === address && <DotIndicator />}
+
                         {data.price !== "--"
                           ? numberWithCommas(
                               parseFloat(data?.price).toFixed(DECIMAL_COUNT)
@@ -582,6 +587,8 @@ const DesktopOrderBook = ({ current }) => {
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#e74c3c" }}
                       >
+                        {/* check if it's user order  */}
+                        {data.address === address && <DotIndicator />}
                         {data.price !== "--"
                           ? numberWithCommas(
                               parseFloat(data.price).toFixed(DECIMAL_COUNT)
@@ -662,6 +669,8 @@ const DesktopOrderBook = ({ current }) => {
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#e74c3c" }}
                       >
+                        {data.address === address && <DotIndicator />}
+
                         {data.price !== "--"
                           ? numberWithCommas(
                               parseFloat(data.price).toFixed(DECIMAL_COUNT)
@@ -729,6 +738,8 @@ const DesktopOrderBook = ({ current }) => {
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#16b979" }}
                       >
+                        {data.address === address && <DotIndicator />}
+
                         {data.price !== "--"
                           ? numberWithCommas(
                               parseFloat(data?.price).toFixed(DECIMAL_COUNT)
