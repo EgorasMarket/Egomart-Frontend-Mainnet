@@ -109,8 +109,7 @@ const ExchangeTrade = () => {
 
   useEffect(() => {
     get24hr();
-    console.log("refreshing...");
-  }, [trades, currentMarket]);
+  }, []);
   const toggleActiveBtn = async (e) => {
     setActiveBtn(e.currentTarget.id);
   };
@@ -124,10 +123,10 @@ const ExchangeTrade = () => {
     setCurrentMarket(data);
     toggleMarketsDropDown();
   };
-
   const fetchTicker = async () => {
     if (ticker) {
-      let currMarket = tickers.filter((tick) => tick.pair === ticker)[0];
+      let currMarket =
+        tickers.find((tick) => tick.pair === ticker) || tickers[0];
       SetCurrentMarketFunc(currMarket);
     } else {
       SetCurrentMarketFunc(tickers[0]);
@@ -135,7 +134,8 @@ const ExchangeTrade = () => {
   };
   useEffect(() => {
     fetchTicker();
-  }, [currentMarket, ticker]);
+    // Only run the effect when 'tickers' change
+  }, [tickers]);
 
   const closeDepositModal = () => {
     setDeposit(false);
