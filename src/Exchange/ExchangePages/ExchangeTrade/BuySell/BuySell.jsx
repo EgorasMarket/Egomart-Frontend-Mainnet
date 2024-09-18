@@ -499,9 +499,11 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
                   <>
                     <button
                       onClick={marketOrder}
+                      disabled={loading}
                       className="ProductDetailPage_div_body_div2_div7_btn"
                     >
-                      Buy
+                      {/* Buy */}
+                      {loading ? <ClipLoader color="#fff" size={18} /> : "Buy"}
                     </button>
                   </>
                 ) : (
@@ -522,10 +524,11 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
                 {selectedValue === "market" ? (
                   <button
                     onClick={marketOrder}
+                    disabled={loading}
                     className="ProductDetailPage_div_body_div2_div7_btn_sell"
                   >
-                    Sell
-                    <ClipLoader color="#fff" size={18} />
+                    {/* Sell */}
+                    {loading ? <ClipLoader color="#fff" size={18} /> : "Sell"}
                   </button>
                 ) : (
                   <button
