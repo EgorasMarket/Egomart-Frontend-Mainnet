@@ -13,12 +13,14 @@ import TollIcon from "@mui/icons-material/Toll";
 import abi from "./bondAbi.json";
 import { BONDING_DATA } from "../../../services/earn.service";
 import Blockies from "react-blockies";
+// import { numberWithCommas } from "../../../assets/js/numberWithCommas";
 // import ComponentLoaderLogin from "../../../Components/ComponentLoaderLogin/ComponentLoaderLogin";
 // import ErrorModal from "../../../Components/SuccessErrorModals/ErrorModal";
 // import SuccessModal from "../../../Components/SuccessErrorModals/SuccessModal";
 import { useNavigate } from "react-router-dom";
 import { Wallet02Icon } from "hugeicons-react";
 import { numberWithCommas } from "../../../assets/js/numberWithCommas";
+import formatNumber from "../../../assets/js/formatNumber";
 import {
   useWriteContract,
   useReadContract,
@@ -332,14 +334,14 @@ const Bond = () => {
               Total Bonds 24h
             </div>
             <div className="bond_comp_div1_cont_card_content">
-              {parseFloat(bondData?.totalBond24h)}
+              {parseFloat(bondData?.totalBond24h || 0)}
             </div>
           </div>
           <div className="bond_comp_div1_cont_card">
             <JoinLeftSharpIcon />
             <div className="bond_comp_div1_cont_card_title">All time bond</div>
             <div className="bond_comp_div1_cont_card_content">
-              {bondData?.allTransactions?.length}
+              {bondData?.allTransactions?.length || 0}
             </div>
           </div>
           <div className="bond_comp_div1_cont_card">
@@ -348,7 +350,7 @@ const Bond = () => {
               Total Egax Burnt
             </div>
             <div className="bond_comp_div1_cont_card_content">
-              {parseFloat(bondData?.totalEgaxBond)}
+              {formatNumber(parseFloat(bondData?.totalEgaxBond || 0))}
             </div>
           </div>
           <div className="bond_comp_div1_cont_card">
@@ -357,7 +359,7 @@ const Bond = () => {
               Total Egod Minted
             </div>
             <div className="bond_comp_div1_cont_card_content">
-              {parseFloat(bondData?.totalEgodBond)}
+              {formatNumber(parseFloat(bondData?.totalEgodBond || 0))}
             </div>
           </div>
         </div>
