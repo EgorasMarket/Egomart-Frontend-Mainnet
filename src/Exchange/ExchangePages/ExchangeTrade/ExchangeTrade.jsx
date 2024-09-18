@@ -82,9 +82,7 @@ const ExchangeTrade = () => {
     let _lowPrice24h = res.dailyStats?.lowPrice || 0;
     let _high24 = res.dailyStats?.highPrice || 0;
     // let _change24h =( (closingPrice  - openPrice )/  openprice  ) *100
-    let _change24h = (_close24 - _open24) / _open24;
-    // let _change24h = ((_close24 - _open24) / _open24) * 100;
-    console.log(_change24h, _open24, _close24, "slsasmsm");
+    let _change24h = ((_close24 - _open24) / _open24) * 100;
 
     const payload = {
       open24h: _open24,
