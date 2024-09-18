@@ -81,6 +81,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const sliderChange = (value) => {
     console.log("====================================");
     console.log(value);
+    // console.log(value);
     console.log("====================================");
 
     if (selectedValue === "Limit" && activeBtn === "buy") {
