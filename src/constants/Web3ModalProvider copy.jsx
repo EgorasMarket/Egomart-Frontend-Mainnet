@@ -1,7 +1,7 @@
 import React from "react";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
-import { createConfig, http, WagmiProvider } from "wagmi";
+import { WagmiProvider } from "wagmi";
 import { arbitrum, mainnet, evmos } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -43,22 +43,12 @@ const egochain = {
 };
 
 const chains = [mainnet, arbitrum, evmos, egochain];
-// const config = defaultWagmiConfig({
-//   chains,
-//   projectId,
-//   metadata,
-//   // Optional - Override createConfig parameters
-//   // ...wagmiOptions,
-// });
-
-const config = createConfig({
+const config = defaultWagmiConfig({
   chains,
-  transports: {
-    [mainnet.id]: http(),
-    // [sepolia.id]: http(),
-    [arbitrum.id]: http(),
-    [egochain.id]: http(),
-  },
+  projectId,
+  metadata,
+  // Optional - Override createConfig parameters
+  // ...wagmiOptions,
 });
 
 // 3. Create modal
