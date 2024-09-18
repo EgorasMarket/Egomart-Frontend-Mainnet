@@ -80,18 +80,33 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     console.log(`selected ${value}`);
   };
 
+  console.log("====================================");
+  console.log(selectedValue);
+  console.log("====================================");
+
   const sliderChange = (value) => {
+    if (selectedValue === "Limit" && activeBtn === "buy") {
+      setTotalSum(parseFloat((value / 100) * aa).toFixed(3));
+      setAmount(
+        parseFloat(parseFloat((value / 100 / parseFloat(price)) * aa)).toFixed(
+          3
+        )
+      );
+      return;
+    }
     setTotalSum(
       parseFloat(parseFloat(price) * parseFloat((value / 100) * aa)).toFixed(3)
     );
-    // setAmount(parseFloat(value).toFixed(3));
-    // console.log(aa, "balance");
     setAmount(parseFloat((value / 100) * aa).toFixed(3));
-    // setAmount( parseFloat(value).toFixed(3));
   };
 
   //total change
   const handleTotalChange = (event) => {
+    if (selectedValue === "Limit" && activeBtn === "buy") {
+      setAmount(event.target.value);
+      setTotalSum(parseFloat(event.target.value) / parseFloat(price));
+      return;
+    }
     setTotalSum(event.target.value);
     setAmount(parseFloat(event.target.value) / parseFloat(price));
   };
@@ -106,6 +121,11 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
 
   //  amount change
   const handleAmountChange = (event) => {
+    // if (selectedValue === "Limit" && activeBtn === "buy") {
+    //   setAmount(event.target.value);
+    //   setTotalSum(parseFloat(event.target.value) / parseFloat(price));
+    //   return;
+    // }
     setAmount(event.target.value);
     setTotalSum(
       parseFloat(parseFloat(price) * parseFloat(event.target.value)).toFixed(3)
