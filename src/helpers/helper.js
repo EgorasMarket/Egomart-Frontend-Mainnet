@@ -25,16 +25,20 @@ export const _symbolChecker = ({ pair }) => {
 };
 
 export const _highestSellOrder = ({ orders = [], ticker }) => {
-  const sellOrders = orders.filter(
-    (order) =>
-      order.type === "SELL" &&
-      order.status === "OPEN" &&
-      order.ticker === ticker
-  );
+  const sellOrders = orders
+    .filter(
+      (order) =>
+        order.type === "SELL" &&
+        order.status === "OPEN" &&
+        order.ticker === ticker
+    )
+    .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+  console.log(sellOrders);
   if (sellOrders.length === 0)
     return {
-      price: 0,
+      price: "0.0000000000000000000000",
     };
+
   const highestSellOrder = sellOrders.reduce((maxOrder, currentOrder) => {
     return parseFloat(currentOrder.price) < parseFloat(maxOrder.price)
       ? currentOrder
@@ -42,10 +46,39 @@ export const _highestSellOrder = ({ orders = [], ticker }) => {
   }, sellOrders[0]);
   if (highestSellOrder === undefined)
     return {
-      price: 0,
+      price: "0.0000000000000000000000",
     };
 
   return highestSellOrder;
+};
+export const _lowestBuyOrder = ({ orders = [], ticker }) => {
+  const buyOrders = orders.filter(
+    (order) =>
+      order.type === "BUY" && order.status === "OPEN" && order.ticker === ticker
+  );
+  if (buyOrders.length === 0)
+    return {
+      price: 0,
+    };
+  const lowBuy = buyOrders.reduce((max, order) => {
+    return parseFloat(order.price) > parseFloat(max.price) ? order : max;
+  });
+
+  if (lowBuy === undefined)
+    return {
+      price: 0,
+    };
+
+  return lowBuy;
+};
+
+export const _buyManager = ({ market, ticker, orders }) => {
+  if (market === "BUY") {
+    return _highestSellOrder({ orders, ticker });
+  }
+  if (market === "SELL") {
+    return _lowestBuyOrder({ orders, ticker });
+  }
 };
 export const _highestBuyOrder = ({ orders = [], ticker }) => {
   const buyOrders = orders.filter(
@@ -62,23 +95,42 @@ export const _highestBuyOrder = ({ orders = [], ticker }) => {
   return highestBuyOrder;
 };
 export const _all_prices = ({ orders = [], ticker, marketType }) => {
-  // newArr.sort((a, b) => {
-  //   return new Date(b?.createdAt) - new Date(a?.createdAt);
-  // });
-  const _sell_arr = orders
-    .filter(
-      (order) =>
-        order.type === marketType &&
-        order.status === "OPEN" &&
-        order.ticker === ticker
-    )
-    .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
-    .map((o) => {
-      console.log(parseUnits(o.price, 18));
-      return parseEther(o.price.toString(), "wei").toString();
-    });
+  if (marketType === "BUY") {
+    const _sell_arr = orders
+      .filter(
+        (order) =>
+          order.type === "BUY" &&
+          order.status === "OPEN" &&
+          order.ticker === ticker
+      )
+      .sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+      .map((o) => {
+        return parseEther(
+          parseFloat(o.price).toFixed(3).toString(),
+          "wei"
+        ).toString();
+      });
 
-  if (_sell_arr.length == 0) return [];
+    if (_sell_arr.length == 0) return [];
+    return _sell_arr;
+  }
+  if (marketType === "SELL") {
+    const _sell_arr = orders
+      .filter(
+        (order) =>
+          order.type === "SELL" &&
+          order.status === "OPEN" &&
+          order.ticker === ticker
+      )
+      .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
+      .map((o) => {
+        return parseEther(
+          parseFloat(o.price).toFixed(5).toString(),
+          "wei"
+        ).toString();
+      });
 
-  return _sell_arr;
+    if (_sell_arr.length == 0) return [];
+    return _sell_arr;
+  }
 };
