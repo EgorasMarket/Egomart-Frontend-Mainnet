@@ -11,6 +11,8 @@ import JoinLeftSharpIcon from "@mui/icons-material/JoinLeftSharp";
 import WhatshotSharpIcon from "@mui/icons-material/WhatshotSharp";
 import TollIcon from "@mui/icons-material/Toll";
 import abi from "./bondAbi.json";
+import { BONDING_DATA } from "../../../services/earn.service";
+import Blockies from "react-blockies";
 // import ComponentLoaderLogin from "../../../Components/ComponentLoaderLogin/ComponentLoaderLogin";
 // import ErrorModal from "../../../Components/SuccessErrorModals/ErrorModal";
 // import SuccessModal from "../../../Components/SuccessErrorModals/SuccessModal";
@@ -25,12 +27,14 @@ import {
 } from "wagmi";
 import { ethers, formatEther, parseEther } from "ethers";
 import { Toaster, toast } from "react-hot-toast";
+import { format } from "date-fns";
 
 const Bond = () => {
   const [amount, setAmount] = useState("");
   const [egodAmount, setEgodAmount] = useState("");
   const [itemsToShow, setItemsToShow] = useState(10);
   const [isLoading2, setIsLoading2] = useState(false);
+  const [bondData, setBondData] = useState({});
   const containerRef = useRef(null);
 
   const {
@@ -300,6 +304,19 @@ const Bond = () => {
     }
   }, [isError]);
 
+  const getBondData = async () => {
+    const res = await BONDING_DATA();
+    console.log("====================================");
+    console.log(res);
+    setBondData(res.data[0]);
+    console.log("====================================");
+  };
+  useEffect(() => {
+    getBondData();
+  }, []);
+  console.log("====================================");
+  console.log(bondData);
+  console.log("====================================");
   return (
     <div className="bond_comp">
       <div className="bond_comp_div1">
@@ -314,26 +331,34 @@ const Bond = () => {
             <div className="bond_comp_div1_cont_card_title">
               Total Bonds 24h
             </div>
-            <div className="bond_comp_div1_cont_card_content">20k</div>
+            <div className="bond_comp_div1_cont_card_content">
+              {parseFloat(bondData?.totalBond24h)}
+            </div>
           </div>
           <div className="bond_comp_div1_cont_card">
             <JoinLeftSharpIcon />
             <div className="bond_comp_div1_cont_card_title">All time bond</div>
-            <div className="bond_comp_div1_cont_card_content">100M</div>
+            <div className="bond_comp_div1_cont_card_content">
+              {bondData?.allTransactions?.length}
+            </div>
           </div>
           <div className="bond_comp_div1_cont_card">
             <WhatshotSharpIcon />
             <div className="bond_comp_div1_cont_card_title">
               Total Egax Burnt
             </div>
-            <div className="bond_comp_div1_cont_card_content">500k</div>
+            <div className="bond_comp_div1_cont_card_content">
+              {parseFloat(bondData?.totalEgaxBond)}
+            </div>
           </div>
           <div className="bond_comp_div1_cont_card">
             <TollIcon />
             <div className="bond_comp_div1_cont_card_title">
               Total Egod Minted
             </div>
-            <div className="bond_comp_div1_cont_card_content">500M</div>
+            <div className="bond_comp_div1_cont_card_content">
+              {parseFloat(bondData?.totalEgodBond)}
+            </div>
           </div>
         </div>
       </div>
@@ -385,7 +410,7 @@ const Bond = () => {
                 alt=""
                 className="bond_body_div2_cont1_img"
               />
-              <div className="bond_body_div2_cont1_txt">1EGOD = $1.00</div>
+              <div className="bond_body_div2_cont1_txt">1EGOD = 1USD</div>
             </div>
             {/* <div className="bond_body_div2_cont1">
             <img
@@ -462,7 +487,11 @@ const Bond = () => {
       <div className="bond_comp_div3">
         <div className="bond_comp_div3_cont1">
           <div className="bond_comp_title">
-            Transactions <span className="bond_comp_title_span">25txn(s)</span>
+            Transactions{" "}
+            <span className="bond_comp_title_span">
+              {" "}
+              {bondData?.allTransactions?.length}txn(s)
+            </span>
           </div>
           <div className="earn_div_section2_area2_area">
             <div className="earn_div_section2_area2_area_header">
@@ -470,41 +499,64 @@ const Bond = () => {
                 User
               </div>
               <div className="earn_div_section2_area2_area_header_cont2">
-                Total Volume
+                Egax Burnt
+              </div>
+              <div className="earn_div_section2_area2_area_header_cont2">
+                Egod Minted
+              </div>
+              <div className="earn_div_section2_area2_area_header_cont2">
+                Time
               </div>
               <div className="earn_div_section2_area2_area_header_cont3">
-                Egax Rewards
-              </div>
-              <div className="earn_div_section2_area2_area_header_cont3">
-                Plt Rewards
+                Tx hash
               </div>
             </div>
             <div className="earn_div_section2_area2_area_body">
-              {referralLeaderBoard
-                .slice(0, itemsToShow)
+              {bondData?.allTransactions
+                ?.slice(0, itemsToShow)
                 .sort((a, b) => b.points - a.points)
-                .map((data, index) => (
-                  <div className="earn_div_section2_area2_area_body_cont1">
-                    <div className="earn_div_section2_area2_area_body_cont1_div1">
-                      <span className="earn_div_section2_area2_area_body_cont1_div1_position">
-                        1st
-                      </span>{" "}
-                      @0x3de...5634
+                .map((data, index) => {
+                  function formatDate(dateString) {
+                    const date = new Date(dateString);
+
+                    return format(date, "MMM do, yyyy / h:mm aaa");
+                  }
+                  return (
+                    <div className="earn_div_section2_area2_area_body_cont1">
+                      <div className="earn_div_section2_area2_area_body_cont1_div1">
+                        <Blockies
+                          seed={data.bonder}
+                          size={5}
+                          scale={4}
+                          className="blockies_icon"
+                        />
+                        {`${data.bonder.slice(0, 5)}...${data.bonder.slice(
+                          37,
+                          40
+                        )}`}
+                      </div>
+                      <div className="earn_div_section2_area2_area_body_cont1_div2">
+                        {parseFloat(data.amountIn)}Egax
+                      </div>
+                      <div className="earn_div_section2_area2_area_body_cont1_div2">
+                        {parseFloat(data.amountOut)}Egod
+                      </div>
+                      <div className="earn_div_section2_area2_area_body_cont1_div2">
+                        {formatDate(data?.createdAt || new Date())}
+                      </div>
+
+                      <div className="earn_div_section2_area2_area_body_cont1_div_last">
+                        {`${data.transHash.slice(
+                          0,
+                          5
+                        )}...${data.transHash.slice(37, 40)}`}
+                      </div>
                     </div>
-                    <div className="earn_div_section2_area2_area_body_cont1_div2">
-                      100,000 Egod
-                    </div>
-                    <div className="earn_div_section2_area2_area_body_cont1_div_last">
-                      100 egax
-                    </div>
-                    <div className="earn_div_section2_area2_area_body_cont1_div_last">
-                      100,000 plt
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
             </div>
           </div>
-          {itemsToShow < referralLeaderBoard.length && (
+          {itemsToShow < bondData?.allTransactions?.length && (
             <button
               className="depositDiv_cont4_btn"
               onClick={displayNextItems}

@@ -38,15 +38,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     isError,
     isSuccess,
     error,
-    writeContractAsync,
-  } = useWriteContract();
-  const {
-    data: marketHash,
-    writeContract: write,
-    isPending: marketOrderLoading,
-    isError: isMarketOrderError,
-    isSuccess: isMarketOrderSuccess,
-    error: marketOrderError,
   } = useWriteContract();
 
   const { address } = useAccount();
@@ -80,20 +71,45 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     console.log(`selected ${value}`);
   };
 
+  console.log("====================================");
+  console.log(selectedValue);
+  console.log("====================================");
+
   const sliderChange = (value) => {
+    console.log("====================================");
+    console.log(value);
+    console.log("====================================");
+
+    if (selectedValue === "Limit" && activeBtn === "buy") {
+      setTotalSum(
+        parseFloat(((value === 100 ? 99.9 : value) / 100) * aa).toFixed(3)
+      );
+      setAmount(
+        parseFloat(
+          parseFloat(
+            ((value === 100 ? 99.9 : value) / 100 / parseFloat(price)) * aa
+          )
+        ).toFixed(3)
+      );
+      return;
+    }
     setTotalSum(
-      parseFloat(parseFloat(price) * parseFloat((value / 100) * aa)).toFixed(3)
+      parseFloat(
+        parseFloat(price) *
+          parseFloat(((value === 100 ? 99.9 : value) / 100) * aa)
+      ).toFixed(3)
     );
-    // setAmount(parseFloat(value).toFixed(3));
-    // console.log(aa, "balance");
-    setAmount(parseFloat((value / 100) * aa).toFixed(3));
-    // setAmount( parseFloat(value).toFixed(3));
+    setAmount(
+      parseFloat(((value === 100 ? 99.9 : value) / 100) * aa).toFixed(3)
+    );
   };
 
   //total change
   const handleTotalChange = (event) => {
     setTotalSum(event.target.value);
-    setAmount(parseFloat(event.target.value) / parseFloat(price));
+    setAmount(
+      parseFloat(parseFloat(event.target.value) / parseFloat(price)).toFixed(3)
+    );
   };
 
   //  price change
@@ -146,8 +162,8 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
           [
             marketType,
             address,
-            parseEther(price).toString(),
-            parseEther(amount).toString(),
+            parseEther(price, "wei").toString(),
+            parseEther(amount, "wei").toString(),
             0,
             0,
           ],
@@ -365,13 +381,13 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
                 <input
                   name="price"
                   id="price"
-                  type="number"
+                  type="text"
                   autocapitalize="off"
                   autocorrect="off"
                   autocomplete="off"
                   spellcheck="false"
                   className="buy_modal_div_div1_cont1_body_1_label_input"
-                  value={price}
+                  value={"Market Price"}
                 />
               </label>
             ) : (
@@ -407,7 +423,9 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
                   Amount
                 </div>
                 <div className="buy_modal_div_div1_cont1_body_para1">
-                  {payload?.pair?.split("-")[0]}
+                  {selectedValue === "market" && activeBtn == "buy"
+                    ? payload?.pair?.split("-")[1]
+                    : payload?.pair?.split("-")[0]}{" "}
                 </div>
               </p>
               <input
@@ -465,7 +483,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
                   onChange={handleTotalChange}
                   spellcheck="false"
                   className="buy_modal_div_div1_cont1_body_1_label_input"
-                  // value={Total}
                   value={total_sum}
                 />
               </label>

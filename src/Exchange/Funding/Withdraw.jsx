@@ -231,7 +231,7 @@ const Withdraw = ({ symbol }) => {
           <div
             className="depositDiv_cont2_cont1"
             onClick={() => {
-              setWithdrawAmount(0.25 * parseFloat(assetBal));
+              setWithdrawAmount(0.25 * parseFloat(balance));
             }}
           >
             25%
@@ -239,7 +239,7 @@ const Withdraw = ({ symbol }) => {
           <div
             className="depositDiv_cont2_cont1"
             onClick={() => {
-              setWithdrawAmount(0.5 * parseFloat(assetBal));
+              setWithdrawAmount(0.5 * parseFloat(balance));
             }}
           >
             50%
@@ -247,7 +247,7 @@ const Withdraw = ({ symbol }) => {
           <div
             className="depositDiv_cont2_cont1"
             onClick={() => {
-              setWithdrawAmount(0.75 * parseFloat(assetBal));
+              setWithdrawAmount(0.75 * parseFloat(balance));
             }}
           >
             75%
@@ -255,7 +255,7 @@ const Withdraw = ({ symbol }) => {
           <div
             className="depositDiv_cont2_cont1"
             onClick={() => {
-              setWithdrawAmount(1 * parseFloat(assetBal));
+              setWithdrawAmount(1 * parseFloat(balance));
             }}
           >
             100%
