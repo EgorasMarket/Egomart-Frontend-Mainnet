@@ -493,7 +493,8 @@ const DesktopOrderBook = ({ current }) => {
                   const total =
                     data.price !== "--" && data.amount !== "--"
                       ? (
-                          parseFloat(data?.amount) * parseFloat(data?.price)
+                          (parseFloat(data.amount) - parseFloat(data.filled)) *
+                          parseFloat(data.price)
                         ).toFixed(DECIMAL_COUNT)
                       : "--";
 
@@ -553,7 +554,8 @@ const DesktopOrderBook = ({ current }) => {
                   const total =
                     data.amount !== "--" && data.price !== "--"
                       ? (
-                          parseFloat(data.amount) * parseFloat(data.price)
+                          (parseFloat(data.amount) - parseFloat(data.filled)) *
+                          parseFloat(data.price)
                         ).toFixed(DECIMAL_COUNT)
                       : "--";
 
@@ -564,7 +566,7 @@ const DesktopOrderBook = ({ current }) => {
                       key={data.id || `placeholder-${index}`}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {total} c
+                        {total}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
@@ -632,7 +634,8 @@ const DesktopOrderBook = ({ current }) => {
                   const total =
                     data.amount !== "--" && data.price !== "--"
                       ? (
-                          parseFloat(data.amount) * parseFloat(data.price)
+                          (parseFloat(data.amount) - parseFloat(data.filled)) *
+                          parseFloat(data.price)
                         ).toFixed(DECIMAL_COUNT)
                       : "--";
 
@@ -698,7 +701,8 @@ const DesktopOrderBook = ({ current }) => {
                   const total =
                     data.price !== "--" && data.amount !== "--"
                       ? (
-                          parseFloat(data?.amount) * parseFloat(data?.price)
+                          (parseFloat(data.amount) - parseFloat(data.filled)) *
+                          parseFloat(data.price)
                         ).toFixed(DECIMAL_COUNT)
                       : "--";
 

@@ -188,9 +188,10 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
           marketType,
           address,
           parseEther(marketManager?.price, "wei"),
-          marketType
-            ? parseEther(amount.toString(), "wei").toString()
-            : parseEther(amount.toString(), "wei").toString(),
+          marketManager?.price,
+          // marketType
+          //   ? parseEther(amount.toString(), "wei").toString()
+          //   : parseEther(amount.toString(), "wei").toString(),
 
           0,
           0,
@@ -201,7 +202,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
           marketType: marketType ? "BUY" : "SELL",
         }),
       ]);
-      return;
+
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
@@ -212,13 +213,15 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
           [
             marketType,
             address,
-            marketType
-              ? parseEther(price.toString(), "wei")
-              : parseEther(marketManager.price, "wei"),
+            // marketType
+            // ? parseEther(price.toString(), "wei")
+            parseEther(marketManager.price, "wei"),
             // parseEther(highestSellOrder.price),
-            marketType
-              ? parseEther(amount.toString(), "wei").toString()
-              : parseEther(_amount.toString(), "wei").toString(),
+            parseEther(amount.toString(), "wei").toString(),
+
+            // marketType
+            //   ? parseEther(amount.toString(), "wei").toString()
+            //   : parseEther(_amount.toString(), "wei").toString(),
             0,
             0,
           ],

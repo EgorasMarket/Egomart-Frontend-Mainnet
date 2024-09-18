@@ -103,10 +103,12 @@ export const _all_prices = ({ orders = [], ticker, marketType }) => {
           order.status === "OPEN" &&
           order.ticker === ticker
       )
-      .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
+      .sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
       .map((o) => {
-        // console.log(parseUnits(o.price, 18));
-        return parseEther(o.price.toString(), "wei").toString();
+        return parseEther(
+          parseFloat(o.price).toFixed(3).toString(),
+          "wei"
+        ).toString();
       });
 
     if (_sell_arr.length == 0) return [];

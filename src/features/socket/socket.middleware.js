@@ -61,7 +61,8 @@ const socketMiddleware = (store) => {
             indexId: log.orderId,
             ticker: log.ticker,
             type: log.typeOfTrade,
-            amount: parseFloat(log.numberOfShares).toFixed(30),
+            amount: parseFloat(log.numberOfShares).toFixed(5),
+
             uuid: log.uniqueOrderID,
             buyer: log.buyer,
             seller: log.seller,
@@ -79,14 +80,13 @@ const socketMiddleware = (store) => {
             //check if the filled is equal to the amount
             let action = "OPEN";
             let _sum_filled = parseFloat(
-              parseFloat(curr_order.filled) +
-                parseFloat(payload.amount).toFixed(30)
+              parseFloat(curr_order.filled) + payload.amount
             ).toFixed(30);
             //check if it's equal to the object amount
             let _formatted = {
               ...curr_order,
               filled: _sum_filled,
-              status: _sum_filled === curr_order.amount ? "COMPLETED" : "OPEN",
+              status: _sum_filled >= curr_order.amount ? "COMPLETED" : "OPEN",
             };
 
             dispatch(updateOne({ id: curr_order.id, newData: _formatted }));
