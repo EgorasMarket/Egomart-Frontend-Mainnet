@@ -217,11 +217,12 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
             // ? parseEther(price.toString(), "wei")
             parseEther(marketManager.price, "wei"),
             // parseEther(highestSellOrder.price),
-            parseEther(amount.toString(), "wei").toString(),
 
-            // marketType
-            //   ? parseEther(amount.toString(), "wei").toString()
-            //   : parseEther(_amount.toString(), "wei").toString(),
+            // parseEther(amount.toString(), "wei").toString(),
+
+            marketType
+              ? parseEther(amount.toString(), "wei").toString()
+              : parseEther(_amount.toString(), "wei").toString(),
             0,
             0,
           ],
