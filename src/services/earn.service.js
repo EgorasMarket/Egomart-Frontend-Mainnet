@@ -3,6 +3,7 @@ import {
   GET_USER_TRADE_VOLUME_REWARD,
   CLAIM_REWARD_ROUTE,
   GET_USER_LOCKED_FUNDS,
+  GET_BONDING_DATA,
 } from "../core/routes";
 
 export const TRADE_VOLUME_REWARD = async (wallet) => {
@@ -17,6 +18,14 @@ export const TRADE_VOLUME_REWARD = async (wallet) => {
 export const USER_LOCKED_FUNDS = async (wallet) => {
   try {
     const response = await api.get(`${GET_USER_LOCKED_FUNDS}/${wallet}`);
+    return response.data;
+  } catch (error) {
+    return error?.response?.data || error?.response || error.message;
+  }
+};
+export const BONDING_DATA = async () => {
+  try {
+    const response = await api.get(`${GET_BONDING_DATA}`);
     return response.data;
   } catch (error) {
     return error?.response?.data || error?.response || error.message;

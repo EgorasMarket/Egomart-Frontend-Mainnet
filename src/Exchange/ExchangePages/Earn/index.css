@@ -330,6 +330,11 @@
 }
 .earn_div_section2_area2_area_body_cont1_div1 {
   width: 100%;
+  display: flex;
+  align-items: center;
+}
+.earn_div_section2_area2_area_body_cont1_div1 .blockies_icon {
+  margin-right: 5px;
 }
 .earn_div_section2_area2_area_body_cont1_div2 {
   display: flex;

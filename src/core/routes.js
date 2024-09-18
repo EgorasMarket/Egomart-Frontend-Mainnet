@@ -4,6 +4,7 @@ export const GET_USER_TRADE_ORDERS_ROUTE = "/web3/get-event-exchange";
 export const GET_USER_HISTORY = "/web3/get-event-deposit-and-withdrawal";
 export const GET_ALL_ORDERS_ROUTE = "/web3/get-all-event-exchange";
 export const GET_ALL_TRADES_ROUTE = "/web3/get-all-trades";
+export const GET_BONDING_DATA = "/web3/bonded-api";
 export const INSERT_NEW_ORDER_ROUTE = "/web3/insert-new-order";
 export const CLAIM_REWARD_ROUTE = "/web3/claim-reward";
 export const GET_USER_LOCKED_FUNDS = "/web3/get-user-locked-funds";
