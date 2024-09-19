@@ -140,7 +140,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const setOrder = () => {
     const marketType = activeBtn === "sell" ? true : false;
     try {
-      if (payload.meta.minimum_order_size > Total) {
+      if (payload?.meta?.minimum_order_size > Total) {
         toast.error(
           <div className="toast_success_div">
             <div className="toast_error_div_title">Error !!</div>

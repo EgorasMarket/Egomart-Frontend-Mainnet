@@ -56,10 +56,11 @@ export const _lowestBuyOrder = ({ orders = [], ticker }) => {
     (order) =>
       order.type === "BUY" && order.status === "OPEN" && order.ticker === ticker
   );
-  if (buyOrders.length === 0)
+  if (buyOrders.length === 0) {
     return {
-      price: 0,
+      price: 1,
     };
+  }
   const lowBuy = buyOrders.reduce((max, order) => {
     return parseFloat(order.price) > parseFloat(max.price) ? order : max;
   });

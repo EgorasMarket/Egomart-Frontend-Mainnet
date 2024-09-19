@@ -66,40 +66,40 @@ const ExchangeTrade = () => {
   //   error,
   // } = useWriteContract();
 
-  const get24hr = async () => {
-    if (!ticker) {
-      return;
-    }
+  // const get24hr = async () => {
+  //   if (!ticker) {
+  //     return;
+  //   }
 
-    const res = await GET_24_HOUR_VOLUME(ticker);
-    console.log(res, "24hr volume ");
+  //   const res = await GET_24_HOUR_VOLUME(ticker);
+  //   console.log(res, "24hr volume ");
 
-    if (!res.success) return {};
+  //   if (!res.success) return {};
 
-    let _open24 = res.dailyStats?.openPrice || 0;
-    let _close24 = res.dailyStats?.closePrice || 0;
-    let _volume24h = res.dailyStats?.volume || 0;
-    let _lowPrice24h = res.dailyStats?.lowPrice || 0;
-    let _high24 = res.dailyStats?.highPrice || 0;
-    // let _change24h =( (closingPrice  - openPrice )/  openprice  ) *100
-    let _change24h =
-      parseFloat(
-        (parseFloat(_close24) - parseFloat(_open24)) / parseFloat(_open24)
-      ) * 100;
+  //   let _open24 = res.dailyStats?.openPrice || 0;
+  //   let _close24 = res.dailyStats?.closePrice || 0;
+  //   let _volume24h = res.dailyStats?.volume || 0;
+  //   let _lowPrice24h = res.dailyStats?.lowPrice || 0;
+  //   let _high24 = res.dailyStats?.highPrice || 0;
+  //   // let _change24h =( (closingPrice  - openPrice )/  openprice  ) *100
+  //   let _change24h =
+  //     parseFloat(
+  //       (parseFloat(_close24) - parseFloat(_open24)) / parseFloat(_open24)
+  //     ) * 100;
 
-    const payload = {
-      open24h: _open24,
-      close24h: res.dailyStats.closePrice || 0,
-      volume24h: res.dailyStats.volume || 0,
-      lowPrice24h: res.dailyStats.lowPrice || 0,
-      highPrice24h: res.dailyStats.highPrice || 0,
-      change24h: _change24h,
-    };
+  //   const payload = {
+  //     open24h: _open24,
+  //     close24h: res.dailyStats.closePrice || 0,
+  //     volume24h: res.dailyStats.volume || 0,
+  //     lowPrice24h: res.dailyStats.lowPrice || 0,
+  //     highPrice24h: res.dailyStats.highPrice || 0,
+  //     change24h: _change24h,
+  //   };
 
-    dispatch(updateTicker({ pair: ticker, data: payload }));
+  //   dispatch(updateTicker({ pair: ticker, data: payload }));
 
-    return res;
-  };
+  //   return res;
+  // };
   // const {
   //   data,
   //   isPending: pending,
@@ -110,9 +110,9 @@ const ExchangeTrade = () => {
   //   queryFn: get24hr,
   // });
 
-  useEffect(() => {
-    get24hr();
-  }, []);
+  // useEffect(() => {
+  //   get24hr();
+  // }, []);
   const toggleActiveBtn = async (e) => {
     setActiveBtn(e.currentTarget.id);
   };
