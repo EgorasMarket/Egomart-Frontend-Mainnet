@@ -14,7 +14,7 @@ import { useAccount, useWatchContractEvent, useWriteContract } from "wagmi";
 import abi from "../../../web3/contracts/Egomart.json";
 import { useDispatch, useSelector } from "react-redux";
 import { markets } from "../../../Components/Static";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Trades from "./tradesTransactionsComp/Trades";
 import OpenOrders from "./tradesTransactionsComp/OpenOrders";
 import Orders from "./tradesTransactionsComp/Orders";
@@ -49,7 +49,7 @@ const ExchangeTrade = () => {
   const [activeBtn, setActiveBtn] = useState("buy");
   console.log(ticker);
 
-  const splitTicker = ticker.split("-");
+  const splitTicker = ticker?.split("-");
   console.log(splitTicker[0]);
 
   // useWatchContractEvent({
@@ -82,7 +82,10 @@ const ExchangeTrade = () => {
     let _lowPrice24h = res.dailyStats?.lowPrice || 0;
     let _high24 = res.dailyStats?.highPrice || 0;
     // let _change24h =( (closingPrice  - openPrice )/  openprice  ) *100
-    let _change24h = ((_close24 - _open24) / _open24) * 100;
+    let _change24h =
+      parseFloat(
+        (parseFloat(_close24) - parseFloat(_open24)) / parseFloat(_open24)
+      ) * 100;
 
     const payload = {
       open24h: _open24,
@@ -121,7 +124,7 @@ const ExchangeTrade = () => {
   };
   const SetCurrentMarketFunc = (data) => {
     setCurrentMarket(data);
-    toggleMarketsDropDown();
+    // toggleMarketsDropDown();
   };
   const fetchTicker = async () => {
     if (ticker) {
@@ -135,7 +138,7 @@ const ExchangeTrade = () => {
   useEffect(() => {
     fetchTicker();
     // Only run the effect when 'tickers' change
-  }, [tickers]);
+  }, [ticker]);
 
   const closeDepositModal = () => {
     setDeposit(false);
@@ -216,10 +219,10 @@ const ExchangeTrade = () => {
                     // Function to calculate percentage difference
 
                     return (
-                      <div
+                      <Link
+                        to={"/app/trade/spot/" + market?.pair}
                         className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
                         onClick={() => {
-                          navigate("/app/trade/spot/" + market?.pair);
                           setMarketsDrop(false);
                         }}
                       >
@@ -272,7 +275,7 @@ const ExchangeTrade = () => {
                             %
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     );
                   })}
                 </div>

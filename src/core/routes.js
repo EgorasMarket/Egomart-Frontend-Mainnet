@@ -11,6 +11,8 @@ export const GET_USER_LOCKED_FUNDS = "/web3/get-user-locked-funds";
 export const GET_24_HOUR_VOLUME_ROUTE = "/web3/get-trades24";
 export const GET_USER_TRADE_VOLUME_REWARD =
   "/web3/fetch-trade-volume-and-reward";
+export const GET_USER_TRADE_VOLUME_LEADERBOARD =
+  "/web3/fetch-trade-leaderboard";
 export const GET_DEPOSIT_TRANSACTION_ROUTES =
   "/web3/get-event-deposit-and-withdrawal";
 export const FETCH_ALL_LISTED_ASSETS_ROUTES = "/web3/get-all-asset-data-all";

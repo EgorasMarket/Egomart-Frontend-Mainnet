@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import { markets } from "../../../Components/Static";
+import { useDispatch, useSelector } from "react-redux";
+import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
+import { numberWithCommas } from "../../../assets/js/numberWithCommas";
+
 const ExchangeMarket = () => {
+  const { tickers } = useSelector((state) => state.pairs);
+
+  console.log(tickers);
   return (
     <div className="ExchangeMarket">
       <div className="container">
@@ -51,9 +58,11 @@ const ExchangeMarket = () => {
               <div className="ExchangeMarket_div2_body_header">
                 <div className="ExchangeMarket_div2_body_header_1">Market</div>
                 <div className="ExchangeMarket_div2_body_header_1">Price</div>
+                <div className="ExchangeMarket_div2_body_header_1">Change</div>
                 <div className="ExchangeMarket_div2_body_header_1">
-                  24h Change
+                  24h High
                 </div>
+                <div className="ExchangeMarket_div2_body_header_1">24h Low</div>
                 <div className="ExchangeMarket_div2_body_header_1">24h Vol</div>
                 <div
                   className="ExchangeMarket_div2_body_header_1_last
@@ -61,40 +70,46 @@ const ExchangeMarket = () => {
                 ></div>
               </div>
               <div className="ExchangeMarket_div2_body_cont">
-                {markets.map((data) => {
+                {tickers.map((market) => {
                   // Function to calculate percentage difference
-                  const calculatePercentageDifference = (
-                    currentPrice,
-                    openPrice
-                  ) => {
-                    return ((currentPrice - openPrice) / openPrice) * 100;
-                  };
-
-                  const percentageDifference = calculatePercentageDifference(
-                    data.currentPrice,
-                    data.OpenPrice
-                  );
 
                   return (
                     <div className="ExchangeMarket_div2_body_cont_div1">
                       <div className="ExchangeMarket_div2_body_cont_div1_cont1">
                         <img
-                          src={data.img}
+                          src={market?.img}
                           alt=""
                           className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_img"
                         />
-                        {data.pair}
+                        {market.pair}
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2">
-                        {data.currentPrice}
+                        {numberWithCommas(parseFloat(market?.close24h || 0))}
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2">
-                        <div className="ExchangeMarket_div2_body_cont_div1_cont2_change">
-                          {parseFloat(percentageDifference).toFixed(2)}%
+                        <div
+                          className="ExchangeMarket_div2_body_cont_div1_cont2_change "
+                          style={{
+                            color: _priceChangeStyling({
+                              pair: market,
+                            }),
+                          }}
+                        >
+                          {_symbolChecker({ pair: market })}
+                          {numberWithCommas(
+                            parseFloat(market?.change24h || 0) || 0
+                          )}
+                          %
                         </div>
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2">
-                        {data.volume24h}
+                        {market.volume24h}
+                      </div>
+                      <div className="ExchangeMarket_div2_body_cont_div1_cont2">
+                        {market.volume24h}
+                      </div>
+                      <div className="ExchangeMarket_div2_body_cont_div1_cont2">
+                        ${market.volume24h}
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2_last">
                         <button className="ExchangeMarket_div2_body_cont_div1_cont2_last_btn">
