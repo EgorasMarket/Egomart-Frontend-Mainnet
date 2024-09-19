@@ -105,9 +105,9 @@ const Exchange = () => {
     res.data.forEach((ticker, id) => {
       payload = {
         id: id,
-        img: ticker?.img,
+        img: JSON.parse(ticker?.img)[0],
         pair: ticker.ticker,
-        OpenPrice: parseFloat(ticker.initialPrice).toFixed(2),
+        // OpenPrice: parseFloat(ticker.initialPrice).toFixed(2),
         tickerA: ticker.tokenA,
         tickerB: ticker.tokenB,
         tickerBName: ticker.tokenBName,
@@ -115,6 +115,9 @@ const Exchange = () => {
         change24h: ticker.change24h,
         open24h: ticker.open24h,
         volume24h: ticker.volume24h,
+        highPrice24h: ticker.highPrice24h,
+        lowPrice24h: ticker.lowPrice24,
+        close24h: ticker.close24h,
 
         // "{"website": "https://egochain.org",
 

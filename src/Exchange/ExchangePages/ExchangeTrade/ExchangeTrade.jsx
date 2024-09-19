@@ -42,7 +42,7 @@ const ExchangeTrade = () => {
   const { address } = useAccount();
   const { tickers } = useSelector((state) => state.pairs);
   const { trades } = useSelector((state) => state.trades);
-  const [currentMarket, setCurrentMarket] = useState(tickers[0]);
+  const [currentMarket, setCurrentMarket] = useState(null);
   const [deposit, setDeposit] = useState(false);
   const [withdraw, setWithdraw] = useState(false);
   const [mobBuySellModal, setMobBuySellModal] = useState(false);
@@ -52,6 +52,12 @@ const ExchangeTrade = () => {
 
   const splitTicker = ticker?.split("-");
   console.log(splitTicker[0]);
+
+  // useEffect(() => {
+  //   if (tickers.length > 0) {
+  //     setCurrentMarket(tickers[0]);
+  //   }
+  // }, [tickers]);
 
   // useWatchContractEvent({
   //   address: import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -244,7 +250,9 @@ const ExchangeTrade = () => {
                             </div>
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                               ${" "}
-                              {numberWithCommas(parseFloat(market?.volume24h))}
+                              {numberWithCommas(
+                                parseFloat(market?.volume24h || 0)
+                              )}
                             </div>
                           </div>
                         </div>
