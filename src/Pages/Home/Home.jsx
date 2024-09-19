@@ -35,12 +35,13 @@ const Home = () => {
                 developing countries by trading with low fees, a fast order
                 book, and minimal slippage.
               </div>
-              <Link
-                to="/app/trade/spot/ESTA-EGOD"
+              <a
+                href="/app/trade/spot/ESTA-EGOD"
+                target="_blank"
                 className="homeDiv_section1_area_1_btn"
               >
                 Trade Now
-              </Link>
+              </a>
               <div className="homeDiv_section1_area_1_stats">
                 <div className="homeDiv_section1_area_1_stats_cont1">
                   <div className="homeDiv_section1_area_1_stats_cont1_title">
