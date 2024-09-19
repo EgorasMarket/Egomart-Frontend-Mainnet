@@ -16,7 +16,7 @@ import { numberWithCommas } from "../../../../../assets/js/numberWithCommas";
 import { useAccount } from "wagmi";
 import DotIndicator from "../../../../../Components/DotIndicator";
 
-const DesktopOrderBook = ({ current }) => {
+const DesktopOrderBook = ({ current, onPriceUpdate }) => {
   const { address } = useAccount();
   const dispatch = useDispatch();
   useEffect(() => {}, [current]);
@@ -506,6 +506,14 @@ const DesktopOrderBook = ({ current }) => {
                       className="walletSelectModalDiv_body_amount_display"
                       id={data.id || `placeholder-${index}`}
                       key={data.id || `placeholder-${index}`}
+                      onClick={() => {
+                        if (data.price !== "--") {
+                          onPriceUpdate(
+                            parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                          );
+                          return;
+                        }
+                      }}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {total}
@@ -571,6 +579,14 @@ const DesktopOrderBook = ({ current }) => {
                       className="walletSelectModalDiv_body_amount_display"
                       id={data.id || `placeholder-${index}`}
                       key={data.id || `placeholder-${index}`}
+                      onClick={() => {
+                        if (data.price !== "--") {
+                          onPriceUpdate(
+                            parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                          );
+                          return;
+                        }
+                      }}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {total}
@@ -655,6 +671,14 @@ const DesktopOrderBook = ({ current }) => {
                       className="walletSelectModalDiv_body_amount_display"
                       id={data.id || `placeholder-${index}`}
                       key={data.id || `placeholder-${index}`}
+                      onClick={() => {
+                        if (data.price !== "--") {
+                          onPriceUpdate(
+                            parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                          );
+                          return;
+                        }
+                      }}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {total}
@@ -726,6 +750,14 @@ const DesktopOrderBook = ({ current }) => {
                       className="walletSelectModalDiv_body_amount_display"
                       id={data.id || `placeholder-${index}`}
                       key={data.id || `placeholder-${index}`}
+                      onClick={() => {
+                        if (data.price !== "--") {
+                          onPriceUpdate(
+                            parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                          );
+                          return;
+                        }
+                      }}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {total}

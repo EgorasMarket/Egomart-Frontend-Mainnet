@@ -47,6 +47,7 @@ const ExchangeTrade = () => {
   const [withdraw, setWithdraw] = useState(false);
   const [mobBuySellModal, setMobBuySellModal] = useState(false);
   const [activeBtn, setActiveBtn] = useState("buy");
+  const [priceUpdate, setPriceUpdate] = useState(0);
   console.log(ticker);
 
   const splitTicker = ticker?.split("-");
@@ -157,6 +158,11 @@ const ExchangeTrade = () => {
   };
   const closeMobBuySellModal = () => {
     setMobBuySellModal(false);
+  };
+
+  const handlePriceUpdate = (price) => {
+    console.log(parseFloat(price).toFixed(2));
+    setPriceUpdate(parseFloat(price).toFixed(2));
   };
   // console.log(currentMarket);
   return (
@@ -624,23 +630,33 @@ const ExchangeTrade = () => {
                 <div className="ExchangeTrade_div2_cont2_mobile_depth">
                   <MarketDepth current={currentMarket} />
                 </div>
-                <MobileOrderBook current={currentMarket} />
+                <MobileOrderBook
+                  current={currentMarket}
+                  onPriceUpdate={handlePriceUpdate}
+                />
               </>
             )}
           </>
         </div>
         <div className="ExchangeTrade_div2_cont2">
-          <DesktopOrderBook current={currentMarket} />
+          <DesktopOrderBook
+            current={currentMarket}
+            onPriceUpdate={handlePriceUpdate}
+          />
         </div>
         <div className="ExchangeTrade_div2_cont3">
           <BuySell
             payload={currentMarket}
             activeBtn={activeBtn}
             toggleActiveBtn={toggleActiveBtn}
-            marketPrice={parseFloat(
-              trades.find((obj) => obj.ticker === currentMarket?.pair)?.price ||
-                0
-            ).toFixed(2)}
+            marketPrice={
+              priceUpdate == 0
+                ? parseFloat(
+                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                      ?.price || 0
+                  ).toFixed(2)
+                : priceUpdate
+            }
           />
         </div>
       </div>
@@ -886,14 +902,21 @@ const ExchangeTrade = () => {
                 payload={currentMarket}
                 activeBtn={activeBtn}
                 toggleActiveBtn={toggleActiveBtn}
-                marketPrice={parseFloat(
-                  trades.find((obj) => obj.ticker === currentMarket?.pair)
-                    ?.price || 0
-                ).toFixed(2)}
+                marketPrice={
+                  priceUpdate == 0
+                    ? parseFloat(
+                        trades.find((obj) => obj.ticker === currentMarket?.pair)
+                          ?.price || 0
+                      ).toFixed(2)
+                    : priceUpdate
+                }
               />{" "}
             </div>
             <div className="mobile_trade__div1_cont2">
-              <DesktopOrderBook current={currentMarket} />
+              <DesktopOrderBook
+                current={currentMarket}
+                onPriceUpdate={handlePriceUpdate}
+              />
             </div>
           </div>
           <div className="mobile_trade__div2">
