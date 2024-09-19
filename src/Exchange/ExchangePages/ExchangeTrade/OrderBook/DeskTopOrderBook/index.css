@@ -122,6 +122,12 @@ svg.sc-eqUAAy.cMqsAc.mx-icon.svg-icon.orderbook_iconBuySell__HkmTg {
   font-weight: 600;
   color: #6f6f6f;
   flex-direction: row-reverse;
+  cursor: pointer;
+}
+.walletSelectModalDiv_body_amount_display:hover {
+  /* border: solid .5px #fff; */
+  /* border-style: dashed; */
+  background: #ffffff17;
 }
 .walletSelectModalDiv_body_amount_displayb {
   display: flex;

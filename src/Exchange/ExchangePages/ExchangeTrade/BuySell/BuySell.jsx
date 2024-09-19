@@ -16,7 +16,6 @@ import {
 } from "wagmi";
 import contractAbi from "../../../../web3/contracts/Egomart.json";
 import "./index.css";
-
 import useFetchBalance from "../../../../hooks/useFetchBalance";
 import { useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -28,6 +27,7 @@ import {
 } from "../../../../helpers/helper";
 import { parseEther } from "viem";
 import { parseUnits } from "ethers";
+
 const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();

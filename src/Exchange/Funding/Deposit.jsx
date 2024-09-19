@@ -71,7 +71,8 @@ const Deposit = ({ symbol }) => {
   // Using the custom hook
 
   useEffect(() => {
-    if (assets) {
+    console.log(assets);
+    if (assets.length > 0) {
       setSelectedAsset(assets[0][0]);
       return;
     }
