@@ -524,7 +524,9 @@ const DesktopOrderBook = ({ current }) => {
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#16b979" }}
                       >
-                        {data.address === address && <DotIndicator />}
+                        {address
+                          ? data.address === address && <DotIndicator />
+                          : null}
 
                         {data.price !== "--"
                           ? numberWithCommas(
@@ -588,7 +590,9 @@ const DesktopOrderBook = ({ current }) => {
                         style={{ color: "#e74c3c" }}
                       >
                         {/* check if it's user order  */}
-                        {data.address === address && <DotIndicator />}
+                        {address
+                          ? data.address === address && <DotIndicator />
+                          : null}
                         {data.price !== "--"
                           ? numberWithCommas(
                               parseFloat(data.price).toFixed(DECIMAL_COUNT)
@@ -669,7 +673,9 @@ const DesktopOrderBook = ({ current }) => {
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#e74c3c" }}
                       >
-                        {data.address === address && <DotIndicator />}
+                        {address
+                          ? data.address === address && <DotIndicator />
+                          : null}
 
                         {data.price !== "--"
                           ? numberWithCommas(
@@ -738,7 +744,9 @@ const DesktopOrderBook = ({ current }) => {
                         className="walletSelectModalDiv_body_amount_display_cont1"
                         style={{ color: "#16b979" }}
                       >
-                        {data.address === address && <DotIndicator />}
+                        {address
+                          ? data.address === address && <DotIndicator />
+                          : null}
 
                         {data.price !== "--"
                           ? numberWithCommas(
