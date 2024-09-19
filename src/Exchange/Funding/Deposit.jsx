@@ -64,14 +64,22 @@ const Deposit = ({ symbol }) => {
   const { assets } = useSelector((state) => state.assets);
   const { address, isConnecting, isDisconnected } = useAccount();
   const [assetList, setAssetList] = useState(false);
-  const [selectedAsset, setSelectedAsset] = useState(assets[0][0]);
+  const [selectedAsset, setSelectedAsset] = useState(null);
   const [assetBal, setAssetBal] = useState("0");
   const [depositAmount, setDepositAmount] = useState("");
   const [userAllowance, setUserAllowance] = useState(false);
   // Using the custom hook
+
+  useEffect(() => {
+    if (assets) {
+      setSelectedAsset(assets[0][0]);
+      return;
+    }
+  }, [assets]);
+
   const { setAllowance, allowancePending, allowanceSuccess, allowanceError } =
     useTokenAllowance(
-      selectedAsset.tokenAddress,
+      selectedAsset?.tokenAddress,
       import.meta.env.VITE_CONTRACT_ADDRESS
     );
 
@@ -89,7 +97,7 @@ const Deposit = ({ symbol }) => {
     isSuccess: balanceSuccess,
   } = useBalance({
     address: address,
-    token: selectedAsset.tokenAddress, // Specify the token contract address here
+    token: selectedAsset?.tokenAddress, // Specify the token contract address here
   });
 
   useEffect(() => {
@@ -117,7 +125,7 @@ const Deposit = ({ symbol }) => {
   } = useWriteContract();
 
   const depositFn = async () => {
-    if (selectedAsset.tokenSymbol === "EGAX") {
+    if (selectedAsset?.tokenSymbol === "EGAX") {
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi,
@@ -132,7 +140,7 @@ const Deposit = ({ symbol }) => {
       abi,
       functionName: "deposit",
       args: [
-        selectedAsset.tokenAddress,
+        selectedAsset?.tokenAddress,
         parseEther(depositAmount?.toString(), "wei").toString(),
       ],
     });
@@ -148,7 +156,7 @@ const Deposit = ({ symbol }) => {
     isSuccess,
     isLoading,
   } = useReadContract({
-    address: selectedAsset.tokenAddress,
+    address: selectedAsset?.tokenAddress,
     abi: allowanceAbi.abi,
     functionName: "allowance",
     args: [address, import.meta.env.VITE_CONTRACT_ADDRESS],
@@ -219,7 +227,7 @@ const Deposit = ({ symbol }) => {
       // toast.success("Success fully Approved " + selectedAsset.tokenSymbol, {
       //   position: "bottom-center",
       // });
-      toast.success("Success fully Approved " + selectedAsset.tokenSymbol);
+      toast.success("Success fully Approved " + selectedAsset?.tokenSymbol);
 
       return;
     }
@@ -233,7 +241,7 @@ const Deposit = ({ symbol }) => {
       //   position: "bottom-center",
       // });
 
-      toast.error("Error Approving " + selectedAsset.tokenSymbol);
+      toast.error("Error Approving " + selectedAsset?.tokenSymbol);
 
       return;
     }
@@ -261,11 +269,11 @@ const Deposit = ({ symbol }) => {
             >
               <div className="depositDiv_cont1_div1_select_dvi_cont1">
                 <img
-                  src={selectedAsset.img}
+                  src={selectedAsset?.img}
                   alt=""
                   className="depositDiv_cont1_div1_select_dvi_cont1_img"
                 />{" "}
-                {selectedAsset.tokenSymbol}
+                {selectedAsset?.tokenSymbol}
                 {assetList ? (
                   <ArrowUp01Icon className="depositDiv_cont1_div1_select_dvi_cont1_icon" />
                 ) : (
@@ -303,7 +311,7 @@ const Deposit = ({ symbol }) => {
           <div className="depositDiv_cont1_div2">
             Available:{" "}
             <span className="depositDiv_cont1_div2_span">
-              {parseFloat(assetBal)} {selectedAsset.tokenSymbol}
+              {parseFloat(assetBal)} {selectedAsset?.tokenSymbol}
             </span>
           </div>
         </div>
@@ -350,7 +358,7 @@ const Deposit = ({ symbol }) => {
                 0.00
                 <span className="depositDiv_cont3_body_cont_2_span">
                   {" "}
-                  {selectedAsset.tokenSymbol}
+                  {selectedAsset?.tokenSymbol}
                 </span>
               </div>
             </div>
@@ -374,7 +382,7 @@ const Deposit = ({ symbol }) => {
                     <ClipLoader color="#6ba28b" size={18} /> Approving...
                   </>
                 ) : (
-                  <>Approve {selectedAsset.tokenSymbol}</>
+                  <>Approve {selectedAsset?.tokenSymbol}</>
                 )}
               </button>
             ) : (

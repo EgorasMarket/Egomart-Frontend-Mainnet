@@ -66,7 +66,7 @@ const Withdraw = ({ symbol }) => {
   const { assets } = useSelector((state) => state.assets);
   const { address, isConnecting, isDisconnected } = useAccount();
   const [assetList, setAssetList] = useState(false);
-  const [selectedAsset, setSelectedAsset] = useState(assets[0][0]);
+  const [selectedAsset, setSelectedAsset] = useState(null);
   const [assetBal, setAssetBal] = useState("0");
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const nullAddress = "0x0000000000000000000000000000000000000000";
@@ -78,6 +78,13 @@ const Withdraw = ({ symbol }) => {
     setSelectedAsset(data);
     toggleAssetList();
   };
+
+  useEffect(() => {
+    if (assets) {
+      setSelectedAsset(assets[0][0]);
+      return;
+    }
+  }, [assets]);
 
   // useEffect(() => {
   //   if (address) {
@@ -92,9 +99,9 @@ const Withdraw = ({ symbol }) => {
   //   }
   // }, [address, selectedAsset]);
   const balance =
-    selectedAsset.tokenSymbol === "EGAX"
+    selectedAsset?.tokenSymbol === "EGAX"
       ? useFetchBalance(nullAddress)
-      : useFetchBalance(selectedAsset.tokenAddress);
+      : useFetchBalance(selectedAsset?.tokenAddress);
   // setAssetBal(balance);
 
   const {
@@ -112,7 +119,7 @@ const Withdraw = ({ symbol }) => {
   console.log("====================================");
 
   const withdrawFn = async () => {
-    if (selectedAsset.tokenSymbol === "EGAX") {
+    if (selectedAsset?.tokenSymbol === "EGAX") {
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi,
@@ -129,7 +136,7 @@ const Withdraw = ({ symbol }) => {
       abi,
       functionName: "withdraw",
       args: [
-        selectedAsset.tokenAddress,
+        selectedAsset?.tokenAddress,
         parseEther(withdrawAmount.toString(), "wei").toString(),
       ],
     });
@@ -181,11 +188,11 @@ const Withdraw = ({ symbol }) => {
             >
               <div className="depositDiv_cont1_div1_select_dvi_cont1">
                 <img
-                  src={selectedAsset.img}
+                  src={selectedAsset?.img}
                   alt=""
                   className="depositDiv_cont1_div1_select_dvi_cont1_img"
                 />{" "}
-                {selectedAsset.tokenSymbol}
+                {selectedAsset?.tokenSymbol}
                 {assetList ? (
                   <ArrowUp01Icon className="depositDiv_cont1_div1_select_dvi_cont1_icon" />
                 ) : (
@@ -223,7 +230,7 @@ const Withdraw = ({ symbol }) => {
           <div className="depositDiv_cont1_div2">
             Max Withdrawable:{" "}
             <span className="depositDiv_cont1_div2_span">
-              {parseFloat(balance)} {selectedAsset.tokenSymbol}
+              {parseFloat(balance)} {selectedAsset?.tokenSymbol}
             </span>
           </div>
         </div>
@@ -270,7 +277,7 @@ const Withdraw = ({ symbol }) => {
                 0.00
                 <span className="depositDiv_cont3_body_cont_2_span">
                   {" "}
-                  {selectedAsset.tokenSymbol}
+                  {selectedAsset?.tokenSymbol}
                 </span>
               </div>
             </div>
