@@ -140,23 +140,23 @@ const socketMiddleware = (store) => {
       socket.on("/get-24-stats", (logs) => {
         const ticker = logs.ticker;
         console.log(logs, "24 Stats Event!!!");
-        // let _open24 = logs?.openPrice;
-        // let _close24 = logs?.closePrice;
-        // let _volume24h = logs?.volume;
-        // let _lowPrice24h = logs?.lowPrice;
-        // let _high24 = logs?.highPrice;
-        // let _change24h = ((_close24 - _open24) / _open24) * 100;
+        let _open24 = logs?.openPrice;
+        let _close24 = logs?.closePrice;
+        let _volume24h = logs?.volume;
+        let _lowPrice24h = logs?.lowPrice;
+        let _high24 = logs?.highPrice;
+        let _change24h = ((_close24 - _open24) / _open24) * 100;
 
-        // const payload = {
-        //   open24h: _open24,
-        //   close24h: logs.closePrice,
-        //   volume24h: logs.volume,
-        //   lowPrice24h: logs.lowPrice,
-        //   highPrice24h: logs.highPrice,
-        //   change24h: _change24h,
-        // };
+        const payload = {
+          open24h: _open24,
+          close24h: logs.closePrice,
+          volume24h: logs.volume,
+          lowPrice24h: logs.lowPrice,
+          highPrice24h: logs.highPrice,
+          change24h: _change24h,
+        };
 
-        dispatch(updateTickerTwo({ pair: ticker, data: logs }));
+        dispatch(updateTickerTwo({ pair: ticker, data: payload }));
 
         //look for the ticker
       });
