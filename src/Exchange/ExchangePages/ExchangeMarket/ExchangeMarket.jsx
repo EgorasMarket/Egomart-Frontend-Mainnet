@@ -6,6 +6,7 @@ import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
 import { numberWithCommas } from "../../../assets/js/numberWithCommas";
 
 const ExchangeMarket = () => {
+  // const { tickers } = useSelector((state) => state.pairs);
   const { tickers } = useSelector((state) => state.pairs);
 
   console.log(tickers);
@@ -96,20 +97,17 @@ const ExchangeMarket = () => {
                           }}
                         >
                           {_symbolChecker({ pair: market })}
-                          {numberWithCommas(
-                            parseFloat(market?.change24h || 0) || 0
-                          )}
-                          %
+                          {parseFloat(market.change24h || 0)}%
                         </div>
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2">
-                        {market.volume24h}
+                        {parseFloat(market.highPrice24h || 0)}
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2">
-                        {market.volume24h}
+                        {parseFloat(market.lowPrice24h || 0)}
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2">
-                        ${market.volume24h}
+                        ${parseFloat(market.volume24h || 0)}
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2_last">
                         <button className="ExchangeMarket_div2_body_cont_div1_cont2_last_btn">
