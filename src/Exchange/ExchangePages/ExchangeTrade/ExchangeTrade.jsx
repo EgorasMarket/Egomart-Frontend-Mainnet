@@ -136,7 +136,7 @@ const ExchangeTrade = () => {
   const fetchTicker = async () => {
     if (ticker) {
       let currMarket =
-        tickers.find((tick) => tick.pair === ticker) || tickers[0];
+        tickers.find((tick) => tick.ticker === ticker) || tickers[0];
       SetCurrentMarketFunc(currMarket);
     } else {
       SetCurrentMarketFunc(tickers[0]);
@@ -190,7 +190,7 @@ const ExchangeTrade = () => {
                     alt=""
                     className="ExchangeTrade_div1_cont1_div1_img"
                   />
-                  {currentMarket?.pair}
+                  {currentMarket?.ticker}
                 </>
               )}
             </div>
@@ -232,7 +232,7 @@ const ExchangeTrade = () => {
 
                     return (
                       <Link
-                        to={"/app/trade/spot/" + market?.pair}
+                        to={"/app/trade/spot/" + market?.ticker}
                         className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
                         onClick={() => {
                           setMarketsDrop(false);
@@ -246,7 +246,7 @@ const ExchangeTrade = () => {
                           />
                           <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
-                              {market.pair}
+                              {market.ticker}
                             </div>
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                               ${" "}
@@ -839,7 +839,7 @@ const ExchangeTrade = () => {
                   <div
                     className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
                     onClick={() => {
-                      navigate("/app/trade/spot/" + market?.pair);
+                      navigate("/app/trade/spot/" + market?.ticker);
                       setMarketsDropMobile(false);
                     }}
                   >
@@ -851,7 +851,7 @@ const ExchangeTrade = () => {
                       />
                       <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
-                          {market.pair}
+                          {market.ticker}
                         </div>
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                           $ {numberWithCommas(parseFloat(market?.volume24h))}

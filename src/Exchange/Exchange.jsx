@@ -91,39 +91,11 @@ const Exchange = () => {
     const res = await GET_TICKER_PAIRS();
     console.log("====================================");
     console.log(res, "ressss");
+
     console.log("====================================");
     if (!res?.success) return;
 
-    //loop through the record
-
-    const array = [];
-    let payload = {};
-
-    res.data.forEach((ticker, id) => {
-      payload = {
-        id: id,
-        img: JSON.parse(ticker?.img)[0],
-        pair: ticker.ticker,
-        // OpenPrice: parseFloat(ticker.initialPrice).toFixed(2),
-        tickerA: ticker.tokenA,
-        tickerB: ticker.tokenB,
-        tickerBName: ticker.tokenBName,
-        tokenName: ticker.tokenAName,
-        change24h: ticker.change24h,
-        open24h: ticker.open24h,
-        volume24h: ticker.volume24h,
-        highPrice24h: ticker.highPrice24h,
-        lowPrice24h: ticker.lowPrice24,
-        close24h: ticker.close24h,
-
-        // "{"website": "https://egochain.org",
-
-        meta: JSON.parse(ticker?.meta),
-      };
-      array.push(payload);
-    });
-
-    await dispatch(setTickers(array));
+    dispatch(setTickers(res.data));
   };
   const fetchAssets = async () => {
     const res = await FETCH_ALL_LISTED_ASSETS();
