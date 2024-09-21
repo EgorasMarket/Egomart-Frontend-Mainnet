@@ -6,14 +6,14 @@ function formatNumber(number) {
     t: 1000000000000,
   };
 
-  const num = parseFloat(number);
+  const num = parseFloat(number).toFixed(2);
 
   for (const abbreviation in abbreviations) {
     if (
       num >= abbreviations[abbreviation] &&
       num < abbreviations[abbreviation] * 1000
     ) {
-      return `${(num / abbreviations[abbreviation]).toFixed(1)}${abbreviation}`;
+      return `${(num / abbreviations[abbreviation]).toFixed(2)}${abbreviation}`;
     }
   }
 

@@ -111,6 +111,7 @@
   border-radius: 10px;
   cursor: pointer;
   border: solid 1px #1e2d27;
+  color: #fff;
 }
 .ExchangeMarket_div2_body_cont_div1:hover {
   background: #32413c;

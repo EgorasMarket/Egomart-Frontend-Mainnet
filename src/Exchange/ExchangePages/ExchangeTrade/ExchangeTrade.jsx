@@ -26,7 +26,7 @@ import MobileTrades from "./OrderBook/MobileOrderBook/MobileTrades";
 import CustomBottomSheet from "../../../Components/CustomBottomSheet/CustomBottomSheet";
 import { useQuery } from "@tanstack/react-query";
 import { GET_24_HOUR_VOLUME } from "../../../services/trade.services";
-import { updateTicker } from "../../../features/PairsSlice";
+// import { updateTicker } from "../../../features/PairsSlice";
 import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
 import { numberWithCommas } from "../../../assets/js/numberWithCommas";
 

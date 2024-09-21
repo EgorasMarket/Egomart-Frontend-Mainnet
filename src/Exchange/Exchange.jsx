@@ -11,8 +11,6 @@ import {
 import { setTickers } from "../features/PairsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useWatchContractEvent, useClient, useAccount } from "wagmi";
-import useSocket from "../hooks/useSocket";
-import { subscribeToEvent } from "../services/socket";
 import {
   cancelOne,
   updateArr,
@@ -32,7 +30,6 @@ const Exchange = () => {
 
   useEffect(() => {
     dispatch({ type: "socket/connect" });
-
     return () => {
       dispatch({ type: "socket/disconnect" });
     };

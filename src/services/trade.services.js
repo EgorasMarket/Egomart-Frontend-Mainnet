@@ -10,11 +10,20 @@ import {
   INSERT_NEW_ORDER_ROUTE,
   USER_TRADE_DEPOSIT_ROUTE,
   GET_USER_HISTORY,
+  GET_ALL_24HOUR_STAT,
 } from "../core/routes";
 
 export const USER_TRADE_DEPOSIT = async (wallet) => {
   try {
     const response = await api.get(`${USER_TRADE_DEPOSIT_ROUTE}/${wallet}`);
+    return response.data;
+  } catch (error) {
+    return error?.response?.data || error?.response || error.message;
+  }
+};
+export const ALL_24HOUR_STAT = async () => {
+  try {
+    const response = await api.get(`${GET_ALL_24HOUR_STAT}`);
     return response.data;
   } catch (error) {
     return error?.response?.data || error?.response || error.message;

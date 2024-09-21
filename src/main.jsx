@@ -25,7 +25,6 @@ import Overview from "./Exchange/ExchangePages/ExchangePortfolio/Pages/Overview"
 import Home from "./Pages/Home/Home";
 import Earn from "./Exchange/ExchangePages/Earn/Earn";
 import Bond from "./Exchange/ExchangePages/Bond/Bond";
-import useSocket from "./hooks/useSocket.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient({
   defaultOptions: {

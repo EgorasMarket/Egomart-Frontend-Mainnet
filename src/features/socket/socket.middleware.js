@@ -28,6 +28,7 @@ const socketMiddleware = (store) => {
       socket.on("message", (message) => {
         dispatch(addMessage(message));
       });
+
       socket.on("/orders-event", (payload) => {
         console.log(payload, "orders event");
         let arr = [];
@@ -154,6 +155,29 @@ const socketMiddleware = (store) => {
           lowPrice24h: logs.lowPrice,
           highPrice24h: logs.highPrice,
           change24h: _change24h,
+        };
+
+        dispatch(updateTickerTwo({ pair: ticker, data: payload }));
+
+        //look for the ticker
+      });
+      socket.on("/get-ticker-stats", (logs) => {
+        console.log(logs, "new tickers updated stats!!!");
+        const ticker = logs.ticker;
+        // let _open24 = logs?.openPrice;
+        // let _close24 = logs?.closePrice;
+        // let _volume24h = logs?.volume;
+        // let _lowPrice24h = logs?.lowPrice;
+        // let _high24 = logs?.highPrice;
+        // let _change24h = ((_close24 - _open24) / _open24) * 100;
+
+        const payload = {
+          open24h: logs.open24h,
+          close24h: logs.close24h,
+          volume24h: logs.volume24h,
+          lowPrice24h: logs.lowPrice24,
+          highPrice24h: logs.highPrice24h,
+          change24h: logs.change24h,
         };
 
         dispatch(updateTickerTwo({ pair: ticker, data: payload }));
