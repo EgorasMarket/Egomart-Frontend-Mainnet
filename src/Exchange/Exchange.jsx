@@ -123,6 +123,7 @@ const Exchange = () => {
       array.push(payload);
     });
 
+    console.log(array, "arrayyyy");
     await dispatch(setTickers(array));
   };
   const fetchAssets = async () => {
