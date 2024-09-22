@@ -162,7 +162,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         abi: contractAbi,
         functionName: "matchingEngine",
         args: [
-          payload?.pair,
+          payload?.ticker,
           [
             marketType,
             address,
@@ -186,14 +186,14 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       const marketManager = _buyManager({
         market: marketType ? "SELL" : "BUY",
         orders,
-        ticker: payload?.pair,
+        ticker: payload?.ticker,
       });
 
       console.log(marketManager, "marketManager");
 
       // const highestSellOrder = _highestSellOrder({
       //   orders: orders,
-      //   ticker: payload?.pair,
+      //   ticker: payload?.ticker,
       // });
 
       let _amount = parseFloat(
@@ -203,7 +203,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       // console.log(highestSellOrder, _amount, "sese");
 
       console.log([
-        payload?.pair,
+        payload?.ticker,
         [
           marketType,
           address,
@@ -218,7 +218,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         ],
         _all_prices({
           orders,
-          ticker: payload?.pair,
+          ticker: payload?.ticker,
           marketType: marketType ? "BUY" : "SELL",
         }),
       ]);
@@ -229,7 +229,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         functionName: "marketOrderEngine",
 
         args: [
-          payload?.pair,
+          payload?.ticker,
           [
             marketType,
             address,
@@ -249,7 +249,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
           // _sell_arr,
           _all_prices({
             orders,
-            ticker: payload?.pair,
+            ticker: payload?.ticker,
             marketType: marketType ? "BUY" : "SELL",
           }),
         ],
@@ -345,8 +345,8 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             <div className="buy_modal_div_div1_cont1_body_cont1_head1_txt2">
               {aa}
               {activeBtn === "buy"
-                ? payload?.pair?.split("-")[1]
-                : payload?.pair?.split("-")[0]}
+                ? payload?.ticker?.split("-")[1]
+                : payload?.ticker?.split("-")[0]}
             </div>
           </div>
           <div className="buy_modal_div_div1_cont1_body_1">
@@ -428,8 +428,8 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
                 </div>
                 <div className="buy_modal_div_div1_cont1_body_para1">
                   {selectedValue === "market" && activeBtn == "buy"
-                    ? payload?.pair?.split("-")[1]
-                    : payload?.pair?.split("-")[0]}{" "}
+                    ? payload?.ticker?.split("-")[1]
+                    : payload?.ticker?.split("-")[0]}{" "}
                 </div>
               </p>
               <input

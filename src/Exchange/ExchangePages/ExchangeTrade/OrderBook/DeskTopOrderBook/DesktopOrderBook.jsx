@@ -100,7 +100,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
     fillorder();
     fillTrades();
   }, []);
-  const filteredTrades = trades.filter((t) => t.ticker === current?.pair);
+  const filteredTrades = trades.filter((t) => t.ticker === current?.ticker);
   const filledTrades =
     filteredTrades.length < 25
       ? [
@@ -118,7 +118,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
       (order) =>
         order.type === "BUY" &&
         order.status === "OPEN" &&
-        order?.ticker === current?.pair
+        order?.ticker === current?.ticker
     )
     .reduce((acc, item) => {
       const price = item.price;
@@ -133,7 +133,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
       (order) =>
         order.type === "SELL" &&
         order.status === "OPEN" &&
-        order?.ticker === current?.pair
+        order?.ticker === current?.ticker
     )
     .reduce((acc, item) => {
       const price = item.price;
@@ -415,7 +415,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
               <br />
               {/* {current?.pair.split("-")[1]} */}
               {/* acacd */}
-              {current?.pair?.split("-")[1]}
+              {current?.ticker?.split("-")[1]}
             </div>
 
             <div
@@ -424,12 +424,12 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
             >
               Amount
               <br />
-              {current?.pair?.split("-")[0]}
+              {current?.ticker?.split("-")[0]}
             </div>
             <div className="walletSelectModalDiv_body_header_tab_cont">
               Total
               <br />
-              {current?.pair?.split("-")[1]}
+              {current?.ticker?.split("-")[1]}
             </div>
           </div>
           {showOrders === "Buy" ? (
@@ -441,7 +441,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
               >
                 {numberWithCommas(
                   parseFloat(
-                    trades.find((obj) => obj.ticker === current?.pair)?.price
+                    trades.find((obj) => obj.ticker === current?.ticker)?.price
                   ) || 0
                 )}
 
@@ -449,7 +449,8 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                   ≈ ${" "}
                   {numberWithCommas(
                     parseFloat(
-                      trades.find((obj) => obj.ticker === current?.pair)?.price
+                      trades.find((obj) => obj.ticker === current?.ticker)
+                        ?.price
                     ) || 0
                   )}{" "}
                 </span>
@@ -629,7 +630,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
               >
                 {numberWithCommas(
                   parseFloat(
-                    trades.find((obj) => obj.ticker === current?.pair)?.price
+                    trades.find((obj) => obj.ticker === current?.ticker)?.price
                   ) || 0
                 )}
 
@@ -637,7 +638,8 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                   ≈ ${" "}
                   {numberWithCommas(
                     parseFloat(
-                      trades.find((obj) => obj.ticker === current?.pair)?.price
+                      trades.find((obj) => obj.ticker === current?.ticker)
+                        ?.price
                     ) || 0
                   )}
                 </span>
@@ -718,14 +720,15 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
               <div className="executed_price_div">
                 {numberWithCommas(
                   parseFloat(
-                    trades.find((obj) => obj.ticker === current?.pair)?.price
+                    trades.find((obj) => obj.ticker === current?.ticker)?.price
                   ) || 0
                 )}
                 <span className="executed_price_div_span">
                   ≈ ${" "}
                   {numberWithCommas(
                     parseFloat(
-                      trades.find((obj) => obj.ticker === current?.pair)?.price
+                      trades.find((obj) => obj.ticker === current?.ticker)
+                        ?.price
                     ) || 0
                   )}
                 </span>

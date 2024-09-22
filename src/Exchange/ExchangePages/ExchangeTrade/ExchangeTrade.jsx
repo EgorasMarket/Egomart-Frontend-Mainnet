@@ -337,7 +337,7 @@ const ExchangeTrade = () => {
                 ) : null}
                 {numberWithCommas(
                   parseFloat(
-                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                    trades.find((obj) => obj.ticker === currentMarket?.ticker)
                       ?.price || 0
                   ).toFixed(2)
                 )}
@@ -350,7 +350,7 @@ const ExchangeTrade = () => {
                 ≈$
                 {numberWithCommas(
                   parseFloat(
-                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                    trades.find((obj) => obj.ticker === currentMarket?.ticker)
                       ?.price || 0
                   ).toFixed(2) || 0
                 )}
@@ -443,7 +443,7 @@ const ExchangeTrade = () => {
             onClick={toggleMarketsDropDownMobile}
           >
             <div className="ExchangeTrade_div1_mobile_div1_title_txt">
-              {currentMarket?.pair}
+              {currentMarket?.ticker}
             </div>
             {marketsDropMobile ? (
               <ArrowUp01Icon className="ExchangeTrade_div1_cont1_div2_icon" />
@@ -457,7 +457,7 @@ const ExchangeTrade = () => {
           >
             {numberWithCommas(
               parseFloat(
-                trades.find((obj) => obj.ticker === currentMarket?.pair)
+                trades.find((obj) => obj.ticker === currentMarket?.ticker)
                   ?.price || 0
               ).toFixed(2)
             )}
@@ -465,7 +465,7 @@ const ExchangeTrade = () => {
               ≈${" "}
               {numberWithCommas(
                 parseFloat(
-                  trades.find((obj) => obj.ticker === currentMarket?.pair)
+                  trades.find((obj) => obj.ticker === currentMarket?.ticker)
                     ?.price || 0
                 ).toFixed(2) || 0
               )}
@@ -660,7 +660,7 @@ const ExchangeTrade = () => {
             marketPrice={
               priceUpdate == 0
                 ? parseFloat(
-                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                    trades.find((obj) => obj.ticker === currentMarket?.ticker)
                       ?.price || 0
                   ).toFixed(2)
                 : priceUpdate
@@ -713,19 +713,19 @@ const ExchangeTrade = () => {
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTxTab === "position" && (
               <OpenOrders
-                ticker={currentMarket?.pair}
+                ticker={currentMarket?.ticker}
                 ticker_img={currentMarket?.img}
               />
             )}
             {activeTxTab === "order" && (
               <Orders
-                ticker={currentMarket?.pair}
+                ticker={currentMarket?.ticker}
                 ticker_img={currentMarket?.img}
               />
             )}
             {activeTxTab === "trades" && (
               <Trades
-                ticker={currentMarket?.pair}
+                ticker={currentMarket?.ticker}
                 ticker_img={currentMarket?.img}
               />
             )}
@@ -899,7 +899,7 @@ const ExchangeTrade = () => {
       <CustomBottomSheet
         isOpen={mobBuySellModal}
         content="fullHeight"
-        title={currentMarket?.pair}
+        title={currentMarket?.ticker}
         closeModal={closeMobBuySellModal}
       >
         {" "}
@@ -913,8 +913,9 @@ const ExchangeTrade = () => {
                 marketPrice={
                   priceUpdate == 0
                     ? parseFloat(
-                        trades.find((obj) => obj.ticker === currentMarket?.pair)
-                          ?.price || 0
+                        trades.find(
+                          (obj) => obj.ticker === currentMarket?.ticker
+                        )?.price || 0
                       ).toFixed(2)
                     : priceUpdate
                 }
@@ -968,13 +969,13 @@ const ExchangeTrade = () => {
             </div>
             <div className="ExchangeTrade_div2_cont1_body">
               {activeTxTab === "position" && (
-                <OpenOrders ticker={currentMarket?.pair} />
+                <OpenOrders ticker={currentMarket?.ticker} />
               )}
               {activeTxTab === "order" && (
-                <Orders ticker={currentMarket?.pair} />
+                <Orders ticker={currentMarket?.ticker} />
               )}
               {activeTxTab === "trades" && (
-                <Trades ticker={currentMarket?.pair} />
+                <Trades ticker={currentMarket?.ticker} />
               )}
             </div>
           </div>
