@@ -5,7 +5,7 @@ import { BASE_URL } from "../../core/core";
 import { cancelOne, updateOne, updateOrder } from "../orders/OrderSlice";
 import { updateTrade } from "../trades/TradeSlice";
 import { formatEther } from "ethers";
-import { updateTicker, updateTickerTwo } from "../PairsSlice";
+import { setTickers, updateTicker, updateTickerTwo } from "../PairsSlice";
 
 const socketMiddleware = (store) => {
   console.log(store, "all store data");
@@ -164,6 +164,18 @@ const socketMiddleware = (store) => {
       socket.on("/get-ticker-stats", (logs) => {
         console.log(logs, "new tickers updated stats!!!");
         const ticker = logs.ticker;
+
+        //loop through the pairs
+
+        logs.forEach((log) => {
+          log.img = JSON.parse(log.img)[0];
+          log.meta = JSON.parse(log.meta);
+          log.tickerA = log.tokenA;
+          log.tickerB = log.tokenB;
+        });
+        console.log(logs, "latest");
+
+        dispatch(setTickers(logs));
         // let _open24 = logs?.openPrice;
         // let _close24 = logs?.closePrice;
         // let _volume24h = logs?.volume;
@@ -171,16 +183,16 @@ const socketMiddleware = (store) => {
         // let _high24 = logs?.highPrice;
         // let _change24h = ((_close24 - _open24) / _open24) * 100;
 
-        const payload = {
-          open24h: logs.open24h,
-          close24h: logs.close24h,
-          volume24h: logs.volume24h,
-          lowPrice24h: logs.lowPrice24,
-          highPrice24h: logs.highPrice24h,
-          change24h: logs.change24h,
-        };
+        // const payload = {
+        //   open24h: logs.open24h,
+        //   close24h: logs.close24h,
+        //   volume24h: logs.volume24h,
+        //   lowPrice24h: logs.lowPrice24,
+        //   highPrice24h: logs.highPrice24h,
+        //   change24h: logs.change24h,
+        // };
 
-        dispatch(updateTickerTwo({ pair: ticker, data: payload }));
+        // dispatch(updateTickerTwo({ pair: ticker, data: payload }));
 
         //look for the ticker
       });

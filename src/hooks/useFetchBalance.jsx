@@ -18,6 +18,7 @@ const useFetchBalance = (ticker) => {
     abi: contractAbi,
     functionName: "balances",
     args: [address, ticker],
+    enabled: !!ticker && !!address,
   });
 
   if (!ticker) {

@@ -144,8 +144,9 @@ const ExchangeTrade = () => {
   };
   useEffect(() => {
     fetchTicker();
+    console.log("i just ran now ");
     // Only run the effect when 'tickers' change
-  }, [ticker]);
+  }, [ticker, trades, tickers]);
 
   const closeDepositModal = () => {
     setDeposit(false);
