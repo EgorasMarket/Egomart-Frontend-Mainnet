@@ -105,7 +105,7 @@ const ExchangeHeader = () => {
 
                           return (
                             <Link
-                              to={"/app/trade/spot/" + market?.pair}
+                              to={"/app/trade/spot/" + market?.ticker}
                               className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
                               onClick={() => {
                                 setMarketsDrop(false);
@@ -119,7 +119,7 @@ const ExchangeHeader = () => {
                                 />
                                 <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
                                   <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
-                                    {market.pair}
+                                    {market.ticker}
                                   </div>
                                   <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                                     ${" "}
@@ -253,7 +253,7 @@ const ExchangeHeader = () => {
                           className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
                           onClick={() => {
                             toggleMobileDrop();
-                            navigate("/app/trade/spot/" + market?.pair);
+                            navigate("/app/trade/spot/" + market?.ticker);
                           }}
                         >
                           <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
@@ -264,7 +264,7 @@ const ExchangeHeader = () => {
                             />
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
                               <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
-                                {market.pair}
+                                {market.ticker}
                               </div>
                               <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                                 ${" "}

@@ -237,6 +237,7 @@
 .ExchangeTrade_div3 {
   margin-top: 10px;
   display: flex;
+  height: -webkit-fill-available;
 }
 .ExchangeTrade_div3_cont1 {
   width: 100%;
@@ -299,7 +300,7 @@
   cursor: pointer;
 }
 .ExchangeTrade_div2_cont1_body {
-  height: 100%;
+  height: -webkit-fill-available;
   display: flex;
 }
 .ExchangeTrade_div1_cont1_markets_drop {
