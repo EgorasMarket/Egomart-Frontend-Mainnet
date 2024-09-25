@@ -219,6 +219,7 @@ const Deposit = ({ symbol }) => {
       return;
     }
   }, [depositError]);
+
   useEffect(() => {
     if (allowanceSuccess === true) {
       console.log("====================================");
@@ -247,18 +248,21 @@ const Deposit = ({ symbol }) => {
       return;
     }
   }, [allowanceError]);
-  console.log("====================================");
-  console.log(userAllowance);
-  console.log("====================================");
+
   useEffect(() => {
-    if (symbol) {
-      const foundAsset = assets.find((asset) => asset.tokenSymbol === symbol);
-      if (foundAsset) {
-        setSelectedAsset(foundAsset);
+    if (symbol || assets) {
+      if (assets[0].length > 0) {
+        const foundAsset = assets[0].find(
+          (asset) => asset.tokenSymbol === symbol
+        );
+        if (foundAsset) {
+          console.log("Found asset:", foundAsset);
+          setSelectedAsset(foundAsset);
+        }
       }
-      return;
     }
-  }, [symbol]); // Empty dependency array ensures this runs only once
+  }, [symbol, assets]); // Empty dependency array ensures this runs only once
+
   return (
     <>
       <div className="depositDiv">

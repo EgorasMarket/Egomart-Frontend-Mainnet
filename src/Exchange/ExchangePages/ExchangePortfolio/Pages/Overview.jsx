@@ -42,8 +42,8 @@ export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
         {parseFloat(balance).toFixed(4)}
       </div>
       <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
-      <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
-      <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
+      {/* <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
+      <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div> */}
       <div className="exPortoflioOverviewDiv_3_body_cont_last">
         {data.tokenSymbol === "EGOD" ? null : (
           <Link to={`/app/trade/spot/${data.tokenSymbol}-EGOD`}>
@@ -247,22 +247,14 @@ const Overview = () => {
               Details
             </div>
             <div className="exPortoflioOverviewDiv_2_div1_cont4_div2">
-              <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
-                <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div1">
-                  Locked Funds
-                </div>
-                <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div2">
-                  $0.0
-                </div>
-              </div>
-              <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
+              {/* <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div1">
                   Funds Available
                 </div>
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div2">
                   $0.0
                 </div>
-              </div>
+              </div> */}
               <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div1">
                   Total Funds
@@ -341,12 +333,12 @@ const Overview = () => {
             <div className="exPortoflioOverviewDiv_3_body_head_cont1">
               Total Balance
             </div>
-            <div className="exPortoflioOverviewDiv_3_body_head_cont1">
+            {/* <div className="exPortoflioOverviewDiv_3_body_head_cont1">
               Available Balance
             </div>
             <div className="exPortoflioOverviewDiv_3_body_head_cont1">
               Locked Balance
-            </div>
+            </div> */}
             <div className="exPortoflioOverviewDiv_3_body_head_cont1">
               USD Valuation
             </div>

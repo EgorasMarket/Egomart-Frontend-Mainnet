@@ -330,7 +330,7 @@ const Home = () => {
                 Lightning fast
               </div>
               <div className="homeDiv_section2_area_head_txt">
-                Order matching execution of ~30 milliseconds. Vertex is as
+                Order matching execution of ~30 milliseconds. Egomart is as
                 powerful as your favorite CEX.
               </div>
             </div>

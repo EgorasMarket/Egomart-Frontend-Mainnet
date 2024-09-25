@@ -15,57 +15,17 @@ import { addOrders } from "../../../../features/orders/OrderSlice";
 import { GET_EXCHANGE_EVENT } from "../../../../services/trade.services";
 
 const MarketDepth = ({ current }) => {
-  const dispatch = useDispatch();
   const { orders } = useSelector((state) => state.orders);
   useEffect(() => {}, [current]);
+  console.log(current);
 
-  const fillorder = async () => {
-    // dispatch(addOrders([]));
-
-    const res = await GET_EXCHANGE_EVENT();
-    console.log("see here...", res);
-    if (!res?.success) {
-      dispatch(addOrders([]));
-
-      return;
-    }
-
-    let data = {};
-    const arr = [];
-    let count = 0;
-    if (res?.data.length === 0) {
-      dispatch(addOrders([]));
-      return;
-    }
-    res?.data.forEach((order, position) => {
-      data = {
-        id: position + 1,
-        price: order?.amount,
-        indexId: order.index_id,
-        ticker: order?.ticker,
-        type: order?.orderType,
-        uuid: order?.uniqueOrderID,
-        amount: order?.numberOfShares,
-        address: order?.userAddress,
-        status: order?.state, //ENUM OPEN, CANCELLED,COMPLETED,
-        createdAt: order?.createdAt,
-        filled: order?.filled,
-      };
-      arr.push(data);
-    });
-    console.log(res, "order from backend");
-    dispatch(addOrders(arr));
-  };
-
-  useEffect(() => {
-    fillorder();
-  }, []);
+  console.log(orders);
   const groupedByPrice = orders
-    .filter(
+    ?.filter(
       (order) =>
         order.type === "BUY" &&
         order.status === "OPEN" &&
-        order?.ticker === current?.pair
+        order?.ticker === current?.ticker
     )
     .reduce((acc, item) => {
       const price = item.price;
@@ -76,11 +36,11 @@ const MarketDepth = ({ current }) => {
       return acc;
     }, {});
   const groupedSellPrice = orders
-    .filter(
+    ?.filter(
       (order) =>
         order.type === "SELL" &&
         order.status === "OPEN" &&
-        order?.ticker === current?.pair
+        order?.ticker === current?.ticker
     )
     .reduce((acc, item) => {
       const price = item.price;
