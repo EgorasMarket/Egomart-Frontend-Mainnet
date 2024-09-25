@@ -57,6 +57,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     // const aa = useFetchBalance(
     //   activeBtn === "buy" ? payload?.tickerB : payload?.tickerA
     // );
+    console.log("meee");
   }, [hash]);
 
   console.log("====================================");
