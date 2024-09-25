@@ -2,6 +2,8 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  height: -webkit-fill-available;
+  overflow: hidden;
 }
 .TradesDiv_head {
   display: flex;
@@ -28,7 +30,8 @@
 .TradesDiv_body {
   display: flex;
   flex-direction: column;
-  height: 200px;
+  height: 300px;
+  min-height: -webkit-fill-available;
   overflow: auto;
 }
 .TradesDiv_body_cont {
