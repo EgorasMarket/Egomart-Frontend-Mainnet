@@ -136,7 +136,7 @@ const ExchangeTrade = () => {
   const fetchTicker = async () => {
     if (ticker) {
       let currMarket =
-        tickers.find((tick) => tick.pair === ticker) || tickers[0];
+        tickers.find((tick) => tick.ticker === ticker) || tickers[0];
       SetCurrentMarketFunc(currMarket);
     } else {
       SetCurrentMarketFunc(tickers[0]);
@@ -144,8 +144,9 @@ const ExchangeTrade = () => {
   };
   useEffect(() => {
     fetchTicker();
+    console.log("i just ran now ");
     // Only run the effect when 'tickers' change
-  }, [ticker]);
+  }, [ticker, trades, tickers]);
 
   const closeDepositModal = () => {
     setDeposit(false);
@@ -190,7 +191,7 @@ const ExchangeTrade = () => {
                     alt=""
                     className="ExchangeTrade_div1_cont1_div1_img"
                   />
-                  {currentMarket?.pair}
+                  {currentMarket?.ticker}
                 </>
               )}
             </div>
@@ -232,7 +233,7 @@ const ExchangeTrade = () => {
 
                     return (
                       <Link
-                        to={"/app/trade/spot/" + market?.pair}
+                        to={"/app/trade/spot/" + market?.ticker}
                         className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
                         onClick={() => {
                           setMarketsDrop(false);
@@ -246,7 +247,7 @@ const ExchangeTrade = () => {
                           />
                           <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
-                              {market.pair}
+                              {market.ticker}
                             </div>
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                               ${" "}
@@ -337,7 +338,7 @@ const ExchangeTrade = () => {
                 ) : null}
                 {numberWithCommas(
                   parseFloat(
-                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                    trades.find((obj) => obj.ticker === currentMarket?.ticker)
                       ?.price || 0
                   ).toFixed(2)
                 )}
@@ -350,7 +351,7 @@ const ExchangeTrade = () => {
                 ≈$
                 {numberWithCommas(
                   parseFloat(
-                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                    trades.find((obj) => obj.ticker === currentMarket?.ticker)
                       ?.price || 0
                   ).toFixed(2) || 0
                 )}
@@ -443,7 +444,7 @@ const ExchangeTrade = () => {
             onClick={toggleMarketsDropDownMobile}
           >
             <div className="ExchangeTrade_div1_mobile_div1_title_txt">
-              {currentMarket?.pair}
+              {currentMarket?.ticker}
             </div>
             {marketsDropMobile ? (
               <ArrowUp01Icon className="ExchangeTrade_div1_cont1_div2_icon" />
@@ -457,7 +458,7 @@ const ExchangeTrade = () => {
           >
             {numberWithCommas(
               parseFloat(
-                trades.find((obj) => obj.ticker === currentMarket?.pair)
+                trades.find((obj) => obj.ticker === currentMarket?.ticker)
                   ?.price || 0
               ).toFixed(2)
             )}
@@ -465,7 +466,7 @@ const ExchangeTrade = () => {
               ≈${" "}
               {numberWithCommas(
                 parseFloat(
-                  trades.find((obj) => obj.ticker === currentMarket?.pair)
+                  trades.find((obj) => obj.ticker === currentMarket?.ticker)
                     ?.price || 0
                 ).toFixed(2) || 0
               )}
@@ -660,7 +661,7 @@ const ExchangeTrade = () => {
             marketPrice={
               priceUpdate == 0
                 ? parseFloat(
-                    trades.find((obj) => obj.ticker === currentMarket?.pair)
+                    trades.find((obj) => obj.ticker === currentMarket?.ticker)
                       ?.price || 0
                   ).toFixed(2)
                 : priceUpdate
@@ -713,19 +714,19 @@ const ExchangeTrade = () => {
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTxTab === "position" && (
               <OpenOrders
-                ticker={currentMarket?.pair}
+                ticker={currentMarket?.ticker}
                 ticker_img={currentMarket?.img}
               />
             )}
             {activeTxTab === "order" && (
               <Orders
-                ticker={currentMarket?.pair}
+                ticker={currentMarket?.ticker}
                 ticker_img={currentMarket?.img}
               />
             )}
             {activeTxTab === "trades" && (
               <Trades
-                ticker={currentMarket?.pair}
+                ticker={currentMarket?.ticker}
                 ticker_img={currentMarket?.img}
               />
             )}
@@ -839,7 +840,7 @@ const ExchangeTrade = () => {
                   <div
                     className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
                     onClick={() => {
-                      navigate("/app/trade/spot/" + market?.pair);
+                      navigate("/app/trade/spot/" + market?.ticker);
                       setMarketsDropMobile(false);
                     }}
                   >
@@ -851,7 +852,7 @@ const ExchangeTrade = () => {
                       />
                       <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
-                          {market.pair}
+                          {market.ticker}
                         </div>
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                           $ {numberWithCommas(parseFloat(market?.volume24h))}
@@ -899,7 +900,7 @@ const ExchangeTrade = () => {
       <CustomBottomSheet
         isOpen={mobBuySellModal}
         content="fullHeight"
-        title={currentMarket?.pair}
+        title={currentMarket?.ticker}
         closeModal={closeMobBuySellModal}
       >
         {" "}
@@ -913,8 +914,9 @@ const ExchangeTrade = () => {
                 marketPrice={
                   priceUpdate == 0
                     ? parseFloat(
-                        trades.find((obj) => obj.ticker === currentMarket?.pair)
-                          ?.price || 0
+                        trades.find(
+                          (obj) => obj.ticker === currentMarket?.ticker
+                        )?.price || 0
                       ).toFixed(2)
                     : priceUpdate
                 }
@@ -968,13 +970,13 @@ const ExchangeTrade = () => {
             </div>
             <div className="ExchangeTrade_div2_cont1_body">
               {activeTxTab === "position" && (
-                <OpenOrders ticker={currentMarket?.pair} />
+                <OpenOrders ticker={currentMarket?.ticker} />
               )}
               {activeTxTab === "order" && (
-                <Orders ticker={currentMarket?.pair} />
+                <Orders ticker={currentMarket?.ticker} />
               )}
               {activeTxTab === "trades" && (
-                <Trades ticker={currentMarket?.pair} />
+                <Trades ticker={currentMarket?.ticker} />
               )}
             </div>
           </div>

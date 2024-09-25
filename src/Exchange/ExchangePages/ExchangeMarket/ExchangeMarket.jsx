@@ -100,7 +100,7 @@ const ExchangeMarket = () => {
 
                   return (
                     <Link
-                      to={`/app/trade/spot/${market.pair}`}
+                      to={`/app/trade/spot/${market.ticker}`}
                       className="ExchangeMarket_div2_body_cont_div1"
                     >
                       <div className="ExchangeMarket_div2_body_cont_div1_cont1">
@@ -109,7 +109,7 @@ const ExchangeMarket = () => {
                           alt=""
                           className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_img"
                         />
-                        {market.pair}
+                        {market.ticker}
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2">
                         $
