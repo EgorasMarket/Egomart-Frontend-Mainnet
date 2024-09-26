@@ -63,7 +63,7 @@ const MobileOrderBook = ({ current, onPriceUpdate }) => {
       (order) =>
         order.type === "BUY" &&
         order.status === "OPEN" &&
-        order?.ticker === current?.pair
+        order?.ticker === current?.ticker
     )
     .reduce((acc, item) => {
       const price = item.price;
@@ -78,7 +78,7 @@ const MobileOrderBook = ({ current, onPriceUpdate }) => {
       (order) =>
         order.type === "SELL" &&
         order.status === "OPEN" &&
-        order?.ticker === current?.pair
+        order?.ticker === current?.ticker
     )
     .reduce((acc, item) => {
       const price = item.price;
