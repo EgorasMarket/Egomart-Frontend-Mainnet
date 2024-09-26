@@ -42,7 +42,7 @@ const MobileTrades = ({ current }) => {
     fillTrades();
   }, []);
   const filteredTrades = trades
-    .filter((t) => t.ticker === current?.pair)
+    .filter((t) => t.ticker === current?.ticker)
     .slice(0, 25); // Filter and limit to first 25 trades
   const filledTrades = [
     ...filteredTrades,

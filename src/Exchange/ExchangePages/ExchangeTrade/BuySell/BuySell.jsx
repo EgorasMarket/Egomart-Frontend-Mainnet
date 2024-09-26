@@ -16,15 +16,19 @@ import {
 } from "wagmi";
 import contractAbi from "../../../../web3/contracts/Egomart.json";
 import "./index.css";
-
 import useFetchBalance from "../../../../hooks/useFetchBalance";
 import { useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Toaster, toast } from "react-hot-toast";
-import { _all_prices, _highestSellOrder } from "../../../../helpers/helper";
+import {
+  _all_prices,
+  _buyManager,
+  _highestSellOrder,
+} from "../../../../helpers/helper";
 import { parseEther } from "viem";
 import { parseUnits } from "ethers";
-const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
+
+const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const { orders } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
   const {
@@ -34,21 +38,12 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     isError,
     isSuccess,
     error,
-    writeContractAsync,
-  } = useWriteContract();
-  const {
-    data: marketHash,
-    writeContract: write,
-    isPending: marketOrderLoading,
-    isError: isMarketOrderError,
-    isSuccess: isMarketOrderSuccess,
-    error: marketOrderError,
   } = useWriteContract();
 
   const { address } = useAccount();
 
   const [selectedValue, setSelectedValue] = useState("Limit");
-  const [price, setPrice] = useState("10.00");
+  const [price, setPrice] = useState(0);
   const [amount, setAmount] = useState("");
   const [buyOffersArr, setBuyOffersArr] = useState([]);
   const [balanceOf, setBalance] = useState(0);
@@ -57,6 +52,13 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const aa = useFetchBalance(
     activeBtn === "buy" ? payload?.tickerB : payload?.tickerA
   );
+  useEffect(() => {
+    console.log("refreshing");
+    // const aa = useFetchBalance(
+    //   activeBtn === "buy" ? payload?.tickerB : payload?.tickerA
+    // );
+    console.log("meee");
+  }, [hash]);
 
   console.log("====================================");
   console.log(payload?.tickerB, payload?.tickerA);
@@ -70,26 +72,55 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
     75: "75%",
     100: "100%",
   };
+  useEffect(() => {
+    setPrice(marketPrice);
+  }, [marketPrice]);
 
   const handleChange = (value) => {
     setSelectedValue(value);
     console.log(`selected ${value}`);
   };
 
+  console.log("====================================");
+  console.log(selectedValue);
+  console.log("====================================");
+
   const sliderChange = (value) => {
+    console.log("====================================");
+    console.log(value);
+    // console.log(value);
+    console.log("====================================");
+
+    if (selectedValue === "Limit" && activeBtn === "buy") {
+      setTotalSum(
+        parseFloat(((value === 100 ? 99.9 : value) / 100) * aa).toFixed(3)
+      );
+      setAmount(
+        parseFloat(
+          parseFloat(
+            ((value === 100 ? 99.9 : value) / 100 / parseFloat(price)) * aa
+          )
+        ).toFixed(3)
+      );
+      return;
+    }
     setTotalSum(
-      parseFloat(parseFloat(price) * parseFloat((value / 100) * aa)).toFixed(3)
+      parseFloat(
+        parseFloat(price) *
+          parseFloat(((value === 100 ? 99.9 : value) / 100) * aa)
+      ).toFixed(3)
     );
-    // setAmount(parseFloat(value).toFixed(3));
-    // console.log(aa, "balance");
-    setAmount(parseFloat((value / 100) * aa).toFixed(3));
-    // setAmount( parseFloat(value).toFixed(3));
+    setAmount(
+      parseFloat(((value === 100 ? 99.9 : value) / 100) * aa).toFixed(3)
+    );
   };
 
   //total change
   const handleTotalChange = (event) => {
     setTotalSum(event.target.value);
-    setAmount(parseFloat(event.target.value) / parseFloat(price));
+    setAmount(
+      parseFloat(parseFloat(event.target.value) / parseFloat(price)).toFixed(3)
+    );
   };
 
   //  price change
@@ -116,7 +147,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const setOrder = () => {
     const marketType = activeBtn === "sell" ? true : false;
     try {
-      if (payload.meta.minimum_order_size > Total) {
+      if (payload?.meta?.minimum_order_size > Total) {
         toast.error(
           <div className="toast_success_div">
             <div className="toast_error_div_title">Error !!</div>
@@ -138,12 +169,12 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
         abi: contractAbi,
         functionName: "matchingEngine",
         args: [
-          payload?.pair,
+          payload?.ticker,
           [
             marketType,
             address,
-            parseEther(price).toString(),
-            parseEther(amount).toString(),
+            parseEther(price, "wei").toString(),
+            parseEther(amount, "wei").toString(),
             0,
             0,
           ],
@@ -159,55 +190,63 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
   const marketOrder = () => {
     const marketType = activeBtn === "sell" ? true : false;
     try {
-      const highestSellOrder = _highestSellOrder({
-        orders: orders,
-        ticker: payload?.pair,
+      const marketManager = _buyManager({
+        market: marketType ? "SELL" : "BUY",
+        orders,
+        ticker: payload?.ticker,
       });
 
+      console.log(marketManager, "marketManager");
+
+      // const highestSellOrder = _highestSellOrder({
+      //   orders: orders,
+      //   ticker: payload?.ticker,
+      // });
+
       let _amount = parseFloat(
-        amount / parseFloat(highestSellOrder.price)
+        amount / parseFloat(marketManager.price)
       ).toString();
 
-      console.log(highestSellOrder, _amount, "sese");
+      // console.log(highestSellOrder, _amount, "sese");
 
       console.log([
-        payload?.pair,
+        payload?.ticker,
         [
           marketType,
           address,
-          marketType
-            ? parseEther(price, "wei")
-            : parseEther(highestSellOrder.price, "wei"),
-          marketType
-            ? parseEther(amount.toString(), "wei").toString()
-            : parseEther(amount.toString(), "wei").toString(),
-          // : parseEther(_amount, "wei").toString(),
+          parseEther(marketManager?.price, "wei"),
+          marketManager?.price,
+          // marketType
+          //   ? parseEther(amount.toString(), "wei").toString()
+          //   : parseEther(amount.toString(), "wei").toString(),
+
           0,
           0,
         ],
-        // _sell_arr,
         _all_prices({
           orders,
-          ticker: payload?.pair,
+          ticker: payload?.ticker,
           marketType: marketType ? "BUY" : "SELL",
         }),
       ]);
 
-      // return;
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
         functionName: "marketOrderEngine",
 
         args: [
-          payload?.pair,
+          payload?.ticker,
           [
             marketType,
             address,
-            marketType
-              ? parseEther(price.toString(), "wei")
-              : parseEther(highestSellOrder.price, "wei"),
+            // marketType
+            // ? parseEther(price.toString(), "wei")
+            parseEther(marketManager.price, "wei"),
             // parseEther(highestSellOrder.price),
+
+            // parseEther(amount.toString(), "wei").toString(),
+
             marketType
               ? parseEther(amount.toString(), "wei").toString()
               : parseEther(_amount.toString(), "wei").toString(),
@@ -217,7 +256,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
           // _sell_arr,
           _all_prices({
             orders,
-            ticker: payload?.pair,
+            ticker: payload?.ticker,
             marketType: marketType ? "BUY" : "SELL",
           }),
         ],
@@ -313,8 +352,8 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
             <div className="buy_modal_div_div1_cont1_body_cont1_head1_txt2">
               {aa}
               {activeBtn === "buy"
-                ? payload?.pair?.split("-")[1]
-                : payload?.pair?.split("-")[0]}
+                ? payload?.ticker?.split("-")[1]
+                : payload?.ticker?.split("-")[0]}
             </div>
           </div>
           <div className="buy_modal_div_div1_cont1_body_1">
@@ -353,13 +392,13 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
                 <input
                   name="price"
                   id="price"
-                  type="number"
+                  type="text"
                   autocapitalize="off"
                   autocorrect="off"
                   autocomplete="off"
                   spellcheck="false"
                   className="buy_modal_div_div1_cont1_body_1_label_input"
-                  value={price}
+                  value={"Market Price"}
                 />
               </label>
             ) : (
@@ -395,7 +434,9 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
                   Amount
                 </div>
                 <div className="buy_modal_div_div1_cont1_body_para1">
-                  {payload?.pair?.split("-")[0]}
+                  {selectedValue === "market" && activeBtn == "buy"
+                    ? payload?.ticker?.split("-")[1]
+                    : payload?.ticker?.split("-")[0]}{" "}
                 </div>
               </p>
               <input
@@ -453,7 +494,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
                   onChange={handleTotalChange}
                   spellcheck="false"
                   className="buy_modal_div_div1_cont1_body_1_label_input"
-                  // value={Total}
                   value={total_sum}
                 />
               </label>
@@ -467,9 +507,11 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
                   <>
                     <button
                       onClick={marketOrder}
+                      disabled={loading}
                       className="ProductDetailPage_div_body_div2_div7_btn"
                     >
-                      Buy
+                      {/* Buy */}
+                      {loading ? <ClipLoader color="#fff" size={18} /> : "Buy"}
                     </button>
                   </>
                 ) : (
@@ -490,10 +532,11 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn }) => {
                 {selectedValue === "market" ? (
                   <button
                     onClick={marketOrder}
+                    disabled={loading}
                     className="ProductDetailPage_div_body_div2_div7_btn_sell"
                   >
-                    Sell
-                    <ClipLoader color="#fff" size={18} />
+                    {/* Sell */}
+                    {loading ? <ClipLoader color="#fff" size={18} /> : "Sell"}
                   </button>
                 ) : (
                   <button

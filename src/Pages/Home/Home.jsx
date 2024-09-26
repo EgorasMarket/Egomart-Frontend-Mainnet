@@ -35,12 +35,13 @@ const Home = () => {
                 developing countries by trading with low fees, a fast order
                 book, and minimal slippage.
               </div>
-              <Link
-                to="/app/trade/spot/ESTA-EGOD"
+              <a
+                href="/app/trade/spot/ESTA-EGOD"
+                target="_blank"
                 className="homeDiv_section1_area_1_btn"
               >
                 Trade Now
-              </Link>
+              </a>
               <div className="homeDiv_section1_area_1_stats">
                 <div className="homeDiv_section1_area_1_stats_cont1">
                   <div className="homeDiv_section1_area_1_stats_cont1_title">
@@ -329,7 +330,7 @@ const Home = () => {
                 Lightning fast
               </div>
               <div className="homeDiv_section2_area_head_txt">
-                Order matching execution of ~30 milliseconds. Vertex is as
+                Order matching execution of ~30 milliseconds. Egomart is as
                 powerful as your favorite CEX.
               </div>
             </div>

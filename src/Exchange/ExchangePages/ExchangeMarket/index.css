@@ -1,7 +1,17 @@
+.ExchangeMarket {
+  position: relative;
+  display: flex;
+  height: 92dvh;
+  overflow: auto;
+  width: -webkit-fill-available;
+  padding: 10px 10px;
+  /* padding-bottom: 7em; */
+}
 .ExchangeMarket_area {
   display: flex;
   flex-direction: column;
   margin-top: 3em;
+  height: -webkit-fill-available;
 }
 .ExchangeMarket_div1 {
   display: flex;
@@ -25,7 +35,7 @@
   padding: 1em;
   border-radius: 10px;
   margin-left: 0;
-  background: #151e1b;
+  background: #243731;
   /* border: solid 1px grey; */
   /* border-radius: 10px; */
   /* padding: 10px; */
@@ -101,6 +111,7 @@
   border-radius: 10px;
   cursor: pointer;
   border: solid 1px #1e2d27;
+  color: #fff;
 }
 .ExchangeMarket_div2_body_cont_div1:hover {
   background: #32413c;

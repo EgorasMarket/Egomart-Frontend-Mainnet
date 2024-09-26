@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import { assets } from "../../Components/Static";
+// import { assets } from "../../Components/Static";
 import {
   useAccount,
   useReadContract,
@@ -13,6 +13,7 @@ import allowanceAbi from "../../web3/erc20.json";
 import ClipLoader from "react-spinners/ClipLoader";
 // import { ToastContainer, toast } from "react-toastify";
 import useTokenAllowance from "../../hooks/useTokenAllowance";
+import { useDispatch, useSelector } from "react-redux";
 // import { useAccount } from "wagmi";
 import "react-toastify/dist/ReactToastify.css";
 import { ArrowDown01Icon, ArrowUp01Icon } from "hugeicons-react";
@@ -60,16 +61,26 @@ export const AssetItem = ({ asset, address, selectAsset }) => {
 };
 
 const Deposit = ({ symbol }) => {
+  const { assets } = useSelector((state) => state.assets);
   const { address, isConnecting, isDisconnected } = useAccount();
   const [assetList, setAssetList] = useState(false);
-  const [selectedAsset, setSelectedAsset] = useState(assets[0]);
+  const [selectedAsset, setSelectedAsset] = useState(null);
   const [assetBal, setAssetBal] = useState("0");
   const [depositAmount, setDepositAmount] = useState("");
   const [userAllowance, setUserAllowance] = useState(false);
   // Using the custom hook
+
+  useEffect(() => {
+    console.log(assets);
+    if (assets.length > 0) {
+      setSelectedAsset(assets[0][0]);
+      return;
+    }
+  }, [assets]);
+
   const { setAllowance, allowancePending, allowanceSuccess, allowanceError } =
     useTokenAllowance(
-      selectedAsset.tokenAddress,
+      selectedAsset?.tokenAddress,
       import.meta.env.VITE_CONTRACT_ADDRESS
     );
 
@@ -87,7 +98,7 @@ const Deposit = ({ symbol }) => {
     isSuccess: balanceSuccess,
   } = useBalance({
     address: address,
-    token: selectedAsset.tokenAddress, // Specify the token contract address here
+    token: selectedAsset?.tokenAddress, // Specify the token contract address here
   });
 
   useEffect(() => {
@@ -107,25 +118,16 @@ const Deposit = ({ symbol }) => {
   const {
     isPending: depositing,
     data: deposit,
-    writeContract: initiateDeposit,
+    writeContract,
     isError: depositError,
     error: error,
     isSuccess: depositSuccess,
     status: depositStatus,
   } = useWriteContract();
-  const {
-    isPending: depositingNative,
-    data: depositNative,
-    writeContract: initiateDepositNative,
-    isError: depositErrorNative,
-    error: errorNativce,
-    isSuccess: depositSuccessNative,
-    status: depositStatusNative,
-  } = useWriteContract();
 
   const depositFn = async () => {
-    if (selectedAsset.tokenAddress === "EGAX") {
-      initiateDepositNative({
+    if (selectedAsset?.tokenSymbol === "EGAX") {
+      writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi,
         functionName: "depositNativeToken",
@@ -134,12 +136,12 @@ const Deposit = ({ symbol }) => {
       return;
     }
 
-    initiateDeposit({
+    writeContract({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi,
       functionName: "deposit",
       args: [
-        selectedAsset.tokenAddress,
+        selectedAsset?.tokenAddress,
         parseEther(depositAmount?.toString(), "wei").toString(),
       ],
     });
@@ -155,7 +157,7 @@ const Deposit = ({ symbol }) => {
     isSuccess,
     isLoading,
   } = useReadContract({
-    address: selectedAsset.tokenAddress,
+    address: selectedAsset?.tokenAddress,
     abi: allowanceAbi.abi,
     functionName: "allowance",
     args: [address, import.meta.env.VITE_CONTRACT_ADDRESS],
@@ -217,6 +219,7 @@ const Deposit = ({ symbol }) => {
       return;
     }
   }, [depositError]);
+
   useEffect(() => {
     if (allowanceSuccess === true) {
       console.log("====================================");
@@ -226,7 +229,7 @@ const Deposit = ({ symbol }) => {
       // toast.success("Success fully Approved " + selectedAsset.tokenSymbol, {
       //   position: "bottom-center",
       // });
-      toast.success("Success fully Approved " + selectedAsset.tokenSymbol);
+      toast.success("Success fully Approved " + selectedAsset?.tokenSymbol);
 
       return;
     }
@@ -240,23 +243,26 @@ const Deposit = ({ symbol }) => {
       //   position: "bottom-center",
       // });
 
-      toast.error("Error Approving " + selectedAsset.tokenSymbol);
+      toast.error("Error Approving " + selectedAsset?.tokenSymbol);
 
       return;
     }
   }, [allowanceError]);
-  console.log("====================================");
-  console.log(userAllowance);
-  console.log("====================================");
+
   useEffect(() => {
-    if (symbol) {
-      const foundAsset = assets.find((asset) => asset.tokenSymbol === symbol);
-      if (foundAsset) {
-        setSelectedAsset(foundAsset);
+    if (symbol || assets) {
+      if (assets[0].length > 0) {
+        const foundAsset = assets[0].find(
+          (asset) => asset.tokenSymbol === symbol
+        );
+        if (foundAsset) {
+          console.log("Found asset:", foundAsset);
+          setSelectedAsset(foundAsset);
+        }
       }
-      return;
     }
-  }, [symbol]); // Empty dependency array ensures this runs only once
+  }, [symbol, assets]); // Empty dependency array ensures this runs only once
+
   return (
     <>
       <div className="depositDiv">
@@ -268,11 +274,11 @@ const Deposit = ({ symbol }) => {
             >
               <div className="depositDiv_cont1_div1_select_dvi_cont1">
                 <img
-                  src={selectedAsset.img}
+                  src={selectedAsset?.img}
                   alt=""
                   className="depositDiv_cont1_div1_select_dvi_cont1_img"
                 />{" "}
-                {selectedAsset.tokenSymbol}
+                {selectedAsset?.tokenSymbol}
                 {assetList ? (
                   <ArrowUp01Icon className="depositDiv_cont1_div1_select_dvi_cont1_icon" />
                 ) : (
@@ -295,7 +301,7 @@ const Deposit = ({ symbol }) => {
                   <div className="AssetListDrop_title_2">Available</div>
                 </div>
                 <div className="AssetListDrop_body">
-                  {assets.map((asset) => (
+                  {assets[0].map((asset) => (
                     <AssetItem
                       key={asset.tokenAddress}
                       asset={asset}
@@ -310,7 +316,7 @@ const Deposit = ({ symbol }) => {
           <div className="depositDiv_cont1_div2">
             Available:{" "}
             <span className="depositDiv_cont1_div2_span">
-              {parseFloat(assetBal)} {selectedAsset.tokenSymbol}
+              {parseFloat(assetBal)} {selectedAsset?.tokenSymbol}
             </span>
           </div>
         </div>
@@ -357,7 +363,7 @@ const Deposit = ({ symbol }) => {
                 0.00
                 <span className="depositDiv_cont3_body_cont_2_span">
                   {" "}
-                  {selectedAsset.tokenSymbol}
+                  {selectedAsset?.tokenSymbol}
                 </span>
               </div>
             </div>
@@ -381,7 +387,7 @@ const Deposit = ({ symbol }) => {
                     <ClipLoader color="#6ba28b" size={18} /> Approving...
                   </>
                 ) : (
-                  <>Approve {selectedAsset.tokenSymbol}</>
+                  <>Approve {selectedAsset?.tokenSymbol}</>
                 )}
               </button>
             ) : (

@@ -11,8 +11,6 @@ import {
 import { setTickers } from "../features/PairsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useWatchContractEvent, useClient, useAccount } from "wagmi";
-import useSocket from "../hooks/useSocket";
-import { subscribeToEvent } from "../services/socket";
 import {
   cancelOne,
   updateArr,
@@ -32,7 +30,6 @@ const Exchange = () => {
 
   useEffect(() => {
     dispatch({ type: "socket/connect" });
-
     return () => {
       dispatch({ type: "socket/disconnect" });
     };
@@ -94,36 +91,11 @@ const Exchange = () => {
     const res = await GET_TICKER_PAIRS();
     console.log("====================================");
     console.log(res, "ressss");
+
     console.log("====================================");
     if (!res?.success) return;
 
-    //loop through the record
-
-    const array = [];
-    let payload = {};
-
-    res.data.forEach((ticker, id) => {
-      payload = {
-        id: id,
-        img: ticker?.img,
-        pair: ticker.ticker,
-        OpenPrice: parseFloat(ticker.initialPrice).toFixed(2),
-        tickerA: ticker.tokenA,
-        tickerB: ticker.tokenB,
-        tickerBName: ticker.tokenBName,
-        tokenName: ticker.tokenAName,
-        change24h: 0,
-        open24h: 0,
-        volume24h: 10,
-
-        // "{"website": "https://egochain.org",
-
-        meta: JSON.parse(ticker?.meta),
-      };
-      array.push(payload);
-    });
-
-    await dispatch(setTickers(array));
+    dispatch(setTickers(res.data));
   };
   const fetchAssets = async () => {
     const res = await FETCH_ALL_LISTED_ASSETS();

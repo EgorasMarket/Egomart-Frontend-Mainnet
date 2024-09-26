@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import { assets } from "../../Components/Static";
+// import { assets } from "../../Components/Static";
 import {
   useAccount,
   useWatchContractEvent,
@@ -14,6 +14,8 @@ import allowanceAbi from "../../web3/erc20.json";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer, toast } from "react-toastify";
 import useTokenAllowance from "../../hooks/useTokenAllowance";
+import { useDispatch, useSelector } from "react-redux";
+import useFetchBalance from "../../hooks/useFetchBalance";
 // import { useAccount } from "wagmi";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -21,16 +23,13 @@ import {
   ArrowUp01Icon,
   InformationCircleIcon,
 } from "hugeicons-react";
+
 export const AssetItem = ({ asset, address, selectAsset }) => {
-  const {
-    data: balanceData,
-    isPending: balancePending,
-    error: balanceError,
-    isSuccess: balanceSuccess,
-  } = useBalance({
-    address: address,
-    token: asset.tokenAddress, // Specify the token contract address here
-  });
+  const nullAddress = "0x0000000000000000000000000000000000000000";
+  const balance =
+    asset.tokenSymbol === "EGAX"
+      ? useFetchBalance(nullAddress)
+      : useFetchBalance(asset.tokenAddress);
 
   return (
     <div
@@ -48,15 +47,15 @@ export const AssetItem = ({ asset, address, selectAsset }) => {
         {asset.tokenSymbol}
       </div>
       <div className="AssetListDropCont2">
-        {balancePending && (
+        {/* {balancePending && (
           <span>
             {" "}
             <ClipLoader color="#6ba28b" size={18} />
           </span>
-        )}
+        )} */}
 
-        {balanceSuccess && <span>{parseFloat(balanceData?.formatted)}</span>}
-        {balanceError && <span>0</span>}
+        <span>{parseFloat(balance)}</span>
+        {/* {balanceError && <span>0</span>} */}
         <span className="AssetListDropCont2_Span">$0.00</span>
       </div>
     </div>
@@ -64,11 +63,13 @@ export const AssetItem = ({ asset, address, selectAsset }) => {
 };
 
 const Withdraw = ({ symbol }) => {
+  const { assets } = useSelector((state) => state.assets);
   const { address, isConnecting, isDisconnected } = useAccount();
   const [assetList, setAssetList] = useState(false);
-  const [selectedAsset, setSelectedAsset] = useState(assets[0]);
+  const [selectedAsset, setSelectedAsset] = useState(null);
   const [assetBal, setAssetBal] = useState("0");
   const [withdrawAmount, setWithdrawAmount] = useState("");
+  const nullAddress = "0x0000000000000000000000000000000000000000";
 
   const toggleAssetList = () => {
     setAssetList(!assetList);
@@ -77,45 +78,66 @@ const Withdraw = ({ symbol }) => {
     setSelectedAsset(data);
     toggleAssetList();
   };
-  const {
-    data: balanceData,
-    isPending: balancePending,
-    error: balanceError,
-    isSuccess: balanceSuccess,
-  } = useBalance({
-    address: address,
-    token: selectedAsset.tokenAddress, // Specify the token contract address here
-  });
 
   useEffect(() => {
-    if (address) {
-      if (balancePending) {
-        console.log("fetching balance...");
-      } else if (balanceError) {
-        console.error("Error fetching balance:", balanceError);
-      } else if (balanceData) {
-        console.log("Fetching bal successful:", balanceData);
-        setAssetBal(balanceData.formatted);
-      }
+    console.log(assets);
+    if (assets.length > 0) {
+      setSelectedAsset(assets[0][0]);
+      return;
     }
-  }, [balancePending, balanceError, balanceData, address, selectedAsset]);
+  }, [assets]);
+
+  // useEffect(() => {
+  //   if (address) {
+  //     // if (balancePending) {
+  //     //   console.log("fetching balance...");
+  //     // } else if (balanceError) {
+  //     //   console.error("Error fetching balance:", balanceError);
+  //     // } else if (balanceData) {
+  //     //   console.log("Fetching bal successful:", balanceData);
+  //     //   setAssetBal(balanceData.formatted);
+  //     // }
+  //   }
+  // }, [address, selectedAsset]);
+  const balance =
+    selectedAsset?.tokenSymbol === "EGAX"
+      ? useFetchBalance(nullAddress)
+      : useFetchBalance(selectedAsset?.tokenAddress);
+  // setAssetBal(balance);
 
   const {
     isPending: withdrawing,
     data: withdraw,
-    writeContract: initiateWithdraw,
+    writeContract,
     isError: withdrawError,
     error: error,
     isSuccess: withdrawSuccess,
     status: withdrawStatus,
   } = useWriteContract();
+
+  console.log("====================================");
+  console.log(selectedAsset);
+  console.log("====================================");
+
   const withdrawFn = async () => {
-    initiateWithdraw({
+    if (selectedAsset?.tokenSymbol === "EGAX") {
+      writeContract({
+        address: import.meta.env.VITE_CONTRACT_ADDRESS,
+        abi,
+        functionName: "withdrawNativeToken",
+        args: [
+          parseEther(withdrawAmount.toString(), "wei").toString(),
+          address,
+        ],
+      });
+      return;
+    }
+    writeContract({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi,
       functionName: "withdraw",
       args: [
-        selectedAsset.tokenAddress,
+        selectedAsset?.tokenAddress,
         parseEther(withdrawAmount.toString(), "wei").toString(),
       ],
     });
@@ -130,7 +152,7 @@ const Withdraw = ({ symbol }) => {
       console.log("====================================");
       console.log(withdrawSuccess);
       console.log("====================================");
-      toast.success("Success Depositing !", {
+      toast.success("Success Withdrawing !", {
         position: "bottom-right",
       });
       return;
@@ -140,7 +162,7 @@ const Withdraw = ({ symbol }) => {
   useEffect(() => {
     if (withdrawError === true) {
       console.log(withdrawError);
-      toast.error("Error Depositing !", {
+      toast.error(error.shortMessage, {
         position: "bottom-right",
       });
       return;
@@ -148,14 +170,18 @@ const Withdraw = ({ symbol }) => {
   }, [withdrawError]);
 
   useEffect(() => {
-    if (symbol) {
-      const foundAsset = assets.find((asset) => asset.tokenSymbol === symbol);
-      if (foundAsset) {
-        setSelectedAsset(foundAsset);
+    if (symbol || assets) {
+      if (assets[0].length > 0) {
+        const foundAsset = assets[0].find(
+          (asset) => asset.tokenSymbol === symbol
+        );
+        if (foundAsset) {
+          console.log("Found asset:", foundAsset);
+          setSelectedAsset(foundAsset);
+        }
       }
-      return;
     }
-  }, [symbol]); // Empty dependency array ensures this runs only once
+  }, [symbol, assets]); // Empty dependency array ensures this runs only once
   return (
     <>
       <div className="depositDiv">
@@ -167,11 +193,11 @@ const Withdraw = ({ symbol }) => {
             >
               <div className="depositDiv_cont1_div1_select_dvi_cont1">
                 <img
-                  src={selectedAsset.img}
+                  src={selectedAsset?.img}
                   alt=""
                   className="depositDiv_cont1_div1_select_dvi_cont1_img"
                 />{" "}
-                {selectedAsset.tokenSymbol}
+                {selectedAsset?.tokenSymbol}
                 {assetList ? (
                   <ArrowUp01Icon className="depositDiv_cont1_div1_select_dvi_cont1_icon" />
                 ) : (
@@ -191,10 +217,10 @@ const Withdraw = ({ symbol }) => {
               <div className="AssetListDrop">
                 <div className="AssetListDrop_title">
                   <div className="AssetListDrop_title_1">Choose Asset</div>
-                  <div className="AssetListDrop_title_2">Available</div>
+                  <div className="AssetListDrop_title_2">Max Withdrawable</div>
                 </div>
                 <div className="AssetListDrop_body">
-                  {assets.map((asset) => (
+                  {assets[0].map((asset) => (
                     <AssetItem
                       key={asset.tokenAddress}
                       asset={asset}
@@ -207,9 +233,9 @@ const Withdraw = ({ symbol }) => {
             )}
           </div>
           <div className="depositDiv_cont1_div2">
-            Available:{" "}
+            Max Withdrawable:{" "}
             <span className="depositDiv_cont1_div2_span">
-              {parseFloat(assetBal)} {selectedAsset.tokenSymbol}
+              {parseFloat(balance)} {selectedAsset?.tokenSymbol}
             </span>
           </div>
         </div>
@@ -217,7 +243,7 @@ const Withdraw = ({ symbol }) => {
           <div
             className="depositDiv_cont2_cont1"
             onClick={() => {
-              setWithdrawAmount(0.25 * parseFloat(assetBal));
+              setWithdrawAmount(0.25 * parseFloat(balance));
             }}
           >
             25%
@@ -225,7 +251,7 @@ const Withdraw = ({ symbol }) => {
           <div
             className="depositDiv_cont2_cont1"
             onClick={() => {
-              setWithdrawAmount(0.5 * parseFloat(assetBal));
+              setWithdrawAmount(0.5 * parseFloat(balance));
             }}
           >
             50%
@@ -233,7 +259,7 @@ const Withdraw = ({ symbol }) => {
           <div
             className="depositDiv_cont2_cont1"
             onClick={() => {
-              setWithdrawAmount(0.75 * parseFloat(assetBal));
+              setWithdrawAmount(0.75 * parseFloat(balance));
             }}
           >
             75%
@@ -241,7 +267,7 @@ const Withdraw = ({ symbol }) => {
           <div
             className="depositDiv_cont2_cont1"
             onClick={() => {
-              setWithdrawAmount(1 * parseFloat(assetBal));
+              setWithdrawAmount(1 * parseFloat(balance));
             }}
           >
             100%
@@ -256,7 +282,7 @@ const Withdraw = ({ symbol }) => {
                 0.00
                 <span className="depositDiv_cont3_body_cont_2_span">
                   {" "}
-                  {selectedAsset.tokenSymbol}
+                  {selectedAsset?.tokenSymbol}
                 </span>
               </div>
             </div>

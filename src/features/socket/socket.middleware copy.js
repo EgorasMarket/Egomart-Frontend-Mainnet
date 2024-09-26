@@ -5,7 +5,7 @@ import { BASE_URL } from "../../core/core";
 import { cancelOne, updateOne, updateOrder } from "../orders/OrderSlice";
 import { updateTrade } from "../trades/TradeSlice";
 import { formatEther } from "ethers";
-import { setTickers, updateTicker, updateTickerTwo } from "../PairsSlice";
+import { updateTicker } from "../PairsSlice";
 
 const socketMiddleware = (store) => {
   console.log(store, "all store data");
@@ -28,7 +28,6 @@ const socketMiddleware = (store) => {
       socket.on("message", (message) => {
         dispatch(addMessage(message));
       });
-
       socket.on("/orders-event", (payload) => {
         console.log(payload, "orders event");
         let arr = [];
@@ -64,45 +63,53 @@ const socketMiddleware = (store) => {
             ticker: log.ticker,
             type: log.typeOfTrade,
             amount: parseFloat(log.numberOfShares).toFixed(5),
+
             uuid: log.uniqueOrderID,
             buyer: log.buyer,
             seller: log.seller,
             createdAt: log.timedAdded,
             transactionHash: log.transactionHash,
           };
+          //find the order in the orders arrary
 
-          // Find the order in the orders array
-          const curr_order = getState().orders.orders.find(
+          let curr_order = getState().orders.orders.find(
             (order) => order.uuid === payload.uuid
           );
 
+          console.log(curr_order, "check record");
           if (curr_order) {
-            // Calculate the new filled amount
-            const sum_filled = (
-              parseFloat(curr_order.filled) + parseFloat(payload.amount)
+            //check if the filled is equal to the amount
+
+            // let _sum_filled = parseFloat(
+            //   parseFloat(curr_order.filled) + payload.amount
+            // ).toFixed(30);
+            let _sum_filled = parseFloat(
+              curr_order.filled + payload.amount
             ).toFixed(30);
 
-            // Update the order status based on filled amount
-            const updatedStatus =
-              parseFloat(curr_order.amount) - parseFloat(sum_filled) <= 0.00001
-                ? "COMPLETED"
-                : "OPEN";
-
-            // Create the updated order object
-            const updatedOrder = {
-              ...curr_order,
-              filled: sum_filled,
-              status: updatedStatus,
+            let diff = () => {
+              if (curr_order.amount - _sum_filled <= 0.00001)
+                return "COMPLETED";
+              return "OPEN";
             };
 
-            // Dispatch the updates
-            dispatch(updateOne({ id: curr_order.id, newData: updatedOrder }));
-            dispatch(updateTrade(payload));
+            //check if it's equal to the object amount
+            let _formatted = {
+              ...curr_order,
+              filled: _sum_filled,
+              // status: _sum_filled >= curr_order.amount ? "COMPLETED" : "OPEN",
+              status: diff(),
+            };
 
-            console.log("Updated and sent to store:", payload, updatedOrder);
-          } else {
-            console.log("Order not found, not sent to store.");
+            dispatch(updateOne({ id: curr_order.id, newData: _formatted }));
+            //push this payload to the tradeslice
+
+            dispatch(updateTrade(payload));
+            console.log(payload, curr_order, "to be sent to store ");
+            return;
           }
+
+          console.log("not sent to store");
         });
       });
 
@@ -140,60 +147,25 @@ const socketMiddleware = (store) => {
       });
       socket.on("/get-24-stats", (logs) => {
         const ticker = logs.ticker;
-        console.log(logs, "24 Stats Event!!!");
-        let _open24 = logs?.openPrice;
-        let _close24 = logs?.closePrice;
-        let _volume24h = logs?.volume;
-        let _lowPrice24h = logs?.lowPrice;
-        let _high24 = logs?.highPrice;
+        console.log(logs, "24 Stats Payload !!!");
+        let _open24 = logs?.openPrice || 0;
+        let _close24 = logs?.closePrice || 0;
+        let _volume24h = logs?.volume || 0;
+        let _lowPrice24h = logs?.lowPrice || 0;
+        let _high24 = logs?.highPrice || 0;
+        // let _change24h =( (closingPrice  - openPrice )/  openprice  ) *100
         let _change24h = ((_close24 - _open24) / _open24) * 100;
 
         const payload = {
           open24h: _open24,
-          close24h: logs.closePrice,
-          volume24h: logs.volume,
-          lowPrice24h: logs.lowPrice,
-          highPrice24h: logs.highPrice,
+          close24h: logs.closePrice || 0,
+          volume24h: logs.volume || 0,
+          lowPrice24h: logs.lowPrice || 0,
+          highPrice24h: logs.highPrice || 0,
           change24h: _change24h,
         };
 
-        dispatch(updateTickerTwo({ pair: ticker, data: payload }));
-
-        //look for the ticker
-      });
-      socket.on("/get-ticker-stats", (logs) => {
-        console.log(logs, "new tickers updated stats!!!");
-        const ticker = logs.ticker;
-
-        //loop through the pairs
-
-        logs.forEach((log) => {
-          log.img = JSON.parse(log.img)[0];
-          log.meta = JSON.parse(log.meta);
-          log.tickerA = log.tokenA;
-          log.tickerB = log.tokenB;
-        });
-        console.log(logs, "latest");
-
-        dispatch(setTickers(logs));
-        // let _open24 = logs?.openPrice;
-        // let _close24 = logs?.closePrice;
-        // let _volume24h = logs?.volume;
-        // let _lowPrice24h = logs?.lowPrice;
-        // let _high24 = logs?.highPrice;
-        // let _change24h = ((_close24 - _open24) / _open24) * 100;
-
-        // const payload = {
-        //   open24h: logs.open24h,
-        //   close24h: logs.close24h,
-        //   volume24h: logs.volume24h,
-        //   lowPrice24h: logs.lowPrice24,
-        //   highPrice24h: logs.highPrice24h,
-        //   change24h: logs.change24h,
-        // };
-
-        // dispatch(updateTickerTwo({ pair: ticker, data: payload }));
-
+        dispatch(updateTicker({ pair: ticker, data: payload }));
         //look for the ticker
       });
     }

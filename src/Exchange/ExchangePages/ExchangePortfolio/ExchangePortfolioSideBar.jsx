@@ -50,7 +50,8 @@ const ExchangePortfolioSideBar = ({ toggleActiveTab, activeTab }) => {
         >
           Open Orders
         </Link>
-        <div
+        <Link
+          to="/app/portfolio/history"
           id="history"
           className={
             activeTab === "history"
@@ -60,7 +61,7 @@ const ExchangePortfolioSideBar = ({ toggleActiveTab, activeTab }) => {
           onClick={toggleActiveTab}
         >
           History
-        </div>
+        </Link>
       </div>
     </div>
   );

@@ -5,16 +5,23 @@ import Modal from "../../../Components/Modal/Modal";
 import {
   TRADE_VOLUME_REWARD,
   CLAIM_REWARD,
+  TRADE_VOLUME_LEADERBOARD,
 } from "../../../services/earn.service";
 import { useAccount } from "wagmi";
+import Blockies from "react-blockies";
+import formatNumber from "../../../assets/js/formatNumber";
+import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 
 const Earn = () => {
   const { address } = useAccount();
   const [itemsToShow, setItemsToShow] = useState(10);
   const [isLoading2, setIsLoading2] = useState(false);
   const [redeemModal, setRedeemModal] = useState(false);
-  const [user24hReward, setUser24hReward] = useState(0);
-  const [user24hVolume, setUser24hVolume] = useState(0);
+  const [userReward, setUserReward] = useState(0);
+  const [userVolume, setUserVolume] = useState(0);
+  const [userAllReward, setUserAllReward] = useState(0);
+  const [userAllVolume, setUserAllVolume] = useState(0);
+  const [leaderBoardArray, setLeaderBoardArray] = useState([]);
 
   const referralLeaderBoard = [
     {
@@ -219,11 +226,17 @@ const Earn = () => {
     const res = await TRADE_VOLUME_REWARD(address);
     console.log("====================================");
     console.log(res, "user Trades");
-    if (res?.userRec.length < 0) {
-      setUser24hReward(0);
-      setUser24hVolume(0);
+    if (res?.data?.userRec.length < 0) {
+      setUserReward(0);
+      setUserVolume(0);
+      setUserAllReward(0);
+      setUserAllVolume(0);
       return;
     }
+    setUserReward(res?.data?.userRec[0].plt_points);
+    setUserVolume(res?.data?.userRec[0].volume);
+    setUserAllReward(res?.data?.userRec[0].plt_points);
+    setUserAllVolume(res?.data?.userRec[0].totalVolume);
     // console.log(res, "user Trades");
     console.log("====================================");
   };
@@ -241,6 +254,18 @@ const Earn = () => {
       return;
     }
   }, [address]);
+
+  const leaderBoard = async () => {
+    const res = await TRADE_VOLUME_LEADERBOARD();
+    console.log("====================================");
+    console.log(res);
+    setLeaderBoardArray(res?.data?.userRec);
+    console.log("====================================");
+  };
+
+  useEffect(() => {
+    leaderBoard();
+  }, []);
 
   return (
     <div className="earn_div">
@@ -269,81 +294,64 @@ const Earn = () => {
               </div>
             </div>
             <div className="earn_div_section1_area2">
-              <div className="earn_div_section1_area2_area_card1">
-                <div className="earn_div_section1_area2_area_card1_title">
-                  24h Points
-                </div>
-                <div className="earn_div_section1_area2_cont_area">
-                  <div className="earn_div_section1_area2_cont_area_1">
-                    <div className="earn_div_section1_area2_para">Points</div>
-                    <div className="earn_div_section1_area2_amount">
-                      {parseFloat(user24hReward).toFixed(4)}
-                      <span className="earn_div_section1_area2_amount_span">
-                        pts
-                      </span>{" "}
+              <div className="earn_div_section1_area2_area">
+                <div className="earn_div_section1_area2_area_cont1">
+                  <div className="earn_div_section1_area2_area_div1">
+                    <div className="earn_div_section1_area2_area_div1_title">
+                      Points
+                    </div>
+                    <div className="earn_div_section1_area2_area_div1_amount">
+                      {formatNumber(parseFloat(userReward).toFixed(2))}
+                    </div>
+                  </div>
+                  <div className="earn_div_section1_area2_area_div2">
+                    <div className="earn_div_section1_area2_area_div1_title">
+                      Volume
+                    </div>
+                    <div className="earn_div_section1_area2_area_div1_amount">
+                      ${formatNumber(parseFloat(userVolume).toFixed(2))}
                     </div>
                   </div>
                 </div>
-                <div className="earn_div_section1_area2_btns">
+                <div className="earn_div_section1_area2_area_btn_div">
                   <button
-                    className="earn_div_section1_area2_btns_btn2"
+                    className="earn_div_section1_area2_area_btn"
                     onClick={ToggleRedeemModal}
-                    disabled={redeemModal}
                   >
-                    {redeemModal ? (
-                      <>
-                        loading <ClipLoader color="#717171" size={10} />
-                      </>
-                    ) : (
-                      <>Redeem</>
-                    )}
+                    Redeem
                   </button>
                 </div>
               </div>
-              <div className="earn_div_section1_area2_area_card1">
-                <div className="earn_div_section1_area2_area_card1_title">
-                  24h Volume
-                </div>
-                <div className="earn_div_section1_area2_cont_area">
-                  <div className="earn_div_section1_area2_cont_area_1">
-                    <div className="earn_div_section1_area2_para">Volume</div>
-                    <div className="earn_div_section1_area2_amount">
-                      {parseFloat(user24hVolume).toFixed(4)}
-                      <span className="earn_div_section1_area2_amount_span">
-                        vol
-                      </span>{" "}
+              <div className="earn_div_section1_area2_area2">
+                <div className="earn_div_section1_area2_area_card1">
+                  <div className="earn_div_section1_area2_area_card1_title">
+                    All Time Points
+                  </div>
+                  <div className="earn_div_section1_area2_cont_area">
+                    <div className="earn_div_section1_area2_cont_area_1">
+                      <div className="earn_div_section1_area2_para">Points</div>
+                      <div className="earn_div_section1_area2_amount">
+                        {formatNumber(parseFloat(userAllReward).toFixed(2))}
+                        <span className="earn_div_section1_area2_amount_span">
+                          pts
+                        </span>{" "}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="earn_div_section1_area2_area_card1">
-                <div className="earn_div_section1_area2_area_card1_title">
-                  Total Points
-                </div>
-                <div className="earn_div_section1_area2_cont_area">
-                  <div className="earn_div_section1_area2_cont_area_1">
-                    <div className="earn_div_section1_area2_para">Points</div>
-                    <div className="earn_div_section1_area2_amount">
-                      0.00
-                      <span className="earn_div_section1_area2_amount_span">
-                        pts
-                      </span>{" "}
-                    </div>
+                <div className="earn_div_section1_area2_area_card1">
+                  <div className="earn_div_section1_area2_area_card1_title">
+                    All Time Volume
                   </div>
-                </div>
-              </div>
-              <div className="earn_div_section1_area2_area_card1">
-                <div className="earn_div_section1_area2_area_card1_title">
-                  Total Volume
-                </div>
-                <div className="earn_div_section1_area2_cont_area">
-                  <div className="earn_div_section1_area2_cont_area_1">
-                    <div className="earn_div_section1_area2_para">Volume</div>
-                    <div className="earn_div_section1_area2_amount">
-                      0.00
-                      <span className="earn_div_section1_area2_amount_span">
-                        vol
-                      </span>{" "}
+                  <div className="earn_div_section1_area2_cont_area">
+                    <div className="earn_div_section1_area2_cont_area_1">
+                      <div className="earn_div_section1_area2_para">Volume</div>
+                      <div className="earn_div_section1_area2_amount">
+                        ${formatNumber(parseFloat(userAllVolume).toFixed(2))}
+                        <span className="earn_div_section1_area2_amount_span">
+                          vol
+                        </span>{" "}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -463,38 +471,64 @@ const Earn = () => {
                   Total Volume
                 </div>
                 <div className="earn_div_section2_area2_area_header_cont3">
-                  Egax Rewards
-                </div>
-                <div className="earn_div_section2_area2_area_header_cont3">
-                  Plt Rewards
+                  Total Points
                 </div>
               </div>
               <div className="earn_div_section2_area2_area_body">
-                {referralLeaderBoard
-                  .slice(0, itemsToShow)
-                  .sort((a, b) => b.points - a.points)
+                {leaderBoardArray
+                  ?.slice(0, itemsToShow)
+                  .sort((a, b) => b.plt_points - a.plt_points)
                   .map((data, index) => (
                     <div className="earn_div_section2_area2_area_body_cont1">
                       <div className="earn_div_section2_area2_area_body_cont1_div1">
-                        <span className="earn_div_section2_area2_area_body_cont1_div1_position">
-                          1st
-                        </span>{" "}
-                        @0x3de...5634
+                        <div className="LeaderBoardDiv_1_body_cont_body_div_cont_first">
+                          {index == 0 ? (
+                            <MilitaryTechIcon
+                              style={{ color: "#e0ac01" }}
+                              className="rewardTable_body_row_data_first_icon"
+                            />
+                          ) : index == 1 ? (
+                            <MilitaryTechIcon
+                              style={{ color: "#C0C0C0" }}
+                              className="rewardTable_body_row_data_first_icon"
+                            />
+                          ) : index == 2 ? (
+                            <MilitaryTechIcon
+                              style={{ color: "#CD7F32" }}
+                              className="rewardTable_body_row_data_first_icon"
+                            />
+                          ) : (
+                            <MilitaryTechIcon
+                              style={{ color: "#6a8179" }}
+                              className="rewardTable_body_row_data_first_icon"
+                            />
+                          )}
+                          {index + 1}
+                        </div>
+                        <Blockies
+                          seed={data.wallet_address}
+                          size={5}
+                          scale={4}
+                          className="blockies_icon"
+                        />
+                        {`${data.wallet_address.slice(
+                          0,
+                          5
+                        )}...${data.wallet_address.slice(37, 40)}`}
                       </div>
                       <div className="earn_div_section2_area2_area_body_cont1_div2">
-                        100,000 Egod
+                        ${formatNumber(parseFloat(data.totalVolume).toFixed(2))}{" "}
+                        vol
                       </div>
                       <div className="earn_div_section2_area2_area_body_cont1_div_last">
-                        100 egax
-                      </div>
-                      <div className="earn_div_section2_area2_area_body_cont1_div_last">
-                        100,000 plt
+                        {formatNumber(parseFloat(data.plt_points).toFixed(2))}{" "}
+                        pts
                       </div>
                     </div>
                   ))}
               </div>
             </div>
-            {itemsToShow < referralLeaderBoard.length && (
+            {itemsToShow < leaderBoardArray.length && (
               <button
                 className="depositDiv_cont4_btn"
                 onClick={displayNextItems}
@@ -514,105 +548,6 @@ const Earn = () => {
           {/* ====== */}
           {/* ====== */}
           {/* ====== */}
-          <div className="earn_div_section2_area3">
-            <div className="homeDiv_section2_area_head">
-              {/* <div className="homeDiv_section2_area_head_tag">FAQ</div> */}
-              <div className="homeDiv_section2_area_head_title">
-                Frequently Asked Questions
-              </div>
-              {/* <div className="homeDiv_section2_area_head_txt">
-                Why should control mean slow & complex?
-              </div> */}
-            </div>
-            <div className="homeDiv_section6_area_body">
-              <details className="newHome_div_section7_area_body_accordion_body">
-                <summary className="baccordion_title">
-                  What is tokenization?
-                </summary>
-                <div className="accordion_body">
-                  <div className="accordion_body_cont1">
-                    Tokenization is the process of converting rights to an asset
-                    into a digital token on a blockchain. This allows for the
-                    secure, transparent, and decentralized ownership and
-                    transfer of assets.
-                  </div>
-                </div>
-              </details>
-              <details className="newHome_div_section7_area_body_accordion_body">
-                <summary className="baccordion_title">What is EGAX?</summary>
-                <div className="accordion_body">
-                  <div className="accordion_body_cont1">
-                    $EGAX Coin is the native utility token of the Egochain
-                    blockchain, serving a crucial role within the Egochain
-                    ecosystem. Holders of $EGAX can utilize the token to access
-                    the Egochain suite, settle transactions on the network, and
-                    participate in governance through voting. Additionally, on
-                    the Egochain, $EGAX can be used to mint EgoUSD. This enables
-                    users to acquire Egoras physical products and gain
-                    fractional ownership of tokenized assets. Alternatively,
-                    users may stake their $EGAX with validators to help secure
-                    the Egochain network.
-                  </div>
-                </div>
-              </details>
-              <details className="newHome_div_section7_area_body_accordion_body">
-                <summary className="baccordion_title">What is EgoUSD?</summary>
-                <div className="accordion_body">
-                  <div className="accordion_body_cont1">
-                    EgoUSD is Egoras’s premier stablecoin, built on the
-                    Egochain. It is the second most significant product in the
-                    Egochain ecosystem and is crucial to the success of the
-                    Egomart platform. In essence, EgoUSD will serve as the
-                    backbone of the Egomart ecosystem. All EgoUSD tokens will be
-                    distributed to bonders for their necessary needs and
-                    actions.
-                  </div>
-                </div>
-              </details>
-              <details className="newHome_div_section7_area_body_accordion_body">
-                <summary className="baccordion_title">
-                  What is the total Supply of $EGAX?
-                </summary>
-                <div className="accordion_body">
-                  <div className="accordion_body_cont1">
-                    The total supply of Egochain Coin is fixed at 10,000,000
-                    $EGAX (ten million) to ensure scarcity. The tokens will be
-                    released in vested phases and will be fully vested over a
-                    period of 20 years.
-                  </div>
-                </div>
-              </details>
-              <details className="newHome_div_section7_area_body_accordion_body">
-                <summary className="baccordion_title">
-                  What Tokenized Assets Can Be Traded on Egomart?
-                </summary>
-                <div className="accordion_body">
-                  <div className="accordion_body_cont1">
-                    On Egomart, tokenized assets represent ownership of
-                    real-world assets (RWAs) such as real estate, physical
-                    properties, artwork, collectibles, and other valuable items.
-                    Through our Egochain blockchain, Egomart offers a unique and
-                    tamper-proof method of verifying ownership of these assets,
-                    facilitating easier, decentralized, and transparent buying,
-                    selling, and trading.
-                  </div>
-                </div>
-              </details>
-              <details className="newHome_div_section7_area_body_accordion_body">
-                <summary className="baccordion_title">
-                  Who Built Egochain?
-                </summary>
-                <div className="accordion_body">
-                  <div className="accordion_body_cont1">
-                    Egochain was developed by Egoras, a clean-tech pioneer with
-                    over 400 employees. Founded in 2018, Egoras aims to drive a
-                    large-scale shift towards sustainable energy in emerging
-                    markets.
-                  </div>
-                </div>
-              </details>
-            </div>
-          </div>
         </div>
       </section>
       {/* ==== */}
@@ -624,11 +559,11 @@ const Earn = () => {
       <section className="earn_div_section3">
         <div className="earn_div_section3_container">
           <div className="earn_div_section3_area">
-            <img
+            {/* <img
               src="/img/earn_sec3_img.webp"
               alt=""
               className="earn_div_section3_area_img"
-            />
+            /> */}
             <div className="earn_div_section3_area_title">
               Join the new Ethereum ecosystem. Be a part of crypto history.
             </div>

@@ -355,6 +355,12 @@
   margin-top: 5px;
   font-weight: 600;
 }
+.history_body {
+  width: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+}
+
 @media (max-width: 990px) {
   .PortfolioDiv_1 {
     display: none;
@@ -460,6 +466,7 @@
   .exPortoflioOverviewDiv_3_body_head_cont1_last {
     width: 200px;
     /* display: none; */
+    margin-left: 100px;
   }
   .exPortoflioOverviewDiv_3_body_cont {
     display: flex;
@@ -485,6 +492,7 @@
     align-items: center;
     width: 200px;
     justify-content: flex-end;
+    margin-left: 100px;
   }
   .exPortoflioOverviewDiv_3_body_cont_last_btn1 {
     width: 100%;
@@ -496,6 +504,9 @@
     cursor: pointer;
     border-radius: 5px;
     border: none;
+    margin-right: 5px;
+  }
+  .overview_link_trade {
     margin-right: 5px;
   }
   .exPortoflioOverviewDiv_3_body_cont_last_btn2 {
@@ -520,5 +531,17 @@
   .exPortoflioOverviewDiv_1_cont2 {
     display: flex;
     width: -webkit-fill-available;
+  }
+  .exPortoflioOverviewDiv_3_body_cont_last_btn3 {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    margin-left: 5px;
   }
 }

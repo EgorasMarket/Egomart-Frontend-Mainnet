@@ -12,7 +12,7 @@ import {
 import { DECIMAL_COUNT } from "../../../../../constants/config";
 import { numberWithCommas } from "../../../../../assets/js/numberWithCommas";
 
-const MobileOrderBook = ({ current }) => {
+const MobileOrderBook = ({ current, onPriceUpdate }) => {
   const dispatch = useDispatch();
   useEffect(() => {}, [current]);
   const { orders } = useSelector((state) => state.orders);
@@ -63,7 +63,7 @@ const MobileOrderBook = ({ current }) => {
       (order) =>
         order.type === "BUY" &&
         order.status === "OPEN" &&
-        order?.ticker === current?.pair
+        order?.ticker === current?.ticker
     )
     .reduce((acc, item) => {
       const price = item.price;
@@ -78,7 +78,7 @@ const MobileOrderBook = ({ current }) => {
       (order) =>
         order.type === "SELL" &&
         order.status === "OPEN" &&
-        order?.ticker === current?.pair
+        order?.ticker === current?.ticker
     )
     .reduce((acc, item) => {
       const price = item.price;
@@ -129,7 +129,7 @@ const MobileOrderBook = ({ current }) => {
           {filledBuyOffers.map((data, index) => {
             const widthPercentage =
               data.amount !== "--"
-                ? numberWithCommas((parseInt(data?.amount) / maxAmount) * 100)
+                ? (parseInt(data?.amount) / maxAmount) * 100
                 : 0;
 
             return (
@@ -137,6 +137,14 @@ const MobileOrderBook = ({ current }) => {
                 className="walletSelectModalDiv_body_amount_display"
                 id={data.id || `placeholder-${index}`} // Provide unique key for placeholders
                 key={data.id || `placeholder-${index}`}
+                onClick={() => {
+                  if (data.price !== "--") {
+                    onPriceUpdate(
+                      parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                    );
+                    return;
+                  }
+                }}
               >
                 <div className="walletSelectModalDiv_body_amount_display_cont1">
                   {data.amount !== "--"
@@ -172,9 +180,7 @@ const MobileOrderBook = ({ current }) => {
           {filledSellOffers.map((data, index) => {
             const widthPercentage =
               data.amount !== "--"
-                ? numberWithCommas(
-                    (parseInt(data?.amount) / maxSellAmount) * 100
-                  )
+                ? (parseInt(data?.amount) / maxSellAmount) * 100
                 : 0;
 
             return (
@@ -182,6 +188,14 @@ const MobileOrderBook = ({ current }) => {
                 className="walletSelectModalDiv_body_amount_display"
                 id={data.id || `placeholder-${index}`} // Provide unique key for placeholders
                 key={data.id || `placeholder-${index}`}
+                onClick={() => {
+                  if (data.price !== "--") {
+                    onPriceUpdate(
+                      parseFloat(data?.price).toFixed(DECIMAL_COUNT)
+                    );
+                    return;
+                  }
+                }}
               >
                 <div
                   className="walletSelectModalDiv_body_amount_display_cont1"
