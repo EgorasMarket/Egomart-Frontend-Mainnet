@@ -26,7 +26,6 @@ import Home from "./Pages/Home/Home.jsx";
 import Earn from "./Exchange/ExchangePages/Earn/Earn.jsx";
 import Bond from "./Exchange/ExchangePages/Bond/Bond.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Web3Provider } from "./constants/Web3Provider.jsx";
 const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {},
@@ -61,11 +60,11 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Web3Provider>
+        <Web3ModalProvider>
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
           </QueryClientProvider>
-        </Web3Provider>
+        </Web3ModalProvider>
       </PersistGate>
     </Provider>
   </StrictMode>
