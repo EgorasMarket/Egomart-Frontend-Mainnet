@@ -14,9 +14,9 @@ const projectId = "1c555d0869221d338c8431bde08d195b";
 // 2. Create wagmiConfig
 const metadata = {
   name: "Egomart Exchange",
-  description: "AppKit Example",
-  url: "https://reown.com/appkit", // origin must match your domain & subdomain
-  icons: ["https://assets.reown.com/reown-profile-pic.png"],
+  description: "Decentralized Trading Reimagined",
+  url: "https://app.egomart.org", // origin must match your domain & subdomain
+  icons: ["https://app.egomart.org/egomart_logo.png"],
 };
 
 const egochain = {
@@ -39,10 +39,10 @@ const egochain = {
       url: "https://egoscan.io/",
     },
   },
-  iconUrls: ["https://app.egomart.org/img/egax_logo.png"], // Replace with actual icon URL
+  iconUrls: ["https://www.egochain.org/img/egax_logo.png"], // Replace with actual icon URL
 };
 
-const chains = [egochain];
+const chains = [evmos, egochain];
 const config = defaultWagmiConfig({
   chains,
   projectId,
