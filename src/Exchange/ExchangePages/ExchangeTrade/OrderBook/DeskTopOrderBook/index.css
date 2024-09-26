@@ -324,7 +324,7 @@ text.recharts-text tspan {
 @media (max-width: 990px) {
   .walletSelectModalDiv_body_amount_display_cont1:first-child {
     justify-content: flex-start;
-    margin-left: 0 !important;
+    /* margin-left: 0 !important; */
   }
   .walletSelectModalDiv_body_amount_display {
     flex-direction: row;

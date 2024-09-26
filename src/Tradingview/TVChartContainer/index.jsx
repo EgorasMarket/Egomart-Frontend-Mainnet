@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { widget } from "/charting_library-master/charting_library";
 import "./index.css";
 import { theme } from "antd";
-let paths = window.location.pathname.split("/");
+
 function getLanguageFromURL() {
   const regex = new RegExp("[\\?&]lang=([^&#]*)");
   const results = regex.exec(window.location.search);
@@ -12,10 +12,10 @@ function getLanguageFromURL() {
     : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-export const TVChartContainer = () => {
+export const TVChartContainer = ({ ticker }) => {
   const chartContainerRef = useRef();
   const defaultProps = {
-    symbol: paths[paths.length - 1],
+    symbol: ticker,
     interval: "60",
     datafeedUrl: "https://sandboxbcd.egodeo.org/tradingview",
     libraryPath: "/charting_library-master/charting_library/",
@@ -29,6 +29,7 @@ export const TVChartContainer = () => {
   };
 
   useEffect(() => {
+    console.log(ticker);
     const widgetOptions = {
       ticker: defaultProps.symbol,
       symbol: defaultProps.symbol,
@@ -84,7 +85,7 @@ export const TVChartContainer = () => {
     return () => {
       tvWidget.remove();
     };
-  }, []);
+  }, [ticker]);
 
   return <div ref={chartContainerRef} className={"TVChartContainer"} />;
 };

@@ -511,14 +511,7 @@ const ExchangeTrade = () => {
               )}
             </div>
           </div>
-          <div className="ExchangeTrade_div1_mobile_div2_cont1">
-            <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
-              24h Vol ({ticker.split("-")[0]})
-            </div>
-            <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
-              {numberWithCommas(parseFloat(currentMarket?.volume24h || 0))}
-            </div>
-          </div>
+
           <div className="ExchangeTrade_div1_mobile_div2_cont1">
             <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
               24h Low
@@ -590,7 +583,7 @@ const ExchangeTrade = () => {
           </div>
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTab === "price" ? (
-              <TVChartContainer />
+              <TVChartContainer ticker={ticker} />
             ) : // <TradingChart />
             activeTab === "depth" ? (
               <MarketDepth current={currentMarket} />

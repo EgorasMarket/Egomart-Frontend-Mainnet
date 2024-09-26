@@ -477,6 +477,7 @@
     display: flex;
     justify-content: space-between;
     padding: 5px;
+    align-items: center;
   }
   .ExchangeTrade_div1_mobile_div1 {
     display: flex;
@@ -498,8 +499,8 @@
   .ExchangeTrade_div1_mobile_div1_price {
     display: flex;
     flex-direction: column;
-    font-size: 20px;
-    font-weight: 900;
+    font-size: 22px;
+    font-weight: 700;
     color: #12b66f;
   }
   .ExchangeTrade_div1_mobile_div1_price_span {
@@ -517,9 +518,9 @@
   .ExchangeTrade_div1_mobile_div2 {
     display: grid;
     /* grid-gap: 10px; */
-    gap: 0px;
+    gap: 2px;
     width: 60%;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
   svg.text-negative {
     margin-right: 3px !important;
@@ -529,9 +530,10 @@
   }
   .ExchangeTrade_div1_mobile_div2_cont1 {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     /* width: 20%; */
     text-wrap: nowrap;
+    justify-content: space-between;
   }
   .ExchangeTrade_div1_mobile_div2_cont1_title {
     display: flex;
@@ -540,7 +542,7 @@
     color: grey;
   }
   .ExchangeTrade_div1_mobile_div2_cont1_para {
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 600;
   }
   .ExchangeTrade_div1_cont1 {
