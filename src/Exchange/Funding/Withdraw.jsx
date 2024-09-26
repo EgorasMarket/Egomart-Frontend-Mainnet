@@ -26,7 +26,7 @@ import {
 
 export const AssetItem = ({ asset, address, selectAsset }) => {
   const nullAddress = "0x0000000000000000000000000000000000000000";
-  const balance =
+  const { balance } =
     asset.tokenSymbol === "EGAX"
       ? useFetchBalance(nullAddress)
       : useFetchBalance(asset.tokenAddress);

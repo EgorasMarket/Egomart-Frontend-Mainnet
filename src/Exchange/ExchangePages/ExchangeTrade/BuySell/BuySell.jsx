@@ -48,15 +48,19 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const [buyOffersArr, setBuyOffersArr] = useState([]);
   const [balanceOf, setBalance] = useState(0);
   const [total_sum, setTotalSum] = useState(0);
+  const [dummyValue, setDummyValue] = useState("");
 
-  const aa = useFetchBalance(
+  const {
+    balance,
+    error: balanceError,
+    loading: balanceLoading,
+    refetch,
+  } = useFetchBalance(
     activeBtn === "buy" ? payload?.tickerB : payload?.tickerA
   );
   useEffect(() => {
     console.log("refreshing");
-    // const aa = useFetchBalance(
-    //   activeBtn === "buy" ? payload?.tickerB : payload?.tickerA
-    // );
+    refetch();
   }, [hash]);
 
   console.log("====================================");
@@ -92,12 +96,12 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
 
     if (selectedValue === "Limit" && activeBtn === "buy") {
       setTotalSum(
-        parseFloat(((value === 100 ? 99.9 : value) / 100) * aa).toFixed(3)
+        parseFloat(((value === 100 ? 99.9 : value) / 100) * balance).toFixed(3)
       );
       setAmount(
         parseFloat(
           parseFloat(
-            ((value === 100 ? 99.9 : value) / 100 / parseFloat(price)) * aa
+            ((value === 100 ? 99.9 : value) / 100 / parseFloat(price)) * balance
           )
         ).toFixed(3)
       );
@@ -106,11 +110,11 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     setTotalSum(
       parseFloat(
         parseFloat(price) *
-          parseFloat(((value === 100 ? 99.9 : value) / 100) * aa)
+          parseFloat(((value === 100 ? 99.9 : value) / 100) * balance)
       ).toFixed(3)
     );
     setAmount(
-      parseFloat(((value === 100 ? 99.9 : value) / 100) * aa).toFixed(3)
+      parseFloat(((value === 100 ? 99.9 : value) / 100) * balance).toFixed(3)
     );
   };
 
@@ -349,7 +353,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
               Avbl
             </div>
             <div className="buy_modal_div_div1_cont1_body_cont1_head1_txt2">
-              {aa}
+              {balanceLoading ? "--" : balance}
               {activeBtn === "buy"
                 ? payload?.ticker?.split("-")[1]
                 : payload?.ticker?.split("-")[0]}

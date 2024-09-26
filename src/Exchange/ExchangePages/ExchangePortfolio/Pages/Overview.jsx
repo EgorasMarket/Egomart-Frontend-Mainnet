@@ -23,7 +23,7 @@ import { format } from "date-fns";
 export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
   const nullAddress = "0x0000000000000000000000000000000000000000";
 
-  const balance =
+  const { balance, error, loading } =
     data.tokenSymbol === "EGAX"
       ? useFetchBalance(nullAddress)
       : useFetchBalance(data?.tokenAddress);
