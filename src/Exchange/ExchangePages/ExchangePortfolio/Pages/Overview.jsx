@@ -20,14 +20,17 @@ import { useAccount, useBalance } from "wagmi";
 import { GET_USER_DEPOSIT_WITHDRAW } from "../../../../services/trade.services";
 import { format } from "date-fns";
 
-export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
-  const nullAddress = "0x0000000000000000000000000000000000000000";
-
-  const balance =
-    data.tokenSymbol === "EGAX"
-      ? useFetchBalance(nullAddress)
-      : useFetchBalance(data?.tokenAddress);
-
+export const AssetItem = ({
+  data,
+  openDepositModal,
+  openWithdrawModal,
+  balance,
+  usdBalance,
+}) => {
+  const [redeemModal, setRedeemModal] = useState(false);
+  const ToggleRedeemModal = () => {
+    setRedeemModal(!redeemModal);
+  };
   return (
     <div className="exPortoflioOverviewDiv_3_body_cont_div">
       <div className="exPortoflioOverviewDiv_3_body_cont_1">
@@ -41,12 +44,17 @@ export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
       <div className="exPortoflioOverviewDiv_3_body_cont_1">
         {parseFloat(balance).toFixed(4)}
       </div>
-      <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
+      <div className="exPortoflioOverviewDiv_3_body_cont_1">
+        ${parseFloat(usdBalance).toFixed(4)}
+      </div>
       {/* <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
       <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div> */}
       <div className="exPortoflioOverviewDiv_3_body_cont_last">
         {data.tokenSymbol === "EGOD" ? null : (
-          <Link to={`/app/trade/spot/${data.tokenSymbol}-EGOD`}>
+          <Link
+            to={`/app/trade/spot/${data.tokenSymbol}-EGOD`}
+            className="overview_link_trade"
+          >
             <button
               className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
               // onClick={openDepositModal}
@@ -68,17 +76,82 @@ export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
         >
           Withdraw
         </button>
-        {data.tag === "erc404" && (
-          <button className="exPortoflioOverviewDiv_3_body_cont_last_btn3">
+        {data.tokenSymbol === "ETRI" && (
+          <button
+            className="exPortoflioOverviewDiv_3_body_cont_last_btn3"
+            onClick={ToggleRedeemModal}
+          >
             Redeem
           </button>
         )}
       </div>
+      <Modal
+        isOpen={redeemModal}
+        closeModal={ToggleRedeemModal}
+        title={"Redeem"}
+      >
+        <div className="redeemModal_div">
+          <div className="redeemModal_div_1">
+            <div className="redeemModal_div_1_title">Available balance</div>
+            <div className="redeemModal_div_1_body">
+              <div className="redeemModal_div_1_body_cont1">
+                <img
+                  src="/img/pluto_swap_icon.png"
+                  alt=""
+                  className="redeemModal_div_1_body_cont1_img"
+                />
+                {data.tokenSymbol}
+              </div>
+              <div className="redeemModal_div_1_body_cont2">{balance}</div>
+            </div>
+          </div>
+          <div className="redeemModal_div_1">
+            <div className="redeemModal_div_1_title">Redeemable</div>
+            <div className="redeemModal_div_1_body">
+              <div className="redeemModal_div_1_body_cont1">
+                <img
+                  src="/img/egax_logo.png"
+                  alt=""
+                  className="redeemModal_div_1_body_cont1_img"
+                />
+                {data.tokenSymbol} (RWA)
+              </div>
+              <div className="redeemModal_div_1_body_cont2">0</div>
+            </div>
+          </div>
+          <div
+            className="ratio_span"
+            style={{ fontSize: "12px", marginBottom: "10px" }}
+          >
+            10,000 {data.tokenSymbol} = 1 {data.tokenSymbol} (RWA)
+          </div>
+          {/* <div className="redeemModal_div_1">
+            <div className="redeemModal_div_1_title">Destination Wallet</div>
+            <div className="redeemModal_div_1_body">
+              <div
+                className="redeemModal_div_1_body_cont2_input
+              "
+              >
+                0xa5ff0Fd1a84D004649E97b465779499546654feD
+              </div>
+            </div>
+          </div> */}
+
+          <button
+            className="depositDiv_cont4_btn"
+            // onClick={claimRewardFunc}
+            // disabled={isLoading2 ? true : false}
+          >
+            Redeem
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };
 
 const Overview = () => {
+  const { tickers } = useSelector((state) => state.pairs);
   const { assets } = useSelector((state) => state.assets);
   const { address } = useAccount();
   const [deposit, setDeposit] = useState(false);
@@ -87,7 +160,8 @@ const Overview = () => {
   const [withdraw, setWithdraw] = useState(false);
   const [selectedSymbol, setSelectedSymbol] = useState(null);
   const [history, setHistory] = useState([]);
-
+  const [totalBalance, setTotalBalance] = useState(0);
+  const nullAddress = "0x0000000000000000000000000000000000000000";
   function formatDate(dateString) {
     const date = new Date(dateString);
     return format(date, "MMM do, yyyy / h:mm aaa");
@@ -115,75 +189,6 @@ const Overview = () => {
       return;
     }
   }, [address]);
-
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-  ];
 
   const closeDepositModal = () => {
     setDeposit(false);
@@ -216,6 +221,21 @@ const Overview = () => {
   console.log(assets[0][0]);
 
   useUserLockedFunds();
+
+  let arrayyy = [];
+
+  useEffect(() => {
+    if (arrayyy.length > 0) {
+      setTotalBalance(
+        arrayyy.reduce((acc, currentValue) => acc + currentValue, 0)
+      );
+    } else {
+      setTotalBalance(0);
+    }
+  }, [arrayyy]);
+
+  console.log(totalBalance, "totalBalance");
+
   return (
     <div className="exPortoflioOverviewDiv">
       <div className="exPortoflioOverviewDiv_1">
@@ -239,14 +259,18 @@ const Overview = () => {
         <div className="exPortoflioOverviewDiv_2_div1">
           <div className="exPortoflioOverviewDiv_2_div1_area1">
             <div className="exPortoflioOverviewDiv_2_div1_cont1">Account</div>
-            <div className="exPortoflioOverviewDiv_2_div1_cont2">$0.00</div>
-            <div className="exPortoflioOverviewDiv_2_div1_cont3">$0.00</div>
+            <div className="exPortoflioOverviewDiv_2_div1_cont2">
+              ${parseFloat(totalBalance).toFixed(4)}
+            </div>
+            <div className="exPortoflioOverviewDiv_2_div1_cont3">
+              ${parseFloat(totalBalance).toFixed(4)}
+            </div>
           </div>
           <div className="exPortoflioOverviewDiv_2_div1_cont4">
             <div className="exPortoflioOverviewDiv_2_div1_cont4_div1">
               Details
             </div>
-            <div className="exPortoflioOverviewDiv_2_div1_cont4_div2">
+            {/* <div className="exPortoflioOverviewDiv_2_div1_cont4_div2">
               {/* <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div1">
                   Funds Available
@@ -255,15 +279,15 @@ const Overview = () => {
                   $0.0
                 </div>
               </div> */}
-              <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
+            {/* <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div1">
                   Total Funds
                 </div>
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div2">
                   $0.0
                 </div>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
             <div className="exPortoflioOverviewDiv_2_div1_cont4_div3">
               <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div1">
@@ -345,18 +369,43 @@ const Overview = () => {
             <div className="exPortoflioOverviewDiv_3_body_head_cont1_last"></div>
           </div>
           <div className="exPortoflioOverviewDiv_3_body_cont">
-            {assets[0]?.map((data) => (
-              <AssetItem
-                key={data.id}
-                data={data}
-                openDepositModal={() => {
-                  openDepositModalUnique(data.tokenSymbol);
-                }}
-                openWithdrawModal={() => {
-                  openWithdrawModalUnique(data.tokenSymbol);
-                }}
-              />
-            ))}
+            {assets[0]?.map((data) => {
+              console.log(data);
+              const balance =
+                data.tokenSymbol === "EGAX"
+                  ? useFetchBalance(nullAddress)
+                  : useFetchBalance(data?.tokenAddress);
+
+              const matchedTicker = tickers.find(
+                (tickerItem) =>
+                  tickerItem.ticker.split("-")[0] === data.tokenSymbol
+              );
+              console.log(matchedTicker);
+              // arrayyy.push(matchedTicker ? matchedTicker : data);
+              // console.log(arrayyy);
+              const usdBal =
+                matchedTicker?.ticker?.split("-")[0] === data?.tokenSymbol
+                  ? parseFloat(matchedTicker?.close24h) * parseFloat(balance)
+                  : balance;
+
+              arrayyy.push(usdBal);
+              console.log(arrayyy);
+
+              return (
+                <AssetItem
+                  key={data.id}
+                  data={data}
+                  openDepositModal={() => {
+                    openDepositModalUnique(data.tokenSymbol);
+                  }}
+                  openWithdrawModal={() => {
+                    openWithdrawModalUnique(data.tokenSymbol);
+                  }}
+                  balance={balance}
+                  usdBalance={usdBal}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

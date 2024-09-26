@@ -29,6 +29,7 @@ import { GET_24_HOUR_VOLUME } from "../../../services/trade.services";
 // import { updateTicker } from "../../../features/PairsSlice";
 import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
 import { numberWithCommas } from "../../../assets/js/numberWithCommas";
+import { TVChartContainer } from "../../../Tradingview/TVChartContainer";
 import useFetchBalance from "../../../hooks/useFetchBalance";
 
 const ExchangeTrade = () => {
@@ -510,14 +511,7 @@ const ExchangeTrade = () => {
               )}
             </div>
           </div>
-          <div className="ExchangeTrade_div1_mobile_div2_cont1">
-            <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
-              24h Vol ({ticker.split("-")[0]})
-            </div>
-            <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
-              {numberWithCommas(parseFloat(currentMarket?.volume24h || 0))}
-            </div>
-          </div>
+
           <div className="ExchangeTrade_div1_mobile_div2_cont1">
             <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
               24h Low
@@ -589,8 +583,9 @@ const ExchangeTrade = () => {
           </div>
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTab === "price" ? (
-              <TradingChart />
-            ) : activeTab === "depth" ? (
+              <TVChartContainer ticker={ticker} />
+            ) : // <TradingChart />
+            activeTab === "depth" ? (
               <MarketDepth current={currentMarket} />
             ) : (
               <TokenDetail payload={currentMarket} />
