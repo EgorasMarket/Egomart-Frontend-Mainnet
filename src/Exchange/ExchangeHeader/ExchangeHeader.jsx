@@ -212,8 +212,9 @@ const ExchangeHeader = () => {
           </div>
           <div className="exchangeHeader_div2">
             <w3m-button size="sm" />
+            <w3m-connect-button />
+            <w3m-account-button />
             {/* <div className="exchangeHeader_mobile_btn"> */}
-
             {mobileDrop ? (
               <Cancel01Icon
                 className="exchangeHeader_mobile_btn_icon"
@@ -227,7 +228,6 @@ const ExchangeHeader = () => {
                 onClick={toggleMobileDrop}
               />
             )}
-
             {/* </div> */}
           </div>
         </div>
