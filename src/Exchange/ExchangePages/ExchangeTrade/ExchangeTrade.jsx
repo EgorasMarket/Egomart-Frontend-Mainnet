@@ -29,6 +29,7 @@ import { GET_24_HOUR_VOLUME } from "../../../services/trade.services";
 import { updateTicker } from "../../../features/PairsSlice";
 import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
 import { numberWithCommas } from "../../../assets/js/numberWithCommas";
+import { TVChartContainer } from "../../../Tradingview/TVChartContainer";
 
 const ExchangeTrade = () => {
   const dispatch = useDispatch();
@@ -562,7 +563,8 @@ const ExchangeTrade = () => {
           </div>
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTab === "price" ? (
-              <TradingChart />
+              <TVChartContainer />
+              // <TradingChart />
             ) : activeTab === "depth" ? (
               <MarketDepth current={currentMarket} />
             ) : (
