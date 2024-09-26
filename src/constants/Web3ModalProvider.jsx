@@ -1,7 +1,7 @@
 import React from "react";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
-import { createConfig, http, WagmiProvider } from "wagmi";
+import { WagmiProvider } from "wagmi";
 import { arbitrum, mainnet, evmos } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -9,14 +9,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 // 1. Get projectId at https://cloud.walletconnect.com
-const projectId = "1c555d0869221d338c8431bde08d195b";
+const projectId = "26b519d3d86aff8b0e36552c4c170ce8";
 
 // 2. Create wagmiConfig
 const metadata = {
-  name: "Egomart Exchange",
-  description: "EgomartExchange",
-  url: "https://app.egomart.org", // origin must match your domain & subdomain
-  icons: ["https://app.egomart.org/egomart_logo.png"],
+  name: "EgochainFarming",
+  description: "EgochainFarming",
+  url: "https://egochain.org", // origin must match your domain & subdomain
+  icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
 const egochain = {
@@ -39,26 +39,16 @@ const egochain = {
       url: "https://egoscan.io/",
     },
   },
-  iconUrls: ["https://app.egomart.org/img/egax_logo.png"], // Replace with actual icon URL
+  iconUrls: ["https://www.egochain.org/img/egax_logo.png"], // Replace with actual icon URL
 };
 
 const chains = [mainnet, arbitrum, evmos, egochain];
-// const config = defaultWagmiConfig({
-//   chains,
-//   projectId,
-//   metadata,
-//   // Optional - Override createConfig parameters
-//   // ...wagmiOptions,
-// });
-
-const config = createConfig({
+const config = defaultWagmiConfig({
   chains,
-  transports: {
-    [mainnet.id]: http(),
-    // [sepolia.id]: http(),
-    [arbitrum.id]: http(),
-    [egochain.id]: http(),
-  },
+  projectId,
+  metadata,
+  // Optional - Override createConfig parameters
+  // ...wagmiOptions,
 });
 
 // 3. Create modal
