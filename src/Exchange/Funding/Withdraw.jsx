@@ -99,7 +99,7 @@ const Withdraw = ({ symbol }) => {
   //     // }
   //   }
   // }, [address, selectedAsset]);
-  const balance =
+  const { balance } =
     selectedAsset?.tokenSymbol === "EGAX"
       ? useFetchBalance(nullAddress)
       : useFetchBalance(selectedAsset?.tokenAddress);
@@ -170,14 +170,18 @@ const Withdraw = ({ symbol }) => {
   }, [withdrawError]);
 
   useEffect(() => {
-    if (symbol) {
-      const foundAsset = assets.find((asset) => asset.tokenSymbol === symbol);
-      if (foundAsset) {
-        setSelectedAsset(foundAsset);
+    if (symbol || assets) {
+      if (assets[0].length > 0) {
+        const foundAsset = assets[0].find(
+          (asset) => asset.tokenSymbol === symbol
+        );
+        if (foundAsset) {
+          console.log("Found asset:", foundAsset);
+          setSelectedAsset(foundAsset);
+        }
       }
-      return;
     }
-  }, [symbol]); // Empty dependency array ensures this runs only once
+  }, [symbol, assets]); // Empty dependency array ensures this runs only once
   return (
     <>
       <div className="depositDiv">

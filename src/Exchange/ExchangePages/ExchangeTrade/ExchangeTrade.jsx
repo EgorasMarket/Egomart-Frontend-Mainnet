@@ -29,6 +29,8 @@ import { GET_24_HOUR_VOLUME } from "../../../services/trade.services";
 // import { updateTicker } from "../../../features/PairsSlice";
 import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
 import { numberWithCommas } from "../../../assets/js/numberWithCommas";
+import { TVChartContainer } from "../../../Tradingview/TVChartContainer";
+import useFetchBalance from "../../../hooks/useFetchBalance";
 
 const ExchangeTrade = () => {
   const dispatch = useDispatch();
@@ -52,6 +54,7 @@ const ExchangeTrade = () => {
 
   const splitTicker = ticker?.split("-");
   console.log(splitTicker[0]);
+  console.log(splitTicker);
 
   // useEffect(() => {
   //   if (tickers.length > 0) {
@@ -172,6 +175,15 @@ const ExchangeTrade = () => {
     setPriceUpdate(parseFloat(price).toFixed(2));
   };
   // console.log(currentMarket);
+
+  const tickerABal =
+    parseFloat(
+      trades.find((obj) => obj.ticker === currentMarket?.ticker)?.price || 0
+    ).toFixed(2) * useFetchBalance(currentMarket?.tickerA);
+  const tickerBBal = useFetchBalance(currentMarket?.tickerB);
+  const totalBalance = tickerABal + tickerBBal;
+  console.log(currentMarket);
+  console.log(totalBalance);
   return (
     <div className="ExchangeTrade">
       <div className="ExchangeTrade_div1">
@@ -499,14 +511,7 @@ const ExchangeTrade = () => {
               )}
             </div>
           </div>
-          <div className="ExchangeTrade_div1_mobile_div2_cont1">
-            <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
-              24h Vol ({ticker.split("-")[0]})
-            </div>
-            <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
-              {numberWithCommas(parseFloat(currentMarket?.volume24h || 0))}
-            </div>
-          </div>
+
           <div className="ExchangeTrade_div1_mobile_div2_cont1">
             <div className="ExchangeTrade_div1_mobile_div2_cont1_title">
               24h Low
@@ -578,8 +583,9 @@ const ExchangeTrade = () => {
           </div>
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTab === "price" ? (
-              <TradingChart />
-            ) : activeTab === "depth" ? (
+              <TVChartContainer ticker={ticker} />
+            ) : // <TradingChart />
+            activeTab === "depth" ? (
               <MarketDepth current={currentMarket} />
             ) : (
               <TokenDetail payload={currentMarket} />
@@ -737,20 +743,20 @@ const ExchangeTrade = () => {
           <div className="ExchangeTrade_div3_cont2_conts">
             <div className="ExchangeTrade_div3_cont2_conts_div1">
               <div className="ExchangeTrade_div3_cont2_conts_div1_txt">
-                Locked Bal{" "}
+                {currentMarket?.ticker.split("-")[0]} Bal{" "}
                 <InformationCircleIcon className="ExchangeTrade_div3_cont2_conts_div1_txt_icon" />
               </div>
               <div className="ExchangeTrade_div3_cont2_conts_div1_para">
-                $100.00
+                ${tickerABal}
               </div>
             </div>
             <div className="ExchangeTrade_div3_cont2_conts_div1">
               <div className="ExchangeTrade_div3_cont2_conts_div1_txt">
-                Avail Bal{" "}
+                {currentMarket?.ticker.split("-")[1]} Bal{" "}
                 <InformationCircleIcon className="ExchangeTrade_div3_cont2_conts_div1_txt_icon" />
               </div>
               <div className="ExchangeTrade_div3_cont2_conts_div1_para">
-                $870.00
+                ${tickerBBal}
               </div>
             </div>
             <div className="ExchangeTrade_div3_cont2_conts_div1">
@@ -759,7 +765,7 @@ const ExchangeTrade = () => {
                 <InformationCircleIcon className="ExchangeTrade_div3_cont2_conts_div1_txt_icon" />
               </div>
               <div className="ExchangeTrade_div3_cont2_conts_div1_para">
-                $970.00
+                ${totalBalance}
               </div>
             </div>
           </div>
