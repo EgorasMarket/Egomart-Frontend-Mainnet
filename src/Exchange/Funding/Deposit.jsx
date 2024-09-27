@@ -250,8 +250,8 @@ const Deposit = ({ symbol }) => {
   }, [allowanceError]);
 
   useEffect(() => {
-    if (symbol || assets) {
-      if (assets[0].length > 0) {
+    if (symbol || assets.length > 0) {
+      if (assets[0]?.length > 0) {
         const foundAsset = assets[0].find(
           (asset) => asset.tokenSymbol === symbol
         );

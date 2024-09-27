@@ -54,7 +54,7 @@ export const AssetItem = ({ asset, address, selectAsset }) => {
           </span>
         )} */}
 
-        <span>{parseFloat(balance)}</span>
+        <span>{parseFloat(balance.toFixed())}</span>
         {/* {balanceError && <span>0</span>} */}
         <span className="AssetListDropCont2_Span">$0.00</span>
       </div>
@@ -170,8 +170,8 @@ const Withdraw = ({ symbol }) => {
   }, [withdrawError]);
 
   useEffect(() => {
-    if (symbol || assets) {
-      if (assets[0].length > 0) {
+    if (symbol || assets.length > 0) {
+      if (assets[0]?.length > 0) {
         const foundAsset = assets[0].find(
           (asset) => asset.tokenSymbol === symbol
         );
@@ -235,7 +235,7 @@ const Withdraw = ({ symbol }) => {
           <div className="depositDiv_cont1_div2">
             Max Withdrawable:{" "}
             <span className="depositDiv_cont1_div2_span">
-              {parseFloat(balance)} {selectedAsset?.tokenSymbol}
+              {parseFloat(balance.toFixed())} {selectedAsset?.tokenSymbol}
             </span>
           </div>
         </div>

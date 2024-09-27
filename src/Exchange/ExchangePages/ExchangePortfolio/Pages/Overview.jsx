@@ -20,14 +20,17 @@ import { useAccount, useBalance } from "wagmi";
 import { GET_USER_DEPOSIT_WITHDRAW } from "../../../../services/trade.services";
 import { format } from "date-fns";
 
-export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
-  const nullAddress = "0x0000000000000000000000000000000000000000";
-
-  const { balance, error, loading } =
-    data.tokenSymbol === "EGAX"
-      ? useFetchBalance(nullAddress)
-      : useFetchBalance(data?.tokenAddress);
-
+export const AssetItem = ({
+  data,
+  openDepositModal,
+  openWithdrawModal,
+  balance,
+  usdBalance,
+}) => {
+  const [redeemModal, setRedeemModal] = useState(false);
+  const ToggleRedeemModal = () => {
+    setRedeemModal(!redeemModal);
+  };
   return (
     <div className="exPortoflioOverviewDiv_3_body_cont_div">
       <div className="exPortoflioOverviewDiv_3_body_cont_1">
@@ -99,7 +102,9 @@ export const AssetItem = ({ data, openDepositModal, openWithdrawModal }) => {
                 />
                 {data.tokenSymbol}
               </div>
-              <div className="redeemModal_div_1_body_cont2">{balance}</div>
+              <div className="redeemModal_div_1_body_cont2">
+                {balance.toString()}
+              </div>
             </div>
           </div>
           <div className="redeemModal_div_1">
@@ -382,8 +387,9 @@ const Overview = () => {
               // console.log(arrayyy);
               const usdBal =
                 matchedTicker?.ticker?.split("-")[0] === data?.tokenSymbol
-                  ? parseFloat(matchedTicker?.close24h) * parseFloat(balance)
-                  : balance;
+                  ? parseFloat(matchedTicker?.close24h) *
+                    parseFloat(balance.toString())
+                  : balance.toString();
 
               arrayyy.push(usdBal);
               console.log(arrayyy);
@@ -398,7 +404,7 @@ const Overview = () => {
                   openWithdrawModal={() => {
                     openWithdrawModalUnique(data.tokenSymbol);
                   }}
-                  balance={balance}
+                  balance={balance.toString()}
                   usdBalance={usdBal}
                 />
               );

@@ -11,6 +11,7 @@ import {
 import { setTickers } from "../features/PairsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useWatchContractEvent, useClient, useAccount } from "wagmi";
+import { Web3ModalProvider } from "../constants/Web3ModalProvider";
 import {
   cancelOne,
   updateArr,
@@ -201,13 +202,15 @@ const Exchange = () => {
   /** */
 
   return (
-    <div className="ExchangeDiv">
-      <ExchangeHeader />
-      {/* <div className="ExchangeDiv_body"> */}
-      <Outlet />
-      {/* </div> */}
-      <ExchangeFooter />
-    </div>
+    <Web3ModalProvider>
+      <div className="ExchangeDiv">
+        <ExchangeHeader />
+        {/* <div className="ExchangeDiv_body"> */}
+        <Outlet />
+        {/* </div> */}
+        <ExchangeFooter />
+      </div>
+    </Web3ModalProvider>
   );
 };
 
