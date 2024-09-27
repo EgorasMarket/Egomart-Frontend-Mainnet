@@ -50,17 +50,12 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const [total_sum, setTotalSum] = useState(0);
   const [dummyValue, setDummyValue] = useState("");
 
-  const {
-    balance,
-    error: balanceError,
-    loading: balanceLoading,
-    refetch,
-  } = useFetchBalance(
+  const balance = useFetchBalance(
     activeBtn === "buy" ? payload?.tickerB : payload?.tickerA
   );
   useEffect(() => {
     console.log("refreshing");
-    refetch();
+    // refetch();
   }, [hash]);
 
   console.log("====================================");
@@ -96,12 +91,15 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
 
     if (selectedValue === "Limit" && activeBtn === "buy") {
       setTotalSum(
-        parseFloat(((value === 100 ? 99.9 : value) / 100) * balance).toFixed(3)
+        parseFloat(
+          ((value === 100 ? 99.9 : value) / 100) * balance.toFixed()
+        ).toFixed(3)
       );
       setAmount(
         parseFloat(
           parseFloat(
-            ((value === 100 ? 99.9 : value) / 100 / parseFloat(price)) * balance
+            ((value === 100 ? 99.9 : value) / 100 / parseFloat(price)) *
+              balance.toFixed()
           )
         ).toFixed(3)
       );
@@ -110,11 +108,13 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     setTotalSum(
       parseFloat(
         parseFloat(price) *
-          parseFloat(((value === 100 ? 99.9 : value) / 100) * balance)
+          parseFloat(((value === 100 ? 99.9 : value) / 100) * balance.toFixed())
       ).toFixed(3)
     );
     setAmount(
-      parseFloat(((value === 100 ? 99.9 : value) / 100) * balance).toFixed(3)
+      parseFloat(
+        ((value === 100 ? 99.9 : value) / 100) * balance.toFixed()
+      ).toFixed(3)
     );
   };
 
@@ -353,7 +353,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
               Avbl
             </div>
             <div className="buy_modal_div_div1_cont1_body_cont1_head1_txt2">
-              {balanceLoading ? "--" : balance}
+              {balance.toFixed()}
               {activeBtn === "buy"
                 ? payload?.ticker?.split("-")[1]
                 : payload?.ticker?.split("-")[0]}

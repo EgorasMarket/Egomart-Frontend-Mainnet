@@ -1,33 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAccount, useReadContract } from "wagmi";
 import contractAbi from "../web3/contracts/Egomart.json";
 import { formatEther } from "ethers";
+import { DECIMAL_COUNT } from "../constants/config";
 
 const useFetchBalance = (ticker) => {
   const { address } = useAccount();
+  //   const [balance, setBalance] = useState(0);
 
-  // Fetch balance using useReadContract
   const {
     data: balance,
     isLoading: loading,
+    isPending,
     error,
-    isSuccess,
-    refetch,
   } = useReadContract({
     address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi: contractAbi,
     functionName: "balances",
     args: [address, ticker],
-    enabled: !!ticker && !!address, // Only fetch if ticker and address exist
+    enabled: !!ticker && !!address,
   });
 
-  // Return the relevant states
-  return {
-    balance: isSuccess && balance ? parseFloat(formatEther(balance)) : 0.0,
-    loading,
-    error,
-    refetch,
-  };
+  if (!ticker) {
+    return 0.0;
+  }
+  if (loading === false && address) {
+    return parseFloat(formatEther(balance));
+  }
+  return 0.0;
 };
 
 export default useFetchBalance;

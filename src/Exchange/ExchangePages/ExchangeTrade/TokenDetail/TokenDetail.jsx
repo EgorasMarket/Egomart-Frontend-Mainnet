@@ -8,7 +8,7 @@ const TokenDetail = ({ payload }) => {
       <div className="tokenDetailDiv_cont1">
         <div className="tokenDetailDiv_cont1_title">
           <img src={payload?.img} alt="" className="tokenDetailDiv_cont1_img" />
-          {payload?.pair.split("-")[0]}
+          {payload?.ticker.split("-")[0]}
         </div>
         <div className="tokenDetailDiv_cont1_txt">{payload?.meta?.details}</div>
         <div className="tokenDetailDiv_cont1_links">
@@ -36,7 +36,7 @@ const TokenDetail = ({ payload }) => {
         <div className="tokenDetailDiv_cont2_stat_cont">
           <div className="tokenDetailDiv_cont2_stat_cont_1">Market Name</div>
           <div className="tokenDetailDiv_cont2_stat_cont_2">
-            {payload?.pair}
+            {payload?.ticker}
           </div>
         </div>
         <div className="tokenDetailDiv_cont2_stat_cont">
@@ -56,7 +56,7 @@ const TokenDetail = ({ payload }) => {
           <div className="tokenDetailDiv_cont2_stat_cont_2">
             {`${payload?.meta?.step_size} `}
             <span className="tokenDetailDiv_cont2_stat_cont_2_span">
-              {payload?.pair.split("-")[1]}
+              {payload?.ticker.split("-")[1]}
             </span>
           </div>
         </div>
@@ -68,7 +68,7 @@ const TokenDetail = ({ payload }) => {
             {`${payload?.meta?.minimum_order_size} `}
 
             <span className="tokenDetailDiv_cont2_stat_cont_2_span">
-              {payload?.pair.split("-")[1]}
+              {payload?.ticker.split("-")[1]}
             </span>
           </div>
         </div>
