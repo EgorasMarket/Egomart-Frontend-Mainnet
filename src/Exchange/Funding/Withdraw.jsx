@@ -26,7 +26,7 @@ import {
 
 export const AssetItem = ({ asset, address, selectAsset }) => {
   const nullAddress = "0x0000000000000000000000000000000000000000";
-  const { balance } =
+  const balance =
     asset.tokenSymbol === "EGAX"
       ? useFetchBalance(nullAddress)
       : useFetchBalance(asset.tokenAddress);
@@ -235,7 +235,7 @@ const Withdraw = ({ symbol }) => {
           <div className="depositDiv_cont1_div2">
             Max Withdrawable:{" "}
             <span className="depositDiv_cont1_div2_span">
-              {parseFloat(balance.toFixed())} {selectedAsset?.tokenSymbol}
+              {parseFloat(balance)} {selectedAsset?.tokenSymbol}
             </span>
           </div>
         </div>
