@@ -145,7 +145,7 @@
   /* background: grey; */
 }
 .ExchangeTrade_div2_cont1 {
-  width: 70%;
+  width: -webkit-fill-available;
   background: #151e1b;
   padding: 10px;
   border-radius: 10px;
@@ -220,7 +220,7 @@
   color: #9db2ab;
 }
 .ExchangeTrade_div2_cont2 {
-  width: 20%;
+  width: 350px;
   background: #151e1b;
   padding: 10px;
   border-radius: 10px;
@@ -228,7 +228,7 @@
   margin-right: 10px;
 }
 .ExchangeTrade_div2_cont3 {
-  width: 20%;
+  width: 430px;
   background: #151e1b;
   padding: 10px;
   border-radius: 10px;
@@ -250,7 +250,7 @@
   flex-direction: column;
 }
 .ExchangeTrade_div3_cont2 {
-  width: 22%;
+  width: 360px;
   background: #151e1b;
   padding: 10px;
   border-radius: 10px;
@@ -593,7 +593,7 @@
     margin-right: 0;
     display: flex;
     flex-direction: column;
-    height: 400px;
+    height: 350px;
   }
   .ExchangeTrade_div2_cont2 {
     display: none;
@@ -643,8 +643,8 @@
     margin-right: 10px;
   }
   .ExchangeTrade_div2_cont2_mobile_depth {
-    height: 140px;
-    margin-bottom: 3em;
+    height: 100px;
+    margin-bottom: 1em;
   }
   .ExchangeTrade_div2_cont1_header_mobile {
     margin-bottom: 10px;
