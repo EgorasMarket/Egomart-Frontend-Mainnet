@@ -1,9 +1,25 @@
-import { WagmiProvider, createConfig, http } from "wagmi";
-import { mainnet } from "wagmi/chains";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+import { createAppKit } from "@reown/appkit/react";
 
-const projectId = "1c555d0869221d338c8431bde08d195b";
+import { WagmiProvider } from "wagmi";
+import { arbitrum, mainnet } from "@reown/appkit/networks";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
+
+// 0. Setup queryClient
+const queryClient = new QueryClient();
+
+// 1. Get projectId from https://cloud.reown.com
+// const projectId = "1c555d0869221d338c8431bde08d195b"; //initial
+const projectId = "e2db61f618cb86b89e2c60d0ead2dc44";
+
+// 2. Create a metadata object - optional
+const metadata = {
+  name: "Egomart Exchange",
+  description: "Decentralized Trading Reimagined",
+  url: "https://app.egomart.org", // origin must match your domain & subdomain
+  icons: ["https://app.egomart.org/egomart_logo.png"],
+};
+
 const egochain = {
   id: 5439,
   name: "Egochain",
@@ -24,41 +40,33 @@ const egochain = {
       url: "https://egoscan.io/",
     },
   },
-  iconUrls: ["https://app.egomart.org/img/egax_logo.png"], // Replace with actual icon URL
+  iconUrls: ["https://www.egochain.org/img/egax_logo.png"], // Replace with actual icon URL
 };
-const config = createConfig(
-  getDefaultConfig({
-    // Your dApps chains
-    chains: [mainnet, egochain],
-    transports: {
-      // RPC URL for each chain
-      //   [mainnet.id]: http(
-      //     `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`
-      //   ),
-      [egochain.id]: http("https://mainnet.egochain.org"),
-    },
+// 3. Set the networks
+const networks = [mainnet, arbitrum];
 
-    // Required API Keys
-    walletConnectProjectId: projectId,
+// 4. Create Wagmi Adapter
+const wagmiAdapter = new WagmiAdapter({
+  networks,
+  projectId,
+  ssr: true,
+});
 
-    // Required App Info
-    appName: "Egomart Exchange",
+// 5. Create modal
+createAppKit({
+  adapters: [wagmiAdapter],
+  networks,
+  projectId,
+  metadata,
+  features: {
+    analytics: true, // Optional - defaults to your Cloud configuration
+  },
+});
 
-    // Optional App Info
-    appDescription: "Your App Description",
-    appUrl: "https://family.co", // your app's url
-    appIcon: "https://family.co/logo.png", // your app's icon, no bigger than 1024x1024px (max. 1MB)
-  })
-);
-
-const queryClient = new QueryClient();
-
-export const Web3Provider = ({ children }) => {
+export function AppKitProvider({ children }) {
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <ConnectKitProvider>{children}</ConnectKitProvider>
-      </QueryClientProvider>
+    <WagmiProvider config={wagmiAdapter.wagmiConfig}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );
-};
+}
