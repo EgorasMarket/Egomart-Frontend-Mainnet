@@ -5,9 +5,9 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { persistor, store } from "./app/store.js";
 import { PersistGate } from "redux-persist/integration/react";
-import Web3ModalProvider from "./constants/Web3ModalProvider";
-import PortfolioOpenOrders from "./Exchange/ExchangePages/ExchangePortfolio/Pages/PortfolioOpenOrders";
-import History from "./Exchange/ExchangePages/ExchangePortfolio/Pages/History";
+import Web3ModalProvider from "./constants/Web3ModalProvider.jsx";
+import PortfolioOpenOrders from "./Exchange/ExchangePages/ExchangePortfolio/Pages/PortfolioOpenOrders.jsx";
+import History from "./Exchange/ExchangePages/ExchangePortfolio/Pages/History.jsx";
 
 import {
   BrowserRouter,
@@ -18,14 +18,15 @@ import {
 } from "react-router-dom";
 import RootRoute from "./Routes/RootRoute.jsx";
 import Exchange from "./Exchange/Exchange.jsx";
-import ExchangeMarket from "./Exchange/ExchangePages/ExchangeMarket/ExchangeMarket";
-import ExchangeTrade from "./Exchange/ExchangePages/ExchangeTrade/ExchangeTrade";
-import ExchangePortfolio from "./Exchange/ExchangePages/ExchangePortfolio/ExchangePortfolio";
-import Overview from "./Exchange/ExchangePages/ExchangePortfolio/Pages/Overview";
-import Home from "./Pages/Home/Home";
-import Earn from "./Exchange/ExchangePages/Earn/Earn";
-import Bond from "./Exchange/ExchangePages/Bond/Bond";
+import ExchangeMarket from "./Exchange/ExchangePages/ExchangeMarket/ExchangeMarket.jsx";
+import ExchangeTrade from "./Exchange/ExchangePages/ExchangeTrade/ExchangeTrade.jsx";
+import ExchangePortfolio from "./Exchange/ExchangePages/ExchangePortfolio/ExchangePortfolio.jsx";
+import Overview from "./Exchange/ExchangePages/ExchangePortfolio/Pages/Overview.jsx";
+import Home from "./Pages/Home/Home.jsx";
+import Earn from "./Exchange/ExchangePages/Earn/Earn.jsx";
+import Bond from "./Exchange/ExchangePages/Bond/Bond.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AppKitProvider } from "./constants/Web3Provider.jsx";
 const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {},
@@ -60,11 +61,11 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Web3ModalProvider>
-          <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-          </QueryClientProvider>
-        </Web3ModalProvider>
+        <AppKitProvider>
+          {/* <QueryClientProvider client={queryClient}> */}
+          <RouterProvider router={router} />
+          {/* </QueryClientProvider> */}
+        </AppKitProvider>
       </PersistGate>
     </Provider>
   </StrictMode>

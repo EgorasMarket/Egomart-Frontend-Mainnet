@@ -102,7 +102,9 @@ export const AssetItem = ({
                 />
                 {data.tokenSymbol}
               </div>
-              <div className="redeemModal_div_1_body_cont2">{balance}</div>
+              <div className="redeemModal_div_1_body_cont2">
+                {balance.toString()}
+              </div>
             </div>
           </div>
           <div className="redeemModal_div_1">
@@ -371,7 +373,7 @@ const Overview = () => {
           <div className="exPortoflioOverviewDiv_3_body_cont">
             {assets[0]?.map((data) => {
               console.log(data);
-              const balance =
+              const { balance } =
                 data.tokenSymbol === "EGAX"
                   ? useFetchBalance(nullAddress)
                   : useFetchBalance(data?.tokenAddress);
@@ -385,8 +387,9 @@ const Overview = () => {
               // console.log(arrayyy);
               const usdBal =
                 matchedTicker?.ticker?.split("-")[0] === data?.tokenSymbol
-                  ? parseFloat(matchedTicker?.close24h) * parseFloat(balance)
-                  : balance;
+                  ? parseFloat(matchedTicker?.close24h) *
+                    parseFloat(balance.toString())
+                  : balance.toString();
 
               arrayyy.push(usdBal);
               console.log(arrayyy);
@@ -401,7 +404,7 @@ const Overview = () => {
                   openWithdrawModal={() => {
                     openWithdrawModalUnique(data.tokenSymbol);
                   }}
-                  balance={balance}
+                  balance={balance.toString()}
                   usdBalance={usdBal}
                 />
               );

@@ -42,7 +42,7 @@ const egochain = {
   iconUrls: ["https://app.egomart.org/img/egax_logo.png"], // Replace with actual icon URL
 };
 
-const chains = [mainnet, arbitrum, evmos, egochain];
+const chains = [mainnet, evmos, egochain];
 const config = defaultWagmiConfig({
   chains,
   projectId,

@@ -54,7 +54,7 @@ export const AssetItem = ({ asset, address, selectAsset }) => {
           </span>
         )} */}
 
-        <span>{parseFloat(balance)}</span>
+        <span>{parseFloat(balance.toFixed())}</span>
         {/* {balanceError && <span>0</span>} */}
         <span className="AssetListDropCont2_Span">$0.00</span>
       </div>
@@ -99,7 +99,7 @@ const Withdraw = ({ symbol }) => {
   //     // }
   //   }
   // }, [address, selectedAsset]);
-  const balance =
+  const { balance } =
     selectedAsset?.tokenSymbol === "EGAX"
       ? useFetchBalance(nullAddress)
       : useFetchBalance(selectedAsset?.tokenAddress);

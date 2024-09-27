@@ -18,6 +18,7 @@ import {
 import { Padding } from "@mui/icons-material";
 import { numberWithCommas } from "../../assets/js/numberWithCommas";
 import { _priceChangeStyling, _symbolChecker } from "../../helpers/helper";
+// import { ConnectKitButton } from "connectkit";
 
 const ExchangeHeader = () => {
   const { tickers } = useSelector((state) => state.pairs);
@@ -213,6 +214,7 @@ const ExchangeHeader = () => {
             </div>
           </div>
           <div className="exchangeHeader_div2">
+            {/* <ConnectKitButton /> */}
             <w3m-button size="sm" />
             {/* <div className="exchangeHeader_mobile_btn"> */}
             {mobileDrop ? (
