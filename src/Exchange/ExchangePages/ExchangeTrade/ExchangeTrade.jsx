@@ -385,7 +385,9 @@ const ExchangeTrade = () => {
                   parseFloat(currentMarket?.close24h) && "+"} */}
                 {_symbolChecker({ pair: currentMarket })}
                 {numberWithCommas(
-                  parseFloat(currentMarket?.change24h || 0).toFixed(3)
+                  parseFloat(currentMarket?.change24h || 0).toFixed(3
+                     
+                  )
                 )}
                 %
               </span>

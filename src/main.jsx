@@ -25,14 +25,8 @@ import Overview from "./Exchange/ExchangePages/ExchangePortfolio/Pages/Overview.
 import Home from "./Pages/Home/Home.jsx";
 import Earn from "./Exchange/ExchangePages/Earn/Earn.jsx";
 import Bond from "./Exchange/ExchangePages/Bond/Bond.jsx";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AppKitProvider } from "./constants/Web3Provider.jsx";
-const queryClient = new QueryClient({
-  defaultOptions: {
-    mutations: {},
-    queries: {},
-  },
-});
+// import { AppKitProvider } from "./constants/Web3Provider.jsx";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -61,11 +55,9 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <AppKitProvider>
-          {/* <QueryClientProvider client={queryClient}> */}
+        <Web3ModalProvider>
           <RouterProvider router={router} />
-          {/* </QueryClientProvider> */}
-        </AppKitProvider>
+        </Web3ModalProvider>
       </PersistGate>
     </Provider>
   </StrictMode>

@@ -9,14 +9,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 // 1. Get projectId at https://cloud.walletconnect.com
-const projectId = "1c555d0869221d338c8431bde08d195b";
+const projectId = "26b519d3d86aff8b0e36552c4c170ce8";
 
 // 2. Create wagmiConfig
 const metadata = {
-  name: "Egomart Exchange",
-  description: "Decentralized Trading Reimagined",
-  url: "https://app.egomart.org", // origin must match your domain & subdomain
-  icons: ["https://app.egomart.org/egomart_logo.png"],
+  name: "EgochainFarming",
+  description: "EgochainFarming",
+  url: "https://egochain.org", // origin must match your domain & subdomain
+  icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
 const egochain = {
@@ -42,7 +42,7 @@ const egochain = {
   iconUrls: ["https://www.egochain.org/img/egax_logo.png"], // Replace with actual icon URL
 };
 
-const chains = [evmos, egochain];
+const chains = [mainnet, arbitrum, evmos, egochain];
 const config = defaultWagmiConfig({
   chains,
   projectId,
