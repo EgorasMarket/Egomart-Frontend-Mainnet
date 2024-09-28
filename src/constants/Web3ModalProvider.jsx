@@ -9,27 +9,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 // 1. Get projectId at https://cloud.walletconnect.com
-// const projectId = "26b519d3d86aff8b0e36552c4c170ce8";
-const projectId = "4e51e1c178ab6aec8290797c80d8dc57";
+const projectId = "26b519d3d86aff8b0e36552c4c170ce8";
 
-// 1. WalletConnect provider options
-const walletConnectOptions = {
-  package: WalletConnectProvider, // Required
-  options: {
-    infuraId: "YOUR_INFURA_ID", // Required for WalletConnect to work with mainnet
-    rpc: {
-      5439: "https://mainnet.egochain.org", // Ensure this works for Egochain
-    },
-    qrcodeModalOptions: {
-      mobileLinks: ["metamask", "trust", "rainbow", "argent", "coinbase"], // Supported wallets
-    },
-  },
-};
 // 2. Create wagmiConfig
 const metadata = {
   name: "EgochainFarming",
   description: "EgochainFarming",
-  url: "https://egomart.org", // origin must match your domain & subdomain
+  url: "https://egochain.org", // origin must match your domain & subdomain
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
@@ -71,7 +57,6 @@ createWeb3Modal({
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   enableOnramp: true, // Optional - false as default
-  walletConnectOptions, // Added WalletConnect options
 });
 
 export function Web3ModalProvider({ children }) {
