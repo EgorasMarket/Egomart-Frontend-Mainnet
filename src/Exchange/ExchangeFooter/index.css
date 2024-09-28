@@ -46,3 +46,8 @@
 .latency_icon {
   margin-bottom: -5px;
 }
+@media (max-width: 990px) {
+  .ExchangeFooter {
+    display: none;
+  }
+}
