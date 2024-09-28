@@ -16,7 +16,7 @@ const projectId = "4e51e1c178ab6aec8290797c80d8dc57";
 const metadata = {
   name: "EgochainFarming",
   description: "EgochainFarming",
-  url: "https://app.egomart.org", // origin must match your domain & subdomain
+  url: "https://egomart.org", // origin must match your domain & subdomain
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
@@ -58,6 +58,7 @@ createWeb3Modal({
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   enableOnramp: true, // Optional - false as default
+  mobileLinks: ["metamask", "trust", "rainbow", "argent", "coinbase"], // Add mobile wallets
 });
 
 export function Web3ModalProvider({ children }) {
