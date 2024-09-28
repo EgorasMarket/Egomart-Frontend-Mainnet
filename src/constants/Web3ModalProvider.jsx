@@ -12,6 +12,19 @@ const queryClient = new QueryClient();
 // const projectId = "26b519d3d86aff8b0e36552c4c170ce8";
 const projectId = "4e51e1c178ab6aec8290797c80d8dc57";
 
+// 1. WalletConnect provider options
+const walletConnectOptions = {
+  package: WalletConnectProvider, // Required
+  options: {
+    infuraId: "YOUR_INFURA_ID", // Required for WalletConnect to work with mainnet
+    rpc: {
+      5439: "https://mainnet.egochain.org", // Ensure this works for Egochain
+    },
+    qrcodeModalOptions: {
+      mobileLinks: ["metamask", "trust", "rainbow", "argent", "coinbase"], // Supported wallets
+    },
+  },
+};
 // 2. Create wagmiConfig
 const metadata = {
   name: "EgochainFarming",
@@ -58,7 +71,7 @@ createWeb3Modal({
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   enableOnramp: true, // Optional - false as default
-  mobileLinks: ["metamask", "trust", "rainbow", "argent", "coinbase"], // Add mobile wallets
+  walletConnectOptions, // Added WalletConnect options
 });
 
 export function Web3ModalProvider({ children }) {
