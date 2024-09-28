@@ -19,7 +19,9 @@ export const MyWagmiProvider = ({ children }) => {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>{children}</RainbowKitProvider>
+        <RainbowKitProvider>
+          <ConnectButton />;{children}
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
