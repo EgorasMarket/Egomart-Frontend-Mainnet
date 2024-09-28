@@ -264,7 +264,7 @@ const ExchangeTrade = () => {
                             <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                               ${" "}
                               {numberWithCommas(
-                                parseFloat(market?.volume24h || 0).toFixed(3)
+                                parseFloat(market?.volume24h || 0).toFixed(2)
                               )}
                             </div>
                           </div>
@@ -280,7 +280,7 @@ const ExchangeTrade = () => {
                           >
                             {/* {parseFloat(market.change24h) || 0}ss */}
                             {numberWithCommas(
-                              parseFloat(market?.close24h || 0)
+                              parseFloat(market?.close24h || 0).toFixed(2)
                             )}
                           </div>
                           <div
@@ -297,7 +297,7 @@ const ExchangeTrade = () => {
                           >
                             {_symbolChecker({ pair: market })}
                             {numberWithCommas(
-                              parseFloat(market?.change24h || 0).toFixed(3) || 0
+                              parseFloat(market?.change24h || 0).toFixed(2) || 0
                             )}
                             %
                           </div>
@@ -439,7 +439,7 @@ const ExchangeTrade = () => {
               >
                 $
                 {numberWithCommas(
-                  parseFloat(currentMarket?.volume24h || 0).toFixed(3)
+                  parseFloat(currentMarket?.volume24h || 0).toFixed(2)
                 )}
               </span>
             </div>
@@ -536,7 +536,7 @@ const ExchangeTrade = () => {
             </div>
             <div className="ExchangeTrade_div1_mobile_div2_cont1_para">
               {numberWithCommas(
-                parseFloat(currentMarket?.volume24h || 0).toFixed(3)
+                parseFloat(currentMarket?.volume24h || 0).toFixed(2)
               )}
             </div>
           </div>
@@ -652,10 +652,7 @@ const ExchangeTrade = () => {
                 <div className="ExchangeTrade_div2_cont2_mobile_depth">
                   <MarketDepth current={currentMarket} />
                 </div>
-                <MobileOrderBook
-                  current={currentMarket}
-                  onPriceUpdate={handlePriceUpdate}
-                />
+                <MobileOrderBook current={currentMarket} />
               </>
             )}
           </>
@@ -868,7 +865,10 @@ const ExchangeTrade = () => {
                           {market.ticker}
                         </div>
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                          $ {numberWithCommas(parseFloat(market?.volume24h))}
+                          ${" "}
+                          {numberWithCommas(
+                            parseFloat(market?.volume24h).toFixed(2)
+                          )}
                         </div>
                       </div>
                     </div>
@@ -882,7 +882,9 @@ const ExchangeTrade = () => {
                         }}
                       >
                         {/* {parseFloat(market.change24h) || 0}ss */}
-                        {numberWithCommas(parseFloat(market?.close24h || 0))}
+                        {numberWithCommas(
+                          parseFloat(market?.close24h || 0).toFixed(2)
+                        )}
                       </div>
                       <div
                         className={
@@ -898,7 +900,7 @@ const ExchangeTrade = () => {
                       >
                         {_symbolChecker({ pair: market })}
                         {numberWithCommas(
-                          parseFloat(market?.change24h || 0) || 0
+                          parseFloat(market?.change24h || 0).toFixed(2) || 0
                         )}
                         %
                       </div>

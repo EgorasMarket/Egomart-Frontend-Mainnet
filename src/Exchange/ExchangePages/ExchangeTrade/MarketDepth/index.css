@@ -67,6 +67,7 @@ span.intro_span {
 @media (max-width: 990px) {
   .marketDepthDiv {
     height: 100%;
+    padding-top: 0;
   }
   .marketDepthDiv_depth1 {
     display: none;

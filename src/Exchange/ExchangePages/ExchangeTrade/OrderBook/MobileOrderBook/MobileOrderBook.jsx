@@ -12,7 +12,7 @@ import {
 import { DECIMAL_COUNT } from "../../../../../constants/config";
 import { numberWithCommas } from "../../../../../assets/js/numberWithCommas";
 
-const MobileOrderBook = ({ current, onPriceUpdate }) => {
+const MobileOrderBook = ({ current }) => {
   const dispatch = useDispatch();
   useEffect(() => {}, [current]);
   const { orders } = useSelector((state) => state.orders);
@@ -137,14 +137,6 @@ const MobileOrderBook = ({ current, onPriceUpdate }) => {
                 className="walletSelectModalDiv_body_amount_display"
                 id={data.id || `placeholder-${index}`} // Provide unique key for placeholders
                 key={data.id || `placeholder-${index}`}
-                onClick={() => {
-                  if (data.price !== "--") {
-                    onPriceUpdate(
-                      parseFloat(data?.price).toFixed(DECIMAL_COUNT)
-                    );
-                    return;
-                  }
-                }}
               >
                 <div className="walletSelectModalDiv_body_amount_display_cont1">
                   {data.amount !== "--"
@@ -188,14 +180,6 @@ const MobileOrderBook = ({ current, onPriceUpdate }) => {
                 className="walletSelectModalDiv_body_amount_display"
                 id={data.id || `placeholder-${index}`} // Provide unique key for placeholders
                 key={data.id || `placeholder-${index}`}
-                onClick={() => {
-                  if (data.price !== "--") {
-                    onPriceUpdate(
-                      parseFloat(data?.price).toFixed(DECIMAL_COUNT)
-                    );
-                    return;
-                  }
-                }}
               >
                 <div
                   className="walletSelectModalDiv_body_amount_display_cont1"

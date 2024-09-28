@@ -125,7 +125,7 @@ const ExchangeHeader = () => {
                                   <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                                     ${" "}
                                     {numberWithCommas(
-                                      parseFloat(market?.volume24h)
+                                      parseFloat(market?.volume24h).toFixed(2)
                                     )}
                                   </div>
                                 </div>
@@ -141,7 +141,7 @@ const ExchangeHeader = () => {
                                 >
                                   {/* {parseFloat(market.change24h) || 0}ss */}
                                   {numberWithCommas(
-                                    parseFloat(market?.close24h || 0)
+                                    parseFloat(market?.close24h || 0).toFixed(2)
                                   )}
                                 </div>
                                 <div
@@ -158,7 +158,9 @@ const ExchangeHeader = () => {
                                 >
                                   {_symbolChecker({ pair: market })}
                                   {numberWithCommas(
-                                    parseFloat(market?.change24h || 0) || 0
+                                    parseFloat(market?.change24h || 0).toFixed(
+                                      2
+                                    ) || 0
                                   )}
                                   %
                                 </div>
@@ -269,7 +271,7 @@ const ExchangeHeader = () => {
                               <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                                 ${" "}
                                 {numberWithCommas(
-                                  parseFloat(market?.volume24h)
+                                  parseFloat(market?.volume24h).toFixed(2)
                                 )}
                               </div>
                             </div>
@@ -285,7 +287,7 @@ const ExchangeHeader = () => {
                             >
                               {/* {parseFloat(market.change24h) || 0}ss */}
                               {numberWithCommas(
-                                parseFloat(market?.close24h || 0)
+                                parseFloat(market?.close24h || 0).toFixed(2)
                               )}
                             </div>
                             <div
@@ -302,7 +304,8 @@ const ExchangeHeader = () => {
                             >
                               {_symbolChecker({ pair: market })}
                               {numberWithCommas(
-                                parseFloat(market?.change24h || 0) || 0
+                                parseFloat(market?.change24h || 0).toFixed(2) ||
+                                  0
                               )}
                               %
                             </div>

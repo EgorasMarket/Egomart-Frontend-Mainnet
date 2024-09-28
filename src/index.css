@@ -11,7 +11,10 @@ html.theme-dark .group-BfVZxb4b {
   --wui-color-blueberry-090: hsla(231, 76%, 61%, 1) !important;
   --wui-color-blueberry-080: hsl(230deg 59.01% 23.87%) !important;
   --w3m-z-index: 100000 !important;
+  --themed-color-pane-bg: #fff !important;
+  --tv-color-pane-background: #fff !important;
 }
+
 w3m-button button[data-size="sm"] {
   padding: 10px 20px !important;
 }
