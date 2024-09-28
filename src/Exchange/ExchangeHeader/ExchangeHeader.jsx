@@ -219,114 +219,11 @@ const ExchangeHeader = () => {
             {/* <ConnectKitButton /> */}
             {/* <w3m-button size="sm" /> */}
             {/* <div className="exchangeHeader_mobile_btn"> */}
-            {mobileDrop ? (
-              <Cancel01Icon
-                className="exchangeHeader_mobile_btn_icon"
-                size={18}
-                onClick={toggleMobileDrop}
-              />
-            ) : (
-              <Menu01Icon
-                className="exchangeHeader_mobile_btn_icon"
-                size={18}
-                onClick={toggleMobileDrop}
-              />
-            )}
+
             {/* </div> */}
           </div>
         </div>
       </div>
-      {mobileDrop ? (
-        <div className="MobileDropDiv">
-          <div className="MobileDropDiv_cont">
-            <div className="MobileDropDiv_cont_1">
-              Portfolio <ArrowRight01Icon />
-            </div>
-
-            <details className="MobileDropDiv_cont_1">
-              <summary className="baccordion_title"> Trade</summary>
-              <div className="accordion_body">
-                <div className="accordion_body_cont1">
-                  {/* <div className="mobile_nav_links_div"> */}
-                  <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body">
-                    {tickers.map((market) => {
-                      // Function to calculate percentage difference
-
-                      return (
-                        <div
-                          className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1"
-                          onClick={() => {
-                            toggleMobileDrop();
-                            navigate("/app/trade/spot/" + market?.ticker);
-                          }}
-                        >
-                          <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1">
-                            <img
-                              src={market?.img}
-                              alt=""
-                              className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_img"
-                            />
-                            <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
-                              <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
-                                {market.ticker}
-                              </div>
-                              <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
-                                ${" "}
-                                {numberWithCommas(
-                                  parseFloat(market?.volume24h).toFixed(2)
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2">
-                            <div
-                              className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_price"
-                              style={{
-                                color: _priceChangeStyling({
-                                  pair: market,
-                                }),
-                              }}
-                            >
-                              {/* {parseFloat(market.change24h) || 0}ss */}
-                              {numberWithCommas(
-                                parseFloat(market?.close24h || 0).toFixed(2)
-                              )}
-                            </div>
-                            <div
-                              className={
-                                market.OpenPrice < market.currentPrice
-                                  ? "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent"
-                                  : "ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div2_percent_loss"
-                              }
-                              style={{
-                                color: _priceChangeStyling({
-                                  pair: market,
-                                }),
-                              }}
-                            >
-                              {_symbolChecker({ pair: market })}
-                              {numberWithCommas(
-                                parseFloat(market?.change24h || 0).toFixed(2) ||
-                                  0
-                              )}
-                              %
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                {/* </div> */}
-              </div>
-            </details>
-
-            <div className="MobileDropDiv_cont_1">
-              Markets <ArrowRight01Icon />
-            </div>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 };
