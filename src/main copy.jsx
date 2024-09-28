@@ -5,7 +5,6 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { persistor, store } from "./app/store.js";
 import { PersistGate } from "redux-persist/integration/react";
-import Web3ModalProvider from "./constants/Web3ModalProvider.jsx";
 import PortfolioOpenOrders from "./Exchange/ExchangePages/ExchangePortfolio/Pages/PortfolioOpenOrders.jsx";
 import History from "./Exchange/ExchangePages/ExchangePortfolio/Pages/History.jsx";
 
@@ -25,13 +24,9 @@ import Overview from "./Exchange/ExchangePages/ExchangePortfolio/Pages/Overview.
 import Home from "./Pages/Home/Home.jsx";
 import Earn from "./Exchange/ExchangePages/Earn/Earn.jsx";
 import Bond from "./Exchange/ExchangePages/Bond/Bond.jsx";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-const queryClient = new QueryClient({
-  defaultOptions: {
-    mutations: {},
-    queries: {},
-  },
-});
+import { MyWagmiProvider } from "./constants/WagmiProvider.jsx";
+// import { AppKitProvider } from "./constants/Web3Provider.jsx";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -58,14 +53,14 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Web3ModalProvider>
-          <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-          </QueryClientProvider>
-        </Web3ModalProvider>
-      </PersistGate>
-    </Provider>
+    {/* <Web3ModalProvider> */}
+    <MyWagmiProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <RouterProvider router={router} />
+        </PersistGate>
+      </Provider>
+    </MyWagmiProvider>
+    {/* </Web3ModalProvider> */}
   </StrictMode>
 );

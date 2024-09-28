@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { Link } from "react-router-dom";
 import { markets } from "../../Components/Static";
 import { useSelector } from "react-redux";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import {
   ArrowDown01Icon,
@@ -214,8 +215,9 @@ const ExchangeHeader = () => {
             </div>
           </div>
           <div className="exchangeHeader_div2">
+            <ConnectButton />
             {/* <ConnectKitButton /> */}
-            <w3m-button size="sm" />
+            {/* <w3m-button size="sm" /> */}
             {/* <div className="exchangeHeader_mobile_btn"> */}
             {mobileDrop ? (
               <Cancel01Icon
