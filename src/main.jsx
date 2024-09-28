@@ -53,12 +53,12 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Web3ModalProvider>
+    <Web3ModalProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
           <RouterProvider router={router} />
-        </Web3ModalProvider>
-      </PersistGate>
-    </Provider>
+        </PersistGate>
+      </Provider>
+    </Web3ModalProvider>
   </StrictMode>
 );
