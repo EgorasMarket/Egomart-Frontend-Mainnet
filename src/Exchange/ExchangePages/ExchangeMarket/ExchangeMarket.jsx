@@ -116,10 +116,17 @@ const ExchangeMarket = () => {
                         </span>
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2">
-                        $
-                        {numberWithCommas(
-                          parseFloat(market?.close24h || 0).toFixed(2)
-                        )}
+                        <span className="Mobile_ticker_span">
+                          {numberWithCommas(
+                            parseFloat(market?.close24h || 0).toFixed(2)
+                          )}
+                          <div className="Mobile_ticker_span_span">
+                            $
+                            {numberWithCommas(
+                              parseFloat(market?.close24h || 0).toFixed(2)
+                            )}
+                          </div>
+                        </span>
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2">
                         <div

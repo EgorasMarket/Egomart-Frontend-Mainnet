@@ -565,7 +565,7 @@ const Earn = () => {
               className="earn_div_section3_area_img"
             /> */}
             <div className="earn_div_section3_area_title">
-              Join the new Ethereum ecosystem. Be a part of crypto history.
+              Join Egochain ecosystem. Be a part of crypto history.
             </div>
             <div className="earn_div_section3_area_btn_div">
               <button className="earn_div_section3_area_btn">Earn Now</button>

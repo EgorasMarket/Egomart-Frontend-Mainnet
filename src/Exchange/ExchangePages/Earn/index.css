@@ -522,3 +522,286 @@
 .redeemModal_div .depositDiv_cont4_btn {
   margin-top: 5px;
 }
+@media (max-width: 990px) {
+  .earn_div_section1 {
+    position: relative;
+    padding-top: 1em;
+  }
+  .earn_div_section1_container {
+    width: -webkit-fill-available;
+    max-width: 1200px;
+    margin: auto;
+    padding: 10px;
+  }
+  .earn_div_section1_area {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .earn_div_section1_area1 {
+    display: flex;
+    align-items: center;
+    padding-bottom: 5em;
+    flex-direction: column;
+  }
+  .earn_div_section1_area1_cont1 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-right: 0;
+    margin-bottom: -1em;
+    /* text-align: center; */
+  }
+  .earn_div_section1_area1_cont1_title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .earn_div_section1_area1_cont1_para {
+    font-size: 12px;
+    line-height: 1.3;
+    color: #8c9d97;
+  }
+  .earn_div_section1_area1_cont2 {
+    width: 76%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .earn_div_section1_area1_cont2img {
+    width: 90%;
+  }
+  .earn_div_section1_area2 {
+    /* background: #32413c; */
+    position: absolute;
+    bottom: -180px;
+    left: 0;
+    width: -webkit-fill-available;
+    /* color: #ffffff; */
+    /* padding: 2em; */
+    /* border-radius: 10px; */
+    /* border: solid 1px #546962; */
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+    /* width: 100%; */
+  }
+  .earn_div_section1_area2_area {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  .earn_div_section1_area2_area_cont1 {
+    display: flex;
+    /* margin-bottom: 10px; */
+  }
+  .earn_div_section1_area2_area_div1_title {
+    font-size: 12px;
+    margin-bottom: 1px;
+  }
+  .earn_div_section1_area2_area_div1_amount {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .earn_div_section1_area2_area_btn {
+    border-radius: 7px;
+    width: 100px;
+    padding: 11px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    background: #fff;
+    font-size: 12px;
+  }
+  .earn_div_section1_area2_area2 {
+    display: -webkit-inline-box;
+    /* align-items: center; */
+    overflow: auto;
+  }
+  .earn_div_section1_area2_area_card1 {
+    width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  .earn_div_section1_area2_area_card1_title {
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .earn_div_section1_area2_cont_area {
+    margin-bottom: 0em;
+  }
+  .earn_div_section1_area2_amount {
+    font-size: 24px;
+    font-weight: 900;
+    margin-top: 5px;
+    display: flex;
+    align-items: baseline;
+  }
+  .earn_div_section1_area2_amount_span {
+    font-size: 14px;
+    margin-left: 4px;
+    font-weight: 500;
+  }
+  .earn_div_section2_container {
+    width: -webkit-fill-available;
+    max-width: 1200px;
+    margin: auto;
+    padding: 10px;
+  }
+  .earn_div_section2_area1 {
+    margin-top: 13em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .earn_div_section2_area1_title {
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .earn_div_section2_area1_area {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+  }
+  .earn_div_section2_area1_title_span_1 {
+    width: -moz-max-content;
+    width: -webkit-fill-available;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* display: none; */
+  }
+  .earn_div_section2_area1_area_1_body {
+    margin: 1em 0em;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    text-align: left;
+  }
+  .earn_div_section2_area2 {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .earn_div_section2_area2_title {
+    /* font-size: 24px; */
+    font-size: 28px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .earn_div_section2_area2_area {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+    overflow: auto;
+  }
+  .earn_div_section2_area2_area_header {
+    display: -webkit-inline-box;
+    width: -moz-max-content;
+    width: max-content;
+    padding: 1em 0;
+  }
+  .earn_div_section2_area2_area_header_cont1 {
+    width: 170px;
+    display: flex;
+    margin-right: 4em;
+    justify-content: start;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+  }
+  .earn_div_section2_area2_area_header_cont2 {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    margin-right: 2em;
+  }
+  .earn_div_section2_area2_area_header_cont3 {
+    width: 100px;
+    display: flex;
+    justify-content: end;
+  }
+  .earn_div_section2_area2_area_body_cont1 {
+    display: -webkit-inline-box;
+    justify-content: space-between;
+    padding: 1em 0em;
+    font-weight: 600;
+    cursor: pointer;
+    width: max-content;
+  }
+  .earn_div_section2_area2_area_body_cont1_div1 {
+    width: 160px;
+    display: flex;
+    align-items: center;
+    margin-right: 4em;
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background: #000;
+  }
+  .earn_div_section2_area2_area_body_cont1_div2 {
+    display: flex;
+    justify-content: center;
+    width: 100px;
+    margin-right: 1em;
+    text-wrap: nowrap;
+  }
+  .earn_div_section2_area2_area_body_cont1_div_last {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .earn_div_section3 {
+    position: relative;
+    padding: 1em 0em;
+  }
+  .earn_div_section3_container {
+    padding: 0 10px;
+    width: -webkit-fill-available;
+    max-width: 1200px;
+    margin: auto;
+  }
+  .earn_div_section3_area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .earn_div_section3_area_title {
+    font-size: 24px;
+    width: 100%;
+    text-align: center;
+    line-height: 1.1;
+    margin-bottom: 1em;
+    font-weight: 600;
+  }
+  .earn_div_section3_area_btn {
+    width: 100px;
+    padding: 11px;
+    font-weight: 500;
+    border-radius: 9px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  .earn_div_section2_area1_area_1_para {
+    text-align: left;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  .last_mobi {
+    margin-left: 6em;
+  }
+
+  .first_mobi {
+    background: #151e1b;
+  }
+}
