@@ -353,7 +353,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
               Avbl
             </div>
             <div className="buy_modal_div_div1_cont1_body_cont1_head1_txt2">
-              {balance.toFixed()}
+              {balance.toFixed(4)}
               {activeBtn === "buy"
                 ? payload?.ticker?.split("-")[1]
                 : payload?.ticker?.split("-")[0]}
