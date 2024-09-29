@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-import { markets } from "../../../Components/Static";
 import { useDispatch, useSelector } from "react-redux";
 import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
 import { numberWithCommas } from "../../../assets/js/numberWithCommas";
@@ -109,7 +108,12 @@ const ExchangeMarket = () => {
                           alt=""
                           className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_img"
                         />
-                        {market.ticker}
+                        <span className="Mobile_ticker_span">
+                          {market.ticker}
+                          <div className="Mobile_ticker_span_span">
+                            ${parseFloat(market.volume24h || 0).toFixed(2)}
+                          </div>
+                        </span>
                       </div>
                       <div className="ExchangeMarket_div2_body_cont_div1_cont2">
                         $
