@@ -27,6 +27,7 @@ import Bond from "./Exchange/ExchangePages/Bond/Bond.jsx";
 import { MyWagmiProvider } from "./constants/WagmiProvider.jsx";
 import Web3ModalProvider from "./constants/Web3ModalProvider.jsx";
 import WhitePaper from "./Components/WhitePaper/WhitePaper.jsx";
+import RoadMapItem from "./Components/RoadMapComponent/RoadMapItem.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<RootRoute />}>
         <Route path="" element={<Home />} />
         <Route path="whitepaper" element={<WhitePaper />} />
+        <Route path="roadmap" element={<RoadMapItem />} />
       </Route>
       <Route path="/app" element={<Exchange />}>
         <Route path="market" element={<ExchangeMarket />} />

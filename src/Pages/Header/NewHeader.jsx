@@ -137,6 +137,14 @@ const NewHeader = () => {
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
                   </a>
                   <a
+                    href="/roadmap"
+                    className="new_header_div_area_2_div_drop_link1"
+                  >
+                    {/* <InfoIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "} */}
+                    RoadMap
+                    <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
+                  </a>
+                  <a
                     href="https://docs.egochain.org/egomart-overview/protocol-basics"
                     target="_blank"
                     className="new_header_div_area_2_div_drop_link1"
