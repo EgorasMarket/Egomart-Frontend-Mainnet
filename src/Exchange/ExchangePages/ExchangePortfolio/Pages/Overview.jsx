@@ -125,18 +125,79 @@ export const AssetItem = ({
           >
             10,000 {data.tokenSymbol} = 1 {data.tokenSymbol} (RWA)
           </div>
-          {/* <div className="redeemModal_div_1">
-            <div className="redeemModal_div_1_title">Destination Wallet</div>
-            <div className="redeemModal_div_1_body">
-              <div
-                className="redeemModal_div_1_body_cont2_input
-              "
-              >
-                0xa5ff0Fd1a84D004649E97b465779499546654feD
+          <div className="deliveryDetailsDiv">
+            <div className="deliveryDetailsDiv_title">Delivery Details</div>
+            <div className="deliveryDetailsDiv_body">
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Full Name*
+                </div>
+                <input
+                  type="text"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder="John Doe"
+                />
+              </div>
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Email*
+                </div>
+                <input
+                  type="email"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder="@gmail.com"
+                />
+              </div>
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Country*
+                </div>
+                <input
+                  type="text"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder=""
+                />
+              </div>
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  State*
+                </div>
+                <input
+                  type="text"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder=""
+                />
+              </div>
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">City*</div>
+                <input
+                  type="text"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder=""
+                />
+              </div>
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Postal Code (optional)
+                </div>
+                <input
+                  type="text"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder=""
+                />
+              </div>
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Phone No*
+                </div>
+                <input
+                  type="number"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder=""
+                />
               </div>
             </div>
-          </div> */}
-
+          </div>
           <button
             className="depositDiv_cont4_btn"
             // onClick={claimRewardFunc}

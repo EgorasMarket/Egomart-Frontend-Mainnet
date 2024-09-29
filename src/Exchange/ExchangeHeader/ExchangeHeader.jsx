@@ -215,9 +215,9 @@ const ExchangeHeader = () => {
             </div>
           </div>
           <div className="exchangeHeader_div2">
-            <ConnectButton />
+            {/* <ConnectButton /> */}
             {/* <ConnectKitButton /> */}
-            {/* <w3m-button size="sm" /> */}
+            <w3m-button size="sm" />
             {/* <div className="exchangeHeader_mobile_btn"> */}
 
             {/* </div> */}
