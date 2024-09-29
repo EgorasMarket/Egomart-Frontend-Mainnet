@@ -26,13 +26,14 @@ import Earn from "./Exchange/ExchangePages/Earn/Earn.jsx";
 import Bond from "./Exchange/ExchangePages/Bond/Bond.jsx";
 import { MyWagmiProvider } from "./constants/WagmiProvider.jsx";
 import Web3ModalProvider from "./constants/Web3ModalProvider.jsx";
+import WhitePaper from "./Components/WhitePaper/WhitePaper.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<RootRoute />}>
-        {" "}
         <Route path="" element={<Home />} />
+        <Route path="whitepaper" element={<WhitePaper />} />
       </Route>
       <Route path="/app" element={<Exchange />}>
         <Route path="market" element={<ExchangeMarket />} />

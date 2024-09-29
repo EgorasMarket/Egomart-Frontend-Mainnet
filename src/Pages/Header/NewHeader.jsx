@@ -129,7 +129,7 @@ const NewHeader = () => {
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
                   </a>
                   <a
-                    href="https://www.egochain.org/whitepaper"
+                    href="/whitepaper"
                     className="new_header_div_area_2_div_drop_link1"
                   >
                     {/* <InfoIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "} */}
