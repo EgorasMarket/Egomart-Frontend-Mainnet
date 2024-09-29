@@ -470,6 +470,9 @@
 .redeemModal_div_1_title {
   font-size: 12px;
   color: #75847e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .redeemModal_div_1_body {
   display: flex;
@@ -498,6 +501,9 @@
 .redeemModal_div_1_body_cont2 {
   width: -webkit-fill-available;
   padding: 10px 0;
+  border: none;
+  background: no-repeat;
+  color: #fff;
 }
 .redeemModal_div_1_body {
   display: flex;

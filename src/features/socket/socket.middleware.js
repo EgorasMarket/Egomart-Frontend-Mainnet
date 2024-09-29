@@ -53,6 +53,7 @@ const socketMiddleware = (store) => {
           dispatch(updateOrder(newP));
         });
       });
+
       socket.on("/trade-event", (logs) => {
         console.log(logs, "latest Trade HIT!!!");
 
@@ -138,6 +139,7 @@ const socketMiddleware = (store) => {
           console.log("not sent to store");
         });
       });
+
       socket.on("/get-24-stats", (logs) => {
         const ticker = logs.ticker;
         console.log(logs, "24 Stats Event!!!");
@@ -161,6 +163,7 @@ const socketMiddleware = (store) => {
 
         //look for the ticker
       });
+
       socket.on("/get-ticker-stats", (logs) => {
         console.log(logs, "new tickers updated stats!!!");
         const ticker = logs.ticker;

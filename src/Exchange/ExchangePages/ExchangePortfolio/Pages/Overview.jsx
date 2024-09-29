@@ -16,9 +16,16 @@ import Withdraw from "../../../Funding/Withdraw";
 import useFetchBalance from "../../../../hooks/useFetchBalance";
 import useUserLockedFunds from "../../../../hooks/useUserLockedFunds";
 import { useDispatch, useSelector } from "react-redux";
-import { useAccount, useBalance } from "wagmi";
+import { parseEther, formatEther } from "ethers";
+import {
+  useAccount,
+  useReadContract,
+  useWriteContract,
+  useBalance,
+} from "wagmi";
 import { GET_USER_DEPOSIT_WITHDRAW } from "../../../../services/trade.services";
 import { format } from "date-fns";
+import abi from "../../../../web3/contracts/Egomart.json";
 
 export const AssetItem = ({
   data,
@@ -27,10 +34,78 @@ export const AssetItem = ({
   balance,
   usdBalance,
 }) => {
+  const { address } = useAccount();
   const [redeemModal, setRedeemModal] = useState(false);
+  const [redeemAmount, setRedeemAmount] = useState("0");
+  const [payload, setPayload] = useState({
+    fullName: "",
+    email: "",
+    country: "",
+    state: "",
+    city: "",
+    zipCode: "",
+    phoneNo: "",
+  });
+  const redeemDestinationAddress = "0xf7fe5f26d7C56842E7D5fF1A3bcC8bD52bcb610F";
   const ToggleRedeemModal = () => {
     setRedeemModal(!redeemModal);
   };
+  const onChangeRedeemAmount = (e) => {
+    setRedeemAmount(e.target.value);
+  };
+  const ratio = 2;
+
+  const {
+    isPending: redeeming,
+    data: redeem,
+    writeContract,
+    isError: redeemError,
+    error: error,
+    isSuccess: redeemSuccess,
+    status: redeemStatus,
+  } = useWriteContract();
+
+  const redeemFn = async () => {
+    writeContract({
+      address: import.meta.env.VITE_CONTRACT_ADDRESS,
+      abi,
+      functionName: "redeem",
+      args: [
+        data.tokenAddress,
+        parseEther(redeemAmount?.toString(), "wei").toString(),
+        redeemDestinationAddress,
+      ],
+    });
+    console.log(
+      address,
+      parseEther(redeemAmount?.toString(), "wei").toString(),
+      redeemDestinationAddress
+    );
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPayload((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    console.log(`${name}: ${value}`);
+  };
+
+  useEffect(() => {
+    if (redeemSuccess === true) {
+      console.log(redeemSuccess);
+      return;
+    }
+  }, [redeemSuccess]);
+
+  useEffect(() => {
+    if (redeemError === true) {
+      console.log(error.shortMessage);
+      return;
+    }
+  }, [redeemError]);
+  console.log(data);
   return (
     <div className="exPortoflioOverviewDiv_3_body_cont_div">
       <div className="exPortoflioOverviewDiv_3_body_cont_1">
@@ -76,7 +151,7 @@ export const AssetItem = ({
         >
           Withdraw
         </button>
-        {data.tokenSymbol === "ETRI" && (
+        {data.tokenSymbol === "EGOD" && (
           <button
             className="exPortoflioOverviewDiv_3_body_cont_last_btn3"
             onClick={ToggleRedeemModal}
@@ -92,17 +167,26 @@ export const AssetItem = ({
       >
         <div className="redeemModal_div">
           <div className="redeemModal_div_1">
-            <div className="redeemModal_div_1_title">Available balance</div>
+            <div className="redeemModal_div_1_title">
+              Available balance{" "}
+              <span>
+                {balance} {data.tokenSymbol}
+              </span>
+            </div>
             <div className="redeemModal_div_1_body">
               <div className="redeemModal_div_1_body_cont1">
                 <img
-                  src="/img/pluto_swap_icon.png"
+                  src={data.img}
                   alt=""
                   className="redeemModal_div_1_body_cont1_img"
                 />
                 {data.tokenSymbol}
               </div>
-              <div className="redeemModal_div_1_body_cont2">{balance}</div>
+              <input
+                className="redeemModal_div_1_body_cont2"
+                value={redeemAmount}
+                onChange={onChangeRedeemAmount}
+              />
             </div>
           </div>
           <div className="redeemModal_div_1">
@@ -110,20 +194,22 @@ export const AssetItem = ({
             <div className="redeemModal_div_1_body">
               <div className="redeemModal_div_1_body_cont1">
                 <img
-                  src="/img/egax_logo.png"
+                  src={data.img}
                   alt=""
                   className="redeemModal_div_1_body_cont1_img"
                 />
                 {data.tokenSymbol} (RWA)
               </div>
-              <div className="redeemModal_div_1_body_cont2">0</div>
+              <div className="redeemModal_div_1_body_cont2">
+                {parseInt(redeemAmount) / parseInt(ratio) || 0}
+              </div>
             </div>
           </div>
           <div
             className="ratio_span"
             style={{ fontSize: "12px", marginBottom: "10px" }}
           >
-            10,000 {data.tokenSymbol} = 1 {data.tokenSymbol} (RWA)
+            {ratio} {data.tokenSymbol} = 1 {data.tokenSymbol} (RWA)
           </div>
           <div className="deliveryDetailsDiv">
             <div className="deliveryDetailsDiv_title">Delivery Details</div>
@@ -136,8 +222,12 @@ export const AssetItem = ({
                   type="text"
                   className="deliveryDetailsDiv_body_cont1_input"
                   placeholder="John Doe"
+                  name="fullName"
+                  value={payload.fullName}
+                  onChange={handleChange}
                 />
               </div>
+
               <div className="deliveryDetailsDiv_body_cont1">
                 <div className="deliveryDetailsDiv_body_cont1_title">
                   Email*
@@ -146,8 +236,12 @@ export const AssetItem = ({
                   type="email"
                   className="deliveryDetailsDiv_body_cont1_input"
                   placeholder="@gmail.com"
+                  name="email"
+                  value={payload.email}
+                  onChange={handleChange}
                 />
               </div>
+
               <div className="deliveryDetailsDiv_body_cont1">
                 <div className="deliveryDetailsDiv_body_cont1_title">
                   Country*
@@ -156,8 +250,12 @@ export const AssetItem = ({
                   type="text"
                   className="deliveryDetailsDiv_body_cont1_input"
                   placeholder=""
+                  name="country"
+                  value={payload.country}
+                  onChange={handleChange}
                 />
               </div>
+
               <div className="deliveryDetailsDiv_body_cont1">
                 <div className="deliveryDetailsDiv_body_cont1_title">
                   State*
@@ -166,16 +264,24 @@ export const AssetItem = ({
                   type="text"
                   className="deliveryDetailsDiv_body_cont1_input"
                   placeholder=""
+                  name="state"
+                  value={payload.state}
+                  onChange={handleChange}
                 />
               </div>
+
               <div className="deliveryDetailsDiv_body_cont1">
                 <div className="deliveryDetailsDiv_body_cont1_title">City*</div>
                 <input
                   type="text"
                   className="deliveryDetailsDiv_body_cont1_input"
                   placeholder=""
+                  name="city"
+                  value={payload.city}
+                  onChange={handleChange}
                 />
               </div>
+
               <div className="deliveryDetailsDiv_body_cont1">
                 <div className="deliveryDetailsDiv_body_cont1_title">
                   Postal Code (optional)
@@ -184,8 +290,12 @@ export const AssetItem = ({
                   type="text"
                   className="deliveryDetailsDiv_body_cont1_input"
                   placeholder=""
+                  name="zipCode"
+                  value={payload.zipCode}
+                  onChange={handleChange}
                 />
               </div>
+
               <div className="deliveryDetailsDiv_body_cont1">
                 <div className="deliveryDetailsDiv_body_cont1_title">
                   Phone No*
@@ -194,13 +304,16 @@ export const AssetItem = ({
                   type="number"
                   className="deliveryDetailsDiv_body_cont1_input"
                   placeholder=""
+                  name="phoneNo"
+                  value={payload.phoneNo}
+                  onChange={handleChange}
                 />
               </div>
             </div>
           </div>
           <button
             className="depositDiv_cont4_btn"
-            // onClick={claimRewardFunc}
+            onClick={redeemFn}
             // disabled={isLoading2 ? true : false}
           >
             Redeem
