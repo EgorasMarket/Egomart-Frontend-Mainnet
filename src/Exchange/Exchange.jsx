@@ -24,6 +24,7 @@ import { formatEther } from "ethers";
 import { selectMatchingOrder } from "../features/orders/selectors";
 import { updateTrade } from "../features/trades/TradeSlice";
 import { addAssets } from "../features/assets/AssetSlice";
+import { setAddress } from "../features/info/InfoSlice";
 const Exchange = () => {
   const { address } = useAccount();
   const { orders } = useSelector((state) => state.orders);
@@ -115,6 +116,8 @@ const Exchange = () => {
 
   useEffect(() => {
     fetchPortfolioRecords();
+    //dispatch here
+    dispatch(setAddress(address));
   }, [address]);
   // useWatchContractEvent({
   //   address: import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -199,7 +202,6 @@ const Exchange = () => {
   //     });
   //   },
   // });
-
   /** */
 
   return (

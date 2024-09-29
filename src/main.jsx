@@ -26,7 +26,6 @@ import Earn from "./Exchange/ExchangePages/Earn/Earn.jsx";
 import Bond from "./Exchange/ExchangePages/Bond/Bond.jsx";
 import { MyWagmiProvider } from "./constants/WagmiProvider.jsx";
 import Web3ModalProvider from "./constants/Web3ModalProvider.jsx";
-// import { AppKitProvider } from "./constants/Web3Provider.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -55,11 +54,13 @@ const router = createBrowserRouter(
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Web3ModalProvider>
+      {/* <MyWagmiProvider> */}
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <RouterProvider router={router} />
         </PersistGate>
       </Provider>
+      {/* </MyWagmiProvider> */}
     </Web3ModalProvider>
   </StrictMode>
 );

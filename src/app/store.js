@@ -11,6 +11,7 @@ import socketMiddleware from "../features/socket/socket.middleware";
 import socketSlice from "../features/socket/socketSlice";
 import portfolioSlice from "../features/portfolio/portfolioSlice";
 import AssetSlice from "../features/assets/AssetSlice";
+import InfoSlice from "../features/info/InfoSlice";
 // import productSlice from "../features/products/productSlice";
 // import offerSlice from "../features/Offers/offerSlice";
 // import TradeSlice from "../features/Trades/TradeSlice";
@@ -21,6 +22,10 @@ const pairsConfig = {
 };
 const assetsConfig = {
   key: "assets",
+  storage: createIndexedDBStorage("exchange"),
+};
+const infoConfig = {
+  key: "info",
   storage: createIndexedDBStorage("exchange"),
 };
 
@@ -43,6 +48,7 @@ const persistOrders = persistReducer(orderConfig, OrderSlice);
 const persistTrades = persistReducer(tradeConfig, TradeSlice);
 const persistPorfolio = persistReducer(portfolioConfig, portfolioSlice);
 const persistAssets = persistReducer(assetsConfig, AssetSlice);
+const persistInfo = persistReducer(infoConfig, InfoSlice);
 
 // const persistedReducer = persistReducer(persistConfig, initSlice);
 // const productPersisted = persistReducer(productConfig, productSlice);
@@ -56,6 +62,7 @@ export const store = configureStore({
     socket: socketSlice,
     portfolio: persistPorfolio,
     assets: persistAssets,
+    info: persistInfo,
   },
   // devTools: false, // add this flag in production
   middleware: (getDefaultMiddleWare) =>

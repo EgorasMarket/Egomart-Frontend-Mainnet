@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import Marquee from "react-fast-marquee";
 import { Link } from "react-router-dom";
+import { ALL_24HOUR_STAT } from "../../services/trade.services";
+import { numberWithCommas } from "../../assets/js/numberWithCommas";
+import { useDispatch, useSelector } from "react-redux";
+import formatNumber from "../../assets/js/formatNumber";
 
 const Home = () => {
-  // console.log("====================================");
-  // // console.log("jfjfj");
-  // console.log("====================================");
+  const { tickers } = useSelector((state) => state.pairs);
+  const [payload, setPayload] = useState(null);
+
+  console.log(tickers);
+
+  const getAll24hourStat = async () => {
+    const res = await ALL_24HOUR_STAT();
+    console.log(res);
+    setPayload(res?.data);
+  };
+  useEffect(() => {
+    getAll24hourStat();
+  }, []);
   return (
     <div className="homeDiv">
       <section className="homeDiv_section1">
@@ -48,7 +62,7 @@ const Home = () => {
                     Markets
                   </div>
                   <div className="homeDiv_section1_area_1_stats_cont1_txt">
-                    134
+                    {tickers?.length}
                   </div>
                 </div>
                 <div className="homeDiv_section1_area_1_stats_cont1">
@@ -56,23 +70,31 @@ const Home = () => {
                     24h Volume
                   </div>
                   <div className="homeDiv_section1_area_1_stats_cont1_txt">
-                    $664M
+                    $
+                    {formatNumber(
+                      parseFloat(payload?.allTimeVolume24 || 0).toFixed(2)
+                    )}
                   </div>
                 </div>
                 <div className="homeDiv_section1_area_1_stats_cont1">
                   <div className="homeDiv_section1_area_1_stats_cont1_title">
-                    24h Trades
+                    All Time Volume
                   </div>
                   <div className="homeDiv_section1_area_1_stats_cont1_txt">
-                    290,438
+                    $
+                    {formatNumber(
+                      parseFloat(payload?.allTimeVolume || 0).toFixed(2)
+                    )}
                   </div>
                 </div>
                 <div className="homeDiv_section1_area_1_stats_cont1">
                   <div className="homeDiv_section1_area_1_stats_cont1_title">
-                    Users
+                    All Time Trades
                   </div>
                   <div className="homeDiv_section1_area_1_stats_cont1_txt">
-                    25k
+                    {formatNumber(
+                      parseFloat(payload?.totalTrade || 0).toFixed(2)
+                    )}
                   </div>
                 </div>
               </div>
