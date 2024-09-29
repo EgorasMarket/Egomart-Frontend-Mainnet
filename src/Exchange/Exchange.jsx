@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./index.css";
 import ExchangeHeader from "./ExchangeHeader/ExchangeHeader";
 import ExchangeFooter from "./ExchangeFooter/ExchangeFooter";
+import MobileNav from "./MobileNav/MobileNav";
 import { Outlet } from "react-router-dom";
 import {
   FETCH_ALL_LISTED_ASSETS,
@@ -208,6 +209,7 @@ const Exchange = () => {
         {/* <div className="ExchangeDiv_body"> */}
         <Outlet />
         {/* </div> */}
+        <MobileNav />
         <ExchangeFooter />
       </div>
     </Web3ModalProvider>
