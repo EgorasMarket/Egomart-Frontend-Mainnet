@@ -6,6 +6,7 @@ import { cancelOne, updateOne, updateOrder } from "../orders/OrderSlice";
 import { updateTrade } from "../trades/TradeSlice";
 import { formatEther } from "ethers";
 import { setTickers, updateTicker, updateTickerTwo } from "../PairsSlice";
+import { setOrderId } from "../info/InfoSlice";
 
 const socketMiddleware = (store) => {
   console.log(store, "all store data");
@@ -198,6 +199,17 @@ const socketMiddleware = (store) => {
         // dispatch(updateTickerTwo({ pair: ticker, data: payload }));
 
         //look for the ticker
+      });
+
+      socket.on("/redeem-event", (logs) => {
+        let curr_address = getState().info.address;
+        console.log(logs, curr_address, "new redeem event receieved!!!");
+        logs.forEach((log) => {
+          if (curr_address === log.user_address) {
+            dispatch(setOrderId(log.order_id));
+            console.log(log);
+          }
+        });
       });
     }
 

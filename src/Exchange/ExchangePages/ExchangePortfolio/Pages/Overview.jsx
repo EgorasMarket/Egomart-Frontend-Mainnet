@@ -34,6 +34,8 @@ export const AssetItem = ({
   balance,
   usdBalance,
 }) => {
+  const { curr_order_id } = useSelector((state) => state.info);
+
   const { address } = useAccount();
   const [redeemModal, setRedeemModal] = useState(false);
   const [redeemAmount, setRedeemAmount] = useState("0");
@@ -67,7 +69,7 @@ export const AssetItem = ({
 
   const redeemFn = async () => {
     writeContract({
-      address: import.meta.env.VITE_CONTRACT_ADDRESS,
+      address: import.meta.env.VITE_REDEEM_ADDRESS,
       abi,
       functionName: "redeem",
       args: [
@@ -105,6 +107,10 @@ export const AssetItem = ({
       return;
     }
   }, [redeemError]);
+
+  useEffect(() => {
+    console.log(curr_order_id, "order-id");
+  }, [curr_order_id]);
   console.log(data);
   return (
     <div className="exPortoflioOverviewDiv_3_body_cont_div">
@@ -392,7 +398,7 @@ const Overview = () => {
   };
   console.log(assets);
   console.log(assets[0]);
-  console.log(assets[0][0]);
+  // console.log(assets[0][0]);
 
   useUserLockedFunds();
 

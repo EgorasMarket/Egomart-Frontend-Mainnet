@@ -9,13 +9,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 // 1. Get projectId at https://cloud.walletconnect.com
-const projectId = "26b519d3d86aff8b0e36552c4c170ce8";
+const projectId = "4e51e1c178ab6aec8290797c80d8dc57";
 
 // 2. Create wagmiConfig
 const metadata = {
   name: "EgochainFarming",
   description: "EgochainFarming",
-  url: "https://egochain.org", // origin must match your domain & subdomain
+  url: "https://app.egomart.org", // origin must match your domain & subdomain
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
