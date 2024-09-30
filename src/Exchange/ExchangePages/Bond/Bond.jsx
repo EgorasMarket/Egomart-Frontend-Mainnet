@@ -73,7 +73,7 @@ const Bond = () => {
 
     try {
       writeContract({
-        address: "0xc3fAA61ddad7Db6392c9A6efa41EC5c4AB3d64BE",
+        address: import.meta.env.VITE_BOND_ADDRESS,
         abi: abi,
         functionName: "bond",
         value: (amount.toString() * "1000000000000000000").toString(),
@@ -281,7 +281,7 @@ const Bond = () => {
                   <span style={{ marginRight: "3px", display: "flex" }}>
                     <Wallet02Icon size={12} /> :{" "}
                   </span>
-                  {numberWithCommas(parseFloat(assetBal).toFixed(4))}
+                  {numberWithCommas(parseFloat(assetBal).toFixed(4) || 0)}
                 </div>
               </div>
               {/* <div className="bond_body_div1_cont1_amount">100,000</div> */}
@@ -303,7 +303,7 @@ const Bond = () => {
                 className="bond_body_div2_cont1_img"
               />
               <div className="bond_body_div2_cont1_txt">
-                1EGAX = {parseFloat(priceOracle).toFixed(2)}EGOD
+                1EGAX = {parseFloat(priceOracle).toFixed(2) || 0}EGOD
               </div>
             </div>
             <div className="bond_body_div2_cont1">
@@ -348,7 +348,7 @@ const Bond = () => {
                   <span style={{ marginRight: "3px", display: "flex" }}>
                     <Wallet02Icon size={12} /> :{" "}
                   </span>
-                  {numberWithCommas(parseFloat(assetBal2).toFixed(4))}
+                  {numberWithCommas(parseFloat(assetBal2).toFixed(4) || 0)}
                 </div>
               </div>
               <input
