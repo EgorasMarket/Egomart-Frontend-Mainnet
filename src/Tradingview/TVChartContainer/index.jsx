@@ -17,7 +17,7 @@ export const TVChartContainer = ({ ticker }) => {
   const chartContainerRef = useRef();
   const defaultProps = {
     symbol: ticker,
-    interval: "D",
+    interval: "H",
     datafeedUrl: `${baseURL}/tradingview`,
     libraryPath: "/charting_library-master/charting_library/",
     chartsStorageUrl: "*",
