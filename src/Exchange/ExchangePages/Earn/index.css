@@ -149,7 +149,7 @@
   width: max-content;
   font-size: 12px;
   font-weight: 500;
-  color: #0b342d;
+  color: #adc0bd;
   margin-bottom: 0px;
   border-bottom: solid;
   border-bottom-style: dashed;
@@ -762,7 +762,7 @@
   }
   .earn_div_section3 {
     position: relative;
-    padding: 1em 0em;
+    padding: 2em 0em;
   }
   .earn_div_section3_container {
     padding: 0 10px;
@@ -776,7 +776,7 @@
     align-items: center;
   }
   .earn_div_section3_area_title {
-    font-size: 24px;
+    font-size: 20px;
     width: 100%;
     text-align: center;
     line-height: 1.1;

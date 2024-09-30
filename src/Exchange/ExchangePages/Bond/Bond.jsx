@@ -21,10 +21,12 @@ import { useNavigate } from "react-router-dom";
 import { Wallet02Icon } from "hugeicons-react";
 import { numberWithCommas } from "../../../assets/js/numberWithCommas";
 import formatNumber from "../../../assets/js/formatNumber";
+import { USER_TRADE_DEPOSIT } from "../../../services/priceOracle.services";
 import {
   useWriteContract,
   useReadContract,
   useAccount,
+  useBalance,
   useWatchContractEvent,
 } from "wagmi";
 import { ethers, formatEther, parseEther } from "ethers";
@@ -32,12 +34,17 @@ import { Toaster, toast } from "react-hot-toast";
 import { format } from "date-fns";
 
 const Bond = () => {
+  const { address, isConnecting, isDisconnected } = useAccount();
   const [amount, setAmount] = useState("");
   const [egodAmount, setEgodAmount] = useState("");
   const [itemsToShow, setItemsToShow] = useState(10);
   const [isLoading2, setIsLoading2] = useState(false);
   const [bondData, setBondData] = useState({});
+  const [priceOracle, setPrice] = useState("0");
   const containerRef = useRef(null);
+  const [assetBal, setAssetBal] = useState("0");
+  const [assetBal2, setAssetBal2] = useState("0");
+  const tokenAddress = "0xae65f10A157d99E35AD81782B86E4C1e6Ec6e78D";
 
   const {
     data: hash,
@@ -50,9 +57,23 @@ const Bond = () => {
   } = useWriteContract();
 
   const bond = async () => {
+    if (parseFloat(amount) > parseFloat(assetBal)) {
+      toast.error(
+        <div className="toast_success_div">
+          <div className="toast_error_div_title">Error bonding!</div>
+          <div className="toast_success_div_para">Insufficient Balance.</div>
+        </div>,
+        {
+          duration: 5000,
+          className: "toast_success",
+        }
+      );
+      return;
+    }
+
     try {
       writeContract({
-        address: "0xc3fAA61ddad7Db6392c9A6efa41EC5c4AB3d64BE",
+        address: import.meta.env.VITE_BOND_ADDRESS,
         abi: abi,
         functionName: "bond",
         value: (amount.toString() * "1000000000000000000").toString(),
@@ -67,12 +88,14 @@ const Bond = () => {
 
   const changeAmount = (e) => {
     setAmount(e.target.value);
-    setEgodAmount(parseFloat(e.target.value) * Number(1000));
+    setEgodAmount(
+      parseFloat(parseFloat(e.target.value) * parseFloat(priceOracle))
+    );
   };
 
   const changeEgodAmount = (e) => {
     setEgodAmount(e.target.value);
-    setAmount(parseFloat(e.target.value) / Number(1000));
+    setAmount(parseFloat(parseFloat(e.target.value) / parseFloat(priceOracle)));
   };
 
   const scrollToBottom = () => {
@@ -100,6 +123,16 @@ const Bond = () => {
   console.log("====================================");
   console.log((amount.toString() * "1000000000000000000").toString());
   console.log("====================================");
+
+  const FetchPrice = async () => {
+    const res = await USER_TRADE_DEPOSIT();
+    console.log(res);
+    setPrice(parseFloat(res?.currentPrice));
+  };
+
+  useEffect(() => {
+    FetchPrice();
+  }, []);
 
   useEffect(() => {
     if (isSuccess === true) {
@@ -148,6 +181,40 @@ const Bond = () => {
   console.log("====================================");
   console.log(bondData);
   console.log("====================================");
+
+  const {
+    data: balanceData,
+    isPending: balancePending,
+    error: balanceError,
+    isSuccess: balanceSuccess,
+  } = useBalance({
+    address: address,
+  });
+  const {
+    data: balanceData2,
+    isPending: balancePending2,
+    error: balanceError2,
+    isSuccess: balanceSuccess2,
+  } = useBalance({
+    address: address,
+    token: tokenAddress,
+  });
+
+  useEffect(() => {
+    // setAllowance();
+    if (address !== null) {
+      setAssetBal(balanceData?.formatted);
+      console.log(balanceData?.formatted);
+    }
+  }, [address, balanceData]);
+  useEffect(() => {
+    // setAllowance();
+    if (address !== null) {
+      setAssetBal2(balanceData2?.formatted);
+      console.log(balanceData2?.formatted);
+    }
+  }, [address, balanceData2]);
+
   return (
     <div className="bond_comp">
       <div className="bond_comp_div1">
@@ -214,7 +281,7 @@ const Bond = () => {
                   <span style={{ marginRight: "3px", display: "flex" }}>
                     <Wallet02Icon size={12} /> :{" "}
                   </span>
-                  {numberWithCommas(parseFloat(1000).toFixed(4))}
+                  {numberWithCommas(parseFloat(assetBal).toFixed(4) || 0)}
                 </div>
               </div>
               {/* <div className="bond_body_div1_cont1_amount">100,000</div> */}
@@ -235,7 +302,9 @@ const Bond = () => {
                 alt=""
                 className="bond_body_div2_cont1_img"
               />
-              <div className="bond_body_div2_cont1_txt">1EGAX = {10}EGOD</div>
+              <div className="bond_body_div2_cont1_txt">
+                1EGAX = {parseFloat(priceOracle).toFixed(2) || 0}EGOD
+              </div>
             </div>
             <div className="bond_body_div2_cont1">
               <img
@@ -279,7 +348,7 @@ const Bond = () => {
                   <span style={{ marginRight: "3px", display: "flex" }}>
                     <Wallet02Icon size={12} /> :{" "}
                   </span>
-                  {numberWithCommas(parseFloat(1000).toFixed(4))}
+                  {numberWithCommas(parseFloat(assetBal2).toFixed(4) || 0)}
                 </div>
               </div>
               <input
