@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { widget } from "/charting_library-master/charting_library";
 import "./index.css";
 import { theme } from "antd";
+import { baseURL } from "../../core/AxiosInstance";
 let paths = window.location.pathname.split("/");
 function getLanguageFromURL() {
   const regex = new RegExp("[\\?&]lang=([^&#]*)");
@@ -17,7 +18,7 @@ export const TVChartContainer = () => {
   const defaultProps = {
     symbol: paths[paths.length - 1],
     interval: "60",
-    datafeedUrl: "http://localhost:4023/tradingview",
+    datafeedUrl: `${baseURL}/tradingview`,
     libraryPath: "/charting_library-master/charting_library/",
     chartsStorageUrl: "*",
     chartsStorageApiVersion: "1.1",
