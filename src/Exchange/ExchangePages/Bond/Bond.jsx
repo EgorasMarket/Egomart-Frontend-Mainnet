@@ -75,177 +75,6 @@ const Bond = () => {
     setAmount(parseFloat(e.target.value) / Number(1000));
   };
 
-  const referralLeaderBoard = [
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-    {
-      id: 0,
-      address: "0xa5ff0Fd1a84D004649E97b465779499546654feD",
-      Vol24h: "1,000,000",
-      Reward24h: "100,000",
-      allTimeVol: "10,000,000",
-      allTimeReward: "1,000,000",
-    },
-  ];
-
   const scrollToBottom = () => {
     if (containerRef.current) {
       const container = containerRef.current;
@@ -324,8 +153,10 @@ const Bond = () => {
       <div className="bond_comp_div1">
         <div className="bond_comp_title">Bond Egax</div>
         <div className="bond_comp_para">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione,
-          adipisci quibusdam corrupti consequuntur perspiciatis molestiae.
+          Bonding involves exchanging $EGAX for EgoDollar ($EGOD) through
+          Egomart protocol. The exchange rate is determined based on the current
+          market price from exchanges, and the swap is processed instantly. Note
+          that once you create a bond, your $EGAX coins are permanently burned.
         </div>
         <div className="bond_comp_div1_cont">
           <div className="bond_comp_div1_cont_card">
@@ -497,7 +328,7 @@ const Bond = () => {
           </div>
           <div className="earn_div_section2_area2_area">
             <div className="earn_div_section2_area2_area_header">
-              <div className="earn_div_section2_area2_area_header_cont1">
+              <div className="earn_div_section2_area2_area_header_cont1 first_mobi">
                 User
               </div>
               <div className="earn_div_section2_area2_area_header_cont2">
@@ -509,7 +340,7 @@ const Bond = () => {
               <div className="earn_div_section2_area2_area_header_cont2">
                 Time
               </div>
-              <div className="earn_div_section2_area2_area_header_cont3">
+              <div className="earn_div_section2_area2_area_header_cont3 last_mobi">
                 Tx hash
               </div>
             </div>
@@ -525,7 +356,7 @@ const Bond = () => {
                   }
                   return (
                     <div className="earn_div_section2_area2_area_body_cont1">
-                      <div className="earn_div_section2_area2_area_body_cont1_div1">
+                      <div className="earn_div_section2_area2_area_body_cont1_div1 first_mobi">
                         <Blockies
                           seed={data.bonder}
                           size={5}
@@ -547,7 +378,7 @@ const Bond = () => {
                         {formatDate(data?.createdAt || new Date())}
                       </div>
 
-                      <div className="earn_div_section2_area2_area_body_cont1_div_last">
+                      <div className="earn_div_section2_area2_area_body_cont1_div_last last_mobi">
                         {`${data.transHash.slice(
                           0,
                           5

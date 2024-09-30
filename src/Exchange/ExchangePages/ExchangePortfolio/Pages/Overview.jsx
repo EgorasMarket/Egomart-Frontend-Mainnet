@@ -18,6 +18,10 @@ import useUserLockedFunds from "../../../../hooks/useUserLockedFunds";
 import { useDispatch, useSelector } from "react-redux";
 import { parseEther, formatEther } from "ethers";
 import {
+  _symbolChecker,
+  _priceChangeStyling,
+} from "../../../../helpers/helper";
+import {
   useAccount,
   useReadContract,
   useWriteContract,
@@ -26,6 +30,7 @@ import {
 import { GET_USER_DEPOSIT_WITHDRAW } from "../../../../services/trade.services";
 import { format } from "date-fns";
 import abi from "../../../../web3/contracts/Egomart.json";
+import CustomBottomSheet from "../../../../Components/CustomBottomSheet/CustomBottomSheet";
 
 export const AssetItem = ({
   data,
@@ -123,10 +128,13 @@ export const AssetItem = ({
         {data.tokenSymbol}
       </div>
       <div className="exPortoflioOverviewDiv_3_body_cont_1">
-        {parseFloat(balance).toFixed(4)}
+        {parseFloat(balance).toFixed(2)}
+        <div className="exPortoflioOverviewDiv_3_body_cont_1mobile_span">
+          ≈${parseFloat(usdBalance).toFixed(2)}
+        </div>
       </div>
       <div className="exPortoflioOverviewDiv_3_body_cont_1">
-        ${parseFloat(usdBalance).toFixed(4)}
+        ${parseFloat(usdBalance).toFixed(2)}
       </div>
       {/* <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
       <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div> */}
@@ -330,6 +338,411 @@ export const AssetItem = ({
   );
 };
 
+export const AssetItemMobile = ({
+  data,
+  openDepositModal,
+  openWithdrawModal,
+  balance,
+  usdBalance,
+}) => {
+  const { tickers } = useSelector((state) => state.pairs);
+  const { curr_order_id } = useSelector((state) => state.info);
+  const { address } = useAccount();
+  const [redeemModal, setRedeemModal] = useState(false);
+  const [redeemAmount, setRedeemAmount] = useState("0");
+  const [assetDetailModal, setAssetDetailModal] = useState(false);
+  const [payload, setPayload] = useState({
+    fullName: "",
+    email: "",
+    country: "",
+    state: "",
+    city: "",
+    zipCode: "",
+    phoneNo: "",
+  });
+  const redeemDestinationAddress = "0xf7fe5f26d7C56842E7D5fF1A3bcC8bD52bcb610F";
+  const ToggleRedeemModal = () => {
+    setRedeemModal(!redeemModal);
+  };
+  const onChangeRedeemAmount = (e) => {
+    setRedeemAmount(e.target.value);
+  };
+  const ratio = 2;
+
+  const {
+    isPending: redeeming,
+    data: redeem,
+    writeContract,
+    isError: redeemError,
+    error: error,
+    isSuccess: redeemSuccess,
+    status: redeemStatus,
+  } = useWriteContract();
+
+  const redeemFn = async () => {
+    writeContract({
+      address: import.meta.env.VITE_REDEEM_ADDRESS,
+      abi,
+      functionName: "redeem",
+      args: [
+        data.tokenAddress,
+        parseEther(redeemAmount?.toString(), "wei").toString(),
+        redeemDestinationAddress,
+      ],
+    });
+    console.log(
+      address,
+      parseEther(redeemAmount?.toString(), "wei").toString(),
+      redeemDestinationAddress
+    );
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPayload((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    console.log(`${name}: ${value}`);
+  };
+
+  useEffect(() => {
+    if (redeemSuccess === true) {
+      console.log(redeemSuccess);
+      return;
+    }
+  }, [redeemSuccess]);
+
+  useEffect(() => {
+    if (redeemError === true) {
+      console.log(error.shortMessage);
+      return;
+    }
+  }, [redeemError]);
+
+  useEffect(() => {
+    console.log(curr_order_id, "order-id");
+  }, [curr_order_id]);
+  console.log(data);
+  const toggleAssetDetail = () => {
+    setAssetDetailModal(true);
+  };
+  const closeAssetDetail = () => {
+    setAssetDetailModal(false);
+  };
+
+  const matchedTicker = tickers.find(
+    (tickerItem) => tickerItem.ticker.split("-")[0] === data.tokenSymbol
+  );
+  console.log(matchedTicker);
+  return (
+    <>
+      <div
+        className="exPortoflioOverviewDiv_3_body_cont_div"
+        onClick={toggleAssetDetail}
+      >
+        <div className="exPortoflioOverviewDiv_3_body_cont_1">
+          <img
+            src={data.img}
+            alt=""
+            className="exPortoflioOverviewDiv_3_body_cont_1_img"
+          />
+          {data.tokenSymbol}
+        </div>
+        <div className="exPortoflioOverviewDiv_3_body_cont_1">
+          {parseFloat(balance).toFixed(2)}
+          <div className="exPortoflioOverviewDiv_3_body_cont_1mobile_span">
+            ≈${parseFloat(usdBalance).toFixed(2)}
+          </div>
+        </div>
+        <div className="exPortoflioOverviewDiv_3_body_cont_1">
+          ${parseFloat(usdBalance).toFixed(2)}
+        </div>
+        {/* <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div>
+      <div className="exPortoflioOverviewDiv_3_body_cont_1">0.0</div> */}
+        <div className="exPortoflioOverviewDiv_3_body_cont_last">
+          {data.tokenSymbol === "EGOD" ? null : (
+            <Link
+              to={`/app/trade/spot/${data.tokenSymbol}-EGOD`}
+              className="overview_link_trade"
+            >
+              <button
+                className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
+                // onClick={openDepositModal}
+              >
+                Trade
+              </button>
+            </Link>
+          )}
+
+          <button
+            className="exPortoflioOverviewDiv_3_body_cont_last_btn1"
+            onClick={openDepositModal}
+          >
+            Deposit
+          </button>
+          <button
+            className="exPortoflioOverviewDiv_3_body_cont_last_btn2"
+            onClick={openWithdrawModal}
+          >
+            Withdraw
+          </button>
+          {data.tokenSymbol === "EGOD" && (
+            <button
+              className="exPortoflioOverviewDiv_3_body_cont_last_btn3"
+              onClick={ToggleRedeemModal}
+            >
+              Redeem
+            </button>
+          )}
+        </div>
+      </div>
+      <Modal
+        isOpen={redeemModal}
+        closeModal={ToggleRedeemModal}
+        title={"Redeem"}
+      >
+        <div className="redeemModal_div">
+          <div className="redeemModal_div_1">
+            <div className="redeemModal_div_1_title">
+              Available balance{" "}
+              <span>
+                {balance} {data.tokenSymbol}
+              </span>
+            </div>
+            <div className="redeemModal_div_1_body">
+              <div className="redeemModal_div_1_body_cont1">
+                <img
+                  src={data.img}
+                  alt=""
+                  className="redeemModal_div_1_body_cont1_img"
+                />
+                {data.tokenSymbol}
+              </div>
+              <input
+                className="redeemModal_div_1_body_cont2"
+                value={redeemAmount}
+                onChange={onChangeRedeemAmount}
+              />
+            </div>
+          </div>
+          <div className="redeemModal_div_1">
+            <div className="redeemModal_div_1_title">Redeemable</div>
+            <div className="redeemModal_div_1_body">
+              <div className="redeemModal_div_1_body_cont1">
+                <img
+                  src={data.img}
+                  alt=""
+                  className="redeemModal_div_1_body_cont1_img"
+                />
+                {data.tokenSymbol} (RWA)
+              </div>
+              <div className="redeemModal_div_1_body_cont2">
+                {parseInt(redeemAmount) / parseInt(ratio) || 0}
+              </div>
+            </div>
+          </div>
+          <div
+            className="ratio_span"
+            style={{ fontSize: "12px", marginBottom: "10px" }}
+          >
+            {ratio} {data.tokenSymbol} = 1 {data.tokenSymbol} (RWA)
+          </div>
+          <div className="deliveryDetailsDiv">
+            <div className="deliveryDetailsDiv_title">Delivery Details</div>
+            <div className="deliveryDetailsDiv_body">
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Full Name*
+                </div>
+                <input
+                  type="text"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder="John Doe"
+                  name="fullName"
+                  value={payload.fullName}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Email*
+                </div>
+                <input
+                  type="email"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder="@gmail.com"
+                  name="email"
+                  value={payload.email}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Country*
+                </div>
+                <input
+                  type="text"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder=""
+                  name="country"
+                  value={payload.country}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  State*
+                </div>
+                <input
+                  type="text"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder=""
+                  name="state"
+                  value={payload.state}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">City*</div>
+                <input
+                  type="text"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder=""
+                  name="city"
+                  value={payload.city}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Postal Code (optional)
+                </div>
+                <input
+                  type="text"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder=""
+                  name="zipCode"
+                  value={payload.zipCode}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Phone No*
+                </div>
+                <input
+                  type="number"
+                  className="deliveryDetailsDiv_body_cont1_input"
+                  placeholder=""
+                  name="phoneNo"
+                  value={payload.phoneNo}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            className="depositDiv_cont4_btn"
+            onClick={redeemFn}
+            // disabled={isLoading2 ? true : false}
+          >
+            Redeem
+          </button>
+        </div>
+      </Modal>
+      <CustomBottomSheet
+        isOpen={assetDetailModal}
+        content="fullHeight"
+        title={
+          <div className="assetDetail_div_title">
+            <img
+              src={data.img}
+              alt=""
+              style={{ width: "20px", marginRight: "3px" }}
+            />{" "}
+            {data.tokenSymbol}
+          </div>
+        }
+        closeModal={closeAssetDetail}
+      >
+        <div className="mobileAssetDetail">
+          <div className="mobileAssetDetail_div1">
+            <div className="mobileAssetDetail_div1_cont1">
+              <div className="mobileAssetDetail_div1_cont1_title">
+                Total Asset
+              </div>
+              <div className="mobileAssetDetail_div1_cont1_bal">
+                {parseFloat(balance).toFixed(2)}
+              </div>
+              <div className="mobileAssetDetail_div1_cont1_bal_usd">
+                ≈${parseFloat(usdBalance).toFixed(2)}
+              </div>
+            </div>
+            {data.tokenSymbol === "EGOD" ? null : (
+              <div className="mobileAssetDetail_div1_cont2">
+                <div className="mobileAssetDetail_div1_cont2_title">Trade</div>
+                <Link
+                  to={`/app/trade/spot/${matchedTicker?.ticker}`}
+                  className="mobileAssetDetail_div1_cont2_body"
+                >
+                  <div className="mobileAssetDetail_div1_cont2_body_cont1">
+                    {matchedTicker?.ticker}
+                  </div>
+                  <div className="mobileAssetDetail_div1_cont2_body_cont2">
+                    <span className="mobileAssetDetail_div1_cont2_body_cont2_span1">
+                      {parseFloat(matchedTicker?.close24h).toFixed(2)}
+                    </span>
+                    <span
+                      className="mobileAssetDetail_div1_cont2_body_cont2_span2"
+                      style={{
+                        color: _priceChangeStyling({
+                          pair: matchedTicker,
+                        }),
+                      }}
+                    >
+                      {_symbolChecker({ pair: matchedTicker })}
+                      {parseFloat(matchedTicker?.change24h || 0).toFixed(2)}%
+                    </span>
+                  </div>
+                </Link>
+              </div>
+            )}
+          </div>
+          <div className="mobileAssetDetail_div2">
+            <button
+              className="exPortoflioOverviewDiv_2_div1_cont4_div3_funding_btns1"
+              onClick={openDepositModal}
+            >
+              Deposit
+            </button>
+            <button
+              className="exPortoflioOverviewDiv_2_div1_cont4_div3_funding_btns2"
+              onClick={openWithdrawModal}
+            >
+              Withdraw
+            </button>
+            {data.tokenSymbol === "EGOD" && (
+              <button
+                className="exPortoflioOverviewDiv_2_div1_cont4_div3_funding_btns2"
+                onClick={ToggleRedeemModal}
+              >
+                Redeem
+              </button>
+            )}
+          </div>
+        </div>
+      </CustomBottomSheet>
+    </>
+  );
+};
+
 const Overview = () => {
   const { tickers } = useSelector((state) => state.pairs);
   const { assets } = useSelector((state) => state.assets);
@@ -440,11 +853,25 @@ const Overview = () => {
           <div className="exPortoflioOverviewDiv_2_div1_area1">
             <div className="exPortoflioOverviewDiv_2_div1_cont1">Account</div>
             <div className="exPortoflioOverviewDiv_2_div1_cont2">
-              ${parseFloat(totalBalance).toFixed(4)}
+              ${parseFloat(totalBalance).toFixed(2)}
             </div>
             <div className="exPortoflioOverviewDiv_2_div1_cont3">
-              ${parseFloat(totalBalance).toFixed(4)}
+              ${parseFloat(totalBalance).toFixed(2)}
             </div>
+          </div>
+          <div className="exPortoflioOverviewDiv_2_div1_cont4_div3_funding_btns">
+            <button
+              className="exPortoflioOverviewDiv_2_div1_cont4_div3_funding_btns1"
+              onClick={openDepositModal}
+            >
+              Deposit
+            </button>
+            <button
+              className="exPortoflioOverviewDiv_2_div1_cont4_div3_funding_btns2"
+              onClick={openWithdrawModal}
+            >
+              Withdraw
+            </button>
           </div>
           <div className="exPortoflioOverviewDiv_2_div1_cont4">
             <div className="exPortoflioOverviewDiv_2_div1_cont4_div1">
@@ -468,6 +895,7 @@ const Overview = () => {
                 </div>
               </div> */}
             {/* </div> */}
+
             <div className="exPortoflioOverviewDiv_2_div1_cont4_div3">
               <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1">
                 <div className="exPortoflioOverviewDiv_2_div1_cont4_div2_cont1_div1">
@@ -572,18 +1000,36 @@ const Overview = () => {
               console.log(arrayyy);
 
               return (
-                <AssetItem
-                  key={data.id}
-                  data={data}
-                  openDepositModal={() => {
-                    openDepositModalUnique(data.tokenSymbol);
-                  }}
-                  openWithdrawModal={() => {
-                    openWithdrawModalUnique(data.tokenSymbol);
-                  }}
-                  balance={balance}
-                  usdBalance={usdBal}
-                />
+                <>
+                  <div className="assetsDesktop">
+                    <AssetItem
+                      key={data.id}
+                      data={data}
+                      openDepositModal={() => {
+                        openDepositModalUnique(data.tokenSymbol);
+                      }}
+                      openWithdrawModal={() => {
+                        openWithdrawModalUnique(data.tokenSymbol);
+                      }}
+                      balance={balance}
+                      usdBalance={usdBal}
+                    />
+                  </div>
+                  <div className="assetsMobile">
+                    <AssetItemMobile
+                      key={data.id}
+                      data={data}
+                      openDepositModal={() => {
+                        openDepositModalUnique(data.tokenSymbol);
+                      }}
+                      openWithdrawModal={() => {
+                        openWithdrawModalUnique(data.tokenSymbol);
+                      }}
+                      balance={balance}
+                      usdBalance={usdBal}
+                    />
+                  </div>
+                </>
               );
             })}
           </div>

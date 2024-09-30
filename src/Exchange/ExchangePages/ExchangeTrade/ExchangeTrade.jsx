@@ -31,6 +31,7 @@ import { _priceChangeStyling, _symbolChecker } from "../../../helpers/helper";
 import { numberWithCommas } from "../../../assets/js/numberWithCommas";
 import { TVChartContainer } from "../../../Tradingview/TVChartContainer";
 import useFetchBalance from "../../../hooks/useFetchBalance";
+import WhatshotSharpIcon from "@mui/icons-material/WhatshotSharp";
 
 const ExchangeTrade = () => {
   const dispatch = useDispatch();
@@ -385,9 +386,7 @@ const ExchangeTrade = () => {
                   parseFloat(currentMarket?.close24h) && "+"} */}
                 {_symbolChecker({ pair: currentMarket })}
                 {numberWithCommas(
-                  parseFloat(currentMarket?.change24h || 0).toFixed(3
-                     
-                  )
+                  parseFloat(currentMarket?.change24h || 0).toFixed(3)
                 )}
                 %
               </span>
@@ -862,7 +861,12 @@ const ExchangeTrade = () => {
                       />
                       <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1">
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_title">
-                          {market.ticker}
+                          <span className="Mobile_ticker_span">
+                            <div className="Mobile_ticker_spa1">
+                              {market.ticker}{" "}
+                              <WhatshotSharpIcon className="fireIcon" />
+                            </div>
+                          </span>
                         </div>
                         <div className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_area1_vol">
                           ${" "}
