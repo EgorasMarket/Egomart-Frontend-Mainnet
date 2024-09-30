@@ -10,6 +10,7 @@ export const CLAIM_REWARD_ROUTE = "/web3/claim-reward";
 export const GET_USER_LOCKED_FUNDS = "/web3/get-user-locked-funds";
 export const GET_24_HOUR_VOLUME_ROUTE = "/web3/get-trades24";
 export const GET_ALL_24HOUR_STAT = "/web3/get-all-24-stats";
+export const GET_EGAX_PRICE_ORACLE = "/price/get-egax-price";
 export const GET_USER_TRADE_VOLUME_REWARD =
   "/web3/fetch-trade-volume-and-reward";
 export const GET_USER_TRADE_VOLUME_LEADERBOARD =

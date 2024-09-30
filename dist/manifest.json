@@ -1,0 +1,25 @@
+{
+  "short_name": "Egomart",
+  "name": "Egomart Exchange",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/pwa_logo_icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/pwa_logo_icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/app/market",
+  "display": "standalone",
+  "theme_color": "#000",
+  "background_color": "#000"
+}
