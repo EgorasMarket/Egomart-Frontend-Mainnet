@@ -654,8 +654,8 @@ const WhitePaper = () => {
             // ref={contentRef}
           >
             <div className="whitePaper_div_area_title">
-              Egochain: Incentivized Operating System for Electric Vehicles
-              Powered by Blockchain Technology.
+              Egomart: Decentralized Commodity Exchange. Powered by Blockchain
+              Technology.
             </div>
             {/* =========== */}
             {/* =========== */}

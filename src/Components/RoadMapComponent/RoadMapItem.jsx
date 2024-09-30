@@ -191,13 +191,13 @@ const RoadMapItem = () => {
         /> */}
       </VerticalTimeline>
 
-      <div className="">
+      {/* <div className="">
         <p className="newFooterDiv_area_2_area2" style={{ padding: "20px" }}>
           This roadmap reflects a strategic blend of product development, user
           growth, and platform expansion, positioning Egomart and Egochain as
           key players in the tokenized commodities and blockchain space.
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };
