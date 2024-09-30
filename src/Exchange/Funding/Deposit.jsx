@@ -102,6 +102,7 @@ const Deposit = ({ symbol }) => {
   });
 
   useEffect(() => {
+    console.log(selectedAsset?.tokenAddress);
     // setAllowance();
     if (address) {
       if (balancePending) {
