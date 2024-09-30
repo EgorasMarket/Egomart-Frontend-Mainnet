@@ -30,18 +30,18 @@ const NewHeader = () => {
         <div className="announceMent_header_div_body">
           <Marquee className="announceMent_header_div_body_marquee">
             <div className="announceMent_header_div_body_cont1">
-              <b>New Listing:</b> Ella rice EGO404 Token, trading starts
-              12/11/2024 10:00 U.T.C
+              New Listing: Ella rice EGO404 Token, trading starts 12/11/2024
+              10:00 U.T.C
             </div>
             <div className="announceMent_header_div_body_cont1">
-              <b>Feature Update:</b> EGOD & EGAX Deposit is now open.
+              Feature Update: EGOD & EGAX Deposit is now open.
             </div>
             <div className="announceMent_header_div_body_cont1">
-              <b>New Listing:</b> Ella rice EGO404 Token, trading starts
-              12/11/2024 10:00 U.T.C
+              New Listing: Ella rice EGO404 Token, trading starts 12/11/2024
+              10:00 U.T.C
             </div>
             <div className="announceMent_header_div_body_cont1">
-              <b>Feature Update:</b> EGOD & EGAX Deposit is now open.
+              Feature Update: EGOD & EGAX Deposit is now open.
             </div>
           </Marquee>
         </div>

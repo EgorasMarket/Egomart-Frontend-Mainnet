@@ -864,4 +864,11 @@ details[open] > summary::before {
     /* -o-object-fit: cover; */
     /* object-fit: cover; */
   }
+  .adModal_div_cont_img {
+    width: 300px;
+    height: -webkit-fill-available;
+    -o-object-fit: contain;
+    object-fit: contain;
+    margin-bottom: 1em;
+  }
 }

@@ -281,7 +281,7 @@ const Bond = () => {
                   <span style={{ marginRight: "3px", display: "flex" }}>
                     <Wallet02Icon size={12} /> :{" "}
                   </span>
-                  {numberWithCommas(parseFloat(assetBal).toFixed(4) || 0)}
+                  {numberWithCommas(parseFloat(assetBal || 0).toFixed(4) || 0)}
                 </div>
               </div>
               {/* <div className="bond_body_div1_cont1_amount">100,000</div> */}
@@ -348,7 +348,7 @@ const Bond = () => {
                   <span style={{ marginRight: "3px", display: "flex" }}>
                     <Wallet02Icon size={12} /> :{" "}
                   </span>
-                  {numberWithCommas(parseFloat(assetBal2).toFixed(4) || 0)}
+                  {numberWithCommas(parseFloat(assetBal2 || 0).toFixed(4) || 0)}
                 </div>
               </div>
               <input
