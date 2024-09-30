@@ -8,7 +8,7 @@ export const _priceChangeStyling = ({ pair }) => {
   }
 
   if (parseFloat(pair?.open24h) < parseFloat(pair?.close24h)) {
-    return " #12b66f";
+    return "#12b66f";
   }
   return "#fff";
 };

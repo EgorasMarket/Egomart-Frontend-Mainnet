@@ -7,6 +7,7 @@ import {
   Home06Icon,
   CoinsSwapIcon,
 } from "hugeicons-react";
+import JoinLeftSharpIcon from "@mui/icons-material/JoinLeftSharp";
 import { Link } from "react-router-dom";
 
 const MobileNav = () => {
@@ -26,7 +27,7 @@ const MobileNav = () => {
           id="home"
         >
           {" "}
-          <Home06Icon />
+          <AnalyticsUpIcon />
           Markets
         </Link>
         <Link
@@ -37,7 +38,7 @@ const MobileNav = () => {
           onClick={changeActiveBg}
           id="spot"
         >
-          <AnalyticsUpIcon />
+          <CoinsSwapIcon />
           Spot
         </Link>
         <Link
@@ -59,7 +60,7 @@ const MobileNav = () => {
           onClick={changeActiveBg}
           id="bond"
         >
-          <CoinsSwapIcon />
+          <JoinLeftSharpIcon />
           Bond
         </Link>
         <Link

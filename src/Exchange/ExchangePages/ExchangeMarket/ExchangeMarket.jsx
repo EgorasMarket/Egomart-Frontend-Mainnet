@@ -6,6 +6,7 @@ import { numberWithCommas } from "../../../assets/js/numberWithCommas";
 import { ALL_24HOUR_STAT } from "../../../services/trade.services";
 import formatNumber from "../../../assets/js/formatNumber";
 import { Link } from "react-router-dom";
+import WhatshotSharpIcon from "@mui/icons-material/WhatshotSharp";
 
 const ExchangeMarket = () => {
   // const { tickers } = useSelector((state) => state.pairs);
@@ -96,7 +97,7 @@ const ExchangeMarket = () => {
               <div className="ExchangeMarket_div2_body_cont">
                 {tickers.map((market) => {
                   // Function to calculate percentage difference
-
+                  console.log(_priceChangeStyling({ pair: market }));
                   return (
                     <Link
                       to={`/app/trade/spot/${market.ticker}`}
@@ -109,7 +110,10 @@ const ExchangeMarket = () => {
                           className="ExchangeTrade_div1_cont1_markets_drop_cont2_body_cont1_div1_img"
                         />
                         <span className="Mobile_ticker_span">
-                          {market.ticker}
+                          <div className="Mobile_ticker_spa1">
+                            {market.ticker}{" "}
+                            <WhatshotSharpIcon className="fireIcon" />
+                          </div>
                           <div className="Mobile_ticker_span_span">
                             ${parseFloat(market.volume24h || 0).toFixed(2)}
                           </div>
@@ -128,13 +132,28 @@ const ExchangeMarket = () => {
                           </div>
                         </span>
                       </div>
-                      <div className="ExchangeMarket_div2_body_cont_div1_cont2">
+                      <div className="ExchangeMarket_div2_body_cont_div1_cont2 ">
                         <div
                           className="ExchangeMarket_div2_body_cont_div1_cont2_change "
                           style={{
                             color: _priceChangeStyling({
                               pair: market,
                             }),
+                          }}
+                        >
+                          {_symbolChecker({ pair: market })}
+                          {parseFloat(market.change24h || 0).toFixed(2)}%
+                        </div>
+                        <div
+                          className="  change_mobile"
+                          style={{
+                            background:
+                              _priceChangeStyling({ pair: market }) == "#12b66f"
+                                ? "#12b66f"
+                                : _priceChangeStyling({ pair: market }) ==
+                                  "#ff445d"
+                                ? "#ff445d"
+                                : "#374943",
                           }}
                         >
                           {_symbolChecker({ pair: market })}
