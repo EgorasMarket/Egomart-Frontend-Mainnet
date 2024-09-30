@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import { userOpenOrders } from "../../../../Components/Static";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAccount, useWriteContract } from "wagmi";
 import { format } from "date-fns";
 import contractAbi from "../../../../web3/contracts/Egomart.json";
 import { formatEther, parseEther } from "ethers";
 // import { toast, ToastContainer } from "react-toastify";
 import toast, { Toaster } from "react-hot-toast";
+import { cancelOne } from "../../../../features/orders/OrderSlice";
 
 const OpenOrders = ({ ticker, ticker_img }) => {
+  const dispatch = useDispatch();
   const {
     data: cancelledOrder,
     writeContract,
@@ -21,6 +23,7 @@ const OpenOrders = ({ ticker, ticker_img }) => {
   const { address } = useAccount();
   const { orders } = useSelector((state) => state.orders);
   const [positions, setPositions] = useState([]);
+  const [activeSelection, setActiveSelection] = useState({});
   useEffect(() => {
     let arr = orders.filter(
       (order) =>
@@ -36,6 +39,7 @@ const OpenOrders = ({ ticker, ticker_img }) => {
       console.log(error.shortMessage, "error from cancellation");
 
       toast.error(error.shortMessage);
+      dispatch(cancelOne({ id: activeSelection.id, activeSelection }));
     }
   }, [loading, error, isError]);
   useEffect(() => {
@@ -161,6 +165,7 @@ const OpenOrders = ({ ticker, ticker_img }) => {
                 <button
                   onClick={() => {
                     cancelOrder(data);
+                    setActiveSelection(data);
                   }}
                   className="TradesDiv_body_cont1_last_btn"
                 >

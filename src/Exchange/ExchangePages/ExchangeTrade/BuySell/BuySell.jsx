@@ -25,6 +25,7 @@ import {
   _buyManager,
   _highestBuyOrder,
   _highestSellOrder,
+  _lowestBuyOrder,
 } from "../../../../helpers/helper";
 import { parseEther } from "viem";
 import { parseUnits } from "ethers";
@@ -279,11 +280,52 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     let _amount = parseFloat(
       amount / parseFloat(marketManager.price)
     ).toString();
-    console.log(marketManager, "marketManager");
+    console.log(marketManager, "marketManager", "activebtn", activeBtn);
+
+    // const value = _highestBuyOrder({ orders, ticker: payload?.ticker });
 
     //check if the selected order type is limit or Market Order
 
     if (selectedValue === "market") {
+      if (activeBtn === "sell") {
+        alert("hob");
+
+        console.log([
+          payload?.ticker,
+          [
+            marketType,
+            address,
+            parseEther(marketManager?.price, "wei"),
+            marketManager?.price,
+            // marketType
+            //   ? parseEther(amount.toString(), "wei").toString()
+            //   : parseEther(amount.toString(), "wei").toString(),
+
+            0,
+            0,
+          ],
+          [parseEther(parseFloat(marketManager.price).toFixed(4), "wei")],
+        ]);
+        await marketOrder({
+          _address: address,
+          _amount: marketType
+            ? parseEther(amount.toString(), "wei").toString()
+            : parseEther(_amount.toString(), "wei").toString(),
+          _marketType: marketType,
+          _price: parseEther(marketManager?.price, "wei"),
+          _ticker: payload?.ticker,
+          // arrData: _all_prices({
+          //   orders,
+          //   ticker: payload?.ticker,
+          //   marketType: marketType ? "BUY" : "SELL",
+          // }),
+
+          arrData: [
+            parseEther(parseFloat(marketManager.price).toFixed(4), "wei"),
+          ],
+        });
+        return;
+      }
       await marketOrder({
         _address: address,
         _amount: marketType
@@ -292,11 +334,15 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         _marketType: marketType,
         _price: parseEther(marketManager?.price, "wei"),
         _ticker: payload?.ticker,
-        arrData: _all_prices({
-          orders,
-          ticker: payload?.ticker,
-          marketType: marketType ? "BUY" : "SELL",
-        }),
+        // arrData: _all_prices({
+        //   orders,
+        //   ticker: payload?.ticker,
+        //   marketType: marketType ? "BUY" : "SELL",
+        // }),
+
+        arrData: [
+          parseEther(parseFloat(marketManager.price).toFixed(4), "wei"),
+        ],
       });
     }
 
@@ -355,27 +401,27 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       }
 
       if (activeBtn === "sell") {
-        const value = _highestBuyOrder({ orders, ticker: payload?.ticker });
-        if (!value || value === undefined || value === null) {
-          await setOrder({
-            _price: parseEther(price, "wei").toString(),
-            _amount: parseEther(amount, "wei").toString(),
-            _marketType: marketType,
-            _ticker: payload?.ticker,
-            _address: address,
-          });
-          return;
-        }
+        // const value = _lowestBuyOrder({ orders, ticker: payload?.ticker });
+        // if (!value || value === undefined || value === null) {
+        //   await setOrder({
+        //     _price: parseEther(price, "wei").toString(),
+        //     _amount: parseEther(amount, "wei").toString(),
+        //     _marketType: marketType,
+        //     _ticker: payload?.ticker,
+        //     _address: address,
+        //   });
+        //   return;
+        // }
 
-        if (parseFloat(price).toFixed(30) < value.price) {
+        if (parseFloat(price).toFixed(30) < marketManager.price) {
           alert("lololo");
           console.log(
-            value,
+            marketManager.price,
             "sssssss",
-            parseEther(parseFloat(value?.price).toFixed(4), "wei")
+            parseEther(parseFloat(marketManager?.price).toFixed(4), "wei")
           );
           await setOrder({
-            _price: parseEther(value?.price, "wei").toString(),
+            _price: parseEther(marketManager?.price, "wei").toString(),
             _amount: parseEther(amount, "wei").toString(),
             _marketType: marketType,
             _ticker: payload?.ticker,
