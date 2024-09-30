@@ -181,7 +181,7 @@ const NewHeader = () => {
             </a>
           </div>
           <div className="newHeaderDiv_area3">
-            <a href="/app/trade/spot/ESTA-EGOD" target="_blank">
+            <a href="/app/trade/spot/ETRI-EGOD">
               <button className="newHeaderDiv_area3_btn">Trade</button>
             </a>
           </div>

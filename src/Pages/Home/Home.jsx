@@ -50,8 +50,7 @@ const Home = () => {
                 book, and minimal slippage.
               </div>
               <a
-                href="/app/trade/spot/ESTA-EGOD"
-                target="_blank"
+                href="/app/trade/spot/ETRI-EGOD"
                 className="homeDiv_section1_area_1_btn"
               >
                 Trade Now
