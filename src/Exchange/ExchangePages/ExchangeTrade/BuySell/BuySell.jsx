@@ -318,7 +318,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         }
 
         if (parseFloat(price).toFixed(30) > value.price) {
-          alert("hohono");
           console.log(
             value,
             "sssssss",
@@ -368,7 +367,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         }
 
         if (parseFloat(price).toFixed(30) < value.price) {
-          alert("lololo");
           console.log(
             value,
             "sssssss",
