@@ -31,14 +31,14 @@ const NewHeader = () => {
           <Marquee className="announceMent_header_div_body_marquee">
             <div className="announceMent_header_div_body_cont1">
               New Listing: Ella rice EGO404 Token, trading starts 12/11/2024
-              10:00 U.T.C
+              10:00 U.T.C.
             </div>
             <div className="announceMent_header_div_body_cont1">
               Feature Update: EGOD & EGAX Deposit is now open.
             </div>
             <div className="announceMent_header_div_body_cont1">
               New Listing: Ella rice EGO404 Token, trading starts 12/11/2024
-              10:00 U.T.C
+              10:00 U.T.C.
             </div>
             <div className="announceMent_header_div_body_cont1">
               Feature Update: EGOD & EGAX Deposit is now open.

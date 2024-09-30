@@ -119,8 +119,7 @@
 }
 .announceMent_header_div_body_cont1 {
   text-wrap: nowrap;
-  font-size: 12px;
-  /* margin-left: 10px; */
+  font-size: 12px !important;
   margin-right: 4em;
   border-right: solid 1px #000;
   padding-right: 4em;
