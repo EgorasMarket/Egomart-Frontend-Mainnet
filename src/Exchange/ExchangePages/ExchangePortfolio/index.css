@@ -424,6 +424,9 @@
 .assetsMobile {
   display: none;
 }
+.exPortoflioOverviewDiv_2_div1_cont4_div3_funding_btns {
+  display: none;
+}
 @media (max-width: 990px) {
   .PortfolioDiv_1 {
     display: none;
