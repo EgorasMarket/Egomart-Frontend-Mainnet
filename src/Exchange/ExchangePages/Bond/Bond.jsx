@@ -88,12 +88,14 @@ const Bond = () => {
 
   const changeAmount = (e) => {
     setAmount(e.target.value);
-    setEgodAmount(parseFloat(e.target.value) * parseFloat(priceOracle));
+    setEgodAmount(
+      parseFloat(parseFloat(e.target.value) * parseFloat(priceOracle))
+    );
   };
 
   const changeEgodAmount = (e) => {
     setEgodAmount(e.target.value);
-    setAmount(parseFloat(e.target.value) / parseFloat(priceOracle));
+    setAmount(parseFloat(parseFloat(e.target.value) / parseFloat(priceOracle)));
   };
 
   const scrollToBottom = () => {
@@ -125,7 +127,7 @@ const Bond = () => {
   const FetchPrice = async () => {
     const res = await USER_TRADE_DEPOSIT();
     console.log(res);
-    setPrice(res?.currentPrice);
+    setPrice(parseFloat(res?.currentPrice));
   };
 
   useEffect(() => {
@@ -200,18 +202,18 @@ const Bond = () => {
 
   useEffect(() => {
     // setAllowance();
-    if (address) {
+    if (address !== null) {
       setAssetBal(balanceData?.formatted);
       console.log(balanceData?.formatted);
     }
-  }, [address]);
+  }, [address, balanceData]);
   useEffect(() => {
     // setAllowance();
-    if (address) {
+    if (address !== null) {
       setAssetBal2(balanceData2?.formatted);
       console.log(balanceData2?.formatted);
     }
-  }, [address]);
+  }, [address, balanceData2]);
 
   return (
     <div className="bond_comp">
