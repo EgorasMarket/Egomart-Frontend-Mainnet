@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { markets } from "../../Components/Static";
 import { useSelector } from "react-redux";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Marquee from "react-fast-marquee";
 
 import {
   ArrowDown01Icon,
@@ -15,6 +16,7 @@ import {
   GiftIcon,
   ArrowRight01Icon,
   InformationCircleIcon,
+  Megaphone01Icon,
 } from "hugeicons-react";
 import { Padding } from "@mui/icons-material";
 import { numberWithCommas } from "../../assets/js/numberWithCommas";
@@ -38,6 +40,29 @@ const ExchangeHeader = () => {
   };
   return (
     <div className="exchangeHeader">
+      <div className="announceMent_header_div">
+        <div className="announceMent_header_div_icon_div">
+          <Megaphone01Icon size={14} className="announceMent_header_div_icon" />
+        </div>
+        <div className="announceMent_header_div_body">
+          <Marquee className="announceMent_header_div_body_marquee">
+            <div className="announceMent_header_div_body_cont1">
+              <b>New Listing:</b> Ella rice EGO404 Token, trading starts
+              12/11/2024 10:00 U.T.C
+            </div>
+            <div className="announceMent_header_div_body_cont1">
+              <b>Feature Update:</b> EGOD & EGAX Deposit is now open.
+            </div>
+            <div className="announceMent_header_div_body_cont1">
+              <b>New Listing:</b> Ella rice EGO404 Token, trading starts
+              12/11/2024 10:00 U.T.C
+            </div>
+            <div className="announceMent_header_div_body_cont1">
+              <b>Feature Update:</b> EGOD & EGAX Deposit is now open.
+            </div>
+          </Marquee>
+        </div>
+      </div>
       <div className="container_fluid">
         <div className="exchangeHeader_area">
           <div className="exchangeHeader_div1">
