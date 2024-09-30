@@ -124,6 +124,7 @@ export const _all_prices = ({ orders = [], ticker, marketType }) => {
           order.ticker === ticker
       )
       .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
+
       .map((o) => {
         return parseEther(
           parseFloat(o.price).toFixed(5).toString(),

@@ -54,7 +54,9 @@ const OpenOrders = ({ ticker, ticker_img }) => {
         args: [
           data?.indexId,
           data.ticker.toString(),
-          `${parseEther(data?.price.toString()).toString()}`,
+          `${parseEther(
+            parseFloat(data?.price.toString()).toFixed(5)
+          ).toString()}`,
           data.type === "BUY" ? 0 : 1,
         ],
       });

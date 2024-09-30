@@ -23,6 +23,7 @@ import { Toaster, toast } from "react-hot-toast";
 import {
   _all_prices,
   _buyManager,
+  _highestBuyOrder,
   _highestSellOrder,
 } from "../../../../helpers/helper";
 import { parseEther } from "viem";
@@ -147,8 +148,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const parsedAmount = parseFloat(amount);
   const Total = parsedPrice * parsedAmount;
 
-  const setOrder = () => {
-    const marketType = activeBtn === "sell" ? true : false;
+  const setOrder = ({ _ticker, _marketType, _address, _price, _amount }) => {
     try {
       if (payload?.meta?.minimum_order_size > Total) {
         toast.error(
@@ -172,12 +172,14 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         abi: contractAbi,
         functionName: "matchingEngine",
         args: [
-          payload?.ticker,
+          _ticker,
           [
-            marketType,
-            address,
-            parseEther(price, "wei").toString(),
-            parseEther(amount, "wei").toString(),
+            _marketType,
+            _address,
+            _price,
+            _amount,
+            // parseEther(price, "wei").toString(),
+            // parseEther(amount, "wei").toString(),
             0,
             0,
           ],
@@ -190,48 +192,43 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       console.log("====================================");
     }
   };
-  const marketOrder = () => {
+  const marketOrder = ({
+    _ticker,
+    _marketType,
+    _address,
+    _price,
+    _amount,
+    arrData = [],
+  }) => {
     const marketType = activeBtn === "sell" ? true : false;
     try {
-      const marketManager = _buyManager({
-        market: marketType ? "SELL" : "BUY",
-        orders,
-        ticker: payload?.ticker,
-      });
-
-      console.log(marketManager, "marketManager");
-
       // const highestSellOrder = _highestSellOrder({
       //   orders: orders,
       //   ticker: payload?.ticker,
       // });
 
-      let _amount = parseFloat(
-        amount / parseFloat(marketManager.price)
-      ).toString();
-
       // console.log(highestSellOrder, _amount, "sese");
 
-      console.log([
-        payload?.ticker,
-        [
-          marketType,
-          address,
-          parseEther(marketManager?.price, "wei"),
-          marketManager?.price,
-          // marketType
-          //   ? parseEther(amount.toString(), "wei").toString()
-          //   : parseEther(amount.toString(), "wei").toString(),
+      // console.log([
+      //   payload?.ticker,
+      //   [
+      //     marketType,
+      //     address,
+      //     parseEther(marketManager?.price, "wei"),
+      //     marketManager?.price,
+      //     // marketType
+      //     //   ? parseEther(amount.toString(), "wei").toString()
+      //     //   : parseEther(amount.toString(), "wei").toString(),
 
-          0,
-          0,
-        ],
-        _all_prices({
-          orders,
-          ticker: payload?.ticker,
-          marketType: marketType ? "BUY" : "SELL",
-        }),
-      ]);
+      //     0,
+      //     0,
+      //   ],
+      //   _all_prices({
+      //     orders,
+      //     ticker: payload?.ticker,
+      //     marketType: marketType ? "BUY" : "SELL",
+      //   }),
+      // ]);
 
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -239,29 +236,27 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         functionName: "marketOrderEngine",
 
         args: [
-          payload?.ticker,
+          _ticker,
           [
-            marketType,
-            address,
+            _marketType,
+            _address,
+            // parseEther(marketManager.price, "wei"),
+            _price,
             // marketType
-            // ? parseEther(price.toString(), "wei")
-            parseEther(marketManager.price, "wei"),
-            // parseEther(highestSellOrder.price),
-
-            // parseEther(amount.toString(), "wei").toString(),
-
-            marketType
-              ? parseEther(amount.toString(), "wei").toString()
-              : parseEther(_amount.toString(), "wei").toString(),
+            //   ? parseEther(amount.toString(), "wei").toString()
+            //   : parseEther(_amount.toString(), "wei").toString(),
+            _amount,
             0,
             0,
           ],
+
+          arrData,
           // _sell_arr,
-          _all_prices({
-            orders,
-            ticker: payload?.ticker,
-            marketType: marketType ? "BUY" : "SELL",
-          }),
+          // _all_prices({
+          //   orders,
+          //   ticker: payload?.ticker,
+          //   marketType: marketType ? "BUY" : "SELL",
+          // }),
         ],
       });
     } catch (error) {
@@ -269,6 +264,133 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       console.log("====================================");
       console.log("gdgdg");
       console.log("====================================");
+    }
+  };
+
+  const matchingEngine = async () => {
+    const marketType = activeBtn === "sell" ? true : false;
+
+    const marketManager = _buyManager({
+      market: marketType ? "SELL" : "BUY",
+      orders,
+      ticker: payload?.ticker,
+    });
+
+    let _amount = parseFloat(
+      amount / parseFloat(marketManager.price)
+    ).toString();
+    console.log(marketManager, "marketManager");
+
+    //check if the selected order type is limit or Market Order
+
+    if (selectedValue === "market") {
+      await marketOrder({
+        _address: address,
+        _amount: marketType
+          ? parseEther(amount.toString(), "wei").toString()
+          : parseEther(_amount.toString(), "wei").toString(),
+        _marketType: marketType,
+        _price: parseEther(marketManager?.price, "wei"),
+        _ticker: payload?.ticker,
+        arrData: _all_prices({
+          orders,
+          ticker: payload?.ticker,
+          marketType: marketType ? "BUY" : "SELL",
+        }),
+      });
+    }
+
+    if (selectedValue === "Limit") {
+      //check if it 's a buy order
+
+      if (activeBtn === "buy") {
+        //call the lowest sell order
+        const value = _highestSellOrder({ orders, ticker: payload?.ticker });
+        if (!value || value === undefined || value === null) {
+          await setOrder({
+            _price: parseEther(price, "wei").toString(),
+            _amount: parseEther(amount, "wei").toString(),
+            _marketType: marketType,
+            _ticker: payload?.ticker,
+            _address: address,
+          });
+          return;
+        }
+
+        if (parseFloat(price).toFixed(30) > value.price) {
+          alert("hohono");
+          console.log(
+            value,
+            "sssssss",
+            parseEther(parseFloat(value?.price).toFixed(4), "wei")
+          );
+
+          await setOrder({
+            _price: parseEther(value?.price, "wei").toString(),
+            _amount: parseEther(amount, "wei").toString(),
+            _marketType: marketType,
+            _ticker: payload?.ticker,
+            _address: address,
+          });
+          // await marketOrder({
+          //   _address: address,
+          //   _amount: parseEther(amount.toString(), "wei").toString(),
+          //   _marketType: marketType,
+          //   _price: parseEther(price.toString(), "wei"),
+          //   _ticker: payload?.ticker,
+          //   arrData: [5000000000000000000],
+          //   // arrData: [parseEther(parseFloat(value?.price).toFixed(4), "wei")],
+          //   // arrData: [parseEther(value?.price, "wei")],
+          // });
+          return;
+        }
+
+        await setOrder({
+          _price: parseEther(price, "wei").toString(),
+          _amount: parseEther(amount, "wei").toString(),
+          _marketType: marketType,
+          _ticker: payload?.ticker,
+          _address: address,
+        });
+      }
+
+      if (activeBtn === "sell") {
+        const value = _highestBuyOrder({ orders, ticker: payload?.ticker });
+        if (!value || value === undefined || value === null) {
+          await setOrder({
+            _price: parseEther(price, "wei").toString(),
+            _amount: parseEther(amount, "wei").toString(),
+            _marketType: marketType,
+            _ticker: payload?.ticker,
+            _address: address,
+          });
+          return;
+        }
+
+        if (parseFloat(price).toFixed(30) < value.price) {
+          alert("lololo");
+          console.log(
+            value,
+            "sssssss",
+            parseEther(parseFloat(value?.price).toFixed(4), "wei")
+          );
+          await setOrder({
+            _price: parseEther(value?.price, "wei").toString(),
+            _amount: parseEther(amount, "wei").toString(),
+            _marketType: marketType,
+            _ticker: payload?.ticker,
+            _address: address,
+          });
+          return;
+        }
+        await setOrder({
+          _price: parseEther(price, "wei").toString(),
+          _amount: parseEther(amount, "wei").toString(),
+          _marketType: marketType,
+          _ticker: payload?.ticker,
+          _address: address,
+        });
+      }
     }
   };
 
@@ -509,7 +631,8 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
                 {selectedValue === "market" ? (
                   <>
                     <button
-                      onClick={marketOrder}
+                      onClick={matchingEngine}
+                      // onClick={marketOrder}
                       disabled={loading}
                       className="ProductDetailPage_div_body_div2_div7_btn"
                     >
@@ -520,7 +643,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
                 ) : (
                   <>
                     <button
-                      onClick={setOrder}
+                      onClick={matchingEngine}
                       disabled={loading}
                       className="ProductDetailPage_div_body_div2_div7_btn"
                     >
@@ -534,7 +657,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
               <>
                 {selectedValue === "market" ? (
                   <button
-                    onClick={marketOrder}
+                    onClick={matchingEngine}
                     disabled={loading}
                     className="ProductDetailPage_div_body_div2_div7_btn_sell"
                   >
@@ -543,7 +666,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
                   </button>
                 ) : (
                   <button
-                    onClick={setOrder}
+                    onClick={matchingEngine}
                     disabled={loading}
                     className="ProductDetailPage_div_body_div2_div7_btn_sell"
                   >
