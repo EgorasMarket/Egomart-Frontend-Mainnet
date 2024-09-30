@@ -124,6 +124,13 @@
   border-right: solid 1px #000;
   padding-right: 4em;
 }
+.announceMent_header_div_body_cont1_1 {
+  text-wrap: nowrap;
+  font-size: 12px !important;
+  margin-right: 4em;
+  border-right: solid 1px #000;
+  padding-right: 4em;
+}
 .rfm-marquee-container.announceMent_header_div_body_marquee {
   width: -webkit-fill-available !important;
 }
