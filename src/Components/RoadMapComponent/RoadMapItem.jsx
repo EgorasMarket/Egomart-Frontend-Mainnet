@@ -91,7 +91,7 @@ const RoadMapItem = () => {
                       Begin listing third-party commodities on Egomart Exchange,
                       broadening the asset offerings.
                     </li>
-                    <li>LaunchofApex28,amajornewproductinitiative.</li>
+                    <li>Launch of Apex28, a major new product initiative.</li>
 
                     <li>
                       Egomart Exchange to be listed on CoinMarketCap and
