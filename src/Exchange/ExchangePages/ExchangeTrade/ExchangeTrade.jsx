@@ -750,7 +750,7 @@ const ExchangeTrade = () => {
                 <InformationCircleIcon className="ExchangeTrade_div3_cont2_conts_div1_txt_icon" />
               </div>
               <div className="ExchangeTrade_div3_cont2_conts_div1_para">
-                ${tickerABal}
+                ${parseFloat(tickerABal).toFixed(2)}
               </div>
             </div>
             <div className="ExchangeTrade_div3_cont2_conts_div1">
@@ -759,7 +759,7 @@ const ExchangeTrade = () => {
                 <InformationCircleIcon className="ExchangeTrade_div3_cont2_conts_div1_txt_icon" />
               </div>
               <div className="ExchangeTrade_div3_cont2_conts_div1_para">
-                ${tickerBBal}
+                ${parseFloat(tickerBBal).toFixed(2)}
               </div>
             </div>
             <div className="ExchangeTrade_div3_cont2_conts_div1">
@@ -768,7 +768,7 @@ const ExchangeTrade = () => {
                 <InformationCircleIcon className="ExchangeTrade_div3_cont2_conts_div1_txt_icon" />
               </div>
               <div className="ExchangeTrade_div3_cont2_conts_div1_para">
-                ${totalBalance}
+                ${parseFloat(totalBalance).toFixed(2)}
               </div>
             </div>
           </div>

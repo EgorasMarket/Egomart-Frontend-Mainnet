@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { widget } from "/charting_library-master/charting_library";
 import "./index.css";
 import { theme } from "antd";
-
+import { baseURL } from "../../core/AxiosInstance";
+// let paths = window.location.pathname.split("/");
 function getLanguageFromURL() {
   const regex = new RegExp("[\\?&]lang=([^&#]*)");
   const results = regex.exec(window.location.search);
@@ -17,9 +18,9 @@ export const TVChartContainer = ({ ticker }) => {
   const defaultProps = {
     symbol: ticker,
     interval: "D",
-    datafeedUrl: "https://sandboxbcd.egodeo.org/tradingview",
+    datafeedUrl: `${baseURL}/tradingview`,
     libraryPath: "/charting_library-master/charting_library/",
-    chartsStorageUrl: "https://saveload.tradingview.com",
+    chartsStorageUrl: "*",
     chartsStorageApiVersion: "1.1",
     // clientId: 'tradingview.com',
     userId: "public_user_id",
@@ -29,7 +30,6 @@ export const TVChartContainer = ({ ticker }) => {
   };
 
   useEffect(() => {
-    console.log(ticker);
     const widgetOptions = {
       ticker: defaultProps.symbol,
       symbol: defaultProps.symbol,
@@ -48,15 +48,16 @@ export const TVChartContainer = ({ ticker }) => {
       ],
       enabled_features: [
         "study_templates",
+        "custom_resolutions",
         "show_spread_operators",
         "symbol_search_complete",
         "pay_attention_to_ticker_not_symbol",
+        "disable_resolution_rebuild",
       ],
       // charts_storage_url: defaultProps.chartsStorageUrl,
       // charts_storage_api_version: defaultProps.chartsStorageApiVersion,
       // client_id: defaultProps.clientId,
       // user_id: defaultProps.userId,
-
       theme: "dark",
       overrides: {
         "paneProperties.background": "#151e1b",
@@ -64,14 +65,11 @@ export const TVChartContainer = ({ ticker }) => {
         "paneProperties.horzGridProperties.style": "2",
         "paneProperties.vertGridProperties.style": "2",
       },
-
       debug: true,
       fullscreen: defaultProps.fullscreen,
       autosize: defaultProps.autosize,
       studies_overrides: defaultProps.studiesOverrides,
-      studies: ["volume@tv-basicstudies"],
       loading_screen: { backgroundColor: "#151e1b" },
-
       custom_themes: {
         light: {
           color1: [
