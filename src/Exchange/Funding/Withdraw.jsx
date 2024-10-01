@@ -99,11 +99,11 @@ const Withdraw = ({ symbol }) => {
   //     // }
   //   }
   // }, [address, selectedAsset]);
+
   const balance =
     selectedAsset?.tokenSymbol === "EGAX"
       ? useFetchBalance(nullAddress)
       : useFetchBalance(selectedAsset?.tokenAddress);
-  // setAssetBal(balance);
 
   const {
     isPending: withdrawing,

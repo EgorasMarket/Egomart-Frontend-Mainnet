@@ -106,10 +106,12 @@ export const _all_prices = ({ orders = [], ticker, marketType }) => {
       )
       .sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
       .map((o) => {
-        return parseEther(
-          parseFloat(o.price).toFixed(3).toString(),
-          "wei"
-        ).toString();
+        // return parseEther(
+        //   parseFloat(o.price).toFixed(3).toString(),
+        //   "wei"
+        // ).toString();
+
+        return o.price * 1000000000000000000;
       });
 
     if (_sell_arr.length == 0) return [];
@@ -126,10 +128,11 @@ export const _all_prices = ({ orders = [], ticker, marketType }) => {
       .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
 
       .map((o) => {
-        return parseEther(
-          parseFloat(o.price).toFixed(5).toString(),
-          "wei"
-        ).toString();
+        // return parseEther(
+        //   parseFloat(o.price).toFixed(5).toString(),
+        //   "wei"
+        // ).toString();
+        return o.price * 1000000000000000000;
       });
 
     if (_sell_arr.length == 0) return [];
