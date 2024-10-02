@@ -209,54 +209,27 @@
   {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "_ticker",
-        "type": "string"
-      },
-      {
-        "components": [
-          {
-            "internalType": "bool",
-            "name": "isSale",
-            "type": "bool"
-          },
-          {
-            "internalType": "address",
-            "name": "userAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "value",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "numberOfShares",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "orderId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "uniqueOrderID",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct Exchange.Order",
-        "name": "_order",
-        "type": "tuple"
-      },
-      {
         "internalType": "uint256[]",
         "name": "prices",
         "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isSale",
+        "type": "bool"
+      },
+      {
+        "internalType": "string",
+        "name": "_ticker",
+        "type": "string"
       }
     ],
-    "name": "marketOrderEngine",
+    "name": "marketOrderTrade",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -500,6 +473,49 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "length",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "exucatedAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "i",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "a",
+        "type": "uint256"
+      }
+    ],
+    "name": "See",
+    "type": "event"
   },
   {
     "inputs": [

@@ -75,7 +75,7 @@ const socketMiddleware = (store) => {
 
           // Find the order in the orders array
           const curr_order = getState().orders.orders.find(
-            (order) => order.uuid === payload.uuid
+            (order) => parseInt(order.uuid) === parseInt(payload.uuid)
           );
 
           if (curr_order) {
@@ -106,6 +106,9 @@ const socketMiddleware = (store) => {
             console.log("Order not found, not sent to store.");
           }
         });
+      });
+      socket.on("/see", (logs) => {
+        console.log(logs, "see something !!!");
       });
 
       socket.on("/cancel-order-event", (logs) => {

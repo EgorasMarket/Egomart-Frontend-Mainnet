@@ -21,13 +21,18 @@ const useFetchBalance = (ticker) => {
     enabled: !!ticker && !!address,
   });
 
-  if (!ticker) {
+  try {
+    if (!ticker) {
+      return 0.0;
+    }
+    if (loading === false && address) {
+      return parseFloat(formatEther(balance));
+    }
+    return 0.0;
+  } catch (err) {
+    console.log(err);
     return 0.0;
   }
-  if (loading === false && address) {
-    return parseFloat(formatEther(balance));
-  }
-  return 0.0;
 };
 
 export default useFetchBalance;
