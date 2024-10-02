@@ -418,10 +418,9 @@ const Bond = () => {
             </div>
             <div className="earn_div_section2_area2_area_body">
               {bondData?.allTransactions
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                .slice(0, itemsToShow)
-
-                .map((data, index) => {
+                ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                ?.slice(0, itemsToShow)
+                ?.map((data, index) => {
                   function formatDate(dateString) {
                     const date = new Date(dateString);
 
