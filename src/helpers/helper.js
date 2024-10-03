@@ -36,7 +36,7 @@ export const _highestSellOrder = ({ orders = [], ticker }) => {
   console.log(sellOrders);
   if (sellOrders.length === 0)
     return {
-      price: "0.0000000000000000000000",
+      price: null,
     };
 
   const highestSellOrder = sellOrders.reduce((maxOrder, currentOrder) => {
@@ -46,7 +46,7 @@ export const _highestSellOrder = ({ orders = [], ticker }) => {
   }, sellOrders[0]);
   if (highestSellOrder === undefined)
     return {
-      price: "0.0000000000000000000000",
+      price: null,
     };
 
   return highestSellOrder;
@@ -58,7 +58,7 @@ export const _lowestBuyOrder = ({ orders = [], ticker }) => {
   );
   if (buyOrders.length === 0) {
     return {
-      price: 1,
+      price: null,
     };
   }
   const lowBuy = buyOrders.reduce((max, order) => {
@@ -67,7 +67,7 @@ export const _lowestBuyOrder = ({ orders = [], ticker }) => {
 
   if (lowBuy === undefined)
     return {
-      price: 0,
+      price: null,
     };
 
   return lowBuy;
@@ -127,7 +127,7 @@ export const _all_prices = ({
     });
   }
   if (marketType === "SELL") {
-    alert("hollo");
+    // alert("somomo");
 
     const sortedArray = orders
       .filter(
@@ -142,18 +142,8 @@ export const _all_prices = ({
       if (accumulatedAmount >= targetAmount) break;
 
       resultArr.push(order);
-      accumulatedAmount += order?.amount;
+      accumulatedAmount += order?.amount * order?.price;
     }
-
-    //loop through the sorted Array
-
-    // .map((o) => {
-    //   // return parseEther(
-    //   //   parseFloat(o.price).toFixed(5).toString(),
-    //   //   "wei"
-    //   // ).toString();
-    //   return o.price * 1000000000000000000;
-    // });
 
     if (resultArr.length == 0) return [];
 

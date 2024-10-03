@@ -193,62 +193,49 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       console.log("====================================");
     }
   };
-  const marketOrder = ({
-    _ticker,
-    _marketType,
-    _address,
-    _price,
-    _amount,
-    arrData = [],
-  }) => {
+  const marketOrder = () => {
     const marketType = activeBtn === "sell" ? true : false;
-    try {
-      // const highestSellOrder = _highestSellOrder({
-      //   orders: orders,
-      //   ticker: payload?.ticker,
-      // });
 
-      // console.log(highestSellOrder, _amount, "sese");
+    let arr = _all_prices({
+      orders,
+      ticker: payload?.ticker,
+      marketType: marketType ? "BUY" : "SELL",
+      targetAmount: amount,
+    });
+    const marketManager = _buyManager({
+      market: marketType ? "SELL" : "BUY",
+      orders,
+      ticker: payload?.ticker,
+    });
+    console.log(
+      arr,
+      activeBtn === "buy"
+        ? (amount / marketManager?.price) * 1000000000000000000
+        : amount * 1000000000000000000,
+      marketType,
+      payload?.ticker
+    );
 
-      // console.log([
-      //   payload?.ticker,
-      //   [
-      //     marketType,
-      //     address,
-      //     parseEther(marketManager?.price, "wei"),
-      //     marketManager?.price,
-      //     // marketType
-      //     //   ? parseEther(amount.toString(), "wei").toString()
-      //     //   : parseEther(amount.toString(), "wei").toString(),
-
-      //     0,
-      //     0,
-      //   ],
-      //   _all_prices({
-      //     orders,
-      //     ticker: payload?.ticker,
-      //     marketType: marketType ? "BUY" : "SELL",
-      //   }),
-      // ]);
-
-      writeContract({
-        address: import.meta.env.VITE_CONTRACT_ADDRESS,
-        abi: contractAbi,
-        functionName: "marketOrderEngine",
-
-        args: [
-          _ticker,
-          [_marketType, _address, _price, _amount, 0, 0],
-
-          arrData,
-        ],
-      });
-    } catch (error) {
-      console.log(error, "error");
-      console.log("====================================");
-      console.log("gdgdg");
-      console.log("====================================");
+    if (marketManager.price === null) {
+      alert("cannot place market order at this time!!!");
+      return;
     }
+    // return;
+    writeContract({
+      address: import.meta.env.VITE_CONTRACT_ADDRESS,
+      abi: contractAbi,
+      functionName: "marketOrderTrade",
+      args: [
+        arr,
+        activeBtn === "buy"
+          ? (amount / marketManager?.price) * 1000000000000000000
+          : amount * 1000000000000000000,
+        marketType,
+        payload?.ticker,
+      ],
+      // args: [[5000000000000000000], 1000000000000000, false, "ETRI-EGOD"],
+    });
+    return;
   };
 
   // const matchingEngine = async () => {
@@ -441,10 +428,25 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
           orders,
           ticker: payload?.ticker,
         });
-        if (activeBtn === "buy" && price > marketManager.price) {
-          alert("jibbo");
+
+        //check if marketmanager.price is nulll
+        if (
+          (activeBtn === "buy" &&
+            marketManager.price !== null &&
+            parseFloat(price) > parseFloat(marketManager.price)) ||
+          (activeBtn === "sell" &&
+            marketManager.price !== null &&
+            parseFloat(price) < parseFloat(marketManager.price))
+        ) {
+          alert("jumbo");
+
+          marketOrder();
           return;
         }
+
+        // if (activeBtn === "sell" && price <  marketManager.price) {
+        //   market
+        // }
         writeContract({
           address: import.meta.env.VITE_CONTRACT_ADDRESS,
           abi: contractAbi,
@@ -464,42 +466,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         return;
       }
       if (selectedValue === "market") {
-        let arr = _all_prices({
-          orders,
-          ticker: payload?.ticker,
-          marketType: marketType ? "BUY" : "SELL",
-          targetAmount: amount,
-        });
-        const marketManager = _buyManager({
-          market: marketType ? "SELL" : "BUY",
-          orders,
-          ticker: payload?.ticker,
-        });
-        console.log(
-          arr,
-          activeBtn === "buy"
-            ? (amount / marketManager?.price) * 1000000000000000000
-            : amount * 1000000000000000000,
-          marketType,
-          payload?.ticker
-        );
-
-        // return;
-        writeContract({
-          address: import.meta.env.VITE_CONTRACT_ADDRESS,
-          abi: contractAbi,
-          functionName: "marketOrderTrade",
-          args: [
-            arr,
-            activeBtn === "buy"
-              ? (amount / marketManager?.price) * 1000000000000000000
-              : amount * 1000000000000000000,
-            marketType,
-            payload?.ticker,
-          ],
-          // args: [[5000000000000000000], 1000000000000000, false, "ETRI-EGOD"],
-        });
-        return;
+        marketOrder();
       }
     } catch (err) {
       console.log(err);
