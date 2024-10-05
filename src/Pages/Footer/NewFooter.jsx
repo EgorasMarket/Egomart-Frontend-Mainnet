@@ -244,7 +244,7 @@ const NewFooter = () => {
                   Youtube
                 </a>
                 <a
-                  href="https://t.me/egochainHQ"
+                  href="https://t.me/egomarthq"
                   className="newFooterDiv_area_1_cont1_body_link"
                 >
                   Telegram

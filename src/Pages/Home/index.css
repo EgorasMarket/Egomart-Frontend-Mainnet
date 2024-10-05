@@ -434,6 +434,19 @@
   border-radius: 6px;
   margin-right: 5px;
 }
+.adButton {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  border-radius: 13px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  background: #45b97b;
+  border: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
 /* =========== */
 /* =========== */
 /* =========== */
