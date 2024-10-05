@@ -31,7 +31,7 @@ const socketMiddleware = (store) => {
       });
 
       socket.on("/orders-event", (payload) => {
-        console.log(payload, "orders event");
+        console.log(payload, " HIT orders event");
         let arr = [];
         let newP = {};
 
