@@ -217,11 +217,12 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             1000000000000000000
         : amount * 1000000000000000000,
       marketType,
-      payload?.ticker
+      payload?.ticker,
+      console.log(amount)
     );
 
     if (marketManager.price === null) {
-      alert("cannot place market order at this time!!!");
+      alert("songo");
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
@@ -233,7 +234,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             ).toFixed(2) * 1000000000000000000,
           ],
 
-          amount * 1000000000000000000,
+          parseFloat(amount) * 1000000000000000000,
           marketType,
           payload?.ticker,
         ],
@@ -242,6 +243,16 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       return;
     }
     // return;
+    alert("soyombo");
+
+    console.log(
+      marketManager?.price,
+      (parseFloat(amount).toFixed(4) / marketManager?.price) *
+        1000000000000000000,
+      parseFloat(amount).toFixed(4) * 1000000000000000000
+    );
+    return;
+
     writeContract({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi: contractAbi,
@@ -249,12 +260,12 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       args: [
         arr,
         activeBtn === "buy"
-          ? (amount / marketManager?.price) * 1000000000000000000
-          : amount * 1000000000000000000,
+          ? (parseFloat(amount).toFixed(4) / marketManager?.price) *
+            1000000000000000000
+          : parseFloat(amount).toFixed(4) * 1000000000000000000,
         marketType,
         payload?.ticker,
       ],
-      // args: [[5000000000000000000], 1000000000000000, false, "ETRI-EGOD"],
     });
     return;
   };
@@ -276,7 +287,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
           (activeBtn === "buy" &&
             marketManager.price !== null &&
             parseFloat(price) > parseFloat(marketManager.price)) ||
-          (activeBtn === "sell" &&
+          (activeBtn === "se`ll" &&
             marketManager.price !== null &&
             parseFloat(price) < parseFloat(marketManager.price))
         ) {

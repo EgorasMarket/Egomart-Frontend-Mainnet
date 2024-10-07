@@ -33,7 +33,6 @@ export const _highestSellOrder = ({ orders = [], ticker }) => {
         order.ticker === ticker
     )
     .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-  console.log(sellOrders);
   if (sellOrders.length === 0)
     return {
       price: null,
