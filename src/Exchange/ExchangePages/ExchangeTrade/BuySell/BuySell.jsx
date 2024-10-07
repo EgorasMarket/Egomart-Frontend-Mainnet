@@ -287,7 +287,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
           (activeBtn === "buy" &&
             marketManager.price !== null &&
             parseFloat(price) > parseFloat(marketManager.price)) ||
-          (activeBtn === "se`ll" &&
+          (activeBtn === "sell" &&
             marketManager.price !== null &&
             parseFloat(price) < parseFloat(marketManager.price))
         ) {
