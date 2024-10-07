@@ -366,7 +366,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             marketManager.price !== null &&
             parseFloat(price) < parseFloat(marketManager.price))
         ) {
-          alert("jumbo");
+          // alert("jumbo");
           //inside this one make sure you pass the price that will be sufficient enough
           //to buy the order
 
