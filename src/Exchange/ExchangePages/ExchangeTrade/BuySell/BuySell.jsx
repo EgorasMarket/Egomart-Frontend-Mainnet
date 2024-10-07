@@ -251,7 +251,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         1000000000000000000,
       parseFloat(amount).toFixed(4) * 1000000000000000000
     );
-    return;
+    // return;
 
     writeContract({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
