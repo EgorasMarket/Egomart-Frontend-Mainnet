@@ -168,7 +168,9 @@ export const _all_prices2 = ({
           order.type === "BUY" &&
           order.status === "OPEN" &&
           order.ticker === ticker &&
-          order.price >= threshold
+          parseFloat(order.price) >= threshold
+        // &&
+        // order.price >= threshold
       )
       .sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
     for (const order of sortedArray) {
