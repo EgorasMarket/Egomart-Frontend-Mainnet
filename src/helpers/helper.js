@@ -33,7 +33,6 @@ export const _highestSellOrder = ({ orders = [], ticker }) => {
         order.ticker === ticker
     )
     .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-  console.log(sellOrders);
   if (sellOrders.length === 0)
     return {
       price: null,
@@ -135,6 +134,68 @@ export const _all_prices = ({
           order.type === "SELL" &&
           order.status === "OPEN" &&
           order.ticker === ticker
+      )
+      .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+
+    for (const order of sortedArray) {
+      if (accumulatedAmount >= targetAmount) break;
+
+      resultArr.push(order);
+      accumulatedAmount += order?.amount * order?.price;
+    }
+
+    if (resultArr.length == 0) return [];
+
+    return resultArr.map((data) => {
+      return data?.price * 1000000000000000000;
+    });
+  }
+};
+export const _all_prices2 = ({
+  orders = [],
+  ticker,
+  marketType,
+  targetAmount = 0,
+  threshold = 0,
+}) => {
+  let accumulatedAmount = 0.0;
+  const resultArr = [];
+
+  if (marketType === "BUY") {
+    const sortedArray = orders
+      .filter(
+        (order) =>
+          order.type === "BUY" &&
+          order.status === "OPEN" &&
+          order.ticker === ticker &&
+          parseFloat(order.price) >= threshold
+        // &&
+        // order.price >= threshold
+      )
+      .sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+    for (const order of sortedArray) {
+      if (accumulatedAmount >= targetAmount) break;
+
+      resultArr.push(order);
+      accumulatedAmount += parseFloat(order?.amount);
+    }
+
+    if (resultArr.length == 0) return [];
+
+    return resultArr.map((data) => {
+      return data?.price * 1000000000000000000;
+    });
+  }
+  if (marketType === "SELL") {
+    // alert("somomo");
+
+    const sortedArray = orders
+      .filter(
+        (order) =>
+          order.type === "SELL" &&
+          order.status === "OPEN" &&
+          order.ticker === ticker &&
+          order.price <= threshold
       )
       .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
 

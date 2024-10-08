@@ -13,6 +13,7 @@ const ExchangeFooter = () => {
     try {
       // Ping your server or a fast, reliable endpoint like Google's
       await fetch("http://localhost:5173"); // Use your domain
+      // await fetch("https://www.fronttest.egomart.org/"); // Use your domain
       const endTime = Date.now();
 
       const latencyTime = endTime - startTime;

@@ -22,6 +22,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { Toaster, toast } from "react-hot-toast";
 import {
   _all_prices,
+  _all_prices2,
   _buyManager,
   _highestBuyOrder,
   _highestSellOrder,
@@ -217,11 +218,12 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             1000000000000000000
         : amount * 1000000000000000000,
       marketType,
-      payload?.ticker
+      payload?.ticker,
+      console.log(amount)
     );
 
     if (marketManager.price === null) {
-      alert("cannot place market order at this time!!!");
+      alert("songo");
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
@@ -233,7 +235,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             ).toFixed(2) * 1000000000000000000,
           ],
 
-          amount * 1000000000000000000,
+          parseFloat(amount) * 1000000000000000000,
           marketType,
           payload?.ticker,
         ],
@@ -242,6 +244,16 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       return;
     }
     // return;
+    alert("soludo");
+
+    console.log(
+      marketManager?.price,
+      (parseFloat(amount).toFixed(4) / marketManager?.price) *
+        1000000000000000000,
+      parseFloat(amount).toFixed(4) * 1000000000000000000
+    );
+    // return;
+
     writeContract({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi: contractAbi,
@@ -249,12 +261,86 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       args: [
         arr,
         activeBtn === "buy"
-          ? (amount / marketManager?.price) * 1000000000000000000
-          : amount * 1000000000000000000,
+          ? (parseFloat(amount).toFixed(4) / marketManager?.price) *
+            1000000000000000000
+          : parseFloat(amount).toFixed(4) * 1000000000000000000,
         marketType,
         payload?.ticker,
       ],
-      // args: [[5000000000000000000], 1000000000000000, false, "ETRI-EGOD"],
+    });
+    return;
+  };
+  const marketOrder2 = () => {
+    const marketType = activeBtn === "sell" ? true : false;
+
+    let arr = _all_prices2({
+      orders,
+      ticker: payload?.ticker,
+      marketType: marketType ? "BUY" : "SELL",
+      targetAmount: amount,
+      threshold: price,
+    });
+    const marketManager = _buyManager({
+      market: marketType ? "SELL" : "BUY",
+      orders,
+      ticker: payload?.ticker,
+    });
+    console.log(
+      arr,
+      activeBtn === "buy"
+        ? (amount / marketManager?.price) *
+            marketManager.price *
+            1000000000000000000
+        : amount * 1000000000000000000,
+      marketType,
+      payload?.ticker,
+      console.log(amount)
+    );
+
+    if (marketManager.price === null) {
+      alert("songo");
+      writeContract({
+        address: import.meta.env.VITE_CONTRACT_ADDRESS,
+        abi: contractAbi,
+        functionName: "marketOrderTrade",
+        args: [
+          [
+            parseFloat(
+              trades.find((obj) => obj.ticker === payload?.ticker)?.price || 0
+            ).toFixed(2) * 1000000000000000000,
+          ],
+
+          parseFloat(amount) * 1000000000000000000,
+          marketType,
+          payload?.ticker,
+        ],
+      });
+
+      return;
+    }
+    // return;
+    alert("soyombo");
+
+    console.log(
+      marketManager?.price,
+      (parseFloat(amount).toFixed(4) / marketManager?.price) *
+        1000000000000000000,
+      parseFloat(amount).toFixed(4) * 1000000000000000000
+    );
+    // return;
+    writeContract({
+      address: import.meta.env.VITE_CONTRACT_ADDRESS,
+      abi: contractAbi,
+      functionName: "marketOrderTrade",
+      args: [
+        arr,
+        activeBtn === "buy"
+          ? (parseFloat(amount).toFixed(4) / marketManager?.price) *
+            1000000000000000000
+          : parseFloat(amount).toFixed(4) * 1000000000000000000,
+        marketType,
+        payload?.ticker,
+      ],
     });
     return;
   };
@@ -280,9 +366,11 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             marketManager.price !== null &&
             parseFloat(price) < parseFloat(marketManager.price))
         ) {
-          alert("jumbo");
+          // alert("jumbo");
+          //inside this one make sure you pass the price that will be sufficient enough
+          //to buy the order
 
-          marketOrder();
+          marketOrder2({});
           return;
         }
 
