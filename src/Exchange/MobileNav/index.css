@@ -8,6 +8,7 @@
     height: 5dvh;
     min-height: 63px;
     background: #1d2b27;
+    padding-bottom: 10px;
   }
   .MobileNav_area {
     display: flex;

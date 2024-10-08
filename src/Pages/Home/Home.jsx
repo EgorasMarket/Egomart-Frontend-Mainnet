@@ -864,6 +864,17 @@ const Home = () => {
                   setAdModal(false);
                 }}
               />
+              <a
+                href=""
+                target="_blank"
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <button className="adButton">Learn More</button>
+              </a>
               <img
                 src="/img/adBanner1.png"
                 alt=""

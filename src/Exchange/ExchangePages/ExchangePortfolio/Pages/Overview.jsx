@@ -74,7 +74,7 @@ export const AssetItem = ({
 
   const redeemFn = async () => {
     writeContract({
-      address: import.meta.env.VITE_REDEEM_ADDRESS,
+      address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi,
       functionName: "redeem",
       args: [
@@ -381,7 +381,7 @@ export const AssetItemMobile = ({
 
   const redeemFn = async () => {
     writeContract({
-      address: import.meta.env.VITE_REDEEM_ADDRESS,
+      address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi,
       functionName: "redeem",
       args: [
