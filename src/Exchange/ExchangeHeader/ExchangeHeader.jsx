@@ -66,14 +66,18 @@ const ExchangeHeader = () => {
       <div className="container_fluid">
         <div className="exchangeHeader_area">
           <div className="exchangeHeader_div1">
-            <div className="exchangeHeader_div1_cont1">
+            <Link
+              to={"/"}
+              className="exchangeHeader_div1_cont1"
+              style={{ color: "#fff" }}
+            >
               <img
                 src="/egomart_logo.png"
                 alt=""
                 className="exchangeHeader_div1_img"
               />
               Egomart
-            </div>
+            </Link>
 
             <div className="exchangeHeader_div1_links">
               <Link

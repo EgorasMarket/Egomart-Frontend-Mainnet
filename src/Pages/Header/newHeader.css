@@ -127,6 +127,7 @@
   font-weight: 600;
   cursor: pointer;
   font-size: 14px;
+  margin-right: 10px;
 }
 .newHeaderDiv_area3_btn:hover {
   background: #ffffff;
@@ -137,6 +138,10 @@
   background: #ffffff;
   border: solid 1px #ffffff;
   color: #000000;
+}
+.newHeaderDiv_area3 {
+  display: flex;
+  align-items: center;
 }
 @media (max-width: 999px) {
   .newHeaderDiv_area2 {
