@@ -18,3 +18,4 @@ export const GET_USER_TRADE_VOLUME_LEADERBOARD =
 export const GET_DEPOSIT_TRANSACTION_ROUTES =
   "/web3/get-event-deposit-and-withdrawal";
 export const FETCH_ALL_LISTED_ASSETS_ROUTES = "/web3/get-all-asset-data-all";
+export const SUBMIT_DELEIVERY_INFO = "/web3/sumbit-delivery-info";

@@ -57,11 +57,17 @@
   margin: auto;
   margin-top: 2em;
 }
-.homeDiv_section1_area_1_btn {
-  /* margin-top: 2em; */
-  width: 200px;
-  margin: auto;
+.homeDiv_section1_area_1_btns_links_area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 2em;
+}
+.homeDiv_section1_area_1_btn_icon {
+  margin-left: 5px;
+}
+.homeDiv_section1_area_1_btn {
+  width: 150px;
   padding: 15px;
   border-radius: 12px;
   font-weight: 500;
@@ -69,6 +75,43 @@
   color: #fff;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.homeDiv_section1_area_1_btn2 {
+  width: 150px;
+  padding: 15px;
+  border-radius: 12px;
+  font-weight: 500;
+  background: #2b2b2b;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  /* margin-left: 10px; */
+  border: solid 1px #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.homeDiv_section1_area_1_btns_links_area_1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+}
+.homeDiv_section1_area_1_btns_links_area_1_title {
+  font-size: 11px;
+  color: #c8c8c8;
+  margin-bottom: 5px;
+  /* text-align: left; */
+  width: -webkit-fill-available;
+}
+.homeDiv_section1_area_1_btns_links_area_2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin-right: 10px; */
 }
 .homeDiv_section1_area_1_stats {
   background: #222f2bad;
@@ -657,12 +700,13 @@ details[open] > summary::before {
     margin: 0em 0em;
   }
   .homeDiv_section2_area2 {
-    display: grid;
-    /* grid-gap: 10px; */
-    gap: 6px;
+    display: -webkit-box;
+    grid-gap: 0;
+    gap: 5px;
     width: 100%;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
+    /* grid-template-columns: repeat(1, minmax(0, 1fr)); */
     margin-top: 1em;
+    overflow: auto;
   }
   .homeDiv_section3_area2_area1 {
     display: flex;
@@ -829,6 +873,7 @@ details[open] > summary::before {
     display: flex;
     align-items: center;
     cursor: pointer;
+    width: 250px;
   }
   .homeDiv_section2_area2_cont_img {
     margin-right: 10px;

@@ -17,6 +17,7 @@ import useFetchBalance from "../../../../hooks/useFetchBalance";
 import useUserLockedFunds from "../../../../hooks/useUserLockedFunds";
 import { useDispatch, useSelector } from "react-redux";
 import { parseEther, formatEther } from "ethers";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
   _symbolChecker,
   _priceChangeStyling,
@@ -31,6 +32,8 @@ import { GET_USER_DEPOSIT_WITHDRAW } from "../../../../services/trade.services";
 import { format } from "date-fns";
 import abi from "../../../../web3/contracts/Egomart.json";
 import CustomBottomSheet from "../../../../Components/CustomBottomSheet/CustomBottomSheet";
+import toast, { Toaster } from "react-hot-toast";
+import { SUBMIT_DELEIVERY } from "../../../../services/earn.service";
 
 export const AssetItem = ({
   data,
@@ -43,24 +46,33 @@ export const AssetItem = ({
 
   const { address } = useAccount();
   const [redeemModal, setRedeemModal] = useState(false);
+  const [deliveryModal, setDeliveryModal] = useState(false);
   const [redeemAmount, setRedeemAmount] = useState("0");
+  const [deliveryLoading, setDeliveryLoading] = useState(false);
   const [payload, setPayload] = useState({
     fullName: "",
-    email: "",
     country: "",
     state: "",
     city: "",
     zipCode: "",
     phoneNo: "",
   });
+  const [deliveryType, setDeliveryType] = useState(""); // State to store the selected delivery type
+
+  console.log(data);
   const redeemDestinationAddress = "0xf7fe5f26d7C56842E7D5fF1A3bcC8bD52bcb610F";
   const ToggleRedeemModal = () => {
     setRedeemModal(!redeemModal);
+    setDeliveryModal(false);
   };
+  // const ToggleDeliveryModal = () => {
+  //   setDeliveryModal(!deliveryModal);
+  //   setRedeemModal(false);
+  // };
   const onChangeRedeemAmount = (e) => {
     setRedeemAmount(e.target.value);
   };
-  const ratio = 2;
+  const ratio = parseInt(data.ratio);
 
   const {
     isPending: redeeming,
@@ -74,18 +86,21 @@ export const AssetItem = ({
 
   const redeemFn = async () => {
     writeContract({
-      address: import.meta.env.VITE_REDEEM_ADDRESS,
+      address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi,
       functionName: "redeem",
       args: [
         data.tokenAddress,
-        parseEther(redeemAmount?.toString(), "wei").toString(),
+        parseEther(
+          (parseInt(redeemAmount) * parseInt(ratio) || 0)?.toString(),
+          "wei"
+        ).toString(),
         redeemDestinationAddress,
       ],
     });
     console.log(
-      address,
-      parseEther(redeemAmount?.toString(), "wei").toString(),
+      data.tokenAddress,
+      (parseInt(redeemAmount) * parseInt(ratio) || 0)?.toString(),
       redeemDestinationAddress
     );
   };
@@ -102,6 +117,7 @@ export const AssetItem = ({
   useEffect(() => {
     if (redeemSuccess === true) {
       console.log(redeemSuccess);
+      setDeliveryModal(true);
       return;
     }
   }, [redeemSuccess]);
@@ -109,6 +125,16 @@ export const AssetItem = ({
   useEffect(() => {
     if (redeemError === true) {
       console.log(error.shortMessage);
+      toast.error(
+        <div className="toast_success_div">
+          <div className="toast_error_div_title">Error!!</div>
+          <div className="toast_success_div_para">{error.shortMessage}</div>
+        </div>,
+        {
+          duration: 5000,
+          className: "toast_success",
+        }
+      );
       return;
     }
   }, [redeemError]);
@@ -117,6 +143,60 @@ export const AssetItem = ({
     console.log(curr_order_id, "order-id");
   }, [curr_order_id]);
   console.log(data);
+  const handleClick = (value) => {
+    setDeliveryType(value); // Dynamically set the delivery type based on the clicked div
+    console.log(value);
+  };
+
+  const submitDeliveryInfo = async () => {
+    console.log(payload);
+    setDeliveryLoading(true);
+    let body = {
+      wallet_address: address,
+      fullname: payload.fullName,
+      phoneNo: payload.phoneNo,
+      country: payload.country,
+      state: payload.state,
+      city: payload.city,
+      zipcode: payload.zipCode,
+      delivery_type: deliveryType,
+      orderId: curr_order_id,
+    };
+    console.log(body);
+    // console.log(payload, "to be sent to backend");
+    const res = await SUBMIT_DELEIVERY(body);
+    console.log(res);
+    if (res.success === true) {
+      setDeliveryLoading(false);
+      toast.success(
+        <div className="toast_success_div">
+          <div className="toast_success_div_title">Asset Redeemed!</div>
+          <div className="toast_success_div_para">
+            {" "}
+            Asset successfully redeemed
+          </div>
+        </div>,
+        {
+          duration: 5000,
+          className: "toast_success",
+        }
+      );
+      setDeliveryModal(false);
+      setRedeemModal(false);
+      return;
+    }
+    setDeliveryLoading(false);
+    toast.error(
+      <div className="toast_success_div">
+        <div className="toast_error_div_title">Error!!</div>
+        <div className="toast_success_div_para">{res.message}</div>
+      </div>,
+      {
+        duration: 5000,
+        className: "toast_success",
+      }
+    );
+  };
   return (
     <div className="exPortoflioOverviewDiv_3_body_cont_div">
       <div className="exPortoflioOverviewDiv_3_body_cont_1">
@@ -165,7 +245,7 @@ export const AssetItem = ({
         >
           Withdraw
         </button>
-        {data.tokenSymbol === "EGOD" && (
+        {data.tag === "404" && (
           <button
             className="exPortoflioOverviewDiv_3_body_cont_last_btn3"
             onClick={ToggleRedeemModal}
@@ -180,6 +260,25 @@ export const AssetItem = ({
         title={"Redeem"}
       >
         <div className="redeemModal_div">
+          <div className="redeemModal_div_1">
+            <div className="redeemModal_div_1_title">Redeemable</div>
+            <div className="redeemModal_div_1_body">
+              <div className="redeemModal_div_1_body_cont1">
+                <img
+                  src={data.img}
+                  alt=""
+                  className="redeemModal_div_1_body_cont1_img"
+                />
+                {data.tokenSymbol} (RWA)
+              </div>
+              <input
+                className="redeemModal_div_1_body_cont2"
+                value={redeemAmount}
+                onChange={onChangeRedeemAmount}
+              />
+            </div>
+          </div>
+
           <div className="redeemModal_div_1">
             <div className="redeemModal_div_1_title">
               Available balance{" "}
@@ -196,35 +295,42 @@ export const AssetItem = ({
                 />
                 {data.tokenSymbol}
               </div>
-              <input
-                className="redeemModal_div_1_body_cont2"
-                value={redeemAmount}
-                onChange={onChangeRedeemAmount}
-              />
-            </div>
-          </div>
-          <div className="redeemModal_div_1">
-            <div className="redeemModal_div_1_title">Redeemable</div>
-            <div className="redeemModal_div_1_body">
-              <div className="redeemModal_div_1_body_cont1">
-                <img
-                  src={data.img}
-                  alt=""
-                  className="redeemModal_div_1_body_cont1_img"
-                />
-                {data.tokenSymbol} (RWA)
-              </div>
               <div className="redeemModal_div_1_body_cont2">
-                {parseInt(redeemAmount) / parseInt(ratio) || 0}
+                {parseInt(redeemAmount) * parseInt(ratio) || 0}
               </div>
             </div>
           </div>
+
           <div
             className="ratio_span"
             style={{ fontSize: "12px", marginBottom: "10px" }}
           >
             {ratio} {data.tokenSymbol} = 1 {data.tokenSymbol} (RWA)
           </div>
+
+          <button
+            className="depositDiv_cont4_btn"
+            onClick={redeemFn}
+            disabled={redeeming ? true : false}
+          >
+            {redeeming ? (
+              <>
+                <ClipLoader color="#6ba28b" size={18} /> Redeeming...
+              </>
+            ) : (
+              "Redeem"
+            )}
+          </button>
+        </div>
+      </Modal>
+      <Modal
+        isOpen={deliveryModal}
+        closeModal={() => {
+          setDeliveryModal(true);
+        }}
+        title={"Delivery"}
+      >
+        <div className="redeemModal_div">
           <div className="deliveryDetailsDiv">
             <div className="deliveryDetailsDiv_title">Delivery Details</div>
             <div className="deliveryDetailsDiv_body">
@@ -238,20 +344,6 @@ export const AssetItem = ({
                   placeholder="John Doe"
                   name="fullName"
                   value={payload.fullName}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="deliveryDetailsDiv_body_cont1">
-                <div className="deliveryDetailsDiv_body_cont1_title">
-                  Email*
-                </div>
-                <input
-                  type="email"
-                  className="deliveryDetailsDiv_body_cont1_input"
-                  placeholder="@gmail.com"
-                  name="email"
-                  value={payload.email}
                   onChange={handleChange}
                 />
               </div>
@@ -323,17 +415,63 @@ export const AssetItem = ({
                   onChange={handleChange}
                 />
               </div>
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Delivery Type*
+                </div>
+                <div className="deliveryDetailsDiv_body_cont1_body">
+                  <div
+                    className="deliveryDetailsDiv_body_cont1_input_radio_div1"
+                    onClick={() => handleClick("PICKUP")}
+                  >
+                    <div className="deliveryDetailsDiv_body_cont1_input_radio_div_span">
+                      Pickup in store{" "}
+                    </div>
+                    <input
+                      type="radio"
+                      name="deliveryType"
+                      id="PICKUP"
+                      value="PICKUP"
+                      checked={deliveryType === "PICKUP"}
+                      readOnly
+                    />
+                  </div>
+                  <div
+                    className="deliveryDetailsDiv_body_cont1_input_radio_div"
+                    onClick={() => handleClick("DELIVERY")}
+                  >
+                    <div className="deliveryDetailsDiv_body_cont1_input_radio_div_span">
+                      Delivery{" "}
+                    </div>
+                    <input
+                      type="radio"
+                      name="deliveryType"
+                      id="DELIVERY"
+                      value="DELIVERY"
+                      checked={deliveryType === "DELIVERY"}
+                      readOnly
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <button
             className="depositDiv_cont4_btn"
-            onClick={redeemFn}
-            // disabled={isLoading2 ? true : false}
+            onClick={submitDeliveryInfo}
+            disabled={deliveryLoading ? true : false}
           >
-            Redeem
+            {deliveryLoading ? (
+              <>
+                <ClipLoader color="#6ba28b" size={18} /> Submiting...
+              </>
+            ) : (
+              "Submit"
+            )}
           </button>
         </div>
       </Modal>
+      <Toaster />
     </div>
   );
 };
@@ -349,25 +487,28 @@ export const AssetItemMobile = ({
   const { curr_order_id } = useSelector((state) => state.info);
   const { address } = useAccount();
   const [redeemModal, setRedeemModal] = useState(false);
+  const [deliveryModal, setDeliveryModal] = useState(false);
   const [redeemAmount, setRedeemAmount] = useState("0");
   const [assetDetailModal, setAssetDetailModal] = useState(false);
+  const [deliveryLoading, setDeliveryLoading] = useState(false);
   const [payload, setPayload] = useState({
     fullName: "",
-    email: "",
     country: "",
     state: "",
     city: "",
     zipCode: "",
     phoneNo: "",
   });
+  const [deliveryType, setDeliveryType] = useState("");
   const redeemDestinationAddress = "0xf7fe5f26d7C56842E7D5fF1A3bcC8bD52bcb610F";
   const ToggleRedeemModal = () => {
     setRedeemModal(!redeemModal);
+    setDeliveryModal(false);
   };
   const onChangeRedeemAmount = (e) => {
     setRedeemAmount(e.target.value);
   };
-  const ratio = 2;
+  const ratio = parseInt(data.ratio);
 
   const {
     isPending: redeeming,
@@ -381,18 +522,21 @@ export const AssetItemMobile = ({
 
   const redeemFn = async () => {
     writeContract({
-      address: import.meta.env.VITE_REDEEM_ADDRESS,
+      address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi,
       functionName: "redeem",
       args: [
         data.tokenAddress,
-        parseEther(redeemAmount?.toString(), "wei").toString(),
+        parseEther(
+          (parseInt(redeemAmount) * parseInt(ratio) || 0)?.toString(),
+          "wei"
+        ).toString(),
         redeemDestinationAddress,
       ],
     });
     console.log(
-      address,
-      parseEther(redeemAmount?.toString(), "wei").toString(),
+      data.tokenAddress,
+      (parseInt(redeemAmount) * parseInt(ratio) || 0)?.toString(),
       redeemDestinationAddress
     );
   };
@@ -409,6 +553,7 @@ export const AssetItemMobile = ({
   useEffect(() => {
     if (redeemSuccess === true) {
       console.log(redeemSuccess);
+      setDeliveryModal(true);
       return;
     }
   }, [redeemSuccess]);
@@ -416,14 +561,21 @@ export const AssetItemMobile = ({
   useEffect(() => {
     if (redeemError === true) {
       console.log(error.shortMessage);
+
+      toast.error(
+        <div className="toast_success_div">
+          <div className="toast_error_div_title">Error!!</div>
+          <div className="toast_success_div_para">{error.shortMessage}</div>
+        </div>,
+        {
+          duration: 5000,
+          className: "toast_success",
+        }
+      );
       return;
     }
   }, [redeemError]);
 
-  useEffect(() => {
-    console.log(curr_order_id, "order-id");
-  }, [curr_order_id]);
-  console.log(data);
   const toggleAssetDetail = () => {
     setAssetDetailModal(true);
   };
@@ -435,6 +587,65 @@ export const AssetItemMobile = ({
     (tickerItem) => tickerItem.ticker.split("-")[0] === data.tokenSymbol
   );
   console.log(matchedTicker);
+
+  useEffect(() => {
+    console.log(curr_order_id, "order-id");
+  }, [curr_order_id]);
+  console.log(data);
+  const handleClick = (value) => {
+    setDeliveryType(value); // Dynamically set the delivery type based on the clicked div
+    console.log(value);
+  };
+
+  const submitDeliveryInfo = async () => {
+    console.log(payload);
+    setDeliveryLoading(true);
+    let body = {
+      wallet_address: address,
+      fullname: payload.fullName,
+      phoneNo: payload.phoneNo,
+      country: payload.country,
+      state: payload.state,
+      city: payload.city,
+      zipcode: payload.zipCode,
+      delivery_type: deliveryType,
+      orderId: curr_order_id,
+    };
+    console.log(body);
+    // console.log(payload, "to be sent to backend");
+    const res = await SUBMIT_DELEIVERY(body);
+    console.log(res);
+    if (res.success === true) {
+      setDeliveryLoading(false);
+      toast.success(
+        <div className="toast_success_div">
+          <div className="toast_success_div_title">Asset Redeemed!</div>
+          <div className="toast_success_div_para">
+            {" "}
+            Asset successfully redeemed
+          </div>
+        </div>,
+        {
+          duration: 5000,
+          className: "toast_success",
+        }
+      );
+      setDeliveryModal(false);
+      setRedeemModal(false);
+      return;
+    }
+    setDeliveryLoading(false);
+    toast.error(
+      <div className="toast_success_div">
+        <div className="toast_error_div_title">Error!!</div>
+        <div className="toast_success_div_para">{res.message}</div>
+      </div>,
+      {
+        duration: 5000,
+        className: "toast_success",
+      }
+    );
+  };
   return (
     <>
       <div
@@ -487,7 +698,7 @@ export const AssetItemMobile = ({
           >
             Withdraw
           </button>
-          {data.tokenSymbol === "EGOD" && (
+          {data.tag === "404" && (
             <button
               className="exPortoflioOverviewDiv_3_body_cont_last_btn3"
               onClick={ToggleRedeemModal}
@@ -504,6 +715,25 @@ export const AssetItemMobile = ({
       >
         <div className="redeemModal_div">
           <div className="redeemModal_div_1">
+            <div className="redeemModal_div_1_title">Redeemable</div>
+            <div className="redeemModal_div_1_body">
+              <div className="redeemModal_div_1_body_cont1">
+                <img
+                  src={data.img}
+                  alt=""
+                  className="redeemModal_div_1_body_cont1_img"
+                />
+                {data.tokenSymbol} (RWA)
+              </div>
+              <input
+                className="redeemModal_div_1_body_cont2"
+                value={redeemAmount}
+                onChange={onChangeRedeemAmount}
+              />
+            </div>
+          </div>
+
+          <div className="redeemModal_div_1">
             <div className="redeemModal_div_1_title">
               Available balance{" "}
               <span>
@@ -519,35 +749,42 @@ export const AssetItemMobile = ({
                 />
                 {data.tokenSymbol}
               </div>
-              <input
-                className="redeemModal_div_1_body_cont2"
-                value={redeemAmount}
-                onChange={onChangeRedeemAmount}
-              />
-            </div>
-          </div>
-          <div className="redeemModal_div_1">
-            <div className="redeemModal_div_1_title">Redeemable</div>
-            <div className="redeemModal_div_1_body">
-              <div className="redeemModal_div_1_body_cont1">
-                <img
-                  src={data.img}
-                  alt=""
-                  className="redeemModal_div_1_body_cont1_img"
-                />
-                {data.tokenSymbol} (RWA)
-              </div>
               <div className="redeemModal_div_1_body_cont2">
-                {parseInt(redeemAmount) / parseInt(ratio) || 0}
+                {parseInt(redeemAmount) * parseInt(ratio) || 0}
               </div>
             </div>
           </div>
+
           <div
             className="ratio_span"
             style={{ fontSize: "12px", marginBottom: "10px" }}
           >
             {ratio} {data.tokenSymbol} = 1 {data.tokenSymbol} (RWA)
           </div>
+
+          <button
+            className="depositDiv_cont4_btn"
+            onClick={redeemFn}
+            disabled={redeeming ? true : false}
+          >
+            {redeeming ? (
+              <>
+                <ClipLoader color="#6ba28b" size={18} /> Redeeming...
+              </>
+            ) : (
+              "Redeem"
+            )}
+          </button>
+        </div>
+      </Modal>
+      <Modal
+        isOpen={deliveryModal}
+        closeModal={() => {
+          setDeliveryModal(true);
+        }}
+        title={"Delivery"}
+      >
+        <div className="redeemModal_div">
           <div className="deliveryDetailsDiv">
             <div className="deliveryDetailsDiv_title">Delivery Details</div>
             <div className="deliveryDetailsDiv_body">
@@ -561,20 +798,6 @@ export const AssetItemMobile = ({
                   placeholder="John Doe"
                   name="fullName"
                   value={payload.fullName}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="deliveryDetailsDiv_body_cont1">
-                <div className="deliveryDetailsDiv_body_cont1_title">
-                  Email*
-                </div>
-                <input
-                  type="email"
-                  className="deliveryDetailsDiv_body_cont1_input"
-                  placeholder="@gmail.com"
-                  name="email"
-                  value={payload.email}
                   onChange={handleChange}
                 />
               </div>
@@ -646,14 +869,59 @@ export const AssetItemMobile = ({
                   onChange={handleChange}
                 />
               </div>
+              <div className="deliveryDetailsDiv_body_cont1">
+                <div className="deliveryDetailsDiv_body_cont1_title">
+                  Delivery Type*
+                </div>
+                <div className="deliveryDetailsDiv_body_cont1_body">
+                  <div
+                    className="deliveryDetailsDiv_body_cont1_input_radio_div1"
+                    onClick={() => handleClick("PICKUP")}
+                  >
+                    <div className="deliveryDetailsDiv_body_cont1_input_radio_div_span">
+                      Pickup in store{" "}
+                    </div>
+                    <input
+                      type="radio"
+                      name="deliveryType"
+                      id="PICKUP"
+                      value="PICKUP"
+                      checked={deliveryType === "PICKUP"}
+                      readOnly
+                    />
+                  </div>
+                  <div
+                    className="deliveryDetailsDiv_body_cont1_input_radio_div"
+                    onClick={() => handleClick("DELIVERY")}
+                  >
+                    <div className="deliveryDetailsDiv_body_cont1_input_radio_div_span">
+                      Delivery{" "}
+                    </div>
+                    <input
+                      type="radio"
+                      name="deliveryType"
+                      id="DELIVERY"
+                      value="DELIVERY"
+                      checked={deliveryType === "DELIVERY"}
+                      readOnly
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <button
             className="depositDiv_cont4_btn"
-            onClick={redeemFn}
-            // disabled={isLoading2 ? true : false}
+            onClick={submitDeliveryInfo}
+            disabled={deliveryLoading ? true : false}
           >
-            Redeem
+            {deliveryLoading ? (
+              <>
+                <ClipLoader color="#6ba28b" size={18} /> Submiting...
+              </>
+            ) : (
+              "Submit"
+            )}
           </button>
         </div>
       </Modal>
@@ -728,7 +996,7 @@ export const AssetItemMobile = ({
             >
               Withdraw
             </button>
-            {data.tokenSymbol === "EGOD" && (
+            {data.tag === "404" && (
               <button
                 className="exPortoflioOverviewDiv_2_div1_cont4_div3_funding_btns2"
                 onClick={ToggleRedeemModal}
@@ -739,6 +1007,7 @@ export const AssetItemMobile = ({
           </div>
         </div>
       </CustomBottomSheet>
+      <Toaster />
     </>
   );
 };
