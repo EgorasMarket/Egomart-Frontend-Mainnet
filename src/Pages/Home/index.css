@@ -874,6 +874,7 @@ details[open] > summary::before {
     align-items: center;
     cursor: pointer;
     width: 250px;
+    margin-right: 5px;
   }
   .homeDiv_section2_area2_cont_img {
     margin-right: 10px;

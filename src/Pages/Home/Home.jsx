@@ -181,11 +181,11 @@ const Home = () => {
                 />
                 <div className="homeDiv_section2_area2_cont_txt_area">
                   <div className="homeDiv_section2_area2_cont_txt_area_title">
-                    Use to Earn
+                    Subsidized Products
                   </div>
                   <div className="homeDiv_section2_area2_cont_txt_area_para">
-                    Earn $EGAX by utilizing our products, powered by a
-                    distributed ledger.
+                    Daily $EGAX block rewards subsidize tokenized products on
+                    Ego Mart, a blockchain-powered exchange.
                   </div>
                 </div>
               </div>
