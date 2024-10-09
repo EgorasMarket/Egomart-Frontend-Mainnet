@@ -79,7 +79,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
 
     res?.data[0].forEach((order, position) => {
       data = {
-        id: trades.length + 1,
+        id: order?.id,
         price: order?.value,
         indexId: order.orderId,
         ticker: order?.ticker,

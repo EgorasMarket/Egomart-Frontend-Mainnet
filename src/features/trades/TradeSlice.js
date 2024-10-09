@@ -11,8 +11,8 @@ const TradeSlice = createSlice({
     setTrade: (state, action) => {
       const newArr = [...action.payload];
       newArr.sort((a, b) => {
-        // return b.id - a.id;
-        return new Date(b.createdAt) - new Date(a.createdAt);
+        return b.id - a.id;
+        // return new Date(b.createdAt) - new Date(a.createdAt);
       });
       state.trades = newArr;
     },
