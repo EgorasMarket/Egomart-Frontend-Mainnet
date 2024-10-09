@@ -302,7 +302,7 @@ const NewFooter = () => {
                 </div>
               </div>
               <div className="newFooterDiv_area_2_area2">
-                © {currentYear} Egocmart. All rights reserved.
+                © {currentYear} Egomart. All rights reserved.
               </div>
             </div>
           </div>

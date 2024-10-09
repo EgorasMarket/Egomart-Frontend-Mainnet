@@ -294,7 +294,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         : amount * 1000000000000000000,
       marketType,
       payload?.ticker,
-      console.log(amount)
+      amount
     );
 
     if (marketManager.price === null) {

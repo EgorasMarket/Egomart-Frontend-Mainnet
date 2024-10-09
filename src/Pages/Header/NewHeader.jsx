@@ -10,6 +10,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import Marquee from "react-fast-marquee";
+import CandlestickChartIcon from "@mui/icons-material/CandlestickChart";
+import TelegramIcon from "@mui/icons-material/Telegram";
 
 const NewHeader = () => {
   const [productsDrop, setProductsDrop] = useState("");
@@ -78,7 +80,7 @@ const NewHeader = () => {
                   }}
                 >
                   <a
-                    href="/app/trade/spot/ESTA-EGOD"
+                    href="/app/trade/spot/ETRI-EGOD"
                     target="_blank"
                     className="new_header_div_area_2_div_drop_link1"
                   >
@@ -209,8 +211,17 @@ const NewHeader = () => {
             </a>
           </div>
           <div className="newHeaderDiv_area3">
+            <a href="https://t.me/egomartbot" target="_blank">
+              <button className="newHeaderDiv_area3_btn2">
+                Shop{" "}
+                <TelegramIcon className="homeDiv_section1_area_1_btn_icon" />
+              </button>
+            </a>
             <a href="/app/trade/spot/ETRI-EGOD">
-              <button className="newHeaderDiv_area3_btn">Trade</button>
+              <button className="newHeaderDiv_area3_btn">
+                Trade{" "}
+                <CandlestickChartIcon className="homeDiv_section1_area_1_btn_icon" />
+              </button>
             </a>
           </div>
           {/* <MenuIcon

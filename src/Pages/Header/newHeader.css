@@ -114,7 +114,26 @@
   cursor: pointer;
   font-size: 14px;
 }
+.newHeaderDiv_area3_btn2 {
+  background: #252525;
+  border: solid 1px #fff;
+  color: #fff;
+  padding: 10px 10px;
+  border-radius: 10px;
+  width: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
 .newHeaderDiv_area3_btn:hover {
+  background: #ffffff;
+  border: solid 1px #ffffff;
+  color: #000000;
+}
+.newHeaderDiv_area3_btn2:hover {
   background: #ffffff;
   border: solid 1px #ffffff;
   color: #000000;
@@ -160,5 +179,27 @@
   .header_div_area_1_img {
     width: 40px;
     margin-right: 10px;
+  }
+  .newHeaderDiv_area3_btn2 {
+    padding: 6px 10px;
+    border-radius: 10px;
+    width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .newHeaderDiv_area3_btn {
+    padding: 6px 10px;
+    border-radius: 10px;
+    width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
   }
 }
