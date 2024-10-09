@@ -442,7 +442,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                 {numberWithCommas(
                   parseFloat(
                     trades.find((obj) => obj.ticker === current?.ticker)?.price
-                  ) || 0
+                  ).toFixed(2) || 0
                 )}
 
                 <span className="executed_price_div_span">
@@ -451,7 +451,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                     parseFloat(
                       trades.find((obj) => obj.ticker === current?.ticker)
                         ?.price
-                    ) || 0
+                    ).toFixed(2) || 0
                   )}{" "}
                 </span>
               </div>
@@ -631,7 +631,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                 {numberWithCommas(
                   parseFloat(
                     trades.find((obj) => obj.ticker === current?.ticker)?.price
-                  ) || 0
+                  ).toFixed(2) || 0
                 )}
 
                 <span className="executed_price_div_span">
@@ -640,7 +640,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                     parseFloat(
                       trades.find((obj) => obj.ticker === current?.ticker)
                         ?.price
-                    ) || 0
+                    ).toFixed(2) || 0
                   )}
                 </span>
               </div>
@@ -721,7 +721,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                 {numberWithCommas(
                   parseFloat(
                     trades.find((obj) => obj.ticker === current?.ticker)?.price
-                  ) || 0
+                  ).toFixed(2) || 0
                 )}
                 <span className="executed_price_div_span">
                   ≈ ${" "}
@@ -729,7 +729,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                     parseFloat(
                       trades.find((obj) => obj.ticker === current?.ticker)
                         ?.price
-                    ) || 0
+                    ).toFixed(2) || 0
                   )}
                 </span>
               </div>

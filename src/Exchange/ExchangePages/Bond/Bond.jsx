@@ -407,6 +407,9 @@ const Bond = () => {
                 Egod Minted
               </div>
               <div className="earn_div_section2_area2_area_header_cont2">
+                Rate
+              </div>
+              <div className="earn_div_section2_area2_area_header_cont2">
                 Time
               </div>
               <div className="earn_div_section2_area2_area_header_cont3 last_mobi">
@@ -415,9 +418,9 @@ const Bond = () => {
             </div>
             <div className="earn_div_section2_area2_area_body">
               {bondData?.allTransactions
+                ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 ?.slice(0, itemsToShow)
-                .sort((a, b) => b.points - a.points)
-                .map((data, index) => {
+                ?.map((data, index) => {
                   function formatDate(dateString) {
                     const date = new Date(dateString);
 
@@ -442,6 +445,12 @@ const Bond = () => {
                       </div>
                       <div className="earn_div_section2_area2_area_body_cont1_div2">
                         {parseFloat(data.amountOut)}Egod
+                      </div>
+                      <div
+                        className="earn_div_section2_area2_area_body_cont1_div2"
+                        style={{ fontSize: "14px" }}
+                      >
+                        1Egax = {parseFloat(data.price)}Egod
                       </div>
                       <div className="earn_div_section2_area2_area_body_cont1_div2">
                         {formatDate(data?.createdAt || new Date())}
