@@ -2,7 +2,7 @@ name: Main.js CI
 
 on:
   push:
-    branches: [master]
+    branches: [master, final-1]
   pull_request:
     branches: [master]
 
