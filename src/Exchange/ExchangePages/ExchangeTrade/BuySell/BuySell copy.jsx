@@ -440,8 +440,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             marketManager.price !== null &&
             parseFloat(price) < parseFloat(marketManager.price))
         ) {
-          // alert("jumbo");
-
           marketOrder();
           return;
         }

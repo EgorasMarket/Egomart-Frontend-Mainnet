@@ -318,8 +318,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
 
       return;
     }
-    // return;
-    // alert("soyombo");
 
     console.log(
       marketManager?.price,
