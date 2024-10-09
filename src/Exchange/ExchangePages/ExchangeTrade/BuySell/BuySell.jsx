@@ -223,7 +223,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     );
 
     if (marketManager.price === null) {
-      alert("songo");
+      // alert("songo");
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
@@ -244,7 +244,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       return;
     }
     // return;
-    alert("soludo");
+    // alert("soludo");
 
     console.log(
       marketManager?.price,
@@ -298,7 +298,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     );
 
     if (marketManager.price === null) {
-      alert("songo");
+      // alert("songo");
       writeContract({
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         abi: contractAbi,
@@ -319,7 +319,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       return;
     }
     // return;
-    alert("soyombo");
+    // alert("soyombo");
 
     console.log(
       marketManager?.price,

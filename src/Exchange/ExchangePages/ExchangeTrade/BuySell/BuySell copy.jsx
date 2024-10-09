@@ -219,7 +219,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     );
 
     if (marketManager.price === null) {
-      alert("cannot place market order at this time!!!");
+      // alert("cannot place market order at this time!!!");
       return;
     }
     // return;
@@ -440,7 +440,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             marketManager.price !== null &&
             parseFloat(price) < parseFloat(marketManager.price))
         ) {
-          alert("jumbo");
+          // alert("jumbo");
 
           marketOrder();
           return;
