@@ -80,6 +80,7 @@ export const INSERT_NEW_ORDER = async (payload) => {
     return error?.response?.data || error?.response || error.message;
   }
 };
+
 // halle
 export const GET_24_HOUR_VOLUME = async (ticker) => {
   try {

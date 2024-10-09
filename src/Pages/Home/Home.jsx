@@ -7,6 +7,8 @@ import { numberWithCommas } from "../../assets/js/numberWithCommas";
 import { useDispatch, useSelector } from "react-redux";
 import formatNumber from "../../assets/js/formatNumber";
 import CloseIcon from "@mui/icons-material/Close";
+import CandlestickChartIcon from "@mui/icons-material/CandlestickChart";
+import TelegramIcon from "@mui/icons-material/Telegram";
 
 const Home = () => {
   const { tickers } = useSelector((state) => state.pairs);
@@ -56,12 +58,33 @@ const Home = () => {
                 developing countries by trading with low fees, a fast order
                 book, and minimal slippage.
               </div>
-              <a
-                href="/app/trade/spot/ETRI-EGOD"
-                className="homeDiv_section1_area_1_btn"
-              >
-                Trade Now
-              </a>
+              <div className="homeDiv_section1_area_1_btns_links_area">
+                <div className="homeDiv_section1_area_1_btns_links_area_1">
+                  <div className="homeDiv_section1_area_1_btns_links_area_1_title">
+                    For Traders
+                  </div>
+                  <a
+                    href="/app/trade/spot/ETRI-EGOD"
+                    className="homeDiv_section1_area_1_btn"
+                  >
+                    Trade Now{" "}
+                    <CandlestickChartIcon className="homeDiv_section1_area_1_btn_icon" />
+                  </a>
+                </div>
+                <div className="homeDiv_section1_area_1_btns_links_area_2">
+                  <div className="homeDiv_section1_area_1_btns_links_area_1_title">
+                    For Direct Purchases
+                  </div>
+                  <a
+                    href="https://t.me/egomartbot"
+                    target="_blank"
+                    className="homeDiv_section1_area_1_btn2"
+                  >
+                    Shop Now{" "}
+                    <TelegramIcon className="homeDiv_section1_area_1_btn_icon" />
+                  </a>
+                </div>
+              </div>
               <div className="homeDiv_section1_area_1_stats">
                 <div className="homeDiv_section1_area_1_stats_cont1">
                   <div className="homeDiv_section1_area_1_stats_cont1_title">

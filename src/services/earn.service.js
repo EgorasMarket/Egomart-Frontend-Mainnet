@@ -5,6 +5,7 @@ import {
   CLAIM_REWARD_ROUTE,
   GET_USER_LOCKED_FUNDS,
   GET_BONDING_DATA,
+  SUBMIT_DELEIVERY_INFO,
 } from "../core/routes";
 
 export const TRADE_VOLUME_REWARD = async (wallet) => {
@@ -44,6 +45,14 @@ export const BONDING_DATA = async () => {
 export const CLAIM_REWARD = async (wallet) => {
   try {
     const response = await api.get(`${CLAIM_REWARD_ROUTE}/${wallet}`);
+    return response.data;
+  } catch (error) {
+    return error?.response?.data || error?.response || error.message;
+  }
+};
+export const SUBMIT_DELEIVERY = async (payload) => {
+  try {
+    const response = await api.post(`${SUBMIT_DELEIVERY_INFO}`, payload);
     return response.data;
   } catch (error) {
     return error?.response?.data || error?.response || error.message;
