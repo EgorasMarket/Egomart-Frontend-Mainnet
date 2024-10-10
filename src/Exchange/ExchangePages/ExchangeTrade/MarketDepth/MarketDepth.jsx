@@ -35,6 +35,7 @@ const MarketDepth = ({ current }) => {
       acc[price].amount += parseFloat(item.amount);
       return acc;
     }, {});
+
   const groupedSellPrice = orders
     ?.filter(
       (order) =>
@@ -50,9 +51,10 @@ const MarketDepth = ({ current }) => {
       acc[price].amount += parseFloat(item.amount);
       return acc;
     }, {});
-
+  console.log(groupedByPrice, groupedSellPrice);
   const groupedBuyOffersArr = Object.values(groupedByPrice);
   const groupedSellOffersArr = Object.values(groupedSellPrice);
+  console.log(groupedBuyOffersArr, groupedSellOffersArr);
 
   const sortedGroupedBuyOffersArr = groupedBuyOffersArr
     .sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
@@ -64,18 +66,14 @@ const MarketDepth = ({ current }) => {
 
   const buyOffers = sortedGroupedBuyOffersArr;
   const sellOffers = sortedGroupedSellOffersArr;
+  console.log(buyOffers, sellOffers);
+  const sortedBuyOffers = buyOffers.sort((a, b) => b.amount - a.amount);
 
-  const sortedBuyOffers = buyOffers.sort(
-    (a, b) => parseInt(b.amount) - parseInt(a.amount)
-  );
+  console.log(sortedBuyOffers);
 
-  // console.log(sortedBuyOffers);
+  const sortedSellOffers = sellOffers.sort((b, a) => b.amount - a.amount);
 
-  const sortedSellOffers = sellOffers.sort(
-    (a, b) => parseInt(a.amount) - parseInt(b.amount)
-  );
-
-  // console.log(sortedSellOffers);
+  console.log(sortedSellOffers);
   const CustomTooltip = ({ payload, label, active }) => {
     if (active && payload && payload.length) {
       // console.log(payload, label, active);
@@ -89,7 +87,7 @@ const MarketDepth = ({ current }) => {
           <p className="intro">
             {" "}
             <span className="intro_span">Total Amount:</span>
-            {parseFloat(payload[0].value)}
+            {parseFloat(payload[0].value).toFixed(4)}
           </p>
         </div>
       );
@@ -114,7 +112,7 @@ const MarketDepth = ({ current }) => {
           <p className="intro">
             {" "}
             <span className="intro_span">Total Amount:</span>
-            {parseFloat(payload[0].value)}
+            {parseFloat(payload[0].value).toFixed(4)}
           </p>
         </div>
       );

@@ -60,7 +60,7 @@ const MobileNav = () => {
           onClick={changeActiveBg}
           id="bond"
         >
-          <JoinLeftSharpIcon />
+          <JoinLeftSharpIcon className="bond_mob_icon" />
           Bond
         </Link>
         <Link

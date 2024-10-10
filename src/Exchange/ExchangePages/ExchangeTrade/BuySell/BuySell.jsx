@@ -30,6 +30,7 @@ import {
 } from "../../../../helpers/helper";
 import { parseEther } from "viem";
 import { parseUnits } from "ethers";
+import { BalanceRounded } from "@mui/icons-material";
 
 const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const { orders } = useSelector((state) => state.orders);
@@ -96,30 +97,26 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
 
     if (selectedValue === "Limit" && activeBtn === "buy") {
       setTotalSum(
-        parseFloat(
-          ((value === 100 ? 99.9 : value) / 100) * balance.toFixed()
-        ).toFixed(3)
+        parseFloat(((value === 100 ? 99.98 : value) / 100) * balance).toFixed(4)
       );
       setAmount(
         parseFloat(
           parseFloat(
-            ((value === 100 ? 99.9 : value) / 100 / parseFloat(price)) *
-              balance.toFixed()
+            ((value === 100 ? 99.98 : value) / 100 / parseFloat(price)) *
+              balance
           )
-        ).toFixed(3)
+        ).toFixed(4)
       );
       return;
     }
     setTotalSum(
       parseFloat(
         parseFloat(price) *
-          parseFloat(((value === 100 ? 99.9 : value) / 100) * balance.toFixed())
-      ).toFixed(3)
+          parseFloat(((value === 100 ? 99.98 : value) / 100) * balance)
+      ).toFixed(4)
     );
     setAmount(
-      parseFloat(
-        ((value === 100 ? 99.9 : value) / 100) * balance.toFixed()
-      ).toFixed(3)
+      parseFloat(((value === 100 ? 99.98 : value) / 100) * balance).toFixed(4)
     );
   };
 
@@ -127,7 +124,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const handleTotalChange = (event) => {
     setTotalSum(event.target.value);
     setAmount(
-      parseFloat(parseFloat(event.target.value) / parseFloat(price)).toFixed(3)
+      parseFloat(parseFloat(event.target.value) / parseFloat(price)).toFixed(4)
     );
   };
 
@@ -135,7 +132,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
     setTotalSum(
-      parseFloat(parseFloat(event.target.value) * parseFloat(amount)).toFixed(3)
+      parseFloat(parseFloat(event.target.value) * parseFloat(amount)).toFixed(4)
     );
   };
 
@@ -143,7 +140,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
     setTotalSum(
-      parseFloat(parseFloat(price) * parseFloat(event.target.value)).toFixed(3)
+      parseFloat(parseFloat(price) * parseFloat(event.target.value)).toFixed(4)
     );
   };
 

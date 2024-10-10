@@ -141,7 +141,9 @@ const MobileOrderBook = ({ current }) => {
                 <div className="walletSelectModalDiv_body_amount_display_cont1">
                   {data.amount !== "--"
                     ? numberWithCommas(
-                        parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                        parseFloat(
+                          parseFloat(data?.amount) - parseFloat(data?.filled)
+                        ).toFixed(DECIMAL_COUNT)
                       )
                     : "--"}
                 </div>
@@ -194,7 +196,9 @@ const MobileOrderBook = ({ current }) => {
                 <div className="walletSelectModalDiv_body_amount_display_cont1">
                   {data.amount !== "--"
                     ? numberWithCommas(
-                        parseFloat(data?.amount).toFixed(DECIMAL_COUNT)
+                        parseFloat(
+                          parseFloat(data?.amount) - parseFloat(data?.filled)
+                        ).toFixed(DECIMAL_COUNT)
                       )
                     : "--"}
                 </div>
