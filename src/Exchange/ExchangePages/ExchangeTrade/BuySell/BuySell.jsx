@@ -287,11 +287,12 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     });
     console.log(
       arr,
-      activeBtn === "buy"
-        ? (amount / marketManager?.price) *
-            marketManager.price *
-            1000000000000000000
-        : amount * 1000000000000000000,
+      amount * 1000000000000000000,
+      // activeBtn === "buy"
+      //   ? (amount / marketManager?.price) *
+      //       marketManager.price *
+      //       1000000000000000000
+      //   : amount * 1000000000000000000,
       marketType,
       payload?.ticker,
       amount
@@ -319,12 +320,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       return;
     }
 
-    console.log(
-      marketManager?.price,
-      (parseFloat(amount).toFixed(4) / marketManager?.price) *
-        1000000000000000000,
-      parseFloat(amount).toFixed(4) * 1000000000000000000
-    );
     // return;
     writeContract({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -332,10 +327,11 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       functionName: "marketOrderTrade",
       args: [
         arr,
-        activeBtn === "buy"
-          ? (parseFloat(amount).toFixed(4) / marketManager?.price) *
-            1000000000000000000
-          : parseFloat(amount).toFixed(4) * 1000000000000000000,
+        // activeBtn === "buy"
+        //   ? (parseFloat(amount).toFixed(4) / marketManager?.price) *
+        //     1000000000000000000
+        // :
+        parseFloat(amount).toFixed(4) * 1000000000000000000,
         marketType,
         payload?.ticker,
       ],

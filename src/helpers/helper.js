@@ -195,7 +195,7 @@ export const _all_prices2 = ({
           order.type === "SELL" &&
           order.status === "OPEN" &&
           order.ticker === ticker &&
-          order.price <= threshold
+          parseFloat(order.price) <= threshold
       )
       .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
 
@@ -203,7 +203,7 @@ export const _all_prices2 = ({
       if (accumulatedAmount >= targetAmount) break;
 
       resultArr.push(order);
-      accumulatedAmount += order?.amount * order?.price;
+      accumulatedAmount += order?.amount;
     }
 
     if (resultArr.length == 0) return [];
