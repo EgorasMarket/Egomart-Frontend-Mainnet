@@ -338,4 +338,9 @@ text.recharts-text tspan {
     height: auto;
     overflow: hidden;
   }
+  .amount_bg_stat {
+    left: auto;
+    right: 0;
+    /* z-index: 1; */
+  }
 }

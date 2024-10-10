@@ -436,7 +436,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
             <>
               <div
                 className="executed_price_div"
-                style={{ color: _priceChangeStyling(current) }}
+                style={{ color: _priceChangeStyling({ pair: current }) }}
                 // style={{ color:  "#ff445d" }}
               >
                 {numberWithCommas(
@@ -626,7 +626,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
               </div>
               <div
                 className="executed_price_div"
-                style={{ color: _priceChangeStyling(current) }}
+                style={{ color: _priceChangeStyling({ pair: current }) }}
               >
                 {numberWithCommas(
                   parseFloat(
@@ -717,7 +717,10 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                   );
                 })}
               </div>
-              <div className="executed_price_div">
+              <div
+                className="executed_price_div"
+                style={{ color: _priceChangeStyling({ pair: current }) }}
+              >
                 {numberWithCommas(
                   parseFloat(
                     trades.find((obj) => obj.ticker === current?.ticker)?.price
