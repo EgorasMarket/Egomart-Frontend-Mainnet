@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Toaster, toast } from "react-hot-toast";
 import {
+  _all_amount,
   _all_prices,
   _all_prices2,
   _buyManager,
@@ -202,22 +203,12 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       marketType: marketType ? "BUY" : "SELL",
       targetAmount: amount,
     });
+
     const marketManager = _buyManager({
       market: marketType ? "SELL" : "BUY",
       orders,
       ticker: payload?.ticker,
     });
-    console.log(
-      arr,
-      activeBtn === "buy"
-        ? (amount / marketManager?.price) *
-            marketManager.price *
-            1000000000000000000
-        : amount * 1000000000000000000,
-      marketType,
-      payload?.ticker,
-      console.log(amount)
-    );
 
     if (marketManager.price === null) {
       // alert("songo");
@@ -240,26 +231,34 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
 
       return;
     }
+
     // return;
     // alert("soludo");
+    let __amount = _all_amount({
+      orders,
+      ticker: payload?.ticker,
+      marketType: marketType ? "BUY" : "SELL",
+      targetAmount: amount,
+    });
 
     console.log(
+      arr,
       marketManager?.price,
-      (parseFloat(amount).toFixed(4) / marketManager?.price) *
-        1000000000000000000,
-      parseFloat(amount).toFixed(4) * 1000000000000000000
+      __amount
+      // parseFloat(amount).toFixed(4) * 1000000000000000000
     );
+    // alert(__amount);
     // return;
-
+    //
     writeContract({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi: contractAbi,
       functionName: "marketOrderTrade",
       args: [
         arr,
+
         activeBtn === "buy"
-          ? (parseFloat(amount).toFixed(4) / marketManager?.price) *
-            1000000000000000000
+          ? __amount
           : parseFloat(amount).toFixed(4) * 1000000000000000000,
         marketType,
         payload?.ticker,

@@ -141,7 +141,40 @@ export const _all_prices = ({
       if (accumulatedAmount >= targetAmount) break;
 
       resultArr.push(order);
-      accumulatedAmount += order?.amount * order?.price;
+      accumulatedAmount += order?.amount;
+    }
+
+    if (resultArr.length == 0) return [];
+
+    return resultArr.map((data) => {
+      return parseEther(data?.price, "wei");
+      // return data?.price * 1000000000000000000;
+    });
+  }
+};
+export const _all_amount = ({
+  orders = [],
+  ticker,
+  marketType,
+  targetAmount = 0,
+}) => {
+  let accumulatedAmount = 0.0;
+  const resultArr = [];
+
+  if (marketType === "BUY") {
+    const sortedArray = orders
+      .filter(
+        (order) =>
+          order.type === "BUY" &&
+          order.status === "OPEN" &&
+          order.ticker === ticker
+      )
+      .sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+    for (const order of sortedArray) {
+      if (accumulatedAmount >= targetAmount) break;
+
+      resultArr.push(order);
+      accumulatedAmount += parseFloat(order?.amount);
     }
 
     if (resultArr.length == 0) return [];
@@ -149,6 +182,46 @@ export const _all_prices = ({
     return resultArr.map((data) => {
       return data?.price * 1000000000000000000;
     });
+  }
+  if (marketType === "SELL") {
+    let newOrder = orders
+      .filter(
+        (data) =>
+          data.ticker === ticker &&
+          data.status === "OPEN" &&
+          data.type === "SELL"
+      )
+      .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+
+    let budget = targetAmount; // EGOD
+    let totalShares = 0; // To track how many shares you can afford
+
+    // newOrder.forEach((order) => {
+    for (const order of newOrder) {
+      const pricePerShare =
+        parseFloat(order.price) *
+        (parseFloat(order.amount) - parseFloat(order?.filled));
+
+      const remainingShares =
+        parseFloat(order.amount) - parseFloat(order.filled);
+
+      if (budget === 0) {
+        break;
+      }
+      if (budget >= pricePerShare) {
+        // Buy all remaining shares in this order
+        totalShares += remainingShares;
+        budget -= pricePerShare;
+      } else {
+        // Buy as many shares as budget allows
+        const affordableShares = budget / parseFloat(order.price);
+        totalShares += affordableShares;
+        budget = 0; // Budget is exhausted
+      }
+    }
+
+    console.log(totalShares, "lokoko");
+    return parseEther(parseFloat(totalShares).toFixed(4), "wei");
   }
 };
 export const _all_prices2 = ({
