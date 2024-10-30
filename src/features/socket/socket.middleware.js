@@ -49,6 +49,7 @@ const socketMiddleware = (store) => {
             createdAt: log.timePlaced,
             transHash: log.transHash,
             filled: 0.0,
+            customId: log.customId,
           };
           arr.push(newP);
           dispatch(updateOrder(newP));
@@ -67,6 +68,8 @@ const socketMiddleware = (store) => {
             type: log.typeOfTrade,
             amount: parseFloat(log.numberOfShares).toFixed(5),
             uuid: log.uniqueOrderID,
+            sellerOrderId: log.sellerOrderId,
+            buyerOrderId: log.buyerOrderId,
             buyer: log.buyer,
             seller: log.seller,
             createdAt: log.timedAdded,

@@ -28,6 +28,7 @@ import {
   _highestBuyOrder,
   _highestSellOrder,
   _lowestBuyOrder,
+  uuidFromUuidV4,
 } from "../../../../helpers/helper";
 import { parseEther } from "viem";
 import { parseUnits } from "ethers";
@@ -150,50 +151,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const parsedAmount = parseFloat(amount);
   const Total = parsedPrice * parsedAmount;
 
-  const setOrder = ({ _ticker, _marketType, _address, _price, _amount }) => {
-    try {
-      if (payload?.meta?.minimum_order_size > Total) {
-        toast.error(
-          <div className="toast_success_div">
-            <div className="toast_error_div_title">Error !!</div>
-            <div className="toast_success_div_para">
-              {"Minimum order of " +
-                payload.meta.minimum_order_size +
-                "Egod is required "}
-            </div>
-          </div>,
-          {
-            duration: 5000,
-            className: "toast_success",
-          }
-        );
-        return;
-      }
-      writeContract({
-        address: import.meta.env.VITE_CONTRACT_ADDRESS,
-        abi: contractAbi,
-        functionName: "matchingEngine",
-        args: [
-          _ticker,
-          [
-            _marketType,
-            _address,
-            _price,
-            _amount,
-            // parseEther(price, "wei").toString(),
-            // parseEther(amount, "wei").toString(),
-            0,
-            0,
-          ],
-        ],
-      });
-    } catch (error) {
-      console.log(error, "error");
-      console.log("====================================");
-      console.log("gdgdg");
-      console.log("====================================");
-    }
-  };
   const marketOrder = () => {
     const marketType = activeBtn === "sell" ? true : false;
 
@@ -226,6 +183,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
           parseFloat(amount) * 1000000000000000000,
           marketType,
           payload?.ticker,
+          uuidFromUuidV4(),
         ],
       });
 
@@ -262,6 +220,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
           : parseFloat(amount).toFixed(4) * 1000000000000000000,
         marketType,
         payload?.ticker,
+        uuidFromUuidV4(),
       ],
     });
     return;
@@ -310,6 +269,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
           parseFloat(amount) * 1000000000000000000,
           marketType,
           payload?.ticker,
+          uuidFromUuidV4(),
         ],
       });
 
@@ -330,6 +290,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         parseFloat(amount).toFixed(4) * 1000000000000000000,
         marketType,
         payload?.ticker,
+        uuidFromUuidV4(),
       ],
     });
     return;
@@ -376,6 +337,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             amount * 1000000000000000000,
             marketType,
             payload?.ticker,
+            uuidFromUuidV4(),
           ],
           // args: [[5000000000000000000], 1000000000000000, false, "ETRI-EGOD"],
         });
@@ -389,6 +351,8 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     }
   };
   useEffect(() => {
+    // console.log(uuidFromUuidV4());
+    // alert(uuidFromUuidV4());
     if (error) {
       console.log(hash);
       console.log(error, "error");

@@ -61,6 +61,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
         status: order?.state, //ENUM OPEN, CANCELLED,COMPLETED,
         createdAt: order?.createdAt,
         filled: order?.filled,
+        customId: order?.customId,
       };
       arr.push(data);
     });

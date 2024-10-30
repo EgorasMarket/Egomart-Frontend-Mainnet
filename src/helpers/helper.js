@@ -1,4 +1,5 @@
 import { ethers, parseEther, parseUnits } from "ethers";
+import { v4 as uuid } from "uuid";
 
 export const _priceChangeStyling = ({ pair }) => {
   //destructure thr pair
@@ -286,6 +287,13 @@ export const _all_prices2 = ({
     });
   }
 };
+
+export const uuidFromUuidV4 = () => {
+  const newUuid = uuid();
+
+  return newUuid;
+};
+
 // export const _all_prices = ({ orders = [], ticker, marketType }) => {
 //   if (marketType === "BUY") {
 //     const _sell_arr = orders

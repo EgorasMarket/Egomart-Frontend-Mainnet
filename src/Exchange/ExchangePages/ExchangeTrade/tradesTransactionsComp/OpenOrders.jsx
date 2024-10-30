@@ -62,6 +62,7 @@ const OpenOrders = ({ ticker, ticker_img }) => {
             parseFloat(data?.price.toString()).toFixed(5)
           ).toString()}`,
           data.type === "BUY" ? 0 : 1,
+          data.customId,
         ],
       });
     } catch (error) {
