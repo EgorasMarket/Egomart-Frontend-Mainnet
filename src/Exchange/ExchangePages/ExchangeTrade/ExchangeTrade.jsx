@@ -601,7 +601,7 @@ const ExchangeTrade = () => {
                   style={{ fontWeight: "500", fontSize: "15px", color: "#eee" }}
                 >
                   {" "}
-                  Chart By
+                  Chart Provided By
                 </p>
                 <img
                   src="/img/tradingview-logo-vector.png"

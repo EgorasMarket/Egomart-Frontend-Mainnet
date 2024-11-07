@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./newHeader.css";
-import { ArrowDown01Icon, ArrowUpRight01Icon } from "hugeicons-react";
+import {
+  ArrowDown01Icon,
+  ArrowUpRight01Icon,
+  Megaphone01Icon,
+} from "hugeicons-react";
 import InfoIcon from "@mui/icons-material/Info";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import Marquee from "react-fast-marquee";
 
 const NewHeader = () => {
   const [productsDrop, setProductsDrop] = useState("");
@@ -18,6 +23,29 @@ const NewHeader = () => {
   };
   return (
     <div className="newHeaderDiv">
+      <div className="announceMent_header_div">
+        <div className="announceMent_header_div_icon_div">
+          <Megaphone01Icon size={14} className="announceMent_header_div_icon" />
+        </div>
+        <div className="announceMent_header_div_body">
+          <Marquee className="announceMent_header_div_body_marquee">
+            <div className="announceMent_header_div_body_cont1_1">
+              New Listing: Ella rice EGO404 Token, trading starts 12/10/2024
+              10:00 U.T.C.
+            </div>
+            <div className="announceMent_header_div_body_cont1">
+              Feature Update: EGOD & EGAX Deposit is now open.
+            </div>
+            <div className="announceMent_header_div_body_cont1_1">
+              New Listing: Ella rice EGO404 Token, trading starts 12/10/2024
+              10:00 U.T.C.
+            </div>
+            <div className="announceMent_header_div_body_cont1">
+              Feature Update: EGOD & EGAX Deposit is now open.
+            </div>
+          </Marquee>
+        </div>
+      </div>
       <div className="container">
         <div className="newHeaderDiv_area">
           <div className="newHeaderDiv_area1">

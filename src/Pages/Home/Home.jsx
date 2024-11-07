@@ -6,10 +6,12 @@ import { ALL_24HOUR_STAT } from "../../services/trade.services";
 import { numberWithCommas } from "../../assets/js/numberWithCommas";
 import { useDispatch, useSelector } from "react-redux";
 import formatNumber from "../../assets/js/formatNumber";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Home = () => {
   const { tickers } = useSelector((state) => state.pairs);
   const [payload, setPayload] = useState(null);
+  const [adModal, setAdModal] = useState(false);
 
   console.log(tickers);
 
@@ -21,6 +23,11 @@ const Home = () => {
   useEffect(() => {
     getAll24hourStat();
   }, []);
+
+  useEffect(() => {
+    setAdModal(true);
+  }, []);
+
   return (
     <div className="homeDiv">
       <section className="homeDiv_section1">
@@ -129,7 +136,7 @@ const Home = () => {
             <div className="homeDiv_section2_area2">
               <div className="homeDiv_section2_area2_cont">
                 <img
-                  src="/img/trading_home_images.png"
+                  src="/img/trading_home_images.svg"
                   alt=""
                   className="homeDiv_section2_area2_cont_img"
                 />
@@ -145,7 +152,7 @@ const Home = () => {
               </div>
               <div className="homeDiv_section2_area2_cont">
                 <img
-                  src="/img/trading_home_images.png"
+                  src="/img/trading_home_images2.svg"
                   alt=""
                   className="homeDiv_section2_area2_cont_img"
                 />
@@ -161,7 +168,7 @@ const Home = () => {
               </div>
               <div className="homeDiv_section2_area2_cont">
                 <img
-                  src="/img/trading_home_images.png"
+                  src="/img/trading_home_images3.svg"
                   alt=""
                   className="homeDiv_section2_area2_cont_img"
                 />
@@ -177,7 +184,7 @@ const Home = () => {
               </div>
               <div className="homeDiv_section2_area2_cont">
                 <img
-                  src="/img/trading_home_images.png"
+                  src="/img/trading_home_images4.svg"
                   alt=""
                   className="homeDiv_section2_area2_cont_img"
                 />
@@ -192,7 +199,7 @@ const Home = () => {
               </div>
               <div className="homeDiv_section2_area2_cont">
                 <img
-                  src="/img/trading_home_images.png"
+                  src="/img/trading_home_images5.svg"
                   alt=""
                   className="homeDiv_section2_area2_cont_img"
                 />
@@ -208,7 +215,7 @@ const Home = () => {
               </div>
               <div className="homeDiv_section2_area2_cont">
                 <img
-                  src="/img/trading_home_images.png"
+                  src="/img/trading_home_images6.svg"
                   alt=""
                   className="homeDiv_section2_area2_cont_img"
                 />
@@ -306,7 +313,7 @@ const Home = () => {
                   </div>
                   <div className="homeDiv_section3_area2_cont1_cont2">
                     <img
-                      src="/img/feautures_img2.svg"
+                      src="/img/mobile_friendly_img.png"
                       alt=""
                       className="homeDiv_section3_area2_cont1_cont2_img"
                     />
@@ -326,7 +333,7 @@ const Home = () => {
                   </div>
                   <div className="homeDiv_section3_area2_cont1_cont2">
                     <img
-                      src="/img/feautures_img1.png"
+                      src="/img/feautures_img4.png"
                       alt=""
                       className="homeDiv_section3_area2_cont1_cont2_img"
                     />
@@ -342,7 +349,7 @@ const Home = () => {
       {/* ============= */}
       {/* ============= */}
       {/* ============= */}
-      <section className="homeDiv_section4">
+      {/* <section className="homeDiv_section4">
         <div className="container">
           <div className="homeDiv_section4_area">
             <div className="homeDiv_section2_area_head">
@@ -388,7 +395,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       {/* ============= */}
       {/* ============= */}
       {/* ============= */}
@@ -846,6 +853,37 @@ const Home = () => {
           </div>
         </div>
       </section>
+      {adModal ? (
+        <div className="adModal">
+          <div className="adModal_div_cont">
+            <div className="adModal_div_cont_title">New Listing</div>
+            <div className="adModal_div_cont_img_cont">
+              <CloseIcon
+                className="adModal_div_cont_img_cont_icon"
+                onClick={() => {
+                  setAdModal(false);
+                }}
+              />
+              <a
+                href=""
+                target="_blank"
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <button className="adButton">Learn More</button>
+              </a>
+              <img
+                src="/img/adBanner1.png"
+                alt=""
+                className="adModal_div_cont_img"
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

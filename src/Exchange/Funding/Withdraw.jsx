@@ -99,7 +99,7 @@ const Withdraw = ({ symbol }) => {
   //     // }
   //   }
   // }, [address, selectedAsset]);
-  const { balance } =
+  const balance =
     selectedAsset?.tokenSymbol === "EGAX"
       ? useFetchBalance(nullAddress)
       : useFetchBalance(selectedAsset?.tokenAddress);

@@ -1,6 +1,6 @@
 {
   "short_name": "Egomart",
-  "name": "Egomart app",
+  "name": "Egomart Exchange",
   "icons": [
     {
       "src": "/favicon.ico",
@@ -8,18 +8,18 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/logo192.png",
+      "src": "/pwa_logo_icon.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/logo512.png",
+      "src": "/pwa_logo_icon.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "/",
+  "start_url": "/app/market",
   "display": "standalone",
-  "theme_color": "#fff",
-  "background_color": "#fff"
+  "theme_color": "#000",
+  "background_color": "#000"
 }

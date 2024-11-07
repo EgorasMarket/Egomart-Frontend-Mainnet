@@ -7,9 +7,10 @@
   background: #111916ba;
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
+  padding-top: 0;
 }
 .header_div_area_1_img {
-  width: 50px;
+  width: 45px;
   margin-right: 10px;
 }
 .newHeaderDiv_area {
@@ -17,6 +18,7 @@
   align-items: center;
   justify-content: space-between;
   color: #fff;
+  margin-top: 10px;
 }
 .newHeaderDiv_area1 {
   display: flex;
