@@ -2,9 +2,9 @@ name: Main.js CI
 
 on:
   push:
-    branches: [master, final-1]
+    branches: [front-test, final-1]
   pull_request:
-    branches: [master]
+    branches: [front-test]
 
 jobs:
   build:
