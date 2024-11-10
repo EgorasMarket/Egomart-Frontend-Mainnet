@@ -31,7 +31,7 @@ const socketMiddleware = (store) => {
       });
 
       socket.on("/orders-event", (payload) => {
-        console.log(payload, "orders event");
+        console.log(payload, " HIT orders event");
         let arr = [];
         let newP = {};
 
@@ -49,6 +49,7 @@ const socketMiddleware = (store) => {
             createdAt: log.timePlaced,
             transHash: log.transHash,
             filled: 0.0,
+            customId: log.customId,
           };
           arr.push(newP);
           dispatch(updateOrder(newP));
@@ -67,6 +68,8 @@ const socketMiddleware = (store) => {
             type: log.typeOfTrade,
             amount: parseFloat(log.numberOfShares).toFixed(5),
             uuid: log.uniqueOrderID,
+            sellerOrderId: log.sellerOrderId,
+            buyerOrderId: log.buyerOrderId,
             buyer: log.buyer,
             seller: log.seller,
             createdAt: log.timedAdded,
@@ -75,7 +78,7 @@ const socketMiddleware = (store) => {
 
           // Find the order in the orders array
           const curr_order = getState().orders.orders.find(
-            (order) => order.uuid === payload.uuid
+            (order) => parseInt(order.uuid) === parseInt(payload.uuid)
           );
 
           if (curr_order) {
@@ -106,6 +109,9 @@ const socketMiddleware = (store) => {
             console.log("Order not found, not sent to store.");
           }
         });
+      });
+      socket.on("/see", (logs) => {
+        console.log(logs, "see something !!!");
       });
 
       socket.on("/cancel-order-event", (logs) => {

@@ -184,12 +184,12 @@ const WhitePaper = () => {
             </div>
             <div
               className={
-                activeSection === "Smart Electric Vehicles"
+                activeSection === "Basic Attributes"
                   ? "active"
                   : "whitePaper_div_area_body_side_list"
               }
             >
-              <a href="#Smart Electric Vehicles">Smart Electric Vehicles</a>
+              <a href="#Basic Attributes">Basic Attributes</a>
             </div>
             <div
               className={
@@ -470,12 +470,12 @@ const WhitePaper = () => {
                     </div>
                     <div
                       className={
-                        activeSection === "Smart Electric Vehicles"
+                        activeSection === "Basic Attributes"
                           ? "active"
                           : "whitePaper_div_area_body_side_list"
                       }
                     >
-                      <a href="#Smart Electric Vehicles">Basic Attributes</a>
+                      <a href="#Basic Attributes">Basic Attributes</a>
                     </div>
                     <div
                       className={
@@ -1068,7 +1068,7 @@ const WhitePaper = () => {
             {/* =============== */}
             {/* =============== */}
             <section
-              id="Smart Electric Vehicles"
+              id="Basic Attributes"
               className="whitePaper_div_area_body_area_section"
             >
               <div className="whitePaper_div_area_body_area_section_title">
@@ -1367,7 +1367,9 @@ const WhitePaper = () => {
               <br />
               Where Scommodity, the subsidy per unit of the commodity, is
               derived from the daily block reward allocation:
-              <img src="" alt="" />
+              <br />
+              <br />
+              <img src="/img/equation/block-allocation.png" alt="" />
               <br />
               <br />
               This equation shows that the total block reward portion allocated
@@ -1421,7 +1423,7 @@ const WhitePaper = () => {
               commodity:
               <br />
               <br />
-              <img src="/akk" alt="" />
+              <img src="/img/equation/elasticity.png" alt="" />
               Where:
               <li>D0 is the initial daily demand without subsidies.</li>
               <li>
@@ -1485,7 +1487,9 @@ const WhitePaper = () => {
               <div className="">
                 Using the earlier formula, we can solve for α:
               </div>
-              <img src="#" alt="" />
+              <br />
+              <br />
+              <img src="/img/equation/optimal-subsidization.png" alt="" />
               <br />
               <br />
               This gives us a target α based on the market price, daily demand,
@@ -1571,13 +1575,15 @@ const WhitePaper = () => {
               <br />
               <br />
               Using the subsidy formula:
-              <img src="" alt="" />
+              <br />
+              <br />
+              <img src="/img/equation/subsidy.png" alt="" />
               <br />
               <br />
               Thus, the subsidized price per commodity unit becomes:
               <br />
               <br />
-              <img src="" alt="" />
+              <img src="/img/equation/subsidy2.png" alt="" />
               <br />
               <br />
               In this case, the user will be able to purchase the commodity for

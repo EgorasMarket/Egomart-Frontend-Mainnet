@@ -82,14 +82,14 @@ input[type="number"]::-webkit-inner-spin-button {
   background: #35433e !important;
   color: #fff !important;
   border: solid 1px #426256;
-  /* width: 300px; */
+  width: -webkit-fill-available;
   text-wrap: nowrap !important;
   /* display: flex; */
   /* justify-content: flex-start; */
   max-width: max-content !important;
 }
 .toast_success .go3958317564 {
-  text-wrap: nowrap !important;
+  text-wrap: balance !important;
 }
 .toast_success_div {
   display: flex;
@@ -98,6 +98,9 @@ input[type="number"]::-webkit-inner-spin-button {
 .toast_success_div_title {
   color: #2fe275;
   font-weight: 600;
+}
+.go4109123758 {
+  z-index: 9999999 !important;
 }
 .toast_error_div_title {
   color: #ff6363;

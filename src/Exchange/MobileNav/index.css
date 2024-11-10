@@ -34,6 +34,15 @@
     color: #ffffff;
     position: relative;
   }
+  .MobileNav_area_1_active svg {
+    fill: #ffffff4d;
+    color: #ffffff;
+    stroke-width: 1.5px;
+  }
+  .MobileNav_area_1_active .bond_mob_icon {
+    fill: #fff !important;
+    color: #ffff !important;
+  }
   .MobileNav_area_1_active::after {
     content: "";
     position: absolute;

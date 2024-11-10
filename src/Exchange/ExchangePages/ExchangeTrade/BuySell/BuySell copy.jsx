@@ -21,18 +21,14 @@ import { useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Toaster, toast } from "react-hot-toast";
 import {
-  _all_amount,
   _all_prices,
-  _all_prices2,
   _buyManager,
   _highestBuyOrder,
   _highestSellOrder,
   _lowestBuyOrder,
-  uuidFromUuidV4,
 } from "../../../../helpers/helper";
 import { parseEther } from "viem";
 import { parseUnits } from "ethers";
-import { BalanceRounded } from "@mui/icons-material";
 
 const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const { orders } = useSelector((state) => state.orders);
@@ -49,8 +45,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const { address } = useAccount();
 
   const [selectedValue, setSelectedValue] = useState("Limit");
-  const { trades } = useSelector((state) => state.trades);
-
   const [price, setPrice] = useState(0);
   const [amount, setAmount] = useState("");
   const [buyOffersArr, setBuyOffersArr] = useState([]);
@@ -99,26 +93,30 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
 
     if (selectedValue === "Limit" && activeBtn === "buy") {
       setTotalSum(
-        parseFloat(((value === 100 ? 99.98 : value) / 100) * balance).toFixed(4)
+        parseFloat(
+          ((value === 100 ? 99.9 : value) / 100) * balance.toFixed()
+        ).toFixed(3)
       );
       setAmount(
         parseFloat(
           parseFloat(
-            ((value === 100 ? 99.98 : value) / 100 / parseFloat(price)) *
-              balance
+            ((value === 100 ? 99.9 : value) / 100 / parseFloat(price)) *
+              balance.toFixed()
           )
-        ).toFixed(4)
+        ).toFixed(3)
       );
       return;
     }
     setTotalSum(
       parseFloat(
         parseFloat(price) *
-          parseFloat(((value === 100 ? 99.98 : value) / 100) * balance)
-      ).toFixed(4)
+          parseFloat(((value === 100 ? 99.9 : value) / 100) * balance.toFixed())
+      ).toFixed(3)
     );
     setAmount(
-      parseFloat(((value === 100 ? 99.98 : value) / 100) * balance).toFixed(4)
+      parseFloat(
+        ((value === 100 ? 99.9 : value) / 100) * balance.toFixed()
+      ).toFixed(3)
     );
   };
 
@@ -126,7 +124,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const handleTotalChange = (event) => {
     setTotalSum(event.target.value);
     setAmount(
-      parseFloat(parseFloat(event.target.value) / parseFloat(price)).toFixed(4)
+      parseFloat(parseFloat(event.target.value) / parseFloat(price)).toFixed(3)
     );
   };
 
@@ -134,7 +132,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
     setTotalSum(
-      parseFloat(parseFloat(event.target.value) * parseFloat(amount)).toFixed(4)
+      parseFloat(parseFloat(event.target.value) * parseFloat(amount)).toFixed(3)
     );
   };
 
@@ -142,7 +140,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
     setTotalSum(
-      parseFloat(parseFloat(price) * parseFloat(event.target.value)).toFixed(4)
+      parseFloat(parseFloat(price) * parseFloat(event.target.value)).toFixed(3)
     );
   };
 
@@ -151,6 +149,50 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
   const parsedAmount = parseFloat(amount);
   const Total = parsedPrice * parsedAmount;
 
+  const setOrder = ({ _ticker, _marketType, _address, _price, _amount }) => {
+    try {
+      if (payload?.meta?.minimum_order_size > Total) {
+        toast.error(
+          <div className="toast_success_div">
+            <div className="toast_error_div_title">Error !!</div>
+            <div className="toast_success_div_para">
+              {"Minimum order of " +
+                payload.meta.minimum_order_size +
+                "Egod is required "}
+            </div>
+          </div>,
+          {
+            duration: 5000,
+            className: "toast_success",
+          }
+        );
+        return;
+      }
+      writeContract({
+        address: import.meta.env.VITE_CONTRACT_ADDRESS,
+        abi: contractAbi,
+        functionName: "matchingEngine",
+        args: [
+          _ticker,
+          [
+            _marketType,
+            _address,
+            _price,
+            _amount,
+            // parseEther(price, "wei").toString(),
+            // parseEther(amount, "wei").toString(),
+            0,
+            0,
+          ],
+        ],
+      });
+    } catch (error) {
+      console.log(error, "error");
+      console.log("====================================");
+      console.log("gdgdg");
+      console.log("====================================");
+    }
+  };
   const marketOrder = () => {
     const marketType = activeBtn === "sell" ? true : false;
 
@@ -160,81 +202,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       marketType: marketType ? "BUY" : "SELL",
       targetAmount: amount,
     });
-
-    const marketManager = _buyManager({
-      market: marketType ? "SELL" : "BUY",
-      orders,
-      ticker: payload?.ticker,
-    });
-
-    if (marketManager.price === null) {
-      // alert("songo");
-      writeContract({
-        address: import.meta.env.VITE_CONTRACT_ADDRESS,
-        abi: contractAbi,
-        functionName: "marketOrderTrade",
-        args: [
-          [
-            parseFloat(
-              trades.find((obj) => obj.ticker === payload?.ticker)?.price || 0
-            ).toFixed(2) * 1000000000000000000,
-          ],
-
-          parseFloat(amount) * 1000000000000000000,
-          marketType,
-          payload?.ticker,
-          uuidFromUuidV4(),
-        ],
-      });
-
-      return;
-    }
-
-    // return;
-    // alert("soludo");
-    let __amount = _all_amount({
-      orders,
-      ticker: payload?.ticker,
-      marketType: marketType ? "BUY" : "SELL",
-      targetAmount: amount,
-    });
-
-    console.log(
-      arr,
-      marketManager?.price,
-      __amount
-      // parseFloat(amount).toFixed(4) * 1000000000000000000
-    );
-    // alert(__amount);
-    // return;
-    //
-    writeContract({
-      address: import.meta.env.VITE_CONTRACT_ADDRESS,
-      abi: contractAbi,
-      functionName: "marketOrderTrade",
-      args: [
-        arr,
-
-        activeBtn === "buy"
-          ? __amount
-          : parseFloat(amount).toFixed(4) * 1000000000000000000,
-        marketType,
-        payload?.ticker,
-        uuidFromUuidV4(),
-      ],
-    });
-    return;
-  };
-  const marketOrder2 = () => {
-    const marketType = activeBtn === "sell" ? true : false;
-
-    let arr = _all_prices2({
-      orders,
-      ticker: payload?.ticker,
-      marketType: marketType ? "BUY" : "SELL",
-      targetAmount: amount,
-      threshold: price,
-    });
     const marketManager = _buyManager({
       market: marketType ? "SELL" : "BUY",
       orders,
@@ -242,40 +209,19 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     });
     console.log(
       arr,
-      amount * 1000000000000000000,
-      // activeBtn === "buy"
-      //   ? (amount / marketManager?.price) *
-      //       marketManager.price *
-      //       1000000000000000000
-      //   : amount * 1000000000000000000,
+      activeBtn === "buy"
+        ? (amount / marketManager?.price) *
+            marketManager.price *
+            1000000000000000000
+        : amount * 1000000000000000000,
       marketType,
-      payload?.ticker,
-      amount
+      payload?.ticker
     );
 
     if (marketManager.price === null) {
-      // alert("songo");
-      writeContract({
-        address: import.meta.env.VITE_CONTRACT_ADDRESS,
-        abi: contractAbi,
-        functionName: "marketOrderTrade",
-        args: [
-          [
-            parseFloat(
-              trades.find((obj) => obj.ticker === payload?.ticker)?.price || 0
-            ).toFixed(2) * 1000000000000000000,
-          ],
-
-          parseFloat(amount) * 1000000000000000000,
-          marketType,
-          payload?.ticker,
-          uuidFromUuidV4(),
-        ],
-      });
-
+      // alert("cannot place market order at this time!!!");
       return;
     }
-
     // return;
     writeContract({
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -283,18 +229,195 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
       functionName: "marketOrderTrade",
       args: [
         arr,
-        // activeBtn === "buy"
-        //   ? (parseFloat(amount).toFixed(4) / marketManager?.price) *
-        //     1000000000000000000
-        // :
-        parseFloat(amount).toFixed(4) * 1000000000000000000,
+        activeBtn === "buy"
+          ? (amount / marketManager?.price) * 1000000000000000000
+          : amount * 1000000000000000000,
         marketType,
         payload?.ticker,
-        uuidFromUuidV4(),
       ],
+      // args: [[5000000000000000000], 1000000000000000, false, "ETRI-EGOD"],
     });
     return;
   };
+
+  // const matchingEngine = async () => {
+  //   const marketType = activeBtn === "sell" ? true : false;
+
+  //   const marketManager = _buyManager({
+  //     market: marketType ? "SELL" : "BUY",
+  //     orders,
+  //     ticker: payload?.ticker,
+  //   });
+
+  //   let _amount = parseFloat(
+  //     amount / parseFloat(marketManager.price)
+  //   ).toString();
+  //   console.log(marketManager, "marketManager", "activebtn", activeBtn);
+
+  //   // const value = _highestBuyOrder({ orders, ticker: payload?.ticker });
+
+  //   //check if the selected order type is limit or Market Order
+  //   if (selectedValue === "market") {
+  //     if (activeBtn === "sell") {
+  //       alert("hob");
+  //       console.log([
+  //         payload?.ticker,
+  //         [
+  //           marketType,
+  //           address,
+  //           marketManager.price * 1000000000000000000,
+  //           amount * 1000000000000000000,
+  //           0,
+  //           0,
+  //         ],
+  //         [5000000000000000000, 3000000000000000000],
+  //         // _all_prices({
+  //         //   orders,
+  //         //   ticker: payload?.ticker,
+  //         //   marketType: marketType ? "BUY" : "SELL",
+  //         // }),
+  //       ]);
+
+  //       await marketOrder({
+  //         _ticker: payload?.ticker,
+  //         _marketType: marketType,
+  //         _address: address,
+
+  //         _price: marketManager.price * 1000000000000000000,
+  //         _amount: amount * 1000000000000000000,
+
+  //         arrData: [5000000000000000000, 3000000000000000000],
+  //         // arrData: [marketManager.price * 1000000000000000000],
+  //       });
+  //       return;
+  //     }
+  //     await marketOrder({
+  //       _address: address,
+  //       _amount: marketType
+  //         ? parseEther(amount.toString(), "wei").toString()
+  //         : parseEther(_amount.toString(), "wei").toString(),
+  //       _marketType: marketType,
+  //       _price: parseEther(marketManager?.price, "wei"),
+  //       _ticker: payload?.ticker,
+  //       arrData: _all_prices({
+  //         orders,
+  //         ticker: payload?.ticker,
+  //         marketType: marketType ? "BUY" : "SELL",
+  //       }),
+  //     });
+  //     // await marketOrder({
+  //     //   _address: address,
+  //     //   _amount: marketType
+  //     //     ? parseEther(amount.toString(), "wei").toString()
+  //     //     : parseEther(_amount.toString(), "wei").toString(),
+  //     //   _marketType: marketType,
+  //     //   _price: parseEther(marketManager?.price, "wei"),
+  //     //   _ticker: payload?.ticker,
+  //     //   arrData: _all_prices({
+  //     //     orders,
+  //     //     ticker: payload?.ticker,
+  //     //     marketType: marketType ? "BUY" : "SELL",
+  //     //   }),
+
+  //     //   // arrData: [
+  //     //   //   parseEther(parseFloat(marketManager.price).toFixed(4), "wei"),
+  //     //   // ],
+  //     // });
+  //   }
+
+  //   if (selectedValue === "Limit") {
+  //     //check if it 's a buy order
+
+  //     if (activeBtn === "buy") {
+  //       //call the lowest sell order
+  //       const value = _highestSellOrder({ orders, ticker: payload?.ticker });
+  //       if (!value || value === undefined || value === null) {
+  //         await setOrder({
+  //           _price: parseEther(price, "wei").toString(),
+  //           _amount: parseEther(amount, "wei").toString(),
+  //           _marketType: marketType,
+  //           _ticker: payload?.ticker,
+  //           _address: address,
+  //         });
+  //         return;
+  //       }
+
+  //       if (parseFloat(price).toFixed(30) > value.price) {
+  //         alert("hohono");
+  //         console.log(
+  //           value,
+  //           "sssssss",
+  //           parseEther(parseFloat(value?.price).toFixed(4), "wei")
+  //         );
+
+  //         await setOrder({
+  //           _price: parseEther(value?.price, "wei").toString(),
+  //           _amount: parseEther(amount, "wei").toString(),
+  //           _marketType: marketType,
+  //           _ticker: payload?.ticker,
+  //           _address: address,
+  //         });
+  //         // await marketOrder({
+  //         //   _address: address,
+  //         //   _amount: parseEther(amount.toString(), "wei").toString(),
+  //         //   _marketType: marketType,
+  //         //   _price: parseEther(price.toString(), "wei"),
+  //         //   _ticker: payload?.ticker,
+  //         //   arrData: [5000000000000000000],
+  //         //   // arrData: [parseEther(parseFloat(value?.price).toFixed(4), "wei")],
+  //         //   // arrData: [parseEther(value?.price, "wei")],
+  //         // });
+  //         return;
+  //       }
+
+  //       await setOrder({
+  //         _price: parseEther(price, "wei").toString(),
+  //         _amount: parseEther(amount, "wei").toString(),
+  //         _marketType: marketType,
+  //         _ticker: payload?.ticker,
+  //         _address: address,
+  //       });
+  //     }
+
+  //     if (activeBtn === "sell") {
+  //       // const value = _lowestBuyOrder({ orders, ticker: payload?.ticker });
+  //       // if (!value || value === undefined || value === null) {
+  //       //   await setOrder({
+  //       //     _price: parseEther(price, "wei").toString(),
+  //       //     _amount: parseEther(amount, "wei").toString(),
+  //       //     _marketType: marketType,
+  //       //     _ticker: payload?.ticker,
+  //       //     _address: address,
+  //       //   });
+  //       //   return;
+  //       // }
+
+  //       if (parseFloat(price).toFixed(30) < marketManager.price) {
+  //         alert("lololo");
+  //         console.log(
+  //           marketManager.price,
+  //           "sssssss",
+  //           parseEther(parseFloat(marketManager?.price).toFixed(4), "wei")
+  //         );
+  //         await setOrder({
+  //           _price: parseEther(marketManager?.price, "wei").toString(),
+  //           _amount: parseEther(amount, "wei").toString(),
+  //           _marketType: marketType,
+  //           _ticker: payload?.ticker,
+  //           _address: address,
+  //         });
+  //         return;
+  //       }
+  //       await setOrder({
+  //         _price: parseEther(price, "wei").toString(),
+  //         _amount: parseEther(amount, "wei").toString(),
+  //         _marketType: marketType,
+  //         _ticker: payload?.ticker,
+  //         _address: address,
+  //       });
+  //     }
+  //   }
+  // };
 
   const matchingEngine = async () => {
     const marketType = activeBtn === "sell" ? true : false;
@@ -317,11 +440,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             marketManager.price !== null &&
             parseFloat(price) < parseFloat(marketManager.price))
         ) {
-          // alert("jumbo");
-          //inside this one make sure you pass the price that will be sufficient enough
-          //to buy the order
-
-          marketOrder2({});
+          marketOrder();
           return;
         }
 
@@ -331,15 +450,18 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         writeContract({
           address: import.meta.env.VITE_CONTRACT_ADDRESS,
           abi: contractAbi,
-          functionName: "marketOrderTrade",
+          functionName: "matchingEngine",
           args: [
-            [price * 1000000000000000000],
-            amount * 1000000000000000000,
-            marketType,
             payload?.ticker,
-            uuidFromUuidV4(),
+            [
+              marketType,
+              address,
+              price * 1000000000000000000,
+              amount * 1000000000000000000,
+              0,
+              0,
+            ],
           ],
-          // args: [[5000000000000000000], 1000000000000000, false, "ETRI-EGOD"],
         });
         return;
       }
@@ -351,8 +473,6 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
     }
   };
   useEffect(() => {
-    // console.log(uuidFromUuidV4());
-    // alert(uuidFromUuidV4());
     if (error) {
       console.log(hash);
       console.log(error, "error");

@@ -427,6 +427,37 @@
 .exPortoflioOverviewDiv_2_div1_cont4_div3_funding_btns {
   display: none;
 }
+
+.deliveryDetailsDiv_body_cont1_body {
+  width: -webkit-fill-available;
+  display: flex;
+  align-items: center;
+}
+.deliveryDetailsDiv_body_cont1_input_radio_div1 {
+  display: flex;
+  align-items: center;
+  border: solid 1px #404f49;
+  padding: 10px;
+  width: -webkit-fill-available;
+  border-radius: 5px;
+  cursor: pointer;
+  justify-content: space-between;
+}
+.deliveryDetailsDiv_body_cont1_input_radio_div {
+  display: flex;
+  align-items: center;
+  border: solid 1px #404f49;
+  padding: 10px;
+  width: -webkit-fill-available;
+  border-radius: 5px;
+  margin-left: 6px;
+  cursor: pointer;
+  justify-content: space-between;
+}
+.deliveryDetailsDiv_body_cont1_input_radio_div_span {
+  font-size: 12px;
+  margin-right: 10px;
+}
 @media (max-width: 990px) {
   .PortfolioDiv_1 {
     display: none;

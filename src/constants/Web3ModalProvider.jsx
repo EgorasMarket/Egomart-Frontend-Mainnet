@@ -15,7 +15,8 @@ const projectId = "4e51e1c178ab6aec8290797c80d8dc57";
 const metadata = {
   name: "EgochainFarming",
   description: "EgochainFarming",
-  url: "https://app.egomart.org", // origin must match your domain & subdomain
+  url: "https://www.fronttest.egomart.org", // origin must match your domain & subdomain
+  // url: "https://app.egomart.org", // origin must match your domain & subdomain
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
