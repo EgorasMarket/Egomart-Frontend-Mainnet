@@ -585,37 +585,29 @@ const ExchangeTrade = () => {
               >
                 Details
               </div>
-
-              <div
-                className=""
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  paddingRight: "40px",
-                  paddingLeft: "20px",
-                }}
-              >
-                <p
-                  className=""
-                  style={{ fontWeight: "500", fontSize: "15px", color: "#eee" }}
-                >
-                  {" "}
-                  Chart Provided By
-                </p>
-                <img
-                  src="/img/tradingview-logo-vector.png"
-                  alt=""
-                  style={{ width: "100px" }}
-                />
-              </div>
             </div>
           </div>
           <div className="ExchangeTrade_div2_cont1_body">
             {activeTab === "price" ? (
-              <>
+              <div
+                style={{ position: "relative", width: "100%", height: "100%" }}
+              >
                 <TVChartContainer ticker={ticker} />
-              </>
+                <a
+                  href="https://www.tradingview.com/"
+                  target="_blank"
+                  className="FloatingTradingViewLogo"
+                >
+                  <img
+                    src="/img/tradingViewLogo.webp"
+                    alt=""
+                    className="FloatingTradingViewLogo_img"
+                  />
+                  <span className="FloatingTradingViewLogo_txt">
+                    TradingView
+                  </span>
+                </a>
+              </div>
             ) : // <TradingChart />
             activeTab === "depth" ? (
               <MarketDepth current={currentMarket} />

@@ -465,6 +465,49 @@
   margin-left: 2px;
   color: #8ca29a;
 }
+
+/* =========== */
+/* =========== */
+/* =========== */
+/* =========== */
+
+.FloatingTradingViewLogo {
+  padding: 8px;
+  color: #131722;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 5px;
+  width: 20px;
+  left: 10px;
+  border: solid 1px grey;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 2s ease-in-out;
+}
+.FloatingTradingViewLogo_img {
+  width: 25px;
+  margin-right: 6px;
+  margin-left: -2px;
+}
+.FloatingTradingViewLogo_txt {
+  visibility: hidden;
+}
+.FloatingTradingViewLogo:hover {
+  width: max-content;
+  transition: all 2s ease-in-out;
+}
+.FloatingTradingViewLogo:hover .FloatingTradingViewLogo_txt {
+  visibility: visible;
+  transition: all 2s ease-in-out;
+}
+/* =========== */
+/* =========== */
+/* =========== */
+
 @media (max-width: 990px) {
   .ExchangeDiv_body {
     padding: 5px 5px;
