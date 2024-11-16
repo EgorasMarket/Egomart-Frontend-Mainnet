@@ -80,7 +80,7 @@ const NewHeader = () => {
                   }}
                 >
                   <a
-                    href="/app/trade/spot/ETRI-EGOD"
+                    href="/app/trade/spot/EPR-EGOD"
                     target="_blank"
                     className="new_header_div_area_2_div_drop_link1"
                   >
@@ -217,7 +217,7 @@ const NewHeader = () => {
                 <TelegramIcon className="homeDiv_section1_area_1_btn_icon" />
               </button>
             </a>
-            <a href="/app/trade/spot/ETRI-EGOD">
+            <a href="/app/trade/spot/EPR-EGOD">
               <button className="newHeaderDiv_area3_btn">
                 Trade{" "}
                 <CandlestickChartIcon className="homeDiv_section1_area_1_btn_icon" />

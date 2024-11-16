@@ -17,7 +17,7 @@ const ExchangeMarket = () => {
 
   const getAll24hourStat = async () => {
     const res = await ALL_24HOUR_STAT();
-    console.log(res);
+    console.log(res, "all 24 hour stat");
     setPayload(res?.data);
   };
   useEffect(() => {

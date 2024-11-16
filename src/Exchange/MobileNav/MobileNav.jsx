@@ -31,7 +31,7 @@ const MobileNav = () => {
           Markets
         </Link>
         <Link
-          to="/app/trade/spot/ETRI-EGOD"
+          to="/app/trade/spot/EPR-EGOD"
           className={
             activeBg === "spot" ? "MobileNav_area_1_active" : "MobileNav_area_1"
           }
