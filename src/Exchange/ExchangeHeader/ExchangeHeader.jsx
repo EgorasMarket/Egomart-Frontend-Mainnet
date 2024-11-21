@@ -224,7 +224,7 @@ const ExchangeHeader = () => {
                   <GiftIcon size={16} />
                 </span>
               </Link>
-              <Link
+              {/* <Link
                 to={"/app/bond"}
                 className="exchangeHeader_div1_links_tab1"
                 onMouseOver={() => {
@@ -232,7 +232,7 @@ const ExchangeHeader = () => {
                 }}
               >
                 Bond
-              </Link>
+              </Link> */}
               {/* <div
                 className="exchangeHeader_div1_links_tab1"
                 onMouseOver={() => {

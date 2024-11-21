@@ -96,15 +96,14 @@ const NewHeader = () => {
                     Market
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
                   </a>
-                  <a
+                  {/* <a
                     href="#"
                     target="_blank"
                     className="new_header_div_area_2_div_drop_link1"
                   >
-                    {/* <InfoIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "} */}
                     Bond
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
-                  </a>
+                  </a> */}
                   <a
                     href="/app/portfolio/overview"
                     target="_blank"
