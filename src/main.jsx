@@ -40,7 +40,7 @@ const router = createBrowserRouter(
       <Route path="/app" element={<Exchange />}>
         <Route path="market" element={<ExchangeMarket />} />
         <Route path="earn" element={<Earn />} />
-        <Route path="bond" element={<Bond />} />
+        {/* <Route path="bond" element={<Bond />} /> */}
         <Route path="portfolio" element={<ExchangePortfolio />}>
           <Route path="overview" element={<Overview />} />
           <Route path="openOrder" element={<PortfolioOpenOrders />} />
