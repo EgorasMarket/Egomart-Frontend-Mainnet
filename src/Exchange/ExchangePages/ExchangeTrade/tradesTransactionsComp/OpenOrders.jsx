@@ -9,6 +9,7 @@ import { formatEther, parseEther } from "ethers";
 // import { toast, ToastContainer } from "react-toastify";
 import toast, { Toaster } from "react-hot-toast";
 import { cancelOne } from "../../../../features/orders/OrderSlice";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const OpenOrders = ({ ticker, ticker_img }) => {
   const dispatch = useDispatch();
@@ -170,7 +171,7 @@ const OpenOrders = ({ ticker, ticker_img }) => {
                   }}
                   className="TradesDiv_body_cont1_last_btn"
                 >
-                  Cancel
+                  {loading ? <ClipLoader color="#fff" size={18} /> : "Cancel"}
                 </button>
               </div>
             </div>
