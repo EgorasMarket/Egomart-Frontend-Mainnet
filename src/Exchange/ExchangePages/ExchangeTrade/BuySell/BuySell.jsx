@@ -328,6 +328,19 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         // if (activeBtn === "sell" && price <  marketManager.price) {
         //   market
         // }
+
+        console.log(
+          price,
+          "price",
+          amount,
+          "amount",
+          marketType,
+          "market type",
+          payload?.ticker,
+          "ticker",
+          uuidFromUuidV4(),
+          "uuid"
+        );
         writeContract({
           address: import.meta.env.VITE_CONTRACT_ADDRESS,
           abi: contractAbi,
