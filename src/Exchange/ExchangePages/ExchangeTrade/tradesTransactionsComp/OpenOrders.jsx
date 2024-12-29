@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-import { userOpenOrders } from "../../../../Components/Static";
 import { useDispatch, useSelector } from "react-redux";
-import { useAccount, useWriteContract } from "wagmi";
-import { format } from "date-fns";
-import contractAbi from "../../../../web3/contracts/Egomart.json";
-import { formatEther, parseEther } from "ethers";
+import { useAccount } from "wagmi";
 // import { toast, ToastContainer } from "react-toastify";
-import toast, { Toaster } from "react-hot-toast";
-import { cancelOne } from "../../../../features/orders/OrderSlice";
-import ClipLoader from "react-spinners/ClipLoader";
+import { Toaster } from "react-hot-toast";
 import OrdersModel from "./OrdersModel";
 
 const OpenOrders = ({ ticker, ticker_img }) => {
