@@ -12,12 +12,13 @@ import { parseEther, formatEther } from "ethers";
 import abi from "../../web3/contracts/Egomart.json";
 import allowanceAbi from "../../web3/erc20.json";
 import ClipLoader from "react-spinners/ClipLoader";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 import useTokenAllowance from "../../hooks/useTokenAllowance";
 import { useDispatch, useSelector } from "react-redux";
 import useFetchBalance from "../../hooks/useFetchBalance";
+import toast, { Toaster } from "react-hot-toast";
 // import { useAccount } from "wagmi";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import {
   ArrowDown01Icon,
   ArrowUp01Icon,
@@ -152,9 +153,8 @@ const Withdraw = ({ symbol }) => {
       console.log("====================================");
       console.log(withdrawSuccess);
       console.log("====================================");
-      toast.success("Success Withdrawing !", {
-        position: "bottom-right",
-      });
+
+      toast.success("Success Withdrawing !");
       return;
     }
   }, [withdrawSuccess]);
@@ -162,9 +162,7 @@ const Withdraw = ({ symbol }) => {
   useEffect(() => {
     if (withdrawError === true) {
       console.log(withdrawError);
-      toast.error(error.shortMessage, {
-        position: "bottom-right",
-      });
+      toast.error(error.shortMessage);
       return;
     }
   }, [withdrawError]);
@@ -317,7 +315,7 @@ const Withdraw = ({ symbol }) => {
           </>
         )}
       </div>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 };

@@ -15,6 +15,7 @@ import { _priceChangeStyling } from "../../../../../helpers/helper";
 import { numberWithCommas } from "../../../../../assets/js/numberWithCommas";
 import { useAccount } from "wagmi";
 import DotIndicator from "../../../../../Components/DotIndicator";
+import formatNumber from "../../../../../assets/js/formatNumber";
 
 const DesktopOrderBook = ({ current, onPriceUpdate }) => {
   const { address } = useAccount();
@@ -591,11 +592,11 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                       }}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {total}
+                        {formatNumber(total)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? numberWithCommas(
+                          ? formatNumber(
                               parseFloat(
                                 parseFloat(data?.amount) -
                                   parseFloat(data?.filled)
@@ -684,11 +685,11 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                       }}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {total}
+                        {formatNumber(total)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? numberWithCommas(
+                          ? formatNumber(
                               parseFloat(
                                 parseFloat(data?.amount) -
                                   parseFloat(data?.filled)
@@ -767,11 +768,11 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
                       }}
                     >
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
-                        {total}
+                        {formatNumber(total)}
                       </div>
                       <div className="walletSelectModalDiv_body_amount_display_cont1">
                         {data.amount !== "--"
-                          ? numberWithCommas(
+                          ? formatNumber(
                               parseFloat(
                                 parseFloat(data?.amount) -
                                   parseFloat(data?.filled)

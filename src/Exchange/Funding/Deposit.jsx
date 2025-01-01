@@ -11,14 +11,12 @@ import { parseEther, formatEther } from "ethers";
 import abi from "../../web3/contracts/Egomart.json";
 import allowanceAbi from "../../web3/erc20.json";
 import ClipLoader from "react-spinners/ClipLoader";
-// import { ToastContainer, toast } from "react-toastify";
 import useTokenAllowance from "../../hooks/useTokenAllowance";
 import { useDispatch, useSelector } from "react-redux";
-// import { useAccount } from "wagmi";
-import "react-toastify/dist/ReactToastify.css";
 import { ArrowDown01Icon, ArrowUp01Icon } from "hugeicons-react";
 import toast, { Toaster } from "react-hot-toast";
 export const AssetItem = ({ asset, address, selectAsset }) => {
+  const nullAddress = "0x0000000000000000000000000000000000000000";
   const {
     data: balanceData,
     isPending: balancePending,
@@ -26,7 +24,7 @@ export const AssetItem = ({ asset, address, selectAsset }) => {
     isSuccess: balanceSuccess,
   } = useBalance({
     address: address,
-    token: asset.tokenAddress, // Specify the token contract address here
+    token: asset.tokenAddress === nullAddress ? undefined : asset.tokenAddress, // Specify the token contract address here
   });
 
   return (
@@ -69,7 +67,7 @@ const Deposit = ({ symbol }) => {
   const [depositAmount, setDepositAmount] = useState("");
   const [userAllowance, setUserAllowance] = useState(false);
   // Using the custom hook
-
+  const nullAddress = "0x0000000000000000000000000000000000000000";
   useEffect(() => {
     console.log(assets);
     if (assets.length > 0) {
@@ -98,11 +96,15 @@ const Deposit = ({ symbol }) => {
     isSuccess: balanceSuccess,
   } = useBalance({
     address: address,
-    token: selectedAsset?.tokenAddress, // Specify the token contract address here
+    token:
+      selectedAsset?.tokenAddress === nullAddress
+        ? undefined
+        : selectedAsset?.tokenAddress,
   });
 
   useEffect(() => {
     console.log(selectedAsset?.tokenAddress);
+    console.log(balanceData);
     // setAllowance();
     if (address) {
       if (balancePending) {
@@ -190,22 +192,13 @@ const Deposit = ({ symbol }) => {
         console.error("Error fetching allowance data");
         return;
       }
-      // console.log("====================================");
-      // console.log(isLoading, isError);
-      // console.log("====================================");
       return;
     }
   }, [allowanceData, isLoading, isError, selectedAsset, depositAmount]);
 
   useEffect(() => {
     if (depositSuccess === true) {
-      // console.log("====================================");
-      // console.log(depositSuccess);
-      // console.log("====================================");
       toast.success("Deposit Success!!!");
-      // toast.success("Success Depositing !", {
-      //   position: "bottom-right",
-      // });
       return;
     }
   }, [depositSuccess]);
@@ -214,9 +207,6 @@ const Deposit = ({ symbol }) => {
     if (depositError === true) {
       // console.log(depositError, error);
       toast.error(error.shortMessage);
-      // toast.error("Error Depositing !", {
-      //   position: "bottom-right",
-      // });
       return;
     }
   }, [depositError]);
@@ -227,9 +217,6 @@ const Deposit = ({ symbol }) => {
       console.log(allowanceSuccess);
       console.log("====================================");
       setUserAllowance(false);
-      // toast.success("Success fully Approved " + selectedAsset.tokenSymbol, {
-      //   position: "bottom-center",
-      // });
       toast.success("Success fully Approved " + selectedAsset?.tokenSymbol);
 
       return;
@@ -240,12 +227,7 @@ const Deposit = ({ symbol }) => {
     if (allowanceError === true) {
       console.log(allowanceError);
       setUserAllowance(false);
-      // toast.error("Error Approving " + selectedAsset.tokenSymbol, {
-      //   position: "bottom-center",
-      // });
-
       toast.error("Error Approving " + selectedAsset?.tokenSymbol);
-
       return;
     }
   }, [allowanceError]);
@@ -263,6 +245,7 @@ const Deposit = ({ symbol }) => {
       }
     }
   }, [symbol, assets]); // Empty dependency array ensures this runs only once
+  console.log(assets);
 
   return (
     <>
@@ -416,7 +399,6 @@ const Deposit = ({ symbol }) => {
           </>
         )}
       </div>
-      {/* <ToastContainer /> */}
       <Toaster />
     </>
   );

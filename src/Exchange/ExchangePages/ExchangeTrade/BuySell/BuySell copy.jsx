@@ -235,7 +235,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         marketType,
         payload?.ticker,
       ],
-      // args: [[5000000000000000000], 1000000000000000, false, "ETRI-EGOD"],
+      // args: [[5000000000000000000], 1000000000000000, false, "EPR-EGOD"],
     });
     return;
   };

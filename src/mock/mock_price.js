@@ -7,7 +7,7 @@ const orders = [
     uniqueOrderID: 39,
     state: "OPEN",
     userAddress: "0x8284A8F3A7cAF4718F0Ce9B072a8876E5083D9fb",
-    ticker: "ETRI-EGOD",
+    ticker: "EPR-EGOD",
     orderType: "SELL",
     amount: "22000.000000000000000000000000000000",
     numberOfShares: "0.200000000000000000000000000000",
@@ -25,7 +25,7 @@ const orders = [
     uniqueOrderID: 41,
     state: "COMPLETED",
     userAddress: "0x8284A8F3A7cAF4718F0Ce9B072a8876E5083D9fb",
-    ticker: "ETRI-EGOD",
+    ticker: "EPR-EGOD",
     orderType: "SELL",
     amount: "2300.000000000000000000000000000000",
     numberOfShares: "0.197803278688524590000000000000",
@@ -38,7 +38,7 @@ const orders = [
   },
 ];
 
-const ticker = "ETRI-EGOD";
+const ticker = "EPR-EGOD";
 function test() {
   let newOrder = orders
     .filter(

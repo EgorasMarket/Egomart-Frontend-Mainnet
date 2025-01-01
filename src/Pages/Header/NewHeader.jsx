@@ -32,15 +32,13 @@ const NewHeader = () => {
         <div className="announceMent_header_div_body">
           <Marquee className="announceMent_header_div_body_marquee">
             <div className="announceMent_header_div_body_cont1_1">
-              New Listing: Ella rice EGO404 Token, trading starts 12/10/2024
-              10:00 U.T.C.
+              New Listing: Ella rice EPR , trading starts 12/1/2025 10:00 U.T.C.
             </div>
             <div className="announceMent_header_div_body_cont1">
               Feature Update: EGOD & EGAX Deposit is now open.
             </div>
             <div className="announceMent_header_div_body_cont1_1">
-              New Listing: Ella rice EGO404 Token, trading starts 12/10/2024
-              10:00 U.T.C.
+              New Listing: Ella rice EPR , trading starts 12/1/2025 10:00 U.T.C.
             </div>
             <div className="announceMent_header_div_body_cont1">
               Feature Update: EGOD & EGAX Deposit is now open.
@@ -80,7 +78,7 @@ const NewHeader = () => {
                   }}
                 >
                   <a
-                    href="/app/trade/spot/ETRI-EGOD"
+                    href="/app/trade/spot/EPR-EGOD"
                     target="_blank"
                     className="new_header_div_area_2_div_drop_link1"
                   >
@@ -96,15 +94,14 @@ const NewHeader = () => {
                     Market
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
                   </a>
-                  <a
+                  {/* <a
                     href="#"
                     target="_blank"
                     className="new_header_div_area_2_div_drop_link1"
                   >
-                    {/* <InfoIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "} */}
                     Bond
                     <ArrowForwardIosIcon className="new_header_div_area_2_div_drop_link1_icon" />{" "}
-                  </a>
+                  </a> */}
                   <a
                     href="/app/portfolio/overview"
                     target="_blank"
@@ -217,7 +214,7 @@ const NewHeader = () => {
                 <TelegramIcon className="homeDiv_section1_area_1_btn_icon" />
               </button>
             </a>
-            <a href="/app/trade/spot/ETRI-EGOD">
+            <a href="/app/trade/spot/EPR-EGOD">
               <button className="newHeaderDiv_area3_btn">
                 Trade{" "}
                 <CandlestickChartIcon className="homeDiv_section1_area_1_btn_icon" />

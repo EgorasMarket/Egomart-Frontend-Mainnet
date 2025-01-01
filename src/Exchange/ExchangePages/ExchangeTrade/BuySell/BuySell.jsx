@@ -328,6 +328,19 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
         // if (activeBtn === "sell" && price <  marketManager.price) {
         //   market
         // }
+
+        console.log(
+          price,
+          "price",
+          amount,
+          "amount",
+          marketType,
+          "market type",
+          payload?.ticker,
+          "ticker",
+          uuidFromUuidV4(),
+          "uuid"
+        );
         writeContract({
           address: import.meta.env.VITE_CONTRACT_ADDRESS,
           abi: contractAbi,
@@ -339,7 +352,7 @@ const BuySell = ({ payload, activeBtn, toggleActiveBtn, marketPrice }) => {
             payload?.ticker,
             uuidFromUuidV4(),
           ],
-          // args: [[5000000000000000000], 1000000000000000, false, "ETRI-EGOD"],
+          // args: [[5000000000000000000], 1000000000000000, false, "EPR-EGOD"],
         });
         return;
       }

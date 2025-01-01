@@ -47,15 +47,13 @@ const ExchangeHeader = () => {
         <div className="announceMent_header_div_body">
           <Marquee className="announceMent_header_div_body_marquee">
             <div className="announceMent_header_div_body_cont1">
-              New Listing: Ella rice EGO404 Token, trading starts 12/10/2024
-              10:00 U.T.C
+              New Listing: Ella rice EPR , trading starts 12/1/2025 10:00 U.T.C
             </div>
             <div className="announceMent_header_div_body_cont1">
               Feature Update:EGOD & EGAX Deposit is now open.
             </div>
             <div className="announceMent_header_div_body_cont1">
-              New Listing: Ella rice EGO404 Token, trading starts 12/10/2024
-              10:00 U.T.C
+              New Listing: Ella rice EPR , trading starts 12/1/2025 10:00 U.T.C
             </div>
             <div className="announceMent_header_div_body_cont1">
               Feature Update: EGOD & EGAX Deposit is now open.
@@ -224,7 +222,7 @@ const ExchangeHeader = () => {
                   <GiftIcon size={16} />
                 </span>
               </Link>
-              <Link
+              {/* <Link
                 to={"/app/bond"}
                 className="exchangeHeader_div1_links_tab1"
                 onMouseOver={() => {
@@ -232,7 +230,7 @@ const ExchangeHeader = () => {
                 }}
               >
                 Bond
-              </Link>
+              </Link> */}
               {/* <div
                 className="exchangeHeader_div1_links_tab1"
                 onMouseOver={() => {

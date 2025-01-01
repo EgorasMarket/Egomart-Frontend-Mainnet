@@ -40,7 +40,7 @@ const Exchange = () => {
 
   const fetchPortfolioRecords = async () => {
     const res = await GET_ALL_DEPOSIT_TRANSACTION({ account: address });
-    console.log(res, "porfolio response");
+    // console.log(res, "porfolio response");
   };
 
   // useWatchContractEvent({

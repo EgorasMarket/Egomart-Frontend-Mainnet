@@ -26,9 +26,9 @@ const Home = () => {
     getAll24hourStat();
   }, []);
 
-  useEffect(() => {
-    setAdModal(true);
-  }, []);
+  // useEffect(() => {
+  //   setAdModal(true);
+  // }, []);
 
   return (
     <div className="homeDiv">
@@ -64,7 +64,7 @@ const Home = () => {
                     For Traders
                   </div>
                   <a
-                    href="/app/trade/spot/ETRI-EGOD"
+                    href="/app/trade/spot/EPR-EGOD"
                     className="homeDiv_section1_area_1_btn"
                   >
                     Trade Now{" "}
