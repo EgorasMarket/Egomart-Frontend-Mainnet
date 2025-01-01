@@ -42,6 +42,7 @@ const OpenOrders = ({ ticker, ticker_img }) => {
       dispatch(cancelOne({ id: activeSelection.id, activeSelection }));
     }
   }, [loading, error, isError]);
+
   useEffect(() => {
     if (cancelledOrder) {
       toast.success("Order cancelled successfully!!!");
