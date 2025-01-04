@@ -52,7 +52,7 @@ const MobileNav = () => {
           <GiftIcon />
           Earn
         </Link>
-        <Link
+        {/* <Link
           to="/app/bond"
           className={
             activeBg === "bond" ? "MobileNav_area_1_active" : "MobileNav_area_1"
@@ -62,7 +62,7 @@ const MobileNav = () => {
         >
           <JoinLeftSharpIcon className="bond_mob_icon" />
           Bond
-        </Link>
+        </Link> */}
         <Link
           to="/app/portfolio/overview"
           className={
