@@ -18,8 +18,8 @@ const MobileOrderBook = ({ current }) => {
   const { orders } = useSelector((state) => state.orders);
   const fillorder = async () => {
     // dispatch(addOrders([]));
-
-    const res = await GET_EXCHANGE_EVENT();
+console.log("current", current);
+    const res = await GET_EXCHANGE_EVENT(current);
     console.log("see here...", res);
     if (!res?.success) {
       dispatch(addOrders([]));

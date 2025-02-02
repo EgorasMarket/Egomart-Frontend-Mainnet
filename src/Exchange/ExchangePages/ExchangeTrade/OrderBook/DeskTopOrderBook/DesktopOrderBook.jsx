@@ -33,8 +33,8 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
 
   const fillorder = async () => {
     // dispatch(addOrders([]));
-
-    const res = await GET_EXCHANGE_EVENT();
+    console.log("current", current);
+    const res = await GET_EXCHANGE_EVENT(current);
     console.log("see here...", res);
     if (!res?.success) {
       dispatch(addOrders([]));
@@ -71,7 +71,7 @@ const DesktopOrderBook = ({ current, onPriceUpdate }) => {
   };
 
   const fillTrades = async () => {
-    const res = await GET_EXCHANGE_TRADES();
+    const res = await GET_EXCHANGE_TRADES(current);
     console.log(res, "bbbb");
 
     if (!res?.returned) return;

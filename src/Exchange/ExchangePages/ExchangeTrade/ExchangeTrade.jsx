@@ -54,8 +54,8 @@ const ExchangeTrade = () => {
   console.log(ticker);
 
   const splitTicker = ticker?.split("-");
-  console.log(splitTicker[0]);
-  console.log(splitTicker);
+  console.log(splitTicker[0], "splitTicker[0]");
+  console.log(splitTicker, "splitTicker");
 
   // useEffect(() => {
   //   if (tickers.length > 0) {

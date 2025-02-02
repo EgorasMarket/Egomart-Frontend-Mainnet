@@ -11,7 +11,8 @@ const MobileTrades = ({ current }) => {
   const { trades } = useSelector((state) => state.trades);
 
   const fillTrades = async () => {
-    const res = await GET_EXCHANGE_TRADES();
+    console.log("current", current);
+    const res = await GET_EXCHANGE_TRADES(current);
     console.log(res, "bbbb");
 
     if (!res?.returned) return;

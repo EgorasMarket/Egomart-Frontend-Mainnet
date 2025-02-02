@@ -56,17 +56,17 @@ export const GET_USER_DEPOSIT_WITHDRAW = async (wallet) => {
   }
 };
 
-export const GET_EXCHANGE_EVENT = async () => {
+export const GET_EXCHANGE_EVENT = async (data) => {
   try {
-    const response = await api.get(`${GET_ALL_ORDERS_ROUTE}`);
+    const response = await api.get(`${GET_ALL_ORDERS_ROUTE}?ticker=${data.ticker}`);
     return response.data;
   } catch (error) {
     return error?.response?.data || error?.response || error.message;
   }
 };
-export const GET_EXCHANGE_TRADES = async () => {
+export const GET_EXCHANGE_TRADES = async (data) => {
   try {
-    const response = await api.get(`${GET_ALL_TRADES_ROUTE}`);
+    const response = await api.get(`${GET_ALL_TRADES_ROUTE}?ticker=${data.ticker}`);
     return response.data;
   } catch (error) {
     return error?.response?.data || error?.response || error.message;
